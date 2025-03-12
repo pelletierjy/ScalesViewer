@@ -51,7 +51,7 @@ export default function Harmonica() {
   const scale = useSelector(selectScale);
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
-  const isMonochrome = useSelector(selectIsMonochrome);
+  const highlightRoots = useSelector(selectIsMonochrome);
   const [selectedKey, setSelectedKey] = useState<Note>("C");
   const harmonicaNotes = transposeHarmonicaNotes(selectedKey);
 
@@ -59,7 +59,7 @@ export default function Harmonica() {
     if (isRoot) {
       return isDarkMode ? "#f3f4f6" : "#000000";
     }
-    if (isMonochrome) {
+    if (highlightRoots) {
       return isDarkMode ? "#60a5fa" : "#3b82f6"; // Blue-400/500 for scale notes
     }
 

@@ -2,7 +2,7 @@ import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
   appId: "com.gscale.app",
-  appName: "GScale",
+  appName: "Scale Viewer",
   webDir: "out",
   server: {
     androidScheme: "https",

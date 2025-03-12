@@ -6,7 +6,7 @@ export const getScaleNoteColor = (
   note: Note,
   scale: Scale,
   isDarkMode: boolean,
-  isMonochrome: boolean
+  highlightRoots: boolean
 ): string => {
   const degree = getScaleDegree(note, scale);
 
@@ -16,7 +16,7 @@ export const getScaleNoteColor = (
   }
 
   // If monochrome mode is enabled, use gray for all non-root notes
-  if (isMonochrome) {
+  if (highlightRoots) {
     return isDarkMode ? "#4b5563" : "#374151";
   }
 

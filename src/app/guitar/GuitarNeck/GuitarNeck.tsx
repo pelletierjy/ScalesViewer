@@ -35,7 +35,7 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
   const scale = useSelector(selectScale);
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
-  const isMonochrome = useSelector(selectIsMonochrome);
+  const highlightRoots = useSelector(selectIsMonochrome);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 1000, height: 200 });
 
@@ -234,7 +234,7 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
                         openNote,
                         scale,
                         isDarkMode,
-                        isMonochrome
+                        highlightRoots
                       )}
                       className="transition-colors duration-200"
                     />
@@ -297,7 +297,7 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
                             note,
                             scale,
                             isDarkMode,
-                            isMonochrome
+                            highlightRoots
                           )}
                           className="transition-colors duration-200"
                         />

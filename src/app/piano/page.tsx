@@ -41,12 +41,12 @@ const getNoteColor = (
   note: Note,
   scale: Scale,
   isDarkMode: boolean,
-  isMonochrome: boolean
+  highlightRoots: boolean
 ): string => {
   const isRoot = note === scale.root;
   const degree = getScaleDegree(note, scale);
 
-  if (isMonochrome) {
+  if (highlightRoots) {
     if (isRoot) {
       return isDarkMode ? "#4ade80" : "#22c55e"; // Green-500/600 for root notes
     }
@@ -108,7 +108,7 @@ export default function Piano() {
   const scale = useSelector(selectScale);
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
-  const isMonochrome = useSelector(selectIsMonochrome);
+  const highlightRoots = useSelector(selectIsMonochrome);
   const whiteKeyWidth = 40;
   const blackKeyWidth = 24;
   const whiteKeyHeight = 150;
@@ -177,7 +177,7 @@ export default function Piano() {
                           key.note,
                           scale,
                           isDarkMode,
-                          isMonochrome
+                          highlightRoots
                         )}
                         className="transition-colors duration-200"
                       />
@@ -249,7 +249,7 @@ export default function Piano() {
                           key.note,
                           scale,
                           isDarkMode,
-                          isMonochrome
+                          highlightRoots
                         )}
                         className="transition-colors duration-200"
                       />

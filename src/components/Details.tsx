@@ -13,7 +13,7 @@ export const Details: React.FC = () => {
   const scale = useSelector(selectScale);
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
-  const isMonochrome = useSelector(selectIsMonochrome);
+  const highlightRoots = useSelector(selectIsMonochrome);
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
 
   return (
@@ -78,7 +78,7 @@ export const Details: React.FC = () => {
               <p>
                 Note Display: {showFlats ? "Flat Notes (♭)" : "Sharp Notes (♯)"}
               </p>
-              <p>Color Mode: {isMonochrome ? "Monochrome" : "Colored"}</p>
+              <p>Color Mode: {highlightRoots ? "Monochrome" : "Colored"}</p>
             </div>
           </div>
         </div>

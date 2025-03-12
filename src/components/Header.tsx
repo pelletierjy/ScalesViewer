@@ -28,7 +28,7 @@ export const Header: React.FC = () => {
   const instrument = useSelector(selectInstrument);
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
-  const isMonochrome = useSelector(selectIsMonochrome);
+  const highlightRoots = useSelector(selectIsMonochrome);
   const handleInstrumentChange = (newInstrument: Instrument) => {
     dispatch(setInstrument(newInstrument));
   };
@@ -41,7 +41,7 @@ export const Header: React.FC = () => {
             isDarkMode ? "text-white" : "text-gray-900"
           }`}
         >
-          GScale
+          Scale Viewer
         </h1>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
@@ -69,40 +69,6 @@ export const Header: React.FC = () => {
               <option value="piano">Piano</option>
               <option value="kalimba">Kalimba</option>
               <option value="harmonica">Harmonica</option>
-            </select>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <label
-              htmlFor="root-note"
-              className={`text-sm font-semibold whitespace-nowrap ${
-                isDarkMode ? "text-gray-200" : "text-gray-900"
-              }`}
-            >
-              Scale Root
-            </label>
-            <select
-              id="root-note"
-              className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
-                isDarkMode
-                  ? "bg-gray-700 border-gray-600 text-gray-200"
-                  : "bg-white border-gray-300 text-gray-900"
-              }`}
-              value={scale.root}
-              onChange={(e) =>
-                dispatch(
-                  setScale({
-                    ...scale,
-                    root: e.target.value as Note,
-                  })
-                )
-              }
-            >
-              {ROOTS.map((note) => (
-                <option key={note} value={note}>
-                  {note}
-                </option>
-              ))}
             </select>
           </div>
 
@@ -152,6 +118,40 @@ export const Header: React.FC = () => {
               ))}
             </select>
           </div>
+
+          <div className="flex items-center gap-2">
+            <label
+              htmlFor="root-note"
+              className={`text-sm font-semibold whitespace-nowrap ${
+                isDarkMode ? "text-gray-200" : "text-gray-900"
+              }`}
+            >
+              Root
+            </label>
+            <select
+              id="root-note"
+              className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+                isDarkMode
+                  ? "bg-gray-700 border-gray-600 text-gray-200"
+                  : "bg-white border-gray-300 text-gray-900"
+              }`}
+              value={scale.root}
+              onChange={(e) =>
+                dispatch(
+                  setScale({
+                    ...scale,
+                    root: e.target.value as Note,
+                  })
+                )
+              }
+            >
+              {ROOTS.map((note) => (
+                <option key={note} value={note}>
+                  {note}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
       <div className="flex gap-2">
@@ -184,9 +184,11 @@ export const Header: React.FC = () => {
               ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
               : "bg-white text-gray-700 hover:bg-gray-100"
           }`}
-          title={isMonochrome ? "Show colored notes" : "Show monochrome notes"}
+          title={
+            highlightRoots ? "Highlight intervals" : "Highlight root notes"
+          }
         >
-          {isMonochrome ? "🎨" : "⚫"}
+          {highlightRoots ? "🎨" : "⚫"}
         </button>
         <button
           onClick={() => dispatch(toggleDarkMode())}

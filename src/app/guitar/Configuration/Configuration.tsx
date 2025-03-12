@@ -246,7 +246,7 @@ export const Configuration: React.FC<ConfigurationProps> = ({
           </div>
 
           {/* Right side orientation controls */}
-          <div className="flex flex-col mt-4 md:mt-0">
+          <div className="flex items-center self-start pt-0">
             <div className="flex items-center gap-2">
               <label
                 className={`text-sm font-semibold whitespace-nowrap ${

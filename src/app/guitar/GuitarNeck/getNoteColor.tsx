@@ -6,17 +6,17 @@ export const getNoteColor = (
   note: Note,
   scale: Scale,
   isDarkMode: boolean,
-  isMonochrome: boolean
+  highlightRoots: boolean
 ): string => {
   const isRoot = note === scale.root;
-  if (isMonochrome) {
+  if (highlightRoots) {
     if (isRoot) {
       return isDarkMode ? "#4ade80" : "#22c55e"; // Green-500/600 for root notes
     }
     return isDarkMode ? "#60a5fa" : "#3b82f6"; // Blue-400/500 for scale notes
   }
 
-  return isMonochrome
+  return highlightRoots
     ? isDarkMode
       ? isRoot
         ? "#f3f4f6"
@@ -24,5 +24,5 @@ export const getNoteColor = (
       : isRoot
       ? "#000000"
       : "#d1d5db"
-    : getScaleNoteColor(note, scale, isDarkMode, isMonochrome);
+    : getScaleNoteColor(note, scale, isDarkMode, highlightRoots);
 };

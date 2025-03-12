@@ -17,11 +17,11 @@ export const Footer: React.FC<FooterProps> = ({ isDarkMode = false }) => {
             isDarkMode ? "text-gray-400" : "text-gray-600"
           }`}
         >
-          © {new Date().getFullYear()} GScale. All rights reserved.
+          © {new Date().getFullYear()} Scale Viewer. All rights reserved.
         </p>
         <div className="flex items-center gap-4">
           <a
-            href="https://github.com/pelletierjy/ScalesViewer"
+            href="https://scales-viewer.vercel.app/piano/"
             target="_blank"
             rel="noopener noreferrer"
             className={`text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
@@ -57,7 +57,7 @@ export const Footer: React.FC<FooterProps> = ({ isDarkMode = false }) => {
             }`}
           >
             <span>☕</span>
-            <span>Enjoying GScale? Buy me a coffee!</span>
+            <span>Enjoying this application? Buy me a coffee!</span>
           </a>
         </div>
       </div>
