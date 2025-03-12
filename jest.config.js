@@ -21,9 +21,12 @@ const customJestConfig = {
   collectCoverageFrom: [
     "src/**/*.{js,jsx,ts,tsx}",
     "!src/**/*.d.ts",
+    "!src/**/*.stories.{js,jsx,ts,tsx}",
     "!**/node_modules/**",
-    "!**/.next/**",
   ],
+  transform: {
+    "^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
+  },
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

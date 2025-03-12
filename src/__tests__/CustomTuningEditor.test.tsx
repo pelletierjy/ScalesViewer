@@ -1,29 +1,13 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { screen, fireEvent } from "@testing-library/react";
 import { CustomTuningEditor } from "../app/guitar/CustomTuningEditor/CustomTuningEditor";
-import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
-
-// Mock the Redux store
-jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
-  useSelector: jest.fn(),
-}));
-
-// Mock the selectIsDarkMode selector
-jest.mock("@/features/globalConfig/globalConfigSlice", () => ({
-  selectIsDarkMode: jest.fn(),
-}));
+import { renderWithProviders } from "./test-utils";
 
 describe("CustomTuningEditor", () => {
-  beforeEach(() => {
-    // Mock the useSelector to return false for dark mode
-    (selectIsDarkMode as jest.Mock).mockReturnValue(false);
-  });
-
   it("renders with default values", () => {
     const onSaveMock = jest.fn();
     const onCancelMock = jest.fn();
 
-    render(
+    renderWithProviders(
       <CustomTuningEditor
         onSaveTuning={onSaveMock}
         onCancel={onCancelMock}
@@ -43,7 +27,7 @@ describe("CustomTuningEditor", () => {
     const onSaveMock = jest.fn();
     const onCancelMock = jest.fn();
 
-    render(
+    renderWithProviders(
       <CustomTuningEditor
         onSaveTuning={onSaveMock}
         onCancel={onCancelMock}
