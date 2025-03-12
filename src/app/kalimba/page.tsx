@@ -46,13 +46,13 @@ export default function Kalimba() {
   const scale = useSelector(selectScale);
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
-  const isMonochrome = useSelector(selectIsMonochrome);
+  const highlightRoots = useSelector(selectIsMonochrome);
 
   const getNoteColor = (note: Note, isRoot: boolean): string => {
     if (isRoot) {
       return isDarkMode ? "#f3f4f6" : "#000000";
     }
-    if (isMonochrome) {
+    if (highlightRoots) {
       return isDarkMode ? "#60a5fa" : "#3b82f6"; // Blue-400/500 for scale notes
     }
 

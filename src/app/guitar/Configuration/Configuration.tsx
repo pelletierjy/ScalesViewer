@@ -1,15 +1,12 @@
 import { TuningPreset } from "../types/tuningPreset";
 import { ROOTS } from "@/lib/utils/scaleConstants";
-import {
-  TUNING_PRESETS,
-  TuningPresetWithMetadata,
-} from "@/lib/utils/tuningConstants";
 import { useSelector } from "react-redux";
 import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
 import { useContext } from "react";
 import { Note } from "@/lib/utils/note";
 import { DataContext } from "@/app/guitar/context";
-import { tuningGroups } from "@/lib/utils/tunings";
+import { tuningGroups } from "@/app/guitar/tunings";
+import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
 
 // Define the DataContextType interface here to avoid import issues
 interface DataContextType {
@@ -246,7 +243,7 @@ export const Configuration: React.FC<ConfigurationProps> = ({
           </div>
 
           {/* Right side orientation controls */}
-          <div className="flex flex-col mt-4 md:mt-0">
+          <div className="flex items-center self-start pt-0">
             <div className="flex items-center gap-2">
               <label
                 className={`text-sm font-semibold whitespace-nowrap ${

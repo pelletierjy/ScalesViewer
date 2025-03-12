@@ -1,10 +1,10 @@
 import { TuningPreset } from "@/app/guitar/types/tuningPreset";
 import { createSlice } from "@reduxjs/toolkit";
-import { TUNING_PRESETS } from "../../lib/utils/tuningConstants";
 import { initializeApplication } from "../application/applicationSlice";
 import { WritableDraft } from "immer";
 import { Instrument } from "@/lib/utils/instrument";
 import { Scale } from "@/lib/utils/scaleType";
+import { TUNING_PRESETS } from "@/app/guitar/tuningConstants";
 
 /**
  * GlobalConfig
@@ -17,7 +17,7 @@ export interface GlobalConfig {
   scale: Scale;
   scaleRoot: TuningPreset;
   showFlats: boolean;
-  isMonochrome: boolean;
+  highlightRoots: boolean;
   showDegrees: boolean;
 }
 
@@ -35,7 +35,7 @@ const updateState = (
     };
     state.scaleRoot = savedState?.scaleRoot ?? TUNING_PRESETS[0];
     state.showFlats = savedState?.showFlats ?? false;
-    state.isMonochrome = savedState?.isMonochrome ?? true;
+    state.highlightRoots = savedState?.highlightRoots ?? true;
     state.showDegrees = savedState?.showDegrees ?? false;
   }
 };
@@ -66,7 +66,7 @@ export const initialState: GlobalConfig = {
   },
   scaleRoot: TUNING_PRESETS[0],
   showFlats: false,
-  isMonochrome: true,
+  highlightRoots: true,
   showDegrees: false,
 };
 
@@ -93,7 +93,7 @@ export const globalConfigSlice = createSlice({
       state.showFlats = !state.showFlats;
     },
     toggleShowMonochrome: (state) => {
-      state.isMonochrome = !state.isMonochrome;
+      state.highlightRoots = !state.highlightRoots;
     },
     toggleShowDegrees: (state) => {
       state.showDegrees = !state.showDegrees;
@@ -136,6 +136,6 @@ export const selectTuning = (state: { globalConfig: GlobalConfig }) =>
 export const selectShowFlats = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).showFlats;
 export const selectIsMonochrome = (state: { globalConfig: GlobalConfig }) =>
-  selectGlobalConfig(state).isMonochrome;
+  selectGlobalConfig(state).highlightRoots;
 export const selectShowDegrees = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).showDegrees;

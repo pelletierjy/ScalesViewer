@@ -1,8 +1,8 @@
-import { tuningGroups } from "@/lib/utils/tunings";
+import { tuningGroups } from "@/app/guitar/tunings";
 import {
   TUNING_PRESETS,
   TuningPresetWithMetadata,
-} from "@/lib/utils/tuningConstants";
+} from "@/app/guitar/tuningConstants";
 
 describe("tuningGroups", () => {
   it("should group tunings by category", () => {
