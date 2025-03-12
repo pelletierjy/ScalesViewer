@@ -1,12 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { GuitarNeck } from "./GuitarNeck/GuitarNeck";
-import { TuningPresetWithMetadata } from "@/lib/utils/tuningConstants";
-import { getCustomTunings, getTuning } from "@/lib/utils/tunings";
+import { getCustomTunings, getTuning } from "@/app/guitar/tunings";
 import { CustomTuningEditor } from "./CustomTuningEditor/CustomTuningEditor";
 import { TuningPreset } from "./types/tuningPreset";
 import { Configuration } from "./Configuration/Configuration";
 import { DataProvider } from "./context";
+import { TuningPresetWithMetadata } from "./tuningConstants";
 
 export default function Guitar() {
   const [editingTuning, setEditingTuning] =

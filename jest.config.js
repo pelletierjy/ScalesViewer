@@ -27,6 +27,10 @@ const customJestConfig = {
   transform: {
     "^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
   },
+  // Add a timeout to ensure tests clean up properly
+  testTimeout: 10000,
+  // Force exit after all tests complete
+  forceExit: true,
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

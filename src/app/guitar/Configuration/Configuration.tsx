@@ -1,15 +1,12 @@
 import { TuningPreset } from "../types/tuningPreset";
 import { ROOTS } from "@/lib/utils/scaleConstants";
-import {
-  TUNING_PRESETS,
-  TuningPresetWithMetadata,
-} from "@/lib/utils/tuningConstants";
 import { useSelector } from "react-redux";
 import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
 import { useContext } from "react";
 import { Note } from "@/lib/utils/note";
 import { DataContext } from "@/app/guitar/context";
-import { tuningGroups } from "@/lib/utils/tunings";
+import { tuningGroups } from "@/app/guitar/tunings";
+import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
 
 // Define the DataContextType interface here to avoid import issues
 interface DataContextType {

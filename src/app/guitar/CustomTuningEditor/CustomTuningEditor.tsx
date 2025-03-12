@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Note } from "@/lib/utils/note";
-
 import { ROOTS } from "@/lib/utils/scaleConstants";
-import { TuningPresetWithMetadata } from "@/lib/utils/tuningConstants";
 import { TuningPreset } from "../types/tuningPreset";
 import { useSelector } from "react-redux";
 import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
+import { TuningPresetWithMetadata } from "../tuningConstants";
 
 interface CustomTuningEditorProps {
   onSaveTuning: (scaleRoot: TuningPreset) => void;
