@@ -111,18 +111,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
           </div>
           <Footer isDarkMode={isDarkMode} />
         </main>
-      ) : (
-        <div
-          className={`min-h-screen flex items-center justify-center ${
-            isDarkMode ? "bg-gray-900 text-white" : "bg-slate-100 text-gray-900"
-          }`}
-        >
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
-            <p className="text-lg">Loading...</p>
-          </div>
-        </div>
-      )}
+      ) : (<></>)}
     </>
   );
 }
