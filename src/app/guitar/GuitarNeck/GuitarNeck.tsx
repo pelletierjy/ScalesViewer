@@ -22,6 +22,7 @@ import { getFretPositions } from "./getFretPositions";
 import { getStringThickness } from "./getStringThickness";
 import { getAdjustedTuning } from "./getAdjustedTuning";
 import { FretMarkers } from "./FretMarkers";
+import { NotesDisplay } from "./NotesDisplay";
 
 export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
   scaleRoot,
@@ -190,6 +191,22 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
             dimensions={dimensions}
             stringSpacing={stringSpacing}
             isDarkMode={isDarkMode}
+          />
+
+          {/* Notes Display */}
+          <NotesDisplay
+            adjustedTuning={adjustedTuning}
+            dimensions={dimensions}
+            stringSpacing={stringSpacing}
+            fretCount={fretCount}
+            scale={scale}
+            isDarkMode={isDarkMode}
+            showDegrees={showDegrees}
+            showFlats={showFlats}
+            highlightRoots={highlightRoots}
+            flipX={flipX}
+            flipY={flipY}
+            calculateNoteWithOctave={calculateNoteWithOctave}
           />
 
           {/* Strings - using the adjusted scaleRoot */}
