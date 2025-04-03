@@ -21,6 +21,7 @@ import { getNoteColor } from "./getNoteColor";
 import { getFretPositions } from "./getFretPositions";
 import { getStringThickness } from "./getStringThickness";
 import { getAdjustedTuning } from "./getAdjustedTuning";
+import { FretMarkers } from "./FretMarkers";
 
 export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
   scaleRoot,
@@ -183,39 +184,13 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
           ))}
 
           {/* Fret Markers */}
-          {fretMarkers.map((fret) => {
-            const currentFretPosition = getFretPositions(dimensions.width, fretCount)[fret];
-            const previousFretPosition = getFretPositions(dimensions.width, fretCount)[fret - 1];
-            if (currentFretPosition && previousFretPosition) {
-              const markerPosition = (currentFretPosition + previousFretPosition) / 2;
-              const isDoubleDot = fret === 12 || fret === 24;
-              return (
-                <g key={`marker-${fret}`} transform={`translate(${markerPosition}, ${dimensions.height / 2})`}>
-                  {!isDoubleDot && (
-                    <circle
-                      r={stringSpacing / 8}
-                      fill={isDarkMode ? "#DDDDDD" : "#505050"}
-                    />
-                  )}
-                  {isDoubleDot && (
-                    <>
-                      <circle
-                        r={stringSpacing / 8}
-                        fill={isDarkMode ? "#DDDDDD" : "#505050"}
-                        transform={`translate(0, ${-stringSpacing * 2 })`}
-                      />
-                      <circle
-                        r={stringSpacing / 8}
-                        fill={isDarkMode ? "#DDDDDD" : "#505050"}
-                        transform={`translate(0, ${stringSpacing * 2})`}
-                      />
-                    </>
-                  )}
-                </g>
-              );
-            }
-            return null;
-          })}
+          <FretMarkers
+            fretMarkers={fretMarkers}
+            fretPositions={getFretPositions(dimensions.width, fretCount)}
+            dimensions={dimensions}
+            stringSpacing={stringSpacing}
+            isDarkMode={isDarkMode}
+          />
 
           {/* Strings - using the adjusted scaleRoot */}
           {[...adjustedTuning.strings]
