@@ -138,6 +138,8 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
     }` as NoteWithOctave;
   };
 
+  const fretMarkers = [3, 5, 7, 9, 12, 15, 17, 19, 21, 24];
+
   return (
     <div ref={containerRef} className="w-full">
       <div className="w-full overflow-x-auto">
@@ -179,6 +181,30 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
               className="transition-colors duration-200"
             />
           ))}
+
+          {/* Fret Markers */}
+          {fretMarkers.map((fret) => {
+            const position = getFretPositions(dimensions.width, fretCount)[fret];
+            if (position) {
+              const isDoubleDot = fret === 12 || fret === 24;
+              return (
+                <g key={`marker-${fret}`} transform={`translate(${position}, ${dimensions.height / 2})`}>
+                  <circle
+                    r={isDoubleDot ? stringSpacing / 6 : stringSpacing / 8}
+                    fill="url(#abalone)"
+                  />
+                  {isDoubleDot && (
+                    <circle
+                      r={stringSpacing / 8}
+                      fill="url(#abalone)"
+                      transform={`translate(0, ${stringSpacing / 4})`}
+                    />
+                  )}
+                </g>
+              );
+            }
+            return null;
+          })}
 
           {/* Strings - using the adjusted scaleRoot */}
           {[...adjustedTuning.strings]
