@@ -41,6 +41,7 @@ src/
   - Progressive string thickness visualization
   - Base scaleRoot transposition
   - Zero fret note display
+  - Fret Markers
 
 #### Piano
 

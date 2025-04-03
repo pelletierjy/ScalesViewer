@@ -2,11 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import {
   calculateFretNote,
-  isNoteInScale,
-  getScaleDegree,
-  sharpToFlat,
 } from "@/lib/utils/scaleUtils";
-import { playNote } from "@/lib/utils/audioUtils";
 import { TuningPreset } from "../types/tuningPreset";
 import { useSelector } from "react-redux";
 import {
@@ -17,10 +13,11 @@ import {
   selectShowFlats,
 } from "@/features/globalConfig/globalConfigSlice";
 import { DataContext, DataContextType } from "../context";
-import { getNoteColor } from "./getNoteColor";
 import { getFretPositions } from "./getFretPositions";
-import { getStringThickness } from "./getStringThickness";
 import { getAdjustedTuning } from "./getAdjustedTuning";
+import { FretMarkers } from "./FretMarkers";
+import { StringGroup } from "./StringGroup";
+import { FretNumbers } from "./FretNumbers";
 
 export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
   scaleRoot,
@@ -138,6 +135,8 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
     }` as NoteWithOctave;
   };
 
+  const fretMarkers = [3, 5, 7, 9, 12, 15, 17, 19, 21, 24];
+
   return (
     <div ref={containerRef} className="w-full">
       <div className="w-full overflow-x-auto">
@@ -180,188 +179,40 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
             />
           ))}
 
-          {/* Strings - using the adjusted scaleRoot */}
-          {[...adjustedTuning.strings]
-            .reverse()
-            .map((openNote, stringIndex) => (
-              <g key={`string-${stringIndex}`} className="group">
-                {/* String line */}
-                <line
-                  x1={0}
-                  y1={(stringIndex + 1) * stringSpacing}
-                  x2={dimensions.width}
-                  y2={(stringIndex + 1) * stringSpacing}
-                  stroke={isDarkMode ? "#9ca3af" : "#666"}
-                  strokeWidth={getStringThickness(
-                    stringIndex,
-                    adjustedTuning.strings.length
-                  )}
-                  className="transition-colors duration-200"
-                />
+          {/* Fret Markers */}
+          <FretMarkers
+            fretMarkers={fretMarkers}
+            fretPositions={getFretPositions(dimensions.width, fretCount)}
+            dimensions={dimensions}
+            stringSpacing={stringSpacing}
+            isDarkMode={isDarkMode}
+          />
 
-                {/* Tuning label */}
-                <text
-                  x={-10}
-                  y={(stringIndex + 1) * stringSpacing}
-                  textAnchor="end"
-                  dominantBaseline="middle"
-                  fill={isDarkMode ? "#9ca3af" : "#666"}
-                  fontSize={Math.min(12, stringSpacing / 4)}
-                  className="transition-colors duration-200"
-                >
-                  <title>{`String ${
-                    adjustedTuning.strings.length - stringIndex
-                  }: ${openNote}`}</title>
-                  {openNote}
-                </text>
-
-                {/* Zero fret note */}
-                {isNoteInScale(openNote, scale) && (
-                  <g
-                    transform={`translate(${stringSpacing / 4}, ${
-                      (stringIndex + 1) * stringSpacing
-                    })`}
-                    onClick={() =>
-                      playNote(
-                        calculateNoteWithOctave(openNote, stringIndex, 0)
-                      )
-                    }
-                    className="cursor-pointer"
-                  >
-                    <circle
-                      r={Math.min(stringSpacing / 3.5, stringSpacing / 3.5)}
-                      fill={getNoteColor(
-                        openNote,
-                        scale,
-                        isDarkMode,
-                        highlightRoots
-                      )}
-                      className="transition-colors duration-200"
-                    />
-                    <text
-                      fill={
-                        isDarkMode
-                          ? "#1f2937"
-                          : openNote === scale.root
-                          ? "#ffffff"
-                          : "#1f2937"
-                      }
-                      fontSize={Math.min(stringSpacing / 3, stringSpacing / 3)}
-                      textAnchor="middle"
-                      dy=".3em"
-                      className="select-none font-bold transition-colors duration-200"
-                      style={{
-                        textShadow: isDarkMode
-                          ? "0 0 1px rgba(0,0,0,0.3)"
-                          : "none",
-                        transform: `${flipX ? "scale(-1, 1)" : ""} ${
-                          flipY ? "scale(1, -1)" : ""
-                        }`,
-                      }}
-                    >
-                      {showDegrees
-                        ? getScaleDegree(openNote, scale)
-                        : showFlats
-                        ? sharpToFlat(openNote)
-                        : openNote}
-                    </text>
-                  </g>
-                )}
-
-                {/* Fretted notes */}
-                {Array.from({ length: fretCount }, (_, fretIndex) => {
-                  const note = calculateFretNote(openNote as Note, fretIndex);
-                  const noteWithOctave = calculateNoteWithOctave(
-                    openNote,
-                    stringIndex,
-                    fretIndex
-                  );
-                  const inScale = isNoteInScale(note, scale);
-                  const isRoot = note === scale.root;
-                  return (
-                    inScale && (
-                      <g
-                        key={`note-${stringIndex}-${fretIndex}`}
-                        transform={`translate(${
-                          getFretPositions(dimensions.width, fretCount)[
-                            fretIndex
-                          ] -
-                          stringSpacing / 4
-                        }, ${(stringIndex + 1) * stringSpacing})`}
-                        onClick={() => playNote(noteWithOctave)}
-                        className="cursor-pointer"
-                      >
-                        <circle
-                          r={Math.min(stringSpacing / 3.5, stringSpacing / 3.5)}
-                          fill={getNoteColor(
-                            note,
-                            scale,
-                            isDarkMode,
-                            highlightRoots
-                          )}
-                          className="transition-colors duration-200"
-                        />
-                        <text
-                          fill={
-                            isDarkMode
-                              ? "#1f2937"
-                              : isRoot
-                              ? "#ffffff"
-                              : "#1f2937"
-                          }
-                          fontSize={Math.min(
-                            stringSpacing / 3,
-                            stringSpacing / 3
-                          )}
-                          textAnchor="middle"
-                          dy=".3em"
-                          className="select-none font-bold transition-colors duration-200"
-                          style={{
-                            textShadow: isDarkMode
-                              ? "0 0 1px rgba(0,0,0,0.3)"
-                              : "none",
-                            transform: `${flipX ? "scale(-1, 1)" : ""} ${
-                              flipY ? "scale(1, -1)" : ""
-                            }`,
-                          }}
-                        >
-                          {showDegrees
-                            ? getScaleDegree(note, scale)
-                            : showFlats
-                            ? sharpToFlat(note)
-                            : note}
-                        </text>
-                      </g>
-                    )
-                  );
-                })}
-              </g>
-            ))}
+          {/* String Group */}
+          <StringGroup
+            adjustedTuning={adjustedTuning}
+            dimensions={dimensions}
+            stringSpacing={stringSpacing}
+            fretCount={fretCount}
+            scale={scale}
+            isDarkMode={isDarkMode}
+            showDegrees={showDegrees}
+            showFlats={showFlats}
+            highlightRoots={highlightRoots}
+            flipX={flipX}
+            flipY={flipY}
+            calculateNoteWithOctave={calculateNoteWithOctave}
+          />
 
           {/* Fret numbers */}
-          {Array.from({ length: fretCount + 1 }).map((_, i) => (
-            <text
-              key={`fret-number-${i}`}
-              x={
-                getFretPositions(dimensions.width, fretCount)[i] -
-                stringSpacing / 2
-              }
-              y={dimensions.height - 5}
-              textAnchor="middle"
-              fill={isDarkMode ? "#9ca3af" : "#666"}
-              fontSize={Math.min(12, stringSpacing / 4)}
-              className="transition-colors duration-200"
-              style={{
-                transform: `${flipX ? "scale(-1, 1)" : ""} ${
-                  flipY ? "scale(1, -1)" : ""
-                }`,
-                transformBox: "fill-box",
-                transformOrigin: "center",
-              }}
-            >
-              {i}
-            </text>
-          ))}
+          <FretNumbers
+            fretCount={fretCount}
+            dimensions={dimensions}
+            stringSpacing={stringSpacing}
+            isDarkMode={isDarkMode}
+            flipX={flipX}
+            flipY={flipY}
+          />
         </svg>
       </div>
     </div>
