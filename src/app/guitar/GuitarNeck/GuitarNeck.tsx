@@ -2,11 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import {
   calculateFretNote,
-  isNoteInScale,
-  getScaleDegree,
-  sharpToFlat,
 } from "@/lib/utils/scaleUtils";
-import { playNote } from "@/lib/utils/audioUtils";
 import { TuningPreset } from "../types/tuningPreset";
 import { useSelector } from "react-redux";
 import {
@@ -17,9 +13,7 @@ import {
   selectShowFlats,
 } from "@/features/globalConfig/globalConfigSlice";
 import { DataContext, DataContextType } from "../context";
-import { getNoteColor } from "./getNoteColor";
 import { getFretPositions } from "./getFretPositions";
-import { getStringThickness } from "./getStringThickness";
 import { getAdjustedTuning } from "./getAdjustedTuning";
 import { FretMarkers } from "./FretMarkers";
 import { StringGroup } from "./StringGroup";

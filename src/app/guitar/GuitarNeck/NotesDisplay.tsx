@@ -1,12 +1,10 @@
 import React from 'react';
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
-import { calculateFretNote, isNoteInScale, getScaleDegree, sharpToFlat } from "@/lib/utils/scaleUtils";
+import { isNoteInScale, getScaleDegree, sharpToFlat } from "@/lib/utils/scaleUtils";
 import { playNote } from "@/lib/utils/audioUtils";
 import { getNoteColor } from "./getNoteColor";
-import { getStringThickness } from "./getStringThickness";
 import { TuningPreset } from "../types/tuningPreset";
-import { getFretPositions } from './getFretPositions';
 import { FrettedNotes } from './FrettedNotes';
 import { Strings } from './Strings';
 
