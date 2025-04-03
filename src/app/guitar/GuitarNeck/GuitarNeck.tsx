@@ -184,21 +184,32 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
 
           {/* Fret Markers */}
           {fretMarkers.map((fret) => {
-            const position = getFretPositions(dimensions.width, fretCount)[fret];
-            if (position) {
+            const currentFretPosition = getFretPositions(dimensions.width, fretCount)[fret];
+            const previousFretPosition = getFretPositions(dimensions.width, fretCount)[fret - 1];
+            if (currentFretPosition && previousFretPosition) {
+              const markerPosition = (currentFretPosition + previousFretPosition) / 2;
               const isDoubleDot = fret === 12 || fret === 24;
               return (
-                <g key={`marker-${fret}`} transform={`translate(${position}, ${dimensions.height / 2})`}>
-                  <circle
-                    r={isDoubleDot ? stringSpacing / 6 : stringSpacing / 8}
-                    fill="url(#abalone)"
-                  />
-                  {isDoubleDot && (
+                <g key={`marker-${fret}`} transform={`translate(${markerPosition}, ${dimensions.height / 2})`}>
+                  {!isDoubleDot && (
                     <circle
                       r={stringSpacing / 8}
-                      fill="url(#abalone)"
-                      transform={`translate(0, ${stringSpacing / 4})`}
+                      fill={isDarkMode ? "#DDDDDD" : "#505050"}
                     />
+                  )}
+                  {isDoubleDot && (
+                    <>
+                      <circle
+                        r={stringSpacing / 8}
+                        fill={isDarkMode ? "#DDDDDD" : "#505050"}
+                        transform={`translate(0, ${-stringSpacing * 2 })`}
+                      />
+                      <circle
+                        r={stringSpacing / 8}
+                        fill={isDarkMode ? "#DDDDDD" : "#505050"}
+                        transform={`translate(0, ${stringSpacing * 2})`}
+                      />
+                    </>
                   )}
                 </g>
               );
