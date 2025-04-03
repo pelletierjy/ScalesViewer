@@ -1,5 +1,5 @@
 import React from 'react';
-import { Note } from "@/lib/utils/note";
+import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
 import { TuningPreset } from "../types/tuningPreset";
 import { getStringThickness } from "./getStringThickness";
@@ -17,7 +17,7 @@ interface StringGroupProps {
   highlightRoots: boolean;
   flipX: boolean;
   flipY: boolean;
-  calculateNoteWithOctave: (openNote: Note, stringIndex: number, fret: number) => string;
+  calculateNoteWithOctave: (openNote: Note, stringIndex: number, fret: number) => NoteWithOctave;
 }
 
 export const StringGroup: React.FC<StringGroupProps> = ({

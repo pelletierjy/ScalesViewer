@@ -1,5 +1,5 @@
 import React from 'react';
-import { Note } from "@/lib/utils/note";
+import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
 import { calculateFretNote, isNoteInScale, getScaleDegree, sharpToFlat } from "@/lib/utils/scaleUtils";
 import { playNote } from "@/lib/utils/audioUtils";
@@ -19,7 +19,7 @@ interface FrettedNotesProps {
   highlightRoots: boolean;
   flipX: boolean;
   flipY: boolean;
-  calculateNoteWithOctave: (openNote: Note, stringIndex: number, fret: number) => string;
+  calculateNoteWithOctave: (openNote: Note, stringIndex: number, fret: number) => NoteWithOctave;
 }
 
 export const FrettedNotes: React.FC<FrettedNotesProps> = ({
