@@ -49,9 +49,6 @@ next-env.d.ts
 /.next
 /out/
 
-# Electron
-/electron-builder.yml
-
 # Android
 /android
 /android/.gradle

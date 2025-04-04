@@ -43,7 +43,6 @@ The application provides interactive visualizations for guitar, piano, flute, an
 ## Tech Stack
 
 - **Framework**: Next.js 15
-- **Desktop Framework**: Electron
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Development**: Turbopack
@@ -69,9 +68,6 @@ The application provides interactive visualizations for guitar, piano, flute, an
    ```bash
    # For web development
    npm run dev
-
-   # For desktop development
-   npm run electron-dev
    ```
 
 ## Building the Application
@@ -81,23 +77,6 @@ The application provides interactive visualizations for guitar, piano, flute, an
 ```bash
 npm run build
 ```
-
-### Desktop Build (Windows)
-
-1. Ensure you have the required assets:
-
-   - Create an `assets` folder in the project root
-   - Add `icon.ico` to the assets folder
-
-2. Build the application:
-
-   ```bash
-   npm run electron-build
-   ```
-
-3. Find the built application in the `dist` folder:
-   - Installer: `dist/GScale Setup.exe`
-   - Portable version: `dist/win-unpacked/GScale.exe`
 
 ## Development
 
@@ -115,7 +94,6 @@ src/
 │   └── utils/           # Helper functions
 └── styles/              # Global styles
 
-electron/                # Electron main process code
 assets/                 # Application assets (icons, etc.)
 ```
 
@@ -126,12 +104,6 @@ assets/                 # Application assets (icons, etc.)
   - Runs Next.js development server
   - Hot reloading enabled
   - Access via http://localhost:3000
-
-- **Desktop Development**: `npm run electron-dev`
-  - Runs Next.js development server
-  - Launches Electron window
-  - Hot reloading enabled
-  - DevTools available in development
 
 ### Building for Production
 
@@ -146,9 +118,6 @@ npm run build
 ```bash
 # Clean build directories and create production build
 npm run build-prepare
-
-# Create Windows installer
-npm run build-electron
 ```
 
 ### Windows-Specific Notes
