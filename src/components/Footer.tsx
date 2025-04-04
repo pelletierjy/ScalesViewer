@@ -21,7 +21,7 @@ export const Footer: React.FC<FooterProps> = ({ isDarkMode = false }) => {
         </p>
         <div className="flex items-center gap-4">
           <a
-            href="https://scales-viewer.vercel.app/piano/"
+            href="https://github.com/pelletierjy/ScalesViewer"
             target="_blank"
             rel="noopener noreferrer"
             className={`text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
