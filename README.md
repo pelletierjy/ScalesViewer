@@ -89,6 +89,7 @@ src/
 ├── features/             # Feature-specific components
 │   ├── guitar/           # Guitar-related components
 │   └── scales/           # Scale-related components
+│   └── ...
 ├── lib/                  # Shared utilities
 │   ├── types/           # TypeScript types
 │   └── utils/           # Helper functions
