@@ -14,6 +14,7 @@ import {
 } from "@/features/globalConfig/globalConfigSlice";
 import { DataContext, DataContextType } from "../context";
 import { getFretPositions } from "./getFretPositions";
+import { getMultiscaleFretPositions, getMultiscaleFretEndpoints } from "./getMultiscaleFretPositions";
 import { getAdjustedTuning } from "./getAdjustedTuning";
 import { FretMarkers } from "./FretMarkers";
 import { StringGroup } from "./StringGroup";
@@ -27,6 +28,10 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
     flipX = false,
     flipY = false,
     baseTuning = "E",
+    isMultiscale = false,
+    scaleLength = { treble: 25.5, bass: 27 },
+    perpendicular = 9,
+    fretboardColor = "#8B4513",
   } = useContext(DataContext) as DataContextType;
   const showFlats = useSelector(selectShowFlats);
   const scale = useSelector(selectScale);
@@ -136,6 +141,26 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
   };
 
   const fretMarkers = [3, 5, 7, 9, 12, 15, 17, 19, 21, 24];
+  
+  // Calculate fret positions based on whether it's multiscale or not
+  // Use full width for standard mode, reserve padding for multiscale
+  const fretboardWidth = isMultiscale ? dimensions.width * 0.9 : dimensions.width;
+  const fretboardOffset = isMultiscale ? dimensions.width * 0.05 : 0;
+  
+  const standardFretPositions = getFretPositions(fretboardWidth, fretCount).map(pos => pos + fretboardOffset);
+  
+  const fretPositions = isMultiscale
+    ? getMultiscaleFretPositions(
+        fretboardWidth,
+        fretCount,
+        scaleRoot.strings.length,
+        scaleLength.treble,
+        scaleLength.bass,
+        perpendicular
+      ).map(stringPositions => 
+        stringPositions.map(pos => pos + fretboardOffset)
+      )
+    : Array(scaleRoot.strings.length).fill(standardFretPositions);
 
   return (
     <div ref={containerRef} className="w-full">
@@ -165,27 +190,108 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
             className="transition-colors duration-200"
           />
 
+          {/* Fretboard */}
+          {(() => {
+            if (isMultiscale) {
+              // For multiscale, create a path that follows the fanned frets
+              const topStringPositions = fretPositions[0];
+              const bottomStringPositions = fretPositions[scaleRoot.strings.length - 1];
+              
+              // Create path points
+              const pathPoints = [
+                // Top edge: from first fret to last fret
+                `M ${topStringPositions[0]} ${stringSpacing}`,
+                `L ${topStringPositions[fretCount]} ${stringSpacing}`,
+                // Right edge: from top string to bottom string at last fret
+                `L ${bottomStringPositions[fretCount]} ${scaleRoot.strings.length * stringSpacing}`,
+                // Bottom edge: from last fret to first fret
+                `L ${bottomStringPositions[0]} ${scaleRoot.strings.length * stringSpacing}`,
+                // Close path
+                `Z`
+              ];
+              
+              return (
+                <path
+                  d={pathPoints.join(' ')}
+                  fill={fretboardColor}
+                  className="transition-colors duration-200"
+                />
+              );
+            } else {
+              // For standard guitars, use a simple rectangle
+              const fretboardLeft = fretPositions[0][0];
+              const fretboardRight = fretPositions[0][fretCount];
+              
+              return (
+                <rect
+                  x={fretboardLeft}
+                  y={stringSpacing}
+                  width={fretboardRight - fretboardLeft}
+                  height={(scaleRoot.strings.length - 1) * stringSpacing}
+                  fill={fretboardColor}
+                  className="transition-colors duration-200"
+                />
+              );
+            }
+          })()}
+
           {/* Frets */}
-          {getFretPositions(dimensions.width, fretCount).map((position, i) => (
-            <line
-              key={`fret-${i}`}
-              x1={position}
-              y1={0}
-              x2={position}
-              y2={dimensions.height}
-              stroke={isDarkMode ? "#4b5563" : "#333"}
-              strokeWidth={i === 0 ? 4 : 2}
-              className="transition-colors duration-200"
-            />
-          ))}
+          {isMultiscale ? (
+            // Multiscale: Draw angled frets
+            Array.from({ length: fretCount + 1 }, (_, i) => {
+              const endpoints = getMultiscaleFretEndpoints(
+                fretPositions,
+                stringSpacing,
+                scaleRoot.strings.length,
+                i
+              );
+              return (
+                <line
+                  key={`fret-${i}`}
+                  x1={endpoints.x1}
+                  y1={endpoints.y1}
+                  x2={endpoints.x2}
+                  y2={endpoints.y2}
+                  stroke={
+                    i === 0
+                      ? isDarkMode ? "#d1d5db" : "#1f2937"
+                      : i === perpendicular
+                      ? isDarkMode ? "#60a5fa" : "#3b82f6"
+                      : isDarkMode ? "#4b5563" : "#333"
+                  }
+                  strokeWidth={i === 0 ? 8 : i === perpendicular ? 3 : 2}
+                  className="transition-colors duration-200"
+                />
+              );
+            })
+          ) : (
+            // Standard: Draw straight frets
+            standardFretPositions.map((position, i) => (
+              <line
+                key={`fret-${i}`}
+                x1={position}
+                y1={stringSpacing}
+                x2={position}
+                y2={scaleRoot.strings.length * stringSpacing}
+                stroke={i === 0 
+                  ? isDarkMode ? "#d1d5db" : "#1f2937"
+                  : isDarkMode ? "#4b5563" : "#333"
+                }
+                strokeWidth={i === 0 ? 8 : 2}
+                className="transition-colors duration-200"
+              />
+            ))
+          )}
 
           {/* Fret Markers */}
           <FretMarkers
             fretMarkers={fretMarkers}
-            fretPositions={getFretPositions(dimensions.width, fretCount)}
+            fretPositions={isMultiscale ? fretPositions : standardFretPositions}
             dimensions={dimensions}
             stringSpacing={stringSpacing}
             isDarkMode={isDarkMode}
+            isMultiscale={isMultiscale}
+            stringCount={scaleRoot.strings.length}
           />
 
           {/* String Group */}
@@ -202,6 +308,7 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
             flipX={flipX}
             flipY={flipY}
             calculateNoteWithOctave={calculateNoteWithOctave}
+            fretPositions={fretPositions}
           />
 
           {/* Fret numbers */}
@@ -212,6 +319,9 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
             isDarkMode={isDarkMode}
             flipX={flipX}
             flipY={flipY}
+            isMultiscale={isMultiscale}
+            fretPositions={isMultiscale ? fretPositions : standardFretPositions}
+            stringCount={scaleRoot.strings.length}
           />
         </svg>
       </div>

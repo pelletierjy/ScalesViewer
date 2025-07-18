@@ -20,6 +20,7 @@ interface FrettedNotesProps {
   flipX: boolean;
   flipY: boolean;
   calculateNoteWithOctave: (openNote: Note, stringIndex: number, fret: number) => NoteWithOctave;
+  fretPositions?: number[];
 }
 
 export const FrettedNotes: React.FC<FrettedNotesProps> = ({
@@ -36,10 +37,12 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = ({
   flipX,
   flipY,
   calculateNoteWithOctave,
+  fretPositions = [],
 }) => {
   return (
     <>
-      {Array.from({ length: fretCount }, (_, fretIndex) => {
+      {Array.from({ length: fretCount }, (_, index) => {
+        const fretIndex = index + 1; // Start from fret 1, not 0
         const note = calculateFretNote(openNote, fretIndex);
         const noteWithOctave = calculateNoteWithOctave(
           openNote,
@@ -48,13 +51,18 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = ({
         );
         const inScale = isNoteInScale(note, scale);
         const isRoot = note === scale.root;
+        
+        // Get fret position based on whether it's multiscale or not
+        const fretPosition = fretPositions.length > 0
+          ? fretPositions[fretIndex]
+          : getFretPositions(dimensions.width, fretCount)[fretIndex];
+          
         return (
           inScale && (
             <g
               key={`note-${stringIndex}-${fretIndex}`}
               transform={`translate(${
-                getFretPositions(dimensions.width, fretCount)[fretIndex] -
-                stringSpacing / 4
+                fretPosition - stringSpacing / 4
               }, ${(stringIndex + 1) * stringSpacing})`}
               onClick={() => playNote(noteWithOctave)}
               className="cursor-pointer"

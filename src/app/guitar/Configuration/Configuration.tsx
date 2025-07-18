@@ -7,6 +7,7 @@ import { Note } from "@/lib/utils/note";
 import { DataContext } from "@/app/guitar/context";
 import { tuningGroups } from "@/app/guitar/tunings";
 import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
+import { MULTISCALE_PRESETS, PERPENDICULAR_FRET_OPTIONS } from "../multiscaleConstants";
 
 // Define the DataContextType interface here to avoid import issues
 interface DataContextType {
@@ -18,6 +19,14 @@ interface DataContextType {
   setFlipY: (flip: boolean) => void;
   setBaseTuning: (note: Note) => void;
   setFlipX: (flip: boolean) => void;
+  isMultiscale: boolean;
+  setIsMultiscale: (enabled: boolean) => void;
+  scaleLength: { treble: number; bass: number };
+  setScaleLength: (lengths: { treble: number; bass: number }) => void;
+  perpendicular: number;
+  setPerpendicular: (fret: number) => void;
+  fretboardColor: string;
+  setFretboardColor: (color: string) => void;
 }
 
 interface ConfigurationProps {
@@ -50,6 +59,14 @@ export const Configuration: React.FC<ConfigurationProps> = ({
     setFlipY,
     setBaseTuning,
     setFlipX,
+    isMultiscale,
+    setIsMultiscale,
+    scaleLength,
+    setScaleLength,
+    perpendicular,
+    setPerpendicular,
+    fretboardColor,
+    setFretboardColor,
   } = useContext(DataContext) as DataContextType;
 
   const isDarkMode = useSelector(selectIsDarkMode);
@@ -240,6 +257,47 @@ export const Configuration: React.FC<ConfigurationProps> = ({
                 </select>
               </div>
             </div>
+
+            <div className="flex flex-col min-w-[150px]">
+              <div className="flex items-center gap-2">
+                <label
+                  htmlFor="fretboard-color"
+                  className={`text-sm font-semibold whitespace-nowrap ${
+                    isDarkMode ? "text-gray-200" : "text-gray-900"
+                  }`}
+                >
+                  Fretboard Color
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="color"
+                    id="fretboard-color"
+                    value={fretboardColor}
+                    onChange={(e) => setFretboardColor(e.target.value)}
+                    className={`w-10 h-10 rounded cursor-pointer ${
+                      isDarkMode
+                        ? "border-gray-600"
+                        : "border-gray-300"
+                    }`}
+                  />
+                  <select
+                    value={fretboardColor}
+                    onChange={(e) => setFretboardColor(e.target.value)}
+                    className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+                      isDarkMode
+                        ? "bg-gray-700 border-gray-600 text-gray-200"
+                        : "bg-white border-gray-300 text-gray-900"
+                    }`}
+                  >
+                    <option value="#8B4513">Rosewood</option>
+                    <option value="#3E2723">Ebony</option>
+                    <option value="#D2691E">Maple</option>
+                    <option value="#654321">Pau Ferro</option>
+                    <option value="#2E2E2E">Richlite</option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Right side orientation controls */}
@@ -278,6 +336,147 @@ export const Configuration: React.FC<ConfigurationProps> = ({
               </div>
             </div>
           </div>
+        </div>
+        
+        {/* Multiscale Settings Row */}
+        <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="multiscale"
+              checked={isMultiscale}
+              onChange={(e) => setIsMultiscale(e.target.checked)}
+              className="rounded focus:ring-blue-500"
+            />
+            <label
+              htmlFor="multiscale"
+              className={`text-sm font-semibold ${
+                isDarkMode ? "text-gray-200" : "text-gray-900"
+              }`}
+            >
+              Multiscale/Fanned Frets
+            </label>
+          </div>
+          
+          {isMultiscale && (
+            <>
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor="scale-preset"
+                  className={`text-sm font-semibold ${
+                    isDarkMode ? "text-gray-200" : "text-gray-900"
+                  }`}
+                >
+                  Scale Length Preset
+                </label>
+                <select
+                  id="scale-preset"
+                  value={`${scaleLength.treble}-${scaleLength.bass}`}
+                  onChange={(e) => {
+                    const preset = MULTISCALE_PRESETS.find(
+                      (p) => `${p.treble}-${p.bass}` === e.target.value
+                    );
+                    if (preset) {
+                      setScaleLength({ treble: preset.treble, bass: preset.bass });
+                    }
+                  }}
+                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 min-w-[200px] ${
+                    isDarkMode
+                      ? "bg-gray-700 border-gray-600 text-gray-200"
+                      : "bg-white border-gray-300 text-gray-900"
+                  }`}
+                >
+                  {MULTISCALE_PRESETS
+                    .filter(preset => preset.strings === scaleRoot.strings.length || preset.strings === 0)
+                    .map((preset) => (
+                      <option key={preset.name} value={`${preset.treble}-${preset.bass}`}>
+                        {preset.name}
+                      </option>
+                    ))
+                  }
+                </select>
+              </div>
+              
+              <div className="flex gap-2">
+                <div className="flex flex-col gap-2">
+                  <label
+                    htmlFor="treble-length"
+                    className={`text-sm font-semibold ${
+                      isDarkMode ? "text-gray-200" : "text-gray-900"
+                    }`}
+                  >
+                    Treble Length
+                  </label>
+                  <input
+                    type="number"
+                    id="treble-length"
+                    value={scaleLength.treble}
+                    onChange={(e) => setScaleLength({ ...scaleLength, treble: parseFloat(e.target.value) })}
+                    step="0.25"
+                    min="20"
+                    max="35"
+                    className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-24 ${
+                      isDarkMode
+                        ? "bg-gray-700 border-gray-600 text-gray-200"
+                        : "bg-white border-gray-300 text-gray-900"
+                    }`}
+                  />
+                </div>
+                
+                <div className="flex flex-col gap-2">
+                  <label
+                    htmlFor="bass-length"
+                    className={`text-sm font-semibold ${
+                      isDarkMode ? "text-gray-200" : "text-gray-900"
+                    }`}
+                  >
+                    Bass Length
+                  </label>
+                  <input
+                    type="number"
+                    id="bass-length"
+                    value={scaleLength.bass}
+                    onChange={(e) => setScaleLength({ ...scaleLength, bass: parseFloat(e.target.value) })}
+                    step="0.25"
+                    min="20"
+                    max="35"
+                    className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-24 ${
+                      isDarkMode
+                        ? "bg-gray-700 border-gray-600 text-gray-200"
+                        : "bg-white border-gray-300 text-gray-900"
+                    }`}
+                  />
+                </div>
+              </div>
+              
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor="perpendicular"
+                  className={`text-sm font-semibold ${
+                    isDarkMode ? "text-gray-200" : "text-gray-900"
+                  }`}
+                >
+                  Perpendicular Fret
+                </label>
+                <select
+                  id="perpendicular"
+                  value={perpendicular}
+                  onChange={(e) => setPerpendicular(Number(e.target.value))}
+                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+                    isDarkMode
+                      ? "bg-gray-700 border-gray-600 text-gray-200"
+                      : "bg-white border-gray-300 text-gray-900"
+                  }`}
+                >
+                  {PERPENDICULAR_FRET_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
