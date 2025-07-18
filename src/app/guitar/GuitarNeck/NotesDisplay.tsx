@@ -48,7 +48,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = ({
   const openNote = openNoteProp || [...adjustedTuning.strings].reverse()[stringIndex];
   
   // Get the zero fret position
-  const zeroFretPosition = isMultiscale && fretPositions.length > 0 && fretPositions[stringIndex]
+  const zeroFretPosition = fretPositions.length > 0 && fretPositions[stringIndex] && fretPositions[stringIndex].length > 0
     ? fretPositions[stringIndex][0]
     : 0;
     
@@ -123,7 +123,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = ({
         flipY={flipY}
         calculateNoteWithOctave={calculateNoteWithOctave}
         isMultiscale={isMultiscale}
-        fretPositions={isMultiscale && fretPositions[stringIndex] ? fretPositions[stringIndex] : []}
+        fretPositions={fretPositions[stringIndex] || []}
       />
     </>
   );

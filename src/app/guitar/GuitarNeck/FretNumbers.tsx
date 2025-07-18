@@ -9,7 +9,7 @@ interface FretNumbersProps {
   flipX: boolean;
   flipY: boolean;
   isMultiscale?: boolean;
-  fretPositions?: number[][];
+  fretPositions?: number[][] | number[];
   stringCount?: number;
 }
 
@@ -27,10 +27,20 @@ export const FretNumbers: React.FC<FretNumbersProps> = ({
   return (
     <>
       {Array.from({ length: fretCount + 1 }).map((_, i) => {
-        // For multiscale, use the bottom string position; for standard, use regular positions
-        const xPosition = isMultiscale && fretPositions.length > 0
-          ? fretPositions[stringCount - 1][i] - stringSpacing / 2
-          : getFretPositions(dimensions.width, fretCount)[i] - stringSpacing / 2;
+        let xPosition;
+        
+        if (isMultiscale && Array.isArray(fretPositions[0])) {
+          // For multiscale, use the bottom string position
+          const positions = fretPositions as number[][];
+          xPosition = positions[stringCount - 1][i];
+        } else if (!isMultiscale && Array.isArray(fretPositions) && !Array.isArray(fretPositions[0])) {
+          // For standard, use the passed positions directly
+          const positions = fretPositions as number[];
+          xPosition = positions[i];
+        } else {
+          // Fallback to calculating positions
+          xPosition = getFretPositions(dimensions.width, fretCount)[i];
+        }
           
         return (
           <text

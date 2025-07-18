@@ -55,7 +55,7 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = ({
         const isRoot = note === scale.root;
         
         // Get fret position based on whether it's multiscale or not
-        const fretPosition = isMultiscale && fretPositions.length > 0
+        const fretPosition = fretPositions.length > 0
           ? fretPositions[fretIndex]
           : getFretPositions(dimensions.width, fretCount)[fretIndex];
           

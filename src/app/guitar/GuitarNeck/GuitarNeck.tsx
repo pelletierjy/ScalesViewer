@@ -143,9 +143,11 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
   const fretMarkers = [3, 5, 7, 9, 12, 15, 17, 19, 21, 24];
   
   // Calculate fret positions based on whether it's multiscale or not
-  // Reserve 5% padding on each side
-  const fretboardWidth = dimensions.width * 0.9;
-  const fretboardOffset = dimensions.width * 0.05;
+  // Use full width for standard mode, reserve padding for multiscale
+  const fretboardWidth = isMultiscale ? dimensions.width * 0.9 : dimensions.width;
+  const fretboardOffset = isMultiscale ? dimensions.width * 0.05 : 0;
+  
+  const standardFretPositions = getFretPositions(fretboardWidth, fretCount).map(pos => pos + fretboardOffset);
   
   const fretPositions = isMultiscale
     ? getMultiscaleFretPositions(
@@ -158,9 +160,7 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
       ).map(stringPositions => 
         stringPositions.map(pos => pos + fretboardOffset)
       )
-    : getFretPositions(fretboardWidth, fretCount).map(() => 
-        getFretPositions(fretboardWidth, fretCount).map(pos => pos + fretboardOffset)
-      );
+    : Array(scaleRoot.strings.length).fill(standardFretPositions);
 
   return (
     <div ref={containerRef} className="w-full">
@@ -266,7 +266,7 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
             })
           ) : (
             // Standard: Draw straight frets
-            getFretPositions(dimensions.width, fretCount).map((position, i) => (
+            standardFretPositions.map((position, i) => (
               <line
                 key={`fret-${i}`}
                 x1={position}
@@ -286,7 +286,7 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
           {/* Fret Markers */}
           <FretMarkers
             fretMarkers={fretMarkers}
-            fretPositions={isMultiscale ? fretPositions : getFretPositions(fretboardWidth, fretCount).map(pos => pos + fretboardOffset)}
+            fretPositions={isMultiscale ? fretPositions : standardFretPositions}
             dimensions={dimensions}
             stringSpacing={stringSpacing}
             isDarkMode={isDarkMode}
@@ -321,7 +321,7 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
             flipX={flipX}
             flipY={flipY}
             isMultiscale={isMultiscale}
-            fretPositions={fretPositions}
+            fretPositions={isMultiscale ? fretPositions : standardFretPositions}
             stringCount={scaleRoot.strings.length}
           />
         </svg>
