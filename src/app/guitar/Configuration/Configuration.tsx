@@ -25,6 +25,8 @@ interface DataContextType {
   setScaleLength: (lengths: { treble: number; bass: number }) => void;
   perpendicular: number;
   setPerpendicular: (fret: number) => void;
+  fretboardColor: string;
+  setFretboardColor: (color: string) => void;
 }
 
 interface ConfigurationProps {
@@ -63,6 +65,8 @@ export const Configuration: React.FC<ConfigurationProps> = ({
     setScaleLength,
     perpendicular,
     setPerpendicular,
+    fretboardColor,
+    setFretboardColor,
   } = useContext(DataContext) as DataContextType;
 
   const isDarkMode = useSelector(selectIsDarkMode);
@@ -251,6 +255,47 @@ export const Configuration: React.FC<ConfigurationProps> = ({
                     </option>
                   ))}
                 </select>
+              </div>
+            </div>
+
+            <div className="flex flex-col min-w-[150px]">
+              <div className="flex items-center gap-2">
+                <label
+                  htmlFor="fretboard-color"
+                  className={`text-sm font-semibold whitespace-nowrap ${
+                    isDarkMode ? "text-gray-200" : "text-gray-900"
+                  }`}
+                >
+                  Fretboard Color
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="color"
+                    id="fretboard-color"
+                    value={fretboardColor}
+                    onChange={(e) => setFretboardColor(e.target.value)}
+                    className={`w-10 h-10 rounded cursor-pointer ${
+                      isDarkMode
+                        ? "border-gray-600"
+                        : "border-gray-300"
+                    }`}
+                  />
+                  <select
+                    value={fretboardColor}
+                    onChange={(e) => setFretboardColor(e.target.value)}
+                    className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+                      isDarkMode
+                        ? "bg-gray-700 border-gray-600 text-gray-200"
+                        : "bg-white border-gray-300 text-gray-900"
+                    }`}
+                  >
+                    <option value="#8B4513">Rosewood</option>
+                    <option value="#3E2723">Ebony</option>
+                    <option value="#D2691E">Maple</option>
+                    <option value="#654321">Pau Ferro</option>
+                    <option value="#2E2E2E">Richlite</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>

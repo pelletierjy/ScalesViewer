@@ -31,6 +31,7 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
     isMultiscale = false,
     scaleLength = { treble: 25.5, bass: 27 },
     perpendicular = 9,
+    fretboardColor = "#8B4513",
   } = useContext(DataContext) as DataContextType;
   const showFlats = useSelector(selectShowFlats);
   const scale = useSelector(selectScale);
@@ -180,6 +181,20 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
             width={dimensions.width}
             height={dimensions.height}
             fill={isDarkMode ? "#1f2937" : "#f8fafc"}
+            className="transition-colors duration-200"
+          />
+
+          {/* Fretboard */}
+          <rect
+            x={isMultiscale ? Math.min(...fretPositions.map(s => s[0])) : 0}
+            y={stringSpacing}
+            width={
+              isMultiscale 
+                ? Math.max(...fretPositions.map(s => s[fretCount])) - Math.min(...fretPositions.map(s => s[0]))
+                : getFretPositions(dimensions.width, fretCount)[fretCount]
+            }
+            height={(scaleRoot.strings.length - 1) * stringSpacing}
+            fill={fretboardColor}
             className="transition-colors duration-200"
           />
 
