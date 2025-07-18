@@ -397,57 +397,6 @@ export const Configuration: React.FC<ConfigurationProps> = ({
                 </select>
               </div>
               
-              <div className="flex gap-2">
-                <div className="flex flex-col gap-2">
-                  <label
-                    htmlFor="treble-length"
-                    className={`text-sm font-semibold ${
-                      isDarkMode ? "text-gray-200" : "text-gray-900"
-                    }`}
-                  >
-                    Treble Length
-                  </label>
-                  <input
-                    type="number"
-                    id="treble-length"
-                    value={scaleLength.treble}
-                    onChange={(e) => setScaleLength({ ...scaleLength, treble: parseFloat(e.target.value) })}
-                    step="0.25"
-                    min="20"
-                    max="35"
-                    className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-24 ${
-                      isDarkMode
-                        ? "bg-gray-700 border-gray-600 text-gray-200"
-                        : "bg-white border-gray-300 text-gray-900"
-                    }`}
-                  />
-                </div>
-                
-                <div className="flex flex-col gap-2">
-                  <label
-                    htmlFor="bass-length"
-                    className={`text-sm font-semibold ${
-                      isDarkMode ? "text-gray-200" : "text-gray-900"
-                    }`}
-                  >
-                    Bass Length
-                  </label>
-                  <input
-                    type="number"
-                    id="bass-length"
-                    value={scaleLength.bass}
-                    onChange={(e) => setScaleLength({ ...scaleLength, bass: parseFloat(e.target.value) })}
-                    step="0.25"
-                    min="20"
-                    max="35"
-                    className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-24 ${
-                      isDarkMode
-                        ? "bg-gray-700 border-gray-600 text-gray-200"
-                        : "bg-white border-gray-300 text-gray-900"
-                    }`}
-                  />
-                </div>
-              </div>
               
               <div className="flex flex-col gap-2">
                 <label
