@@ -148,7 +148,8 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
         fretCount,
         scaleRoot.strings.length,
         scaleLength.treble,
-        scaleLength.bass
+        scaleLength.bass,
+        perpendicular
       )
     : getFretPositions(dimensions.width, fretCount).map(() => 
         getFretPositions(dimensions.width, fretCount)

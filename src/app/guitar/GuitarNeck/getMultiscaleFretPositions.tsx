@@ -6,12 +6,14 @@ export const getMultiscaleFretPositions = (
   fretCount: number,
   stringCount: number,
   trebleLength: number,
-  bassLength: number
+  bassLength: number,
+  perpendicularFret: number = 9
 ): number[][] => {
   const FRET_RATIO = Math.pow(2, 1 / 12); // ~1.059463
   const positions: number[][] = [];
 
-  // Calculate positions for each string
+  // First, calculate raw positions for each string
+  const rawPositions: number[][] = [];
   for (let stringIndex = 0; stringIndex < stringCount; stringIndex++) {
     const scaleLength = getStringScaleLength(
       stringIndex,
@@ -33,10 +35,24 @@ export const getMultiscaleFretPositions = (
         stringPositions.push(position);
       }
     }
+    rawPositions.push(stringPositions);
+  }
+
+  // Find the perpendicular fret position for each string
+  const perpPositions = rawPositions.map(positions => positions[perpendicularFret]);
+  
+  // Calculate the average position for the perpendicular fret
+  const avgPerpPosition = perpPositions.reduce((a, b) => a + b, 0) / perpPositions.length;
+  
+  // Calculate offset for each string to align perpendicular fret
+  const offsets = perpPositions.map(pos => avgPerpPosition - pos);
+  
+  // Apply offsets and normalize
+  for (let stringIndex = 0; stringIndex < stringCount; stringIndex++) {
+    const stringPositions = rawPositions[stringIndex].map(pos => pos + offsets[stringIndex]);
     
-    // Normalize positions to totalWidth
-    // Use the bass string (longest) as the reference for scaling
-    const maxPosition = bassLength - (bassLength / Math.pow(FRET_RATIO, fretCount));
+    // Normalize to totalWidth based on the last fret position of the bass string
+    const maxPosition = rawPositions[stringCount - 1][fretCount] + offsets[stringCount - 1];
     const scaleFactor = totalWidth / maxPosition;
     
     const normalizedPositions = stringPositions.map(pos => pos * scaleFactor);
