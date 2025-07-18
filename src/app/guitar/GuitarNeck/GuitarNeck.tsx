@@ -308,7 +308,6 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
             flipX={flipX}
             flipY={flipY}
             calculateNoteWithOctave={calculateNoteWithOctave}
-            isMultiscale={isMultiscale}
             fretPositions={fretPositions}
           />
 

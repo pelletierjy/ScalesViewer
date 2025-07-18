@@ -20,7 +20,6 @@ interface FrettedNotesProps {
   flipX: boolean;
   flipY: boolean;
   calculateNoteWithOctave: (openNote: Note, stringIndex: number, fret: number) => NoteWithOctave;
-  isMultiscale?: boolean;
   fretPositions?: number[];
 }
 
@@ -38,7 +37,6 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = ({
   flipX,
   flipY,
   calculateNoteWithOctave,
-  isMultiscale = false,
   fretPositions = [],
 }) => {
   return (

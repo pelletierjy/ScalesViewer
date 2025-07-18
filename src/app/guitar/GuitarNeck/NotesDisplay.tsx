@@ -20,7 +20,6 @@ interface NotesDisplayProps {
   flipX: boolean;
   flipY: boolean;
   calculateNoteWithOctave: (openNote: Note, stringIndex: number, fret: number) => NoteWithOctave;
-  isMultiscale?: boolean;
   fretPositions?: number[][];
   stringIndex?: number;
   openNote?: Note;
@@ -39,7 +38,6 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = ({
   flipX,
   flipY,
   calculateNoteWithOctave,
-  isMultiscale = false,
   fretPositions = [],
   stringIndex = 0,
   openNote: openNoteProp,
@@ -122,7 +120,6 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = ({
         flipX={flipX}
         flipY={flipY}
         calculateNoteWithOctave={calculateNoteWithOctave}
-        isMultiscale={isMultiscale}
         fretPositions={fretPositions[stringIndex] || []}
       />
     </>
