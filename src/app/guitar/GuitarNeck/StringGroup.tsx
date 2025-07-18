@@ -18,6 +18,8 @@ interface StringGroupProps {
   flipX: boolean;
   flipY: boolean;
   calculateNoteWithOctave: (openNote: Note, stringIndex: number, fret: number) => NoteWithOctave;
+  isMultiscale?: boolean;
+  fretPositions?: number[][];
 }
 
 export const StringGroup: React.FC<StringGroupProps> = ({
@@ -33,6 +35,8 @@ export const StringGroup: React.FC<StringGroupProps> = ({
   flipX,
   flipY,
   calculateNoteWithOctave,
+  isMultiscale = false,
+  fretPositions = [],
 }) => {
   return (
     <>
@@ -84,6 +88,10 @@ export const StringGroup: React.FC<StringGroupProps> = ({
               flipX={flipX}
               flipY={flipY}
               calculateNoteWithOctave={calculateNoteWithOctave}
+              isMultiscale={isMultiscale}
+              fretPositions={fretPositions}
+              stringIndex={stringIndex}
+              openNote={openNote}
             />
           </g>
         ))}

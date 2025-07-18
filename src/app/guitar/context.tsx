@@ -16,6 +16,12 @@ export interface DataContextType {
   setFlipY: (flipped: boolean) => void;
   setBaseTuning: (note: Note) => void;
   baseTuning: Note;
+  isMultiscale: boolean;
+  setIsMultiscale: (enabled: boolean) => void;
+  scaleLength: { treble: number; bass: number };
+  setScaleLength: (lengths: { treble: number; bass: number }) => void;
+  perpendicular: number;
+  setPerpendicular: (fret: number) => void;
 }
 
 export const DataContext = createContext<DataContextType>(
@@ -40,6 +46,38 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     return _fretCount;
   };
   const [fretCount, setFretCount] = useState(getFretsCount());
+  
+  // Multiscale settings
+  const [isMultiscale, setIsMultiscale] = useState(
+    localStorage.getItem("is-multiscale") === "true"
+  );
+  
+  const getScaleLength = () => {
+    const saved = localStorage.getItem("scale-length");
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        // Fallback to default
+      }
+    }
+    return { treble: 25.5, bass: 27 };
+  };
+  const [scaleLength, setScaleLength] = useState<{ treble: number; bass: number }>(
+    getScaleLength()
+  );
+  
+  const getPerpendicular = () => {
+    const saved = localStorage.getItem("perpendicular");
+    if (saved) {
+      const fret = parseInt(saved, 10);
+      if (!isNaN(fret) && fret >= 0 && fret <= 24) {
+        return fret;
+      }
+    }
+    return 9; // Default to 9th fret
+  };
+  const [perpendicular, setPerpendicular] = useState(getPerpendicular());
 
   useEffect(() => {
     localStorage.setItem("flip-x", flipX.toString());
@@ -57,6 +95,18 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("base-scaleRoot", baseTuning);
   }, [baseTuning]);
 
+  useEffect(() => {
+    localStorage.setItem("is-multiscale", isMultiscale.toString());
+  }, [isMultiscale]);
+
+  useEffect(() => {
+    localStorage.setItem("scale-length", JSON.stringify(scaleLength));
+  }, [scaleLength]);
+
+  useEffect(() => {
+    localStorage.setItem("perpendicular", perpendicular.toString());
+  }, [perpendicular]);
+
   return (
     <DataContext.Provider
       value={{
@@ -68,6 +118,12 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         setFlipY,
         setBaseTuning,
         baseTuning,
+        isMultiscale,
+        setIsMultiscale,
+        scaleLength,
+        setScaleLength,
+        perpendicular,
+        setPerpendicular,
       }}
     >
       {children}

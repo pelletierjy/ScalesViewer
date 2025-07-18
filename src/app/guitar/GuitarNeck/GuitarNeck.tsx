@@ -14,6 +14,7 @@ import {
 } from "@/features/globalConfig/globalConfigSlice";
 import { DataContext, DataContextType } from "../context";
 import { getFretPositions } from "./getFretPositions";
+import { getMultiscaleFretPositions, getMultiscaleFretEndpoints } from "./getMultiscaleFretPositions";
 import { getAdjustedTuning } from "./getAdjustedTuning";
 import { FretMarkers } from "./FretMarkers";
 import { StringGroup } from "./StringGroup";
@@ -27,6 +28,9 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
     flipX = false,
     flipY = false,
     baseTuning = "E",
+    isMultiscale = false,
+    scaleLength = { treble: 25.5, bass: 27 },
+    perpendicular = 9,
   } = useContext(DataContext) as DataContextType;
   const showFlats = useSelector(selectShowFlats);
   const scale = useSelector(selectScale);
@@ -136,6 +140,19 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
   };
 
   const fretMarkers = [3, 5, 7, 9, 12, 15, 17, 19, 21, 24];
+  
+  // Calculate fret positions based on whether it's multiscale or not
+  const fretPositions = isMultiscale
+    ? getMultiscaleFretPositions(
+        dimensions.width,
+        fretCount,
+        scaleRoot.strings.length,
+        scaleLength.treble,
+        scaleLength.bass
+      )
+    : getFretPositions(dimensions.width, fretCount).map(() => 
+        getFretPositions(dimensions.width, fretCount)
+      );
 
   return (
     <div ref={containerRef} className="w-full">
@@ -166,23 +183,55 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
           />
 
           {/* Frets */}
-          {getFretPositions(dimensions.width, fretCount).map((position, i) => (
-            <line
-              key={`fret-${i}`}
-              x1={position}
-              y1={0}
-              x2={position}
-              y2={dimensions.height}
-              stroke={isDarkMode ? "#4b5563" : "#333"}
-              strokeWidth={i === 0 ? 4 : 2}
-              className="transition-colors duration-200"
-            />
-          ))}
+          {isMultiscale ? (
+            // Multiscale: Draw angled frets
+            Array.from({ length: fretCount + 1 }, (_, i) => {
+              const endpoints = getMultiscaleFretEndpoints(
+                fretPositions,
+                stringSpacing,
+                scaleRoot.strings.length,
+                i
+              );
+              return (
+                <line
+                  key={`fret-${i}`}
+                  x1={endpoints.x1}
+                  y1={endpoints.y1}
+                  x2={endpoints.x2}
+                  y2={endpoints.y2}
+                  stroke={
+                    i === perpendicular
+                      ? isDarkMode ? "#60a5fa" : "#3b82f6"
+                      : isDarkMode ? "#4b5563" : "#333"
+                  }
+                  strokeWidth={i === 0 ? 4 : i === perpendicular ? 3 : 2}
+                  className="transition-colors duration-200"
+                />
+              );
+            })
+          ) : (
+            // Standard: Draw straight frets
+            getFretPositions(dimensions.width, fretCount).map((position, i) => (
+              <line
+                key={`fret-${i}`}
+                x1={position}
+                y1={0}
+                x2={position}
+                y2={dimensions.height}
+                stroke={isDarkMode ? "#4b5563" : "#333"}
+                strokeWidth={i === 0 ? 4 : 2}
+                className="transition-colors duration-200"
+              />
+            ))
+          )}
 
           {/* Fret Markers */}
           <FretMarkers
             fretMarkers={fretMarkers}
-            fretPositions={getFretPositions(dimensions.width, fretCount)}
+            fretPositions={isMultiscale 
+              ? fretPositions[Math.floor(scaleRoot.strings.length / 2)] // Use middle string for markers
+              : getFretPositions(dimensions.width, fretCount)
+            }
             dimensions={dimensions}
             stringSpacing={stringSpacing}
             isDarkMode={isDarkMode}
@@ -202,6 +251,8 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
             flipX={flipX}
             flipY={flipY}
             calculateNoteWithOctave={calculateNoteWithOctave}
+            isMultiscale={isMultiscale}
+            fretPositions={fretPositions}
           />
 
           {/* Fret numbers */}
@@ -212,6 +263,9 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
             isDarkMode={isDarkMode}
             flipX={flipX}
             flipY={flipY}
+            isMultiscale={isMultiscale}
+            fretPositions={fretPositions}
+            stringCount={scaleRoot.strings.length}
           />
         </svg>
       </div>
