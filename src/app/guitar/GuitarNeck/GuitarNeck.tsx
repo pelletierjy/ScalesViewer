@@ -143,17 +143,23 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
   const fretMarkers = [3, 5, 7, 9, 12, 15, 17, 19, 21, 24];
   
   // Calculate fret positions based on whether it's multiscale or not
+  // Reserve 5% padding on each side
+  const fretboardWidth = dimensions.width * 0.9;
+  const fretboardOffset = dimensions.width * 0.05;
+  
   const fretPositions = isMultiscale
     ? getMultiscaleFretPositions(
-        dimensions.width,
+        fretboardWidth,
         fretCount,
         scaleRoot.strings.length,
         scaleLength.treble,
         scaleLength.bass,
         perpendicular
+      ).map(stringPositions => 
+        stringPositions.map(pos => pos + fretboardOffset)
       )
-    : getFretPositions(dimensions.width, fretCount).map(() => 
-        getFretPositions(dimensions.width, fretCount)
+    : getFretPositions(fretboardWidth, fretCount).map(() => 
+        getFretPositions(fretboardWidth, fretCount).map(pos => pos + fretboardOffset)
       );
 
   return (
@@ -185,18 +191,49 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
           />
 
           {/* Fretboard */}
-          <rect
-            x={isMultiscale ? Math.min(...fretPositions.map(s => s[0])) : 0}
-            y={stringSpacing}
-            width={
-              isMultiscale 
-                ? Math.max(...fretPositions.map(s => s[fretCount])) - Math.min(...fretPositions.map(s => s[0]))
-                : getFretPositions(dimensions.width, fretCount)[fretCount]
+          {(() => {
+            if (isMultiscale) {
+              // For multiscale, create a path that follows the fanned frets
+              const topStringPositions = fretPositions[0];
+              const bottomStringPositions = fretPositions[scaleRoot.strings.length - 1];
+              
+              // Create path points
+              const pathPoints = [
+                // Top edge: from first fret to last fret
+                `M ${topStringPositions[0]} ${stringSpacing}`,
+                `L ${topStringPositions[fretCount]} ${stringSpacing}`,
+                // Right edge: from top string to bottom string at last fret
+                `L ${bottomStringPositions[fretCount]} ${scaleRoot.strings.length * stringSpacing}`,
+                // Bottom edge: from last fret to first fret
+                `L ${bottomStringPositions[0]} ${scaleRoot.strings.length * stringSpacing}`,
+                // Close path
+                `Z`
+              ];
+              
+              return (
+                <path
+                  d={pathPoints.join(' ')}
+                  fill={fretboardColor}
+                  className="transition-colors duration-200"
+                />
+              );
+            } else {
+              // For standard guitars, use a simple rectangle
+              const fretboardLeft = fretPositions[0][0];
+              const fretboardRight = fretPositions[0][fretCount];
+              
+              return (
+                <rect
+                  x={fretboardLeft}
+                  y={stringSpacing}
+                  width={fretboardRight - fretboardLeft}
+                  height={(scaleRoot.strings.length - 1) * stringSpacing}
+                  fill={fretboardColor}
+                  className="transition-colors duration-200"
+                />
+              );
             }
-            height={(scaleRoot.strings.length - 1) * stringSpacing}
-            fill={fretboardColor}
-            className="transition-colors duration-200"
-          />
+          })()}
 
           {/* Frets */}
           {isMultiscale ? (
@@ -249,13 +286,12 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
           {/* Fret Markers */}
           <FretMarkers
             fretMarkers={fretMarkers}
-            fretPositions={isMultiscale 
-              ? fretPositions[Math.floor(scaleRoot.strings.length / 2)] // Use middle string for markers
-              : getFretPositions(dimensions.width, fretCount)
-            }
+            fretPositions={isMultiscale ? fretPositions : getFretPositions(fretboardWidth, fretCount).map(pos => pos + fretboardOffset)}
             dimensions={dimensions}
             stringSpacing={stringSpacing}
             isDarkMode={isDarkMode}
+            isMultiscale={isMultiscale}
+            stringCount={scaleRoot.strings.length}
           />
 
           {/* String Group */}
