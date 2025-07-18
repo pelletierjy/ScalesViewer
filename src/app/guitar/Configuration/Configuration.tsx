@@ -369,7 +369,7 @@ export const Configuration: React.FC<ConfigurationProps> = ({
                     onChange={(e) => setScaleLength({ ...scaleLength, treble: parseFloat(e.target.value) })}
                     step="0.25"
                     min="20"
-                    max="30"
+                    max="35"
                     className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-24 ${
                       isDarkMode
                         ? "bg-gray-700 border-gray-600 text-gray-200"
@@ -394,7 +394,7 @@ export const Configuration: React.FC<ConfigurationProps> = ({
                     onChange={(e) => setScaleLength({ ...scaleLength, bass: parseFloat(e.target.value) })}
                     step="0.25"
                     min="20"
-                    max="30"
+                    max="35"
                     className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-24 ${
                       isDarkMode
                         ? "bg-gray-700 border-gray-600 text-gray-200"

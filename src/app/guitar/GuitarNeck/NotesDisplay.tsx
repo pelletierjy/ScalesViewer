@@ -47,12 +47,17 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = ({
   // Get the open note for this specific string
   const openNote = openNoteProp || [...adjustedTuning.strings].reverse()[stringIndex];
   
+  // Get the zero fret position
+  const zeroFretPosition = isMultiscale && fretPositions.length > 0 && fretPositions[stringIndex]
+    ? fretPositions[stringIndex][0]
+    : 0;
+    
   return (
     <>
       {/* Zero fret note */}
       {isNoteInScale(openNote, scale) && (
         <g
-          transform={`translate(${stringSpacing / 4}, ${
+          transform={`translate(${zeroFretPosition}, ${
             (stringIndex + 1) * stringSpacing
           })`}
           onClick={() =>

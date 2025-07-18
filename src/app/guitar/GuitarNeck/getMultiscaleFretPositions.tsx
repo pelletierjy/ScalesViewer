@@ -47,15 +47,28 @@ export const getMultiscaleFretPositions = (
   // Calculate offset for each string to align perpendicular fret
   const offsets = perpPositions.map(pos => avgPerpPosition - pos);
   
-  // Apply offsets and normalize
+  // Apply offsets to align perpendicular fret
+  const offsetPositions: number[][] = [];
+  let minPosition = Infinity;
+  let maxPosition = -Infinity;
+  
   for (let stringIndex = 0; stringIndex < stringCount; stringIndex++) {
     const stringPositions = rawPositions[stringIndex].map(pos => pos + offsets[stringIndex]);
+    offsetPositions.push(stringPositions);
     
-    // Normalize to totalWidth based on the last fret position of the bass string
-    const maxPosition = rawPositions[stringCount - 1][fretCount] + offsets[stringCount - 1];
-    const scaleFactor = totalWidth / maxPosition;
-    
-    const normalizedPositions = stringPositions.map(pos => pos * scaleFactor);
+    // Track min and max positions across all strings
+    minPosition = Math.min(minPosition, Math.min(...stringPositions));
+    maxPosition = Math.max(maxPosition, Math.max(...stringPositions));
+  }
+  
+  // Normalize positions to fit within totalWidth, ensuring all frets are visible
+  const range = maxPosition - minPosition;
+  const scaleFactor = totalWidth / range;
+  
+  for (let stringIndex = 0; stringIndex < stringCount; stringIndex++) {
+    const normalizedPositions = offsetPositions[stringIndex].map(pos => 
+      (pos - minPosition) * scaleFactor
+    );
     positions.push(normalizedPositions);
   }
 

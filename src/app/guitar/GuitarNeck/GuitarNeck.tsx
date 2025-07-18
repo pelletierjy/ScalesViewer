@@ -201,11 +201,13 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
                   x2={endpoints.x2}
                   y2={endpoints.y2}
                   stroke={
-                    i === perpendicular
+                    i === 0
+                      ? isDarkMode ? "#d1d5db" : "#1f2937"
+                      : i === perpendicular
                       ? isDarkMode ? "#60a5fa" : "#3b82f6"
                       : isDarkMode ? "#4b5563" : "#333"
                   }
-                  strokeWidth={i === 0 ? 4 : i === perpendicular ? 3 : 2}
+                  strokeWidth={i === 0 ? 8 : i === perpendicular ? 3 : 2}
                   className="transition-colors duration-200"
                 />
               );
@@ -219,8 +221,11 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
                 y1={0}
                 x2={position}
                 y2={dimensions.height}
-                stroke={isDarkMode ? "#4b5563" : "#333"}
-                strokeWidth={i === 0 ? 4 : 2}
+                stroke={i === 0 
+                  ? isDarkMode ? "#d1d5db" : "#1f2937"
+                  : isDarkMode ? "#4b5563" : "#333"
+                }
+                strokeWidth={i === 0 ? 8 : 2}
                 className="transition-colors duration-200"
               />
             ))
