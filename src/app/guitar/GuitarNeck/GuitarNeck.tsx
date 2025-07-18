@@ -270,9 +270,9 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
               <line
                 key={`fret-${i}`}
                 x1={position}
-                y1={0}
+                y1={stringSpacing}
                 x2={position}
-                y2={dimensions.height}
+                y2={scaleRoot.strings.length * stringSpacing}
                 stroke={i === 0 
                   ? isDarkMode ? "#d1d5db" : "#1f2937"
                   : isDarkMode ? "#4b5563" : "#333"
