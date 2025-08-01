@@ -41,7 +41,7 @@ export const Header: React.FC = () => {
             isDarkMode ? "text-white" : "text-gray-900"
           }`}
         >
-          Scale Viewer
+          Scales Viewer
         </h1>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
