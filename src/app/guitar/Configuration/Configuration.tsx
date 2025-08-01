@@ -336,48 +336,6 @@ export const Configuration: React.FC = () => {
           
           {isMultiscale && (
             <>
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="scale-preset"
-                  className={`text-sm font-semibold ${
-                    isDarkMode ? "text-gray-200" : "text-gray-900"
-                  }`}
-                >
-                  Scale Length Preset
-                </label>
-                <select
-                  id="scale-preset"
-                  value={`${scaleLength.treble}-${scaleLength.bass}`}
-                  onChange={(e) => {
-                    const preset = MULTISCALE_PRESETS.find(
-                      (p) => `${p.treble}-${p.bass}` === e.target.value
-                    );
-                    if (preset) {
-                      setScaleLength({ treble: preset.treble, bass: preset.bass });
-                    }
-                  }}
-                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 min-w-[200px] ${
-                    isDarkMode
-                      ? "bg-gray-700 border-gray-600 text-gray-200"
-                      : "bg-white border-gray-300 text-gray-900"
-                  }`}
-                >
-                  {MULTISCALE_PRESETS
-                    .filter(preset => preset.strings === scaleRoot.strings.length)
-                    .map((preset) => (
-                      <option key={preset.name} value={`${preset.treble}-${preset.bass}`}>
-                        {preset.name}
-                      </option>
-                    ))
-                  }
-                  {/* Show custom option if no presets match current string count */}
-                  {MULTISCALE_PRESETS.filter(preset => preset.strings === scaleRoot.strings.length).length === 0 && (
-                    <option value={`${scaleLength.treble}-${scaleLength.bass}`}>
-                      Custom ({scaleLength.treble}&quot; - {scaleLength.bass}&quot;)
-                    </option>
-                  )}
-                </select>
-              </div>
               
               {/* Custom scale length inputs when no preset matches */}
               {MULTISCALE_PRESETS.filter(preset => preset.strings === scaleRoot.strings.length).length === 0 && (
