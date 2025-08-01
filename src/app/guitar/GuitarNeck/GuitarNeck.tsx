@@ -1,9 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Note, NoteWithOctave } from "@/lib/utils/note";
-import {
-  calculateFretNote,
-} from "@/lib/utils/scaleUtils";
-import { TuningPreset } from "../types/tuningPreset";
+import React, { useContext, useEffect, useRef, useState, useMemo, useCallback } from "react";
+import { NoteWithOctave } from "@/lib/utils/note";
 import { useSelector } from "react-redux";
 import {
   selectIsDarkMode,
@@ -14,24 +10,24 @@ import {
 } from "@/features/globalConfig/globalConfigSlice";
 import { DataContext, DataContextType } from "../context";
 import { getFretPositions } from "./getFretPositions";
-import { getMultiscaleFretPositions, getMultiscaleFretEndpoints } from "./getMultiscaleFretPositions";
+import { getMultiscaleFretPositions } from "./getMultiscaleFretPositions";
 import { getAdjustedTuning } from "./getAdjustedTuning";
 import { FretMarkers } from "./FretMarkers";
 import { StringGroup } from "./StringGroup";
 import { FretNumbers } from "./FretNumbers";
+import { calculateNoteWithOctaveMemoized } from "../utils/octaveCalculation";
 
-export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
-  scaleRoot,
-}) => {
+export const GuitarNeck: React.FC = () => {
   const {
-    fretCount = 12,
-    flipX = false,
-    flipY = false,
-    baseTuning = "E",
-    isMultiscale = false,
-    scaleLength = { treble: 25.5, bass: 27 },
-    perpendicular = 9,
-    fretboardColor = "#8B4513",
+    fretCount,
+    flipX,
+    flipY,
+    baseTuning,
+    isMultiscale,
+    scaleLength,
+    perpendicular,
+    fretboardColor,
+    scaleRoot,
   } = useContext(DataContext) as DataContextType;
   const showFlats = useSelector(selectShowFlats);
   const scale = useSelector(selectScale);
@@ -47,14 +43,19 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
     if (!container) return;
 
     const updateDimensions = () => {
-      const containerWidth = container.clientWidth;
+      const containerWidth = container.clientWidth || 1000; // fallback width
       const baseHeight = Math.max(containerWidth * 0.2, 150);
       // Use a constant (6) as reference for string spacing and then scale by actual string count.
       const heightPerString = baseHeight / 6;
       const adjustedHeight = heightPerString * (scaleRoot.strings.length + 1);
+      
+      // Ensure we have valid numbers
+      const validWidth = isNaN(containerWidth) || containerWidth <= 0 ? 1000 : containerWidth;
+      const validHeight = isNaN(adjustedHeight) || adjustedHeight <= 0 ? 200 : adjustedHeight;
+      
       setDimensions({
-        width: containerWidth,
-        height: adjustedHeight,
+        width: validWidth,
+        height: validHeight,
       });
     };
 
@@ -67,108 +68,82 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
     };
   }, [scaleRoot.strings.length]);
 
-  const stringSpacing = dimensions.height / (scaleRoot.strings.length + 1);
+  // Memoize expensive calculations
+  const stringSpacing = useMemo(
+    () => dimensions.height / (scaleRoot.strings.length + 1),
+    [dimensions.height, scaleRoot.strings.length]
+  );
 
-  const adjustedTuning = getAdjustedTuning(scaleRoot, baseTuning);
+  const adjustedTuning = useMemo(
+    () => getAdjustedTuning(scaleRoot, baseTuning),
+    [scaleRoot, baseTuning]
+  );
 
-  const calculateNoteWithOctave = (
-    openNote: Note,
-    stringIndex: number,
-    fret: number
-  ): NoteWithOctave => {
-    // Standard guitar string octaves (from highest to lowest string)
-    const getBaseOctave = (note: Note, index: number): number => {
-      if (index === 0 && note === "E") return 4; // High E
-      if (index === scaleRoot.strings.length - 1 && note === "E") return 2; // Low E
-
-      switch (note) {
-        case "E":
-          return index === 0 ? 4 : 2; // Handle both high and low E
-        case "B":
-          return 3;
-        case "G":
-          return 3;
-        case "D":
-          return 3;
-        case "A":
-          return 2;
-        default:
-          return 3;
-      }
-    };
-
-    // Get base octave for the string
-    const baseOctave = getBaseOctave(openNote, stringIndex);
-
-    // Calculate octave change based on fret position
-    const octaveChange = Math.floor(fret / 12);
-    const resultingNote = calculateFretNote(openNote, fret);
-
-    // Additional octave adjustment if we cross over from B to C
-    const noteIndex = [
-      "C",
-      "C#",
-      "D",
-      "D#",
-      "E",
-      "F",
-      "F#",
-      "G",
-      "G#",
-      "A",
-      "A#",
-      "B",
-    ].indexOf(openNote);
-    const resultingNoteIndex = [
-      "C",
-      "C#",
-      "D",
-      "D#",
-      "E",
-      "F",
-      "F#",
-      "G",
-      "G#",
-      "A",
-      "A#",
-      "B",
-    ].indexOf(resultingNote);
-    const crossedOverC = noteIndex > resultingNoteIndex;
-
-    return `${resultingNote}${
-      baseOctave + octaveChange + (crossedOverC ? 1 : 0)
-    }` as NoteWithOctave;
-  };
-
-  const fretMarkers = [3, 5, 7, 9, 12, 15, 17, 19, 21, 24];
-  
-  // Calculate fret positions based on whether it's multiscale or not
-  // Use full width for standard mode, reserve padding for multiscale
-  const fretboardWidth = isMultiscale ? dimensions.width * 0.9 : dimensions.width;
-  const fretboardOffset = isMultiscale ? dimensions.width * 0.05 : 0;
-  
-  const standardFretPositions = getFretPositions(fretboardWidth, fretCount).map(pos => pos + fretboardOffset);
-  
-  const fretPositions = isMultiscale
-    ? getMultiscaleFretPositions(
-        fretboardWidth,
-        fretCount,
+  // Memoized calculation function for note with octave
+  const calculateNoteWithOctave = useCallback(
+    (openNote: string, stringIndex: number, fret: number): NoteWithOctave => {
+      return calculateNoteWithOctaveMemoized(
+        openNote as Parameters<typeof calculateNoteWithOctaveMemoized>[0],
+        stringIndex,
         scaleRoot.strings.length,
-        scaleLength.treble,
-        scaleLength.bass,
-        perpendicular
-      ).map(stringPositions => 
-        stringPositions.map(pos => pos + fretboardOffset)
-      )
-    : Array(scaleRoot.strings.length).fill(standardFretPositions);
+        fret
+      );
+    },
+    [scaleRoot.strings.length]
+  );
+
+  // Memoize fret calculations
+  const fretMarkers = useMemo(() => [3, 5, 7, 9, 12, 15, 17, 19, 21, 24], []);
+  
+  const { standardFretPositions, fretPositions } = useMemo(() => {
+    // Ensure we have a valid width before calculating
+    if (!dimensions.width || dimensions.width <= 0 || isNaN(dimensions.width)) {
+      const fallbackPositions = Array.from({ length: fretCount + 1 }, (_, i) => i * 50);
+      return {
+        standardFretPositions: fallbackPositions,
+        fretPositions: Array(scaleRoot.strings.length).fill(fallbackPositions)
+      };
+    }
+    
+    // Calculate fret positions based on whether it's multiscale or not
+    // Use full width for standard mode, reserve padding for multiscale
+    const width = isMultiscale ? dimensions.width * 0.9 : dimensions.width;
+    const offset = isMultiscale ? dimensions.width * 0.05 : 0;
+    
+    const standardPositions = getFretPositions(width, fretCount).map(pos => {
+      const position = pos + offset;
+      return isNaN(position) ? 0 : position;
+    });
+    
+    const positions = isMultiscale
+      ? getMultiscaleFretPositions(
+          width,
+          fretCount,
+          scaleRoot.strings.length,
+          scaleLength.treble,
+          scaleLength.bass,
+          perpendicular
+        ).map(stringPositions => 
+          stringPositions.map(pos => {
+            const position = pos + offset;
+            return isNaN(position) ? 0 : position;
+          })
+        )
+      : Array(scaleRoot.strings.length).fill(standardPositions);
+    
+    return {
+      standardFretPositions: standardPositions,
+      fretPositions: positions
+    };
+  }, [isMultiscale, dimensions.width, fretCount, scaleRoot.strings.length, scaleLength.treble, scaleLength.bass, perpendicular]);
 
   return (
     <div ref={containerRef} className="w-full">
       <div className="w-full overflow-x-auto">
         <svg
-          width={dimensions.width}
-          height={dimensions.height}
-          viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+          width={dimensions.width || 1000}
+          height={dimensions.height || 200}
+          viewBox={`0 0 ${dimensions.width || 1000} ${dimensions.height || 200}`}
           className={`border rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "border-gray-700 bg-gray-800"
@@ -194,8 +169,12 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
           {(() => {
             if (isMultiscale) {
               // For multiscale, create a path that follows the fanned frets
-              const topStringPositions = fretPositions[0];
-              const bottomStringPositions = fretPositions[scaleRoot.strings.length - 1];
+              const topStringPositions = Array.isArray(fretPositions[0]) 
+                ? fretPositions[0] as number[]
+                : fretPositions as number[];
+              const bottomStringPositions = Array.isArray(fretPositions[scaleRoot.strings.length - 1])
+                ? fretPositions[scaleRoot.strings.length - 1] as number[]
+                : fretPositions as number[];
               
               // Create path points
               const pathPoints = [
@@ -219,14 +198,20 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
               );
             } else {
               // For standard guitars, use a simple rectangle
-              const fretboardLeft = fretPositions[0][0];
-              const fretboardRight = fretPositions[0][fretCount];
+              const standardPositions = fretPositions as number[];
+              const fretboardLeft = standardPositions?.[0] || 0;
+              const fretboardRight = standardPositions?.[fretCount] || dimensions.width;
+              
+              // Ensure we have valid numbers
+              const validLeft = isNaN(fretboardLeft) ? 0 : fretboardLeft;
+              const validRight = isNaN(fretboardRight) ? dimensions.width : fretboardRight;
+              const validWidth = validRight - validLeft;
               
               return (
                 <rect
-                  x={fretboardLeft}
+                  x={validLeft}
                   y={stringSpacing}
-                  width={fretboardRight - fretboardLeft}
+                  width={isNaN(validWidth) || validWidth <= 0 ? dimensions.width : validWidth}
                   height={(scaleRoot.strings.length - 1) * stringSpacing}
                   fill={fretboardColor}
                   className="transition-colors duration-200"
@@ -239,12 +224,20 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
           {isMultiscale ? (
             // Multiscale: Draw angled frets
             Array.from({ length: fretCount + 1 }, (_, i) => {
-              const endpoints = getMultiscaleFretEndpoints(
-                fretPositions,
-                stringSpacing,
-                scaleRoot.strings.length,
-                i
-              );
+              const topStringPositions = Array.isArray(fretPositions[0]) 
+                ? fretPositions[0] as number[]
+                : fretPositions as number[];
+              const bottomStringPositions = Array.isArray(fretPositions[scaleRoot.strings.length - 1])
+                ? fretPositions[scaleRoot.strings.length - 1] as number[]
+                : fretPositions as number[];
+              
+              const endpoints = {
+                x1: topStringPositions?.[i] || 0,
+                y1: stringSpacing,
+                x2: bottomStringPositions?.[i] || 0,
+                y2: scaleRoot.strings.length * stringSpacing
+              };
+              
               return (
                 <line
                   key={`fret-${i}`}
@@ -266,7 +259,7 @@ export const GuitarNeck: React.FC<{ scaleRoot: TuningPreset }> = ({
             })
           ) : (
             // Standard: Draw straight frets
-            standardFretPositions.map((position, i) => (
+            (standardFretPositions as number[]).map((position, i) => (
               <line
                 key={`fret-${i}`}
                 x1={position}

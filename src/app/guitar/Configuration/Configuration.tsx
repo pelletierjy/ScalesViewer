@@ -1,4 +1,3 @@
-import { TuningPreset } from "../types/tuningPreset";
 import { ROOTS } from "@/lib/utils/scaleConstants";
 import { useSelector } from "react-redux";
 import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
@@ -9,53 +8,17 @@ import { tuningGroups } from "@/app/guitar/tunings";
 import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
 import { MULTISCALE_PRESETS, PERPENDICULAR_FRET_OPTIONS } from "../multiscaleConstants";
 
-// Define the DataContextType interface here to avoid import issues
-interface DataContextType {
-  flipX: boolean;
-  flipY: boolean;
-  fretCount: number;
-  baseTuning: Note;
-  setFretCount: (count: number) => void;
-  setFlipY: (flip: boolean) => void;
-  setBaseTuning: (note: Note) => void;
-  setFlipX: (flip: boolean) => void;
-  isMultiscale: boolean;
-  setIsMultiscale: (enabled: boolean) => void;
-  scaleLength: { treble: number; bass: number };
-  setScaleLength: (lengths: { treble: number; bass: number }) => void;
-  perpendicular: number;
-  setPerpendicular: (fret: number) => void;
-  fretboardColor: string;
-  setFretboardColor: (color: string) => void;
-}
+import { DataContextType } from "../context";
+import { CustomTuningEditor } from "../CustomTuningEditor/CustomTuningEditor";
 
-interface ConfigurationProps {
-  scaleRoot: TuningPreset;
-  customTunings: TuningPresetWithMetadata[];
-  setShowCustomTuning: React.Dispatch<React.SetStateAction<boolean>>;
-  setCustomTunings: React.Dispatch<
-    React.SetStateAction<TuningPresetWithMetadata[]>
-  >;
-  setScaleRoot: React.Dispatch<React.SetStateAction<TuningPreset>>;
-  setEditingTuning: React.Dispatch<
-    React.SetStateAction<TuningPresetWithMetadata | null>
-  >;
-}
-
-export const Configuration: React.FC<ConfigurationProps> = ({
-  scaleRoot,
-  customTunings,
-  setEditingTuning,
-  setCustomTunings,
-  setScaleRoot,
-  setShowCustomTuning,
-}) => {
+export const Configuration: React.FC = () => {
   const {
+    // Display settings
     flipX,
     flipY,
     fretCount,
-    setFretCount,
     baseTuning,
+    setFretCount,
     setFlipY,
     setBaseTuning,
     setFlipX,
@@ -67,28 +30,41 @@ export const Configuration: React.FC<ConfigurationProps> = ({
     setPerpendicular,
     fretboardColor,
     setFretboardColor,
+    
+    // Tuning management
+    scaleRoot,
+    customTunings,
+    setEditingTuning,
+    setCustomTunings,
+    setScaleRoot,
+    editingTuning,
+    showCustomTuning,
+    setShowCustomTuning,
+    handleSaveCustomTuning,
   } = useContext(DataContext) as DataContextType;
 
   const isDarkMode = useSelector(selectIsDarkMode);
 
-  const handleEditTuning = (scaleRoot: TuningPresetWithMetadata) => {
-    setEditingTuning(scaleRoot);
+  const handleEditTuning = (tuning: TuningPresetWithMetadata) => {
+    setEditingTuning(tuning);
     setShowCustomTuning(true);
   };
-  const handleDuplicateTuning = (scaleRoot: TuningPresetWithMetadata) => {
+  
+  const handleDuplicateTuning = (tuning: TuningPresetWithMetadata) => {
     const newTuning: TuningPresetWithMetadata = {
-      ...scaleRoot,
-      name: `${scaleRoot.name} (Copy)`,
+      ...tuning,
+      name: `${tuning.name} (Copy)`,
     };
     setCustomTunings((prevTunings) => [...prevTunings, newTuning]);
   };
+  
   const handleDeleteTuning = (tuningName: string) => {
-    if (confirm("Are you sure you want to delete this custom scaleRoot?")) {
+    if (confirm("Are you sure you want to delete this custom tuning?")) {
       setCustomTunings((prevTunings) =>
         prevTunings.filter((t) => t.name !== tuningName)
       );
 
-      // If the deleted scaleRoot was selected, switch to standard scaleRoot
+      // If the deleted tuning was selected, switch to standard tuning
       if (scaleRoot.name === tuningName) {
         setScaleRoot(TUNING_PRESETS[0]);
       }
@@ -387,16 +363,81 @@ export const Configuration: React.FC<ConfigurationProps> = ({
                   }`}
                 >
                   {MULTISCALE_PRESETS
-                    .filter(preset => preset.strings === scaleRoot.strings.length || preset.strings === 0)
+                    .filter(preset => preset.strings === scaleRoot.strings.length)
                     .map((preset) => (
                       <option key={preset.name} value={`${preset.treble}-${preset.bass}`}>
                         {preset.name}
                       </option>
                     ))
                   }
+                  {/* Show custom option if no presets match current string count */}
+                  {MULTISCALE_PRESETS.filter(preset => preset.strings === scaleRoot.strings.length).length === 0 && (
+                    <option value={`${scaleLength.treble}-${scaleLength.bass}`}>
+                      Custom ({scaleLength.treble}&quot; - {scaleLength.bass}&quot;)
+                    </option>
+                  )}
                 </select>
               </div>
               
+              {/* Custom scale length inputs when no preset matches */}
+              {MULTISCALE_PRESETS.filter(preset => preset.strings === scaleRoot.strings.length).length === 0 && (
+                <div className="flex gap-4">
+                  <div className="flex flex-col gap-2">
+                    <label
+                      htmlFor="treble-length"
+                      className={`text-sm font-semibold ${
+                        isDarkMode ? "text-gray-200" : "text-gray-900"
+                      }`}
+                    >
+                      Treble Scale Length
+                    </label>
+                    <input
+                      type="number"
+                      id="treble-length"
+                      value={scaleLength.treble}
+                      onChange={(e) => setScaleLength({
+                        ...scaleLength,
+                        treble: parseFloat(e.target.value) || scaleLength.treble
+                      })}
+                      step="0.25"
+                      min="20"
+                      max="35"
+                      className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-20 ${
+                        isDarkMode
+                          ? "bg-gray-700 border-gray-600 text-gray-200"
+                          : "bg-white border-gray-300 text-gray-900"
+                      }`}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label
+                      htmlFor="bass-length"
+                      className={`text-sm font-semibold ${
+                        isDarkMode ? "text-gray-200" : "text-gray-900"
+                      }`}
+                    >
+                      Bass Scale Length
+                    </label>
+                    <input
+                      type="number"
+                      id="bass-length"
+                      value={scaleLength.bass}
+                      onChange={(e) => setScaleLength({
+                        ...scaleLength,
+                        bass: parseFloat(e.target.value) || scaleLength.bass
+                      })}
+                      step="0.25"
+                      min="20"
+                      max="35"
+                      className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-20 ${
+                        isDarkMode
+                          ? "bg-gray-700 border-gray-600 text-gray-200"
+                          : "bg-white border-gray-300 text-gray-900"
+                      }`}
+                    />
+                  </div>
+                </div>
+              )}
               
               <div className="flex flex-col gap-2">
                 <label
@@ -427,6 +468,20 @@ export const Configuration: React.FC<ConfigurationProps> = ({
             </>
           )}
         </div>
+        
+        {/* Custom Tuning Editor */}
+        {showCustomTuning && (
+          <div className="mt-4">
+            <CustomTuningEditor
+              initialTuning={editingTuning}
+              onSaveTuning={handleSaveCustomTuning}
+              onCancel={() => {
+                setShowCustomTuning(false);
+                setEditingTuning(null);
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

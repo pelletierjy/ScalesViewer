@@ -3,7 +3,7 @@ import { TuningPreset } from "../../app/guitar/types/tuningPreset";
 export interface TuningPresetWithMetadata extends TuningPreset {
   description: string;
   stringCount: number;
-  category: "Standard" | "Drop" | "Open" | "Special" | "Bass" | "Mandolin";
+  category: "Standard" | "Drop" | "Open" | "Special" | "Bass" | "Mandolin" | "Custom";
 }
 
 export const TUNING_PRESETS: TuningPresetWithMetadata[] = [
