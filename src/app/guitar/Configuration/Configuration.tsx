@@ -363,16 +363,81 @@ export const Configuration: React.FC = () => {
                   }`}
                 >
                   {MULTISCALE_PRESETS
-                    .filter(preset => preset.strings === scaleRoot.strings.length || preset.strings === 0)
+                    .filter(preset => preset.strings === scaleRoot.strings.length)
                     .map((preset) => (
                       <option key={preset.name} value={`${preset.treble}-${preset.bass}`}>
                         {preset.name}
                       </option>
                     ))
                   }
+                  {/* Show custom option if no presets match current string count */}
+                  {MULTISCALE_PRESETS.filter(preset => preset.strings === scaleRoot.strings.length).length === 0 && (
+                    <option value={`${scaleLength.treble}-${scaleLength.bass}`}>
+                      Custom ({scaleLength.treble}&quot; - {scaleLength.bass}&quot;)
+                    </option>
+                  )}
                 </select>
               </div>
               
+              {/* Custom scale length inputs when no preset matches */}
+              {MULTISCALE_PRESETS.filter(preset => preset.strings === scaleRoot.strings.length).length === 0 && (
+                <div className="flex gap-4">
+                  <div className="flex flex-col gap-2">
+                    <label
+                      htmlFor="treble-length"
+                      className={`text-sm font-semibold ${
+                        isDarkMode ? "text-gray-200" : "text-gray-900"
+                      }`}
+                    >
+                      Treble Scale Length
+                    </label>
+                    <input
+                      type="number"
+                      id="treble-length"
+                      value={scaleLength.treble}
+                      onChange={(e) => setScaleLength({
+                        ...scaleLength,
+                        treble: parseFloat(e.target.value) || scaleLength.treble
+                      })}
+                      step="0.25"
+                      min="20"
+                      max="35"
+                      className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-20 ${
+                        isDarkMode
+                          ? "bg-gray-700 border-gray-600 text-gray-200"
+                          : "bg-white border-gray-300 text-gray-900"
+                      }`}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label
+                      htmlFor="bass-length"
+                      className={`text-sm font-semibold ${
+                        isDarkMode ? "text-gray-200" : "text-gray-900"
+                      }`}
+                    >
+                      Bass Scale Length
+                    </label>
+                    <input
+                      type="number"
+                      id="bass-length"
+                      value={scaleLength.bass}
+                      onChange={(e) => setScaleLength({
+                        ...scaleLength,
+                        bass: parseFloat(e.target.value) || scaleLength.bass
+                      })}
+                      step="0.25"
+                      min="20"
+                      max="35"
+                      className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-20 ${
+                        isDarkMode
+                          ? "bg-gray-700 border-gray-600 text-gray-200"
+                          : "bg-white border-gray-300 text-gray-900"
+                      }`}
+                    />
+                  </div>
+                </div>
+              )}
               
               <div className="flex flex-col gap-2">
                 <label

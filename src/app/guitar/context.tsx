@@ -4,11 +4,13 @@ import {
   useContext,
   ReactNode,
   useState,
+  useEffect,
 } from "react";
 import { useLocalStorage, useLocalStorageBoolean, useLocalStorageNumber } from "./hooks/useLocalStorage";
 import { getCustomTunings, getTuning } from "@/app/guitar/tunings";
 import { TuningPreset } from "./types/tuningPreset";
 import { TuningPresetWithMetadata } from "./tuningConstants";
+import { MULTISCALE_PRESETS } from "./multiscaleConstants";
 
 export interface DataContextType {
   // Display settings
@@ -94,6 +96,16 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
   const [customTunings, setCustomTunings] = useLocalStorage<TuningPresetWithMetadata[]>("custom-tunings", getCustomTunings());
   const [editingTuning, setEditingTuning] = useState<TuningPresetWithMetadata | null>(null);
   const [showCustomTuning, setShowCustomTuning] = useState(false);
+  
+  // Update scale length when tuning changes if multiscale is enabled
+  useEffect(() => {
+    if (isMultiscale) {
+      const matchingPreset = MULTISCALE_PRESETS.find(preset => preset.strings === scaleRoot.strings.length);
+      if (matchingPreset) {
+        setScaleLength({ treble: matchingPreset.treble, bass: matchingPreset.bass });
+      }
+    }
+  }, [scaleRoot.strings.length, isMultiscale, setScaleLength]);
   
   // Handle saving custom tuning
   const handleSaveCustomTuning = (newTuning: TuningPreset) => {
