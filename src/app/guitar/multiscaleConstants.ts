@@ -6,23 +6,11 @@ export interface MultiscalePreset {
 }
 
 export const MULTISCALE_PRESETS: MultiscalePreset[] = [
-  // 6-string presets
-  { name: "6-string Standard (25.5\" - 26.5\")", treble: 25.5, bass: 26.5, strings: 6 },
-  { name: "6-string Extended (24.75\" - 25.5\")", treble: 24.75, bass: 25.5, strings: 6 },
-  
-  // 7-string presets
-  { name: "7-string Common (25.5\" - 27\")", treble: 25.5, bass: 27, strings: 7 },
-  { name: "7-string Strandberg (25.5\" - 26.25\")", treble: 25.5, bass: 26.25, strings: 7 },
-  { name: "7-string Extended (26.5\" - 28\")", treble: 26.5, bass: 28, strings: 7 },
-  
-  // 8-string presets
-  { name: "8-string Standard (26.5\" - 28\")", treble: 26.5, bass: 28, strings: 8 },
-  { name: "8-string Extended (27\" - 28.5\")", treble: 27, bass: 28.5, strings: 8 },
-  { name: "8-string Strandberg (26.5\" - 28\")", treble: 26.5, bass: 28, strings: 8 },
-  { name: "8-string Ultra Extended (25.5\" - 33\")", treble: 25.5, bass: 33, strings: 8 },
-  
-  // 10-string presets
-  { name: "10-string Extended Range (22.5\" - 33\")", treble: 22.5, bass: 33, strings: 10 },
+  { name: "6-string Standard", treble: 25.5, bass: 28.5, strings: 6 },
+  { name: "7-string Common", treble: 25.5, bass: 29, strings: 7 },
+  { name: "8-string Standard", treble: 25.5, bass: 31, strings: 8 },
+  { name: "9-string Standard", treble: 25.5, bass: 31, strings: 9 },
+  { name: "10-string Extended Range", treble: 22.5, bass: 33, strings: 10 },
 ];
 
 export const PERPENDICULAR_FRET_OPTIONS = [
