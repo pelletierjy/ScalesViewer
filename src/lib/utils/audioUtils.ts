@@ -23,6 +23,7 @@ const BASE_FREQUENCIES: Record<Note, number> = {
 };
 
 let audioContext: AudioContext | null = null;
+let isAudioInitialized = false;
 
 const getBaseNote = (note: NoteWithOctave): Note => {
   return note.replace(/\d+$/, "") as Note;
@@ -71,34 +72,73 @@ const calculateFrequency = (note: NoteWithOctave): number => {
   return 440 * Math.pow(2, semitonesFromA4 / 12);
 };
 
-export const playNote = (note: NoteWithOctave, duration: number = 0.5) => {
+// Initialize audio context with error handling
+const initializeAudio = async (): Promise<boolean> => {
+  if (typeof window === "undefined") return false;
+  
+  try {
+    if (!audioContext) {
+      audioContext = new AudioContext();
+    }
+    
+    // Resume audio context if it's suspended (required for user gesture)
+    if (audioContext.state === 'suspended') {
+      await audioContext.resume();
+    }
+    
+    isAudioInitialized = true;
+    return true;
+  } catch (error) {
+    console.warn('Failed to initialize audio context:', error);
+    return false;
+  }
+};
+
+export const playNote = async (note: NoteWithOctave, duration: number = 0.5) => {
   // Skip during server-side rendering or when window is not available
   if (typeof window === "undefined") return;
 
-  if (!audioContext) {
-    audioContext = new AudioContext();
+  // Initialize audio if not already done
+  if (!isAudioInitialized) {
+    const initialized = await initializeAudio();
+    if (!initialized) {
+      console.warn('Audio playback not available');
+      return;
+    }
   }
+  
+  if (!audioContext) return;
 
-  const frequency = calculateFrequency(note);
+  try {
+    const frequency = calculateFrequency(note);
 
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
 
-  // Use a sine wave for a more pleasant sound
-  oscillator.type = "sine";
-  oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+    // Use a sine wave for a more pleasant sound
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
 
-  // Apply envelope for smoother sound
-  gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-  gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.05);
-  gainNode.gain.exponentialRampToValueAtTime(
-    0.001,
-    audioContext.currentTime + duration
-  );
+    // Apply envelope for smoother sound
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.05);
+    gainNode.gain.exponentialRampToValueAtTime(
+      0.001,
+      audioContext.currentTime + duration
+    );
 
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
 
-  oscillator.start();
-  oscillator.stop(audioContext.currentTime + duration);
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + duration);
+    
+    // Clean up oscillator after use
+    oscillator.onended = () => {
+      oscillator.disconnect();
+      gainNode.disconnect();
+    };
+  } catch (error) {
+    console.warn('Failed to play note:', error);
+  }
 };

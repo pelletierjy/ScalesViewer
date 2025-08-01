@@ -1,4 +1,3 @@
-import { TuningPreset } from "../types/tuningPreset";
 import { ROOTS } from "@/lib/utils/scaleConstants";
 import { useSelector } from "react-redux";
 import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
@@ -9,53 +8,17 @@ import { tuningGroups } from "@/app/guitar/tunings";
 import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
 import { MULTISCALE_PRESETS, PERPENDICULAR_FRET_OPTIONS } from "../multiscaleConstants";
 
-// Define the DataContextType interface here to avoid import issues
-interface DataContextType {
-  flipX: boolean;
-  flipY: boolean;
-  fretCount: number;
-  baseTuning: Note;
-  setFretCount: (count: number) => void;
-  setFlipY: (flip: boolean) => void;
-  setBaseTuning: (note: Note) => void;
-  setFlipX: (flip: boolean) => void;
-  isMultiscale: boolean;
-  setIsMultiscale: (enabled: boolean) => void;
-  scaleLength: { treble: number; bass: number };
-  setScaleLength: (lengths: { treble: number; bass: number }) => void;
-  perpendicular: number;
-  setPerpendicular: (fret: number) => void;
-  fretboardColor: string;
-  setFretboardColor: (color: string) => void;
-}
+import { DataContextType } from "../context";
+import { CustomTuningEditor } from "../CustomTuningEditor/CustomTuningEditor";
 
-interface ConfigurationProps {
-  scaleRoot: TuningPreset;
-  customTunings: TuningPresetWithMetadata[];
-  setShowCustomTuning: React.Dispatch<React.SetStateAction<boolean>>;
-  setCustomTunings: React.Dispatch<
-    React.SetStateAction<TuningPresetWithMetadata[]>
-  >;
-  setScaleRoot: React.Dispatch<React.SetStateAction<TuningPreset>>;
-  setEditingTuning: React.Dispatch<
-    React.SetStateAction<TuningPresetWithMetadata | null>
-  >;
-}
-
-export const Configuration: React.FC<ConfigurationProps> = ({
-  scaleRoot,
-  customTunings,
-  setEditingTuning,
-  setCustomTunings,
-  setScaleRoot,
-  setShowCustomTuning,
-}) => {
+export const Configuration: React.FC = () => {
   const {
+    // Display settings
     flipX,
     flipY,
     fretCount,
-    setFretCount,
     baseTuning,
+    setFretCount,
     setFlipY,
     setBaseTuning,
     setFlipX,
@@ -67,28 +30,41 @@ export const Configuration: React.FC<ConfigurationProps> = ({
     setPerpendicular,
     fretboardColor,
     setFretboardColor,
+    
+    // Tuning management
+    scaleRoot,
+    customTunings,
+    setEditingTuning,
+    setCustomTunings,
+    setScaleRoot,
+    editingTuning,
+    showCustomTuning,
+    setShowCustomTuning,
+    handleSaveCustomTuning,
   } = useContext(DataContext) as DataContextType;
 
   const isDarkMode = useSelector(selectIsDarkMode);
 
-  const handleEditTuning = (scaleRoot: TuningPresetWithMetadata) => {
-    setEditingTuning(scaleRoot);
+  const handleEditTuning = (tuning: TuningPresetWithMetadata) => {
+    setEditingTuning(tuning);
     setShowCustomTuning(true);
   };
-  const handleDuplicateTuning = (scaleRoot: TuningPresetWithMetadata) => {
+  
+  const handleDuplicateTuning = (tuning: TuningPresetWithMetadata) => {
     const newTuning: TuningPresetWithMetadata = {
-      ...scaleRoot,
-      name: `${scaleRoot.name} (Copy)`,
+      ...tuning,
+      name: `${tuning.name} (Copy)`,
     };
     setCustomTunings((prevTunings) => [...prevTunings, newTuning]);
   };
+  
   const handleDeleteTuning = (tuningName: string) => {
-    if (confirm("Are you sure you want to delete this custom scaleRoot?")) {
+    if (confirm("Are you sure you want to delete this custom tuning?")) {
       setCustomTunings((prevTunings) =>
         prevTunings.filter((t) => t.name !== tuningName)
       );
 
-      // If the deleted scaleRoot was selected, switch to standard scaleRoot
+      // If the deleted tuning was selected, switch to standard tuning
       if (scaleRoot.name === tuningName) {
         setScaleRoot(TUNING_PRESETS[0]);
       }
@@ -427,6 +403,20 @@ export const Configuration: React.FC<ConfigurationProps> = ({
             </>
           )}
         </div>
+        
+        {/* Custom Tuning Editor */}
+        {showCustomTuning && (
+          <div className="mt-4">
+            <CustomTuningEditor
+              initialTuning={editingTuning}
+              onSaveTuning={handleSaveCustomTuning}
+              onCancel={() => {
+                setShowCustomTuning(false);
+                setEditingTuning(null);
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

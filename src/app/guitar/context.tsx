@@ -1,13 +1,17 @@
 import { Note } from "@/lib/utils/note";
 import {
   createContext,
-  useState,
   useContext,
   ReactNode,
-  useEffect,
+  useState,
 } from "react";
+import { useLocalStorage, useLocalStorageBoolean, useLocalStorageNumber } from "./hooks/useLocalStorage";
+import { getCustomTunings, getTuning } from "@/app/guitar/tunings";
+import { TuningPreset } from "./types/tuningPreset";
+import { TuningPresetWithMetadata } from "./tuningConstants";
 
 export interface DataContextType {
+  // Display settings
   fretCount: number;
   flipX: boolean;
   flipY: boolean;
@@ -24,104 +28,101 @@ export interface DataContextType {
   setPerpendicular: (fret: number) => void;
   fretboardColor: string;
   setFretboardColor: (color: string) => void;
+  
+  // Tuning management
+  scaleRoot: TuningPreset;
+  setScaleRoot: (tuning: TuningPreset) => void;
+  customTunings: TuningPresetWithMetadata[];
+  setCustomTunings: (tunings: TuningPresetWithMetadata[] | ((prev: TuningPresetWithMetadata[]) => TuningPresetWithMetadata[])) => void;
+  editingTuning: TuningPresetWithMetadata | null;
+  setEditingTuning: (tuning: TuningPresetWithMetadata | null) => void;
+  showCustomTuning: boolean;
+  setShowCustomTuning: (show: boolean) => void;
+  handleSaveCustomTuning: (tuning: TuningPreset) => void;
 }
 
-export const DataContext = createContext<DataContextType>(
-  {} as DataContextType
-);
+// Create context with proper default values to avoid runtime errors
+const defaultContextValue: DataContextType = {
+  // Display settings
+  fretCount: 12,
+  flipX: false,
+  flipY: false,
+  setFretCount: () => {},
+  setFlipX: () => {},
+  setFlipY: () => {},
+  setBaseTuning: () => {},
+  baseTuning: "E",
+  isMultiscale: false,
+  setIsMultiscale: () => {},
+  scaleLength: { treble: 25.5, bass: 27 },
+  setScaleLength: () => {},
+  perpendicular: 9,
+  setPerpendicular: () => {},
+  fretboardColor: "#8B4513",
+  setFretboardColor: () => {},
+  
+  // Tuning management
+  scaleRoot: { name: "Standard E", strings: ["E", "B", "G", "D", "A", "E"] },
+  setScaleRoot: () => {},
+  customTunings: [],
+  setCustomTunings: () => {},
+  editingTuning: null,
+  setEditingTuning: () => {},
+  showCustomTuning: false,
+  setShowCustomTuning: () => {},
+  handleSaveCustomTuning: () => {},
+};
+
+export const DataContext = createContext<DataContextType>(defaultContextValue);
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
-  const [flipX, setFlipX] = useState(localStorage.getItem("flip-x") === "true");
-  const [flipY, setFlipY] = useState(localStorage.getItem("flip-y") === "true");
-  const [baseTuning, setBaseTuning] = useState<Note>(
-    (localStorage.getItem("base-scaleRoot") as Note) ?? "E"
+  // Display settings with localStorage persistence
+  const [flipX, setFlipX] = useLocalStorageBoolean("flip-x", false);
+  const [flipY, setFlipY] = useLocalStorageBoolean("flip-y", false);
+  const [baseTuning, setBaseTuning] = useLocalStorage<Note>("base-scaleRoot", "E");
+  const [fretCount, setFretCount] = useLocalStorageNumber("fret-count", 12, 12, 24);
+  const [isMultiscale, setIsMultiscale] = useLocalStorageBoolean("is-multiscale", false);
+  const [scaleLength, setScaleLength] = useLocalStorage<{ treble: number; bass: number }>(
+    "scale-length", 
+    { treble: 25.5, bass: 27 }
   );
-  const getFretsCount = () => {
-    let _fretCount = 12;
-    const savedFretCount = localStorage.getItem("fret-count");
-    if (savedFretCount) {
-      const count = parseInt(savedFretCount, 10);
-      if (!isNaN(count) && count >= 12 && count <= 24) {
-        _fretCount = count;
-      }
+  const [perpendicular, setPerpendicular] = useLocalStorageNumber("perpendicular", 9, 0, 24);
+  const [fretboardColor, setFretboardColor] = useLocalStorage<string>("fretboard-color", "#8B4513");
+  
+  // Tuning management state
+  const [scaleRoot, setScaleRoot] = useLocalStorage<TuningPreset>("current-scaleRoot", getTuning());
+  const [customTunings, setCustomTunings] = useLocalStorage<TuningPresetWithMetadata[]>("custom-tunings", getCustomTunings());
+  const [editingTuning, setEditingTuning] = useState<TuningPresetWithMetadata | null>(null);
+  const [showCustomTuning, setShowCustomTuning] = useState(false);
+  
+  // Handle saving custom tuning
+  const handleSaveCustomTuning = (newTuning: TuningPreset) => {
+    const customTuning: TuningPresetWithMetadata = {
+      ...newTuning,
+      description: `Custom ${newTuning.strings.length}-string tuning`,
+      stringCount: newTuning.strings.length,
+      category: "Special",
+    };
+
+    if (editingTuning) {
+      setCustomTunings((prevTunings) =>
+        prevTunings.map((t) =>
+          t.name === editingTuning.name ? customTuning : t
+        )
+      );
+    } else {
+      setCustomTunings((prevTunings) => [...prevTunings, customTuning]);
     }
-    return _fretCount;
+
+    setScaleRoot(customTuning);
+    setShowCustomTuning(false);
+    setEditingTuning(null);
   };
-  const [fretCount, setFretCount] = useState(getFretsCount());
-  
-  // Multiscale settings
-  const [isMultiscale, setIsMultiscale] = useState(
-    localStorage.getItem("is-multiscale") === "true"
-  );
-  
-  const getScaleLength = () => {
-    const saved = localStorage.getItem("scale-length");
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {
-        // Fallback to default
-      }
-    }
-    return { treble: 25.5, bass: 27 };
-  };
-  const [scaleLength, setScaleLength] = useState<{ treble: number; bass: number }>(
-    getScaleLength()
-  );
-  
-  const getPerpendicular = () => {
-    const saved = localStorage.getItem("perpendicular");
-    if (saved) {
-      const fret = parseInt(saved, 10);
-      if (!isNaN(fret) && fret >= 0 && fret <= 24) {
-        return fret;
-      }
-    }
-    return 9; // Default to 9th fret
-  };
-  const [perpendicular, setPerpendicular] = useState(getPerpendicular());
-  
-  const getFretboardColor = () => {
-    const saved = localStorage.getItem("fretboard-color");
-    return saved || "#8B4513"; // Default rosewood color
-  };
-  const [fretboardColor, setFretboardColor] = useState(getFretboardColor());
-
-  useEffect(() => {
-    localStorage.setItem("flip-x", flipX.toString());
-  }, [flipX]);
-
-  useEffect(() => {
-    localStorage.setItem("flip-y", flipY.toString());
-  }, [flipY]);
-
-  useEffect(() => {
-    localStorage.setItem("fret-count", fretCount.toString());
-  }, [fretCount]);
-
-  useEffect(() => {
-    localStorage.setItem("base-scaleRoot", baseTuning);
-  }, [baseTuning]);
-
-  useEffect(() => {
-    localStorage.setItem("is-multiscale", isMultiscale.toString());
-  }, [isMultiscale]);
-
-  useEffect(() => {
-    localStorage.setItem("scale-length", JSON.stringify(scaleLength));
-  }, [scaleLength]);
-
-  useEffect(() => {
-    localStorage.setItem("perpendicular", perpendicular.toString());
-  }, [perpendicular]);
-
-  useEffect(() => {
-    localStorage.setItem("fretboard-color", fretboardColor);
-  }, [fretboardColor]);
 
   return (
     <DataContext.Provider
       value={{
+        // Display settings
         fretCount,
         flipX,
         flipY,
@@ -138,6 +139,17 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         setPerpendicular,
         fretboardColor,
         setFretboardColor,
+        
+        // Tuning management
+        scaleRoot,
+        setScaleRoot,
+        customTunings,
+        setCustomTunings,
+        editingTuning,
+        setEditingTuning,
+        showCustomTuning,
+        setShowCustomTuning,
+        handleSaveCustomTuning,
       }}
     >
       {children}
@@ -147,7 +159,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
 export const useDataContext = () => {
   const context = useContext(DataContext);
-  if (!context) {
+  if (!context || context === defaultContextValue) {
     throw new Error("useDataContext must be used within a DataProvider");
   }
   return context;
