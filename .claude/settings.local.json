@@ -12,7 +12,9 @@
       "Bash(curl:*)",
       "Bash(pkill:*)",
       "Bash(timeout 10s npm run dev)",
-      "Bash(timeout 15s npm run dev)"
+      "Bash(timeout 15s npm run dev)",
+      "Bash(timeout 30s npm run build)",
+      "Bash(timeout 60s npm run dev)"
     ],
     "deny": []
   }

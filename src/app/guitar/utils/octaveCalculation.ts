@@ -101,7 +101,9 @@ export function calculateNoteWithOctaveMemoized(
   // Prevent cache from growing too large
   if (calculationCache.size > 1000) {
     const firstKey = calculationCache.keys().next().value;
-    calculationCache.delete(firstKey);
+    if (firstKey) {
+      calculationCache.delete(firstKey);
+    }
   }
   
   return result;

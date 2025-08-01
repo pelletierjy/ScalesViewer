@@ -8,7 +8,7 @@ export function useLocalStorage<T>(
   // Initialize state with default value to prevent hydration mismatch
   const [storedValue, setStoredValue] = useState<T>(defaultValue);
   const [isHydrated, setIsHydrated] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | undefined>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   // Load from localStorage after component mounts (client-side only)
   useEffect(() => {
@@ -147,7 +147,7 @@ export function useLocalStorageNumber(
 ): [number, (value: number | ((prev: number) => number)) => void] {
   const [storedValue, setStoredValue] = useState<number>(defaultValue);
   const [isHydrated, setIsHydrated] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | undefined>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
