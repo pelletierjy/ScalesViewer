@@ -67,6 +67,7 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = ({
               onClick={() => playNote(noteWithOctave)}
               className="cursor-pointer"
             >
+              <title>{noteWithOctave}</title>
               <circle
                 r={Math.min(stringSpacing / 3.5, stringSpacing / 3.5)}
                 fill={getNoteColor(note, scale, isDarkMode, highlightRoots)}
