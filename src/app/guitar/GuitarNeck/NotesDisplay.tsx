@@ -65,6 +65,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = ({
           }
           className="cursor-pointer"
         >
+          <title>{calculateNoteWithOctave(openNote, stringIndex, 0)}</title>
           <circle
             r={Math.min(stringSpacing / 3.5, stringSpacing / 3.5)}
             fill={getNoteColor(

@@ -110,7 +110,11 @@ export const playNote = async (note: NoteWithOctave, duration: number = 0.5) => 
   if (!audioContext) return;
 
   try {
-    const frequency = calculateFrequency(note);
+    // Play the note one octave higher by adding 1 to the octave number
+    const baseNote = getBaseNote(note);
+    const originalOctave = getOctave(note);
+    const higherOctaveNote = `${baseNote}${originalOctave + 1}` as NoteWithOctave;
+    const frequency = calculateFrequency(higherOctaveNote);
 
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
