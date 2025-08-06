@@ -16,7 +16,14 @@
       "Bash(timeout 30s npm run build)",
       "Bash(timeout 60s npm run dev)",
       "WebFetch(domain:docs.anthropic.com)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(npm run test:e2e:ui:*)",
+      "Bash(npm install)",
+      "Bash(npm run playwright:install:*)",
+      "Bash(sudo npx playwright:*)",
+      "Bash(npm run test:e2e:*)",
+      "Bash(npm test:*)",
+      "Bash(npx playwright test:*)"
     ],
     "deny": []
   }
