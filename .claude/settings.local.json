@@ -14,7 +14,9 @@
       "Bash(timeout 10s npm run dev)",
       "Bash(timeout 15s npm run dev)",
       "Bash(timeout 30s npm run build)",
-      "Bash(timeout 60s npm run dev)"
+      "Bash(timeout 60s npm run dev)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(mkdir:*)"
     ],
     "deny": []
   }
