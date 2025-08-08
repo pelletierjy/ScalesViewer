@@ -32,19 +32,42 @@ const CHROMATIC_NOTES = [
  * Get the base octave for a guitar string based on its position and note
  */
 export function getBaseOctave(note: Note, stringIndex: number, totalStrings: number): number {
-  // Special handling for common guitar configurations
+  // Standard guitar configurations with specific octave mappings
   if (totalStrings === 6) {
-    // Standard 6-string guitar (E-A-D-G-B-E from low to high)
-    if (stringIndex === 0 && note === "E") return 4; // High E
-    if (stringIndex === totalStrings - 1 && note === "E") return 2; // Low E
+    // Standard 6-string guitar tuning: E4-B3-G3-D3-A2-E2 (high to low, indices 0-5)
+    const standardOctaves = [4, 3, 3, 3, 2, 2]; // High E, B, G, D, A, Low E
+    if (stringIndex < standardOctaves.length) {
+      return standardOctaves[stringIndex];
+    }
+  }
+  
+  if (totalStrings === 7) {
+    // 7-string guitar adds a low B string: E4-B3-G3-D3-A2-E2-B1
+    const sevenStringOctaves = [4, 3, 3, 3, 2, 2, 1];
+    if (stringIndex < sevenStringOctaves.length) {
+      return sevenStringOctaves[stringIndex];
+    }
+  }
+  
+  if (totalStrings === 8) {
+    // 8-string guitar adds F# below the low B: E4-B3-G3-D3-A2-E2-B1-F#1
+    const eightStringOctaves = [4, 3, 3, 3, 2, 2, 1, 1];
+    if (stringIndex < eightStringOctaves.length) {
+      return eightStringOctaves[stringIndex];
+    }
+  }
+  
+  if (totalStrings === 4) {
+    // 4-string bass: G3-D3-A2-E2 (high to low)
+    const bassOctaves = [3, 3, 2, 2];
+    if (stringIndex < bassOctaves.length) {
+      return bassOctaves[stringIndex];
+    }
   }
 
-  // Use standard octave mapping with adjustments
+  // Fallback for unusual configurations
   const baseOctave = STANDARD_OCTAVES[note] || 3;
-  
-  // Lower strings (higher index) tend to be in lower octaves
   const positionAdjustment = Math.floor(stringIndex / 2);
-  
   return Math.max(1, baseOctave - positionAdjustment);
 }
 
