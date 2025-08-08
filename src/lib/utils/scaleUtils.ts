@@ -80,8 +80,9 @@ export const getNoteAtInterval = (root: Note, interval: number): Note => {
   
   // Preserve flat notation if the root note is flat
   const isRootFlat = root.includes('b');
-  if (isRootFlat && SHARP_TO_FLAT[resultNote as keyof typeof SHARP_TO_FLAT]) {
-    return SHARP_TO_FLAT[resultNote as keyof typeof SHARP_TO_FLAT];
+  const flatEquivalent = SHARP_TO_FLAT[resultNote as keyof typeof SHARP_TO_FLAT];
+  if (isRootFlat && flatEquivalent) {
+    return flatEquivalent;
   }
   
   return resultNote;
@@ -89,7 +90,7 @@ export const getNoteAtInterval = (root: Note, interval: number): Note => {
 
 export const getScaleNotes = (scale: Scale): Note[] => {
   const { root, type, mode } = scale;
-  let basePatternForScale = [...SCALE_PATTERNS[type]];
+  const basePatternForScale = [...SCALE_PATTERNS[type]];
   
   // Apply mode rotation if specified and it's a major scale
   if (mode && type === "major") {
@@ -97,27 +98,29 @@ export const getScaleNotes = (scale: Scale): Note[] => {
     
     // For relative modes: find the root note of the parent major scale
     // D Dorian = notes of C Major starting from D
-    const chromaticNotes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    const chromaticNotes: Note[] = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
     const majorScalePattern = [0, 2, 4, 5, 7, 9, 11];
     
     // Find what major scale contains this mode (normalize root for lookup)
     const normalizedRoot = normalizeNote(root);
     const rootIndex = chromaticNotes.indexOf(normalizedRoot);
     const parentMajorRootIndex = (rootIndex - majorScalePattern[rotation] + 12) % 12;
-    const parentMajorRoot = chromaticNotes[parentMajorRootIndex];
     
     // Generate the major scale notes and return them starting from the modal root
-    const parentMajorNotes = majorScalePattern.map(interval => 
+    const parentMajorNotes: Note[] = majorScalePattern.map(interval => 
       chromaticNotes[(parentMajorRootIndex + interval) % 12]
     );
     
     // Find the starting position and rotate the array
     const normalizedRootInScale = parentMajorNotes.indexOf(normalizedRoot);
-    const rotatedNotes = [...parentMajorNotes.slice(normalizedRootInScale), ...parentMajorNotes.slice(0, normalizedRootInScale)];
+    const rotatedNotes: Note[] = [...parentMajorNotes.slice(normalizedRootInScale), ...parentMajorNotes.slice(0, normalizedRootInScale)];
     
     // Preserve flat notation if root is flat
     if (root.includes('b')) {
-      return rotatedNotes.map(note => SHARP_TO_FLAT[note as keyof typeof SHARP_TO_FLAT] || note);
+      return rotatedNotes.map(note => {
+        const flatEquivalent = SHARP_TO_FLAT[note as keyof typeof SHARP_TO_FLAT];
+        return flatEquivalent || note;
+      }) as Note[];
     }
     
     return rotatedNotes;

@@ -208,7 +208,6 @@ describe('octaveCalculation', () => {
       it('should handle all chromatic notes correctly', () => {
         // Test progression through all chromatic notes on middle string
         const results: NoteWithOctave[] = [];
-        const chromaticNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
         
         for (let fret = 0; fret < 12; fret++) {
           const result = calculateNoteWithOctave('C', 2, 6, fret);

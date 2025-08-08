@@ -202,6 +202,7 @@ export const customMatchers = {
 
 // Type declarations for custom matchers
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace jest {
     interface Matchers<R> {
       toBeEnharmonicWith(expected: Note): R;

@@ -17,14 +17,11 @@ import {
   SCALE_DEGREES
 } from '../../../lib/utils/scaleUtils';
 import { Note } from '../../../lib/utils/note';
-import { Scale, ScaleMode } from '../../../lib/utils/scaleType';
 import {
-  ALL_NOTES,
   CHROMATIC_SHARP_NOTES,
   ENHARMONIC_PAIRS,
   createScale,
-  areEnharmonicEquivalents,
-  noteToSemitone
+  areEnharmonicEquivalents
 } from '../../utils/musicTestUtils';
 
 // Extend Jest matchers
@@ -39,6 +36,7 @@ expect.extend({
 });
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace jest {
     interface Matchers<R> {
       toBeEnharmonicWith(expected: Note): R;
