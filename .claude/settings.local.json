@@ -23,7 +23,17 @@
       "Bash(sudo npx playwright:*)",
       "Bash(npm run test:e2e:*)",
       "Bash(npm test:*)",
-      "Bash(npx playwright test:*)"
+      "Bash(npx playwright test:*)",
+      "Bash(npm run test:cucumber:*)",
+      "Bash(npx cucumber-js:*)",
+      "Bash(grep:*)",
+      "Bash(TS_NODE_PROJECT=tsconfig.cucumber.json npx cucumber-js --dry-run)",
+      "Bash(find:*)",
+      "Bash(TS_NODE_PROJECT=tsconfig.cucumber.json npm run test:cucumber)",
+      "Bash(TS_NODE_PROJECT=tsconfig.cucumber.json npx cucumber-js --tags \"@smoke\" --dry-run)",
+      "Bash(LS_NODE_PROJECT=tsconfig.cucumber.json npx cucumber-js --require-module ts-node/register --require 'e2e/step-definitions/piano-keyboard-steps.ts' --tags \"@smoke\" --dry-run)",
+      "Bash(TS_NODE_PROJECT=tsconfig.cucumber.json npx cucumber-js --dry-run --tags \"@smoke\")",
+      "Bash(TS_NODE_PROJECT=tsconfig.cucumber.json node_modules/.bin/ts-node -P tsconfig.cucumber.json node_modules/.bin/cucumber-js --dry-run --tags \"@smoke\")"
     ],
     "deny": []
   }

@@ -33,8 +33,10 @@ Before(async function() {
   context = await browser.newContext({
     viewport: { width: 1920, height: 1080 },
     ignoreHTTPSErrors: true,
-    video: process.env.CI ? 'retain-on-failure' : 'off',
-    screenshot: 'only-on-failure'
+    recordVideo: process.env.CI ? {
+      dir: 'test-results/videos/',
+      size: { width: 1920, height: 1080 }
+    } : undefined
   });
   
   page = await context.newPage();

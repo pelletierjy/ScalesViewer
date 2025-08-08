@@ -29,28 +29,28 @@ export class PianoPage {
   }
 
   private get scaleSelector() {
-    return this.page.locator('[data-testid="scale-selector"]');
+    return this.page.locator('#scale-type');
   }
 
   private get rootNoteSelector() {
-    return this.page.locator('[data-testid="root-note-selector"]');
+    return this.page.locator('#root-note');
   }
 
   private get flatsToggle() {
-    return this.page.locator('[data-testid="flats-toggle"]');
+    return this.page.locator('button').filter({ hasText: /[♯♭]/ });
   }
 
   private get degreesToggle() {
-    return this.page.locator('[data-testid="degrees-toggle"]');
+    return this.page.locator('button').filter({ hasText: /[ABC123]/ });
   }
 
   private get themeToggle() {
-    return this.page.locator('[data-testid="theme-toggle"]');
+    return this.page.locator('button').filter({ hasText: /[☀️🌙]/ });
   }
 
   // Navigation methods
-  async navigateTo(): Promise<void> {
-    await this.page.goto('/piano');
+  async navigateTo(baseURL: string = 'http://localhost:3000'): Promise<void> {
+    await this.page.goto(`${baseURL}/piano`);
     await this.waitForPageLoad();
   }
 
@@ -142,14 +142,18 @@ export class PianoPage {
 
   async getCurrentScale(): Promise<string> {
     if (await this.scaleSelector.isVisible()) {
-      return await this.scaleSelector.inputValue();
+      // For select elements, get the selected option text
+      const selectedValue = await this.scaleSelector.locator('option:checked').textContent();
+      return selectedValue || '';
     }
     return '';
   }
 
   async getCurrentRootNote(): Promise<string> {
     if (await this.rootNoteSelector.isVisible()) {
-      return await this.rootNoteSelector.inputValue();
+      // For select elements, get the selected option text
+      const selectedValue = await this.rootNoteSelector.locator('option:checked').textContent();
+      return selectedValue || '';
     }
     return '';
   }
@@ -262,7 +266,14 @@ export class PianoPage {
   async getLocalStorageItem(key: string): Promise<any> {
     return await this.page.evaluate((storageKey) => {
       const item = localStorage.getItem(storageKey);
-      return item ? JSON.parse(item) : null;
+      if (!item) return null;
+      
+      // Try to parse as JSON, if it fails return as string
+      try {
+        return JSON.parse(item);
+      } catch {
+        return item;
+      }
     }, key);
   }
 

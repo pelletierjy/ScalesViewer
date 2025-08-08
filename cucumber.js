@@ -3,9 +3,12 @@ const config = {
   features: ['features/**/*.feature'],
   
   // Step definitions location
-  glue: ['e2e/step-definitions/**/*.ts', 'e2e/hooks/**/*.ts'],
+  require: [
+    'e2e/step-definitions/*.ts',
+    'e2e/hooks/*.ts'
+  ],
   
-  // Require setup for TypeScript
+  // Require setup for TypeScript  
   requireModule: ['ts-node/register'],
   
   // Output format

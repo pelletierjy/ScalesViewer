@@ -59,7 +59,8 @@ export class TestWorld {
   }
 
   async setupTest(): Promise<void> {
-    await this.pianoPage.clearLocalStorage();
+    // Clear localStorage only after navigating to a page
+    // This will be called after navigation
     await this.pianoPage.mockAudioContext();
     this.audio.mockEnabled = true;
     this.audio.playbackHistory = [];
