@@ -203,8 +203,8 @@ describe('scaleUtils', () => {
 
     it('should handle high fret numbers', () => {
       expect(calculateFretNote('E', 24)).toBe('E');  // 2 octaves
-      expect(calculateFretNote('E', 15)).toBe('G#'); // E + 15 semitones
-      expect(calculateFretNote('A', 17)).toBe('C#'); // A + 17 semitones
+      expect(calculateFretNote('E', 15)).toBe('G');  // E + 15 semitones = G
+      expect(calculateFretNote('A', 17)).toBe('D');  // A + 17 semitones = D
     });
   });
 

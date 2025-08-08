@@ -43,12 +43,13 @@ export const STANDARD_6_STRING_TUNING: Note[] = ['E', 'A', 'D', 'G', 'B', 'E'];
  * Common guitar tunings for testing
  */
 export const COMMON_TUNINGS = {
-  standard6: ['E', 'A', 'D', 'G', 'B', 'E'] as Note[],
-  dropD: ['D', 'A', 'D', 'G', 'B', 'E'] as Note[],
-  openG: ['D', 'G', 'D', 'G', 'B', 'D'] as Note[],
-  dadgad: ['D', 'A', 'D', 'G', 'A', 'D'] as Note[],
-  standard7: ['B', 'E', 'A', 'D', 'G', 'B', 'E'] as Note[],
-  standard8: ['F#', 'B', 'E', 'A', 'D', 'G', 'B', 'E'] as Note[]
+  // Tuning arrays indexed from high to low (string 0 = highest pitch)
+  standard6: ['E', 'B', 'G', 'D', 'A', 'E'] as Note[], // E4-B3-G3-D3-A2-E2
+  dropD: ['E', 'B', 'G', 'D', 'A', 'D'] as Note[],     // E4-B3-G3-D3-A2-D2  
+  openG: ['D', 'B', 'G', 'D', 'G', 'D'] as Note[],     // D4-B3-G3-D3-G2-D2
+  dadgad: ['D', 'A', 'G', 'D', 'A', 'D'] as Note[],    // D4-A3-G3-D3-A2-D2
+  standard7: ['E', 'B', 'G', 'D', 'A', 'E', 'B'] as Note[], // E4-B3-G3-D3-A2-E2-B1
+  standard8: ['E', 'B', 'G', 'D', 'A', 'E', 'B', 'F#'] as Note[] // E4-B3-G3-D3-A2-E2-B1-F#1
 } as const;
 
 /**
