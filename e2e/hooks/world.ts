@@ -1,11 +1,17 @@
 import { Before, After, BeforeAll, AfterAll, setWorldConstructor } from '@cucumber/cucumber';
 import { Browser, BrowserContext, Page, chromium } from '@playwright/test';
-import { TestWorld } from '../support/test-world';
+import { ICustomWorld, TestWorld } from '../support/test-world';
 
 // Custom World class for Cucumber
-class CucumberWorld extends TestWorld {
+class CucumberWorld extends TestWorld implements ICustomWorld {
+  world: TestWorld;
+  attach: any;
+  log: any;
+  link: any;
+  parameters: any;
   constructor() {
     super();
+    this.world = this;
   }
 
   async init(): Promise<void> {
@@ -20,7 +26,7 @@ let context: BrowserContext;
 let page: Page;
 let world: CucumberWorld;
 
-BeforeAll(async function() {
+BeforeAll({ timeout: 30 * 1000 }, async function() {
   // Launch browser once for all scenarios
   browser = await chromium.launch({
     headless: process.env.CI === 'true',
@@ -59,7 +65,7 @@ Before(async function() {
   });
 
   // Attach world to this context for step definitions
-  (this as any).world = world;
+    (this as any).world = world;
 });
 
 After(async function() {
