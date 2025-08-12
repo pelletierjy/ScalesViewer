@@ -17,9 +17,9 @@ export const Footer: React.FC<FooterProps> = ({ isDarkMode = false }) => {
             isDarkMode ? "text-gray-400" : "text-gray-600"
           }`}
         >
-          © {new Date().getFullYear()} Scale Viewer. All rights reserved.
+          © {new Date().getFullYear()} Scales Viewer. All rights reserved.
         </p>
-        <div className="flex items-center gap-4">
+        {/* <div className="flex items-center gap-4">
           <a
             href="https://github.com/pelletierjy/ScalesViewer"
             target="_blank"
@@ -59,7 +59,7 @@ export const Footer: React.FC<FooterProps> = ({ isDarkMode = false }) => {
             <span>☕</span>
             <span>Enjoying this application? Buy me a coffee!</span>
           </a>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

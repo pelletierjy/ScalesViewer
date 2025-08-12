@@ -1,3 +1,4 @@
+@piano
 Feature: Piano Configuration
   As a music student
   I want to configure piano display and behavior settings
