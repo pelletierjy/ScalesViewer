@@ -47,7 +47,7 @@
 - Mobile-first responsive design
 - Consistent spacing using Tailwind classes
 
-## Guitar Scale Viewer Specific
+## Guitar Scales Viewer Specific
 
 ### Scale Implementation
 
