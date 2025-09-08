@@ -57,3 +57,8 @@ next-env.d.ts
 /android/captures
 /android/local.properties
 *.keystore
+
+/playwright-report
+/target
+/test-results
+/debug*

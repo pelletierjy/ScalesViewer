@@ -1,0 +1,1112 @@
+{
+  "config": {
+    "configFile": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\support\\serenity.config.ts",
+    "rootDir": "C:/dev/Ref/ScalesViewer/src/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 11
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "dot",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "test-results.xml"
+        }
+      ],
+      [
+        "html",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/dev/Ref/ScalesViewer/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 11
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/dev/Ref/ScalesViewer/src/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/dev/Ref/ScalesViewer/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 11
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/dev/Ref/ScalesViewer/src/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/dev/Ref/ScalesViewer/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 11
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "C:/dev/Ref/ScalesViewer/src/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/dev/Ref/ScalesViewer/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 11
+        },
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "C:/dev/Ref/ScalesViewer/src/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/dev/Ref/ScalesViewer/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 11
+        },
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "C:/dev/Ref/ScalesViewer/src/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.0",
+    "workers": 11,
+    "webServer": {
+      "command": "pnpm run dev",
+      "port": 3000,
+      "reuseExistingServer": true
+    }
+  },
+  "suites": [
+    {
+      "title": "screenplay\\tests\\debug-navigation.spec.ts",
+      "file": "screenplay/tests/debug-navigation.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Debug Navigation",
+          "file": "screenplay/tests/debug-navigation.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should navigate to home page",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2423,
+                      "error": {
+                        "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')",
+                        "stack": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\n    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\n    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\debug-navigation.spec.ts:28:9",
+                        "location": {
+                          "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\debug-navigation.spec.ts",
+                          "column": 9,
+                          "line": 28
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 26 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 27 |\u001b[39m         \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 28 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 29 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mBasicNavigation\u001b[39m\u001b[33m.\u001b[39mtoHomePage()\n \u001b[90m 30 |\u001b[39m         )\u001b[33m;\u001b[39m\n \u001b[90m 31 |\u001b[39m         \u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\debug-navigation.spec.ts",
+                            "column": 9,
+                            "line": 28
+                          },
+                          "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n\n\u001b[0m \u001b[90m 26 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 27 |\u001b[39m         \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 28 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 29 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mBasicNavigation\u001b[39m\u001b[33m.\u001b[39mtoHomePage()\n \u001b[90m 30 |\u001b[39m         )\u001b[33m;\u001b[39m\n \u001b[90m 31 |\u001b[39m         \u001b[0m\n\u001b[2m    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\debug-navigation.spec.ts:28:9\u001b[22m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "Starting navigation test...\n"
+                        },
+                        {
+                          "text": "Server should be running on http://localhost:3000\n"
+                        },
+                        {
+                          "text": "Current URL after direct navigation: http://localhost:3000/\n"
+                        },
+                        {
+                          "text": "Page title: Scales viewer by Jean-Yves Pelletier\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-06T03:56:59.122Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-debug-nav-90f46-hould-navigate-to-home-page-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-debug-nav-90f46-hould-navigate-to-home-page-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-debug-nav-90f46-hould-navigate-to-home-page-chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-debug-nav-90f46-hould-navigate-to-home-page-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\debug-navigation.spec.ts",
+                        "column": 9,
+                        "line": 28
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c7c4076da17fab70f90a-9418be95336060ce20ef",
+              "file": "screenplay/tests/debug-navigation.spec.ts",
+              "line": 7,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+      "file": "screenplay/tests/piano/piano-basic-functionality.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Piano Component - Basic Functionality",
+          "file": "screenplay/tests/piano/piano-basic-functionality.spec.ts",
+          "line": 9,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should render piano keyboard with default settings",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 2154,
+                      "error": {
+                        "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')",
+                        "stack": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\n    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\n    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts:17:9",
+                        "location": {
+                          "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                          "column": 9,
+                          "line": 17
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 15 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 16 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 17 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 18 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mNavigateToPianoPage\u001b[39m\u001b[33m.\u001b[39masRegularUser()\u001b[33m,\u001b[39m\n \u001b[90m 19 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPianoKeyboard\u001b[39m\u001b[33m.\u001b[39mvisibleKeyCount()\u001b[33m,\u001b[39m equals({ white\u001b[33m:\u001b[39m \u001b[35m7\u001b[39m\u001b[33m,\u001b[39m black\u001b[33m:\u001b[39m \u001b[35m5\u001b[39m\u001b[33m,\u001b[39m total\u001b[33m:\u001b[39m \u001b[35m12\u001b[39m }))\n \u001b[90m 20 |\u001b[39m         )\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                            "column": 9,
+                            "line": 17
+                          },
+                          "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n\n\u001b[0m \u001b[90m 15 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 16 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 17 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 18 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mNavigateToPianoPage\u001b[39m\u001b[33m.\u001b[39masRegularUser()\u001b[33m,\u001b[39m\n \u001b[90m 19 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPianoKeyboard\u001b[39m\u001b[33m.\u001b[39mvisibleKeyCount()\u001b[33m,\u001b[39m equals({ white\u001b[33m:\u001b[39m \u001b[35m7\u001b[39m\u001b[33m,\u001b[39m black\u001b[33m:\u001b[39m \u001b[35m5\u001b[39m\u001b[33m,\u001b[39m total\u001b[33m:\u001b[39m \u001b[35m12\u001b[39m }))\n \u001b[90m 20 |\u001b[39m         )\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts:17:9\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-06T03:56:59.233Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-7c685-board-with-default-settings-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-7c685-board-with-default-settings-chromium\\video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-7c685-board-with-default-settings-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                        "column": 9,
+                        "line": 17
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2b4b3860ed9fef1a0c6d-ed5b2a02fa9a0c64f09a",
+              "file": "screenplay/tests/piano/piano-basic-functionality.spec.ts",
+              "line": 11,
+              "column": 9
+            },
+            {
+              "title": "should highlight C Major scale notes correctly",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 1834,
+                      "error": {
+                        "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')",
+                        "stack": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\n    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\n    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts:29:9",
+                        "location": {
+                          "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                          "column": 9,
+                          "line": 29
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 27 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 28 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mNavigateToPianoPage\u001b[39m\u001b[33m.\u001b[39masExpert()\u001b[33m,\u001b[39m\n \u001b[90m 31 |\u001b[39m             \u001b[33mSelectScale\u001b[39m\u001b[33m.\u001b[39mnamed(\u001b[32m'Major'\u001b[39m)\u001b[33m,\u001b[39m\n \u001b[90m 32 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPianoKeyboard\u001b[39m\u001b[33m.\u001b[39mhighlightedNotes()\u001b[33m,\u001b[39m isGreaterThan(\u001b[35m0\u001b[39m))\u001b[33m,\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                            "column": 9,
+                            "line": 29
+                          },
+                          "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n\n\u001b[0m \u001b[90m 27 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 28 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mNavigateToPianoPage\u001b[39m\u001b[33m.\u001b[39masExpert()\u001b[33m,\u001b[39m\n \u001b[90m 31 |\u001b[39m             \u001b[33mSelectScale\u001b[39m\u001b[33m.\u001b[39mnamed(\u001b[32m'Major'\u001b[39m)\u001b[33m,\u001b[39m\n \u001b[90m 32 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPianoKeyboard\u001b[39m\u001b[33m.\u001b[39mhighlightedNotes()\u001b[33m,\u001b[39m isGreaterThan(\u001b[35m0\u001b[39m))\u001b[33m,\u001b[39m\u001b[0m\n\u001b[2m    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts:29:9\u001b[22m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "Setting up piano page for expert user\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-06T03:56:59.193Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-d1b65-Major-scale-notes-correctly-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-d1b65-Major-scale-notes-correctly-chromium\\video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-d1b65-Major-scale-notes-correctly-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                        "column": 9,
+                        "line": 29
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2b4b3860ed9fef1a0c6d-4a2e878b7cbfa50ab67e",
+              "file": "screenplay/tests/piano/piano-basic-functionality.spec.ts",
+              "line": 23,
+              "column": 9
+            },
+            {
+              "title": "should change octave count correctly",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 2035,
+                      "error": {
+                        "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')",
+                        "stack": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\n    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\n    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts:46:13",
+                        "location": {
+                          "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                          "column": 13,
+                          "line": 46
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 44 |\u001b[39m                 )\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m                 \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 46 |\u001b[39m             \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 47 |\u001b[39m                 \u001b[33m...\u001b[39m\u001b[33mNavigateToPianoPage\u001b[39m\u001b[33m.\u001b[39masRegularUser()\u001b[33m,\u001b[39m\n \u001b[90m 48 |\u001b[39m                 \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPianoKeyboard\u001b[39m\u001b[33m.\u001b[39mcurrentOctaveCount()\u001b[33m,\u001b[39m isGreaterThan(\u001b[35m0\u001b[39m))\u001b[33m,\u001b[39m\n \u001b[90m 49 |\u001b[39m                 \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPianoKeyboard\u001b[39m\u001b[33m.\u001b[39mvisibleKeyCount()\u001b[33m,\u001b[39m equals({ white\u001b[33m:\u001b[39m \u001b[35m7\u001b[39m\u001b[33m,\u001b[39m black\u001b[33m:\u001b[39m \u001b[35m5\u001b[39m\u001b[33m,\u001b[39m total\u001b[33m:\u001b[39m \u001b[35m12\u001b[39m }))\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                            "column": 13,
+                            "line": 46
+                          },
+                          "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n\n\u001b[0m \u001b[90m 44 |\u001b[39m                 )\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m                 \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 46 |\u001b[39m             \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 47 |\u001b[39m                 \u001b[33m...\u001b[39m\u001b[33mNavigateToPianoPage\u001b[39m\u001b[33m.\u001b[39masRegularUser()\u001b[33m,\u001b[39m\n \u001b[90m 48 |\u001b[39m                 \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPianoKeyboard\u001b[39m\u001b[33m.\u001b[39mcurrentOctaveCount()\u001b[33m,\u001b[39m isGreaterThan(\u001b[35m0\u001b[39m))\u001b[33m,\u001b[39m\n \u001b[90m 49 |\u001b[39m                 \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPianoKeyboard\u001b[39m\u001b[33m.\u001b[39mvisibleKeyCount()\u001b[33m,\u001b[39m equals({ white\u001b[33m:\u001b[39m \u001b[35m7\u001b[39m\u001b[33m,\u001b[39m black\u001b[33m:\u001b[39m \u001b[35m5\u001b[39m\u001b[33m,\u001b[39m total\u001b[33m:\u001b[39m \u001b[35m12\u001b[39m }))\u001b[0m\n\u001b[2m    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts:46:13\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-06T03:56:59.156Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-cbf7d-ange-octave-count-correctly-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-cbf7d-ange-octave-count-correctly-chromium\\video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-cbf7d-ange-octave-count-correctly-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                        "column": 13,
+                        "line": 46
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2b4b3860ed9fef1a0c6d-4e4fa29e716ca0fade8f",
+              "file": "screenplay/tests/piano/piano-basic-functionality.spec.ts",
+              "line": 37,
+              "column": 9
+            },
+            {
+              "title": "should toggle between flats and sharps",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "failed",
+                      "duration": 1789,
+                      "error": {
+                        "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')",
+                        "stack": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\n    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\n    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts:60:9",
+                        "location": {
+                          "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                          "column": 9,
+                          "line": 60
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 58 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 59 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 60 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 61 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mNavigateToPianoPage\u001b[39m\u001b[33m.\u001b[39masExpert()\u001b[33m,\u001b[39m\n \u001b[90m 62 |\u001b[39m             \u001b[33mSelectScale\u001b[39m\u001b[33m.\u001b[39mnamed(\u001b[32m'Major'\u001b[39m)\u001b[33m,\u001b[39m\n \u001b[90m 63 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPianoKeyboard\u001b[39m\u001b[33m.\u001b[39mcurrentScale()\u001b[33m,\u001b[39m equals(\u001b[32m'Major'\u001b[39m))\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                            "column": 9,
+                            "line": 60
+                          },
+                          "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n\n\u001b[0m \u001b[90m 58 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 59 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 60 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 61 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mNavigateToPianoPage\u001b[39m\u001b[33m.\u001b[39masExpert()\u001b[33m,\u001b[39m\n \u001b[90m 62 |\u001b[39m             \u001b[33mSelectScale\u001b[39m\u001b[33m.\u001b[39mnamed(\u001b[32m'Major'\u001b[39m)\u001b[33m,\u001b[39m\n \u001b[90m 63 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPianoKeyboard\u001b[39m\u001b[33m.\u001b[39mcurrentScale()\u001b[33m,\u001b[39m equals(\u001b[32m'Major'\u001b[39m))\u001b[0m\n\u001b[2m    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts:60:9\u001b[22m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "Setting up piano page for expert user\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-06T03:56:59.282Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-92f1b-le-between-flats-and-sharps-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-92f1b-le-between-flats-and-sharps-chromium\\video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-92f1b-le-between-flats-and-sharps-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                        "column": 9,
+                        "line": 60
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2b4b3860ed9fef1a0c6d-7bbf79a3691e25dff0bf",
+              "file": "screenplay/tests/piano/piano-basic-functionality.spec.ts",
+              "line": 54,
+              "column": 9
+            },
+            {
+              "title": "should display scale degrees instead of note names",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 5,
+                      "status": "failed",
+                      "duration": 1653,
+                      "error": {
+                        "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')",
+                        "stack": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\n    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\n    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts:73:9",
+                        "location": {
+                          "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                          "column": 9,
+                          "line": 73
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 71 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 72 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 73 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 74 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mNavigateToPianoPage\u001b[39m\u001b[33m.\u001b[39masExpert()\u001b[33m,\u001b[39m\n \u001b[90m 75 |\u001b[39m             \u001b[33mSelectScale\u001b[39m\u001b[33m.\u001b[39mnamed(\u001b[32m'Major'\u001b[39m)\u001b[33m,\u001b[39m\n \u001b[90m 76 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPianoKeyboard\u001b[39m\u001b[33m.\u001b[39mhighlightedNotes()\u001b[33m,\u001b[39m isGreaterThan(\u001b[35m0\u001b[39m))\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                            "column": 9,
+                            "line": 73
+                          },
+                          "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n\n\u001b[0m \u001b[90m 71 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 72 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 73 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 74 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mNavigateToPianoPage\u001b[39m\u001b[33m.\u001b[39masExpert()\u001b[33m,\u001b[39m\n \u001b[90m 75 |\u001b[39m             \u001b[33mSelectScale\u001b[39m\u001b[33m.\u001b[39mnamed(\u001b[32m'Major'\u001b[39m)\u001b[33m,\u001b[39m\n \u001b[90m 76 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPianoKeyboard\u001b[39m\u001b[33m.\u001b[39mhighlightedNotes()\u001b[33m,\u001b[39m isGreaterThan(\u001b[35m0\u001b[39m))\u001b[0m\n\u001b[2m    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts:73:9\u001b[22m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "Setting up piano page for expert user\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-06T03:56:59.256Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-7b58c-grees-instead-of-note-names-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-7b58c-grees-instead-of-note-names-chromium\\video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-piano-pia-7b58c-grees-instead-of-note-names-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\piano\\piano-basic-functionality.spec.ts",
+                        "column": 9,
+                        "line": 73
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2b4b3860ed9fef1a0c6d-68ead3339a8369b140d7",
+              "file": "screenplay/tests/piano/piano-basic-functionality.spec.ts",
+              "line": 67,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "screenplay\\tests\\simple-browser-test.spec.ts",
+      "file": "screenplay/tests/simple-browser-test.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Simple Browser Test",
+          "file": "screenplay/tests/simple-browser-test.spec.ts",
+          "line": 8,
+          "column": 6,
+          "specs": [
+            {
+              "title": "can launch browser and navigate to example site",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 6,
+                      "status": "failed",
+                      "duration": 1361,
+                      "error": {
+                        "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')",
+                        "stack": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\n    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\n    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts:15:9",
+                        "location": {
+                          "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts",
+                          "column": 9,
+                          "line": 15
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 13 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 15 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 16 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mBasicNavigation\u001b[39m\u001b[33m.\u001b[39mtoInstrumentPage(\u001b[32m'https://example.com'\u001b[39m)\u001b[33m,\u001b[39m\n \u001b[90m 17 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPageTitle\u001b[39m\u001b[33m.\u001b[39mofCurrentPage()\u001b[33m,\u001b[39m equals(\u001b[32m'Example Domain'\u001b[39m))\n \u001b[90m 18 |\u001b[39m         )\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts",
+                            "column": 9,
+                            "line": 15
+                          },
+                          "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n\n\u001b[0m \u001b[90m 13 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 15 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 16 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mBasicNavigation\u001b[39m\u001b[33m.\u001b[39mtoInstrumentPage(\u001b[32m'https://example.com'\u001b[39m)\u001b[33m,\u001b[39m\n \u001b[90m 17 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPageTitle\u001b[39m\u001b[33m.\u001b[39mofCurrentPage()\u001b[33m,\u001b[39m equals(\u001b[32m'Example Domain'\u001b[39m))\n \u001b[90m 18 |\u001b[39m         )\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts:15:9\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-06T03:56:59.314Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-simple-br-1effc-nd-navigate-to-example-site-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-simple-br-1effc-nd-navigate-to-example-site-chromium\\video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-simple-br-1effc-nd-navigate-to-example-site-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts",
+                        "column": 9,
+                        "line": 15
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e992114bc4c7d1f4f783-1a4ffbfd01235c007fe6",
+              "file": "screenplay/tests/simple-browser-test.spec.ts",
+              "line": 9,
+              "column": 9
+            },
+            {
+              "title": "can navigate to ScalesViewer home page",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 7,
+                      "status": "failed",
+                      "duration": 1678,
+                      "error": {
+                        "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')",
+                        "stack": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\n    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\n    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts:27:9",
+                        "location": {
+                          "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts",
+                          "column": 9,
+                          "line": 27
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 25 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 26 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 27 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 28 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mBasicNavigation\u001b[39m\u001b[33m.\u001b[39mtoHomePage()\u001b[33m,\u001b[39m\n \u001b[90m 29 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPageTitle\u001b[39m\u001b[33m.\u001b[39mmatches(\u001b[35m/ScalesViewer/\u001b[39m)\u001b[33m,\u001b[39m equals(\u001b[36mtrue\u001b[39m))\n \u001b[90m 30 |\u001b[39m         )\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts",
+                            "column": 9,
+                            "line": 27
+                          },
+                          "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n\n\u001b[0m \u001b[90m 25 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 26 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 27 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 28 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mBasicNavigation\u001b[39m\u001b[33m.\u001b[39mtoHomePage()\u001b[33m,\u001b[39m\n \u001b[90m 29 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPageTitle\u001b[39m\u001b[33m.\u001b[39mmatches(\u001b[35m/ScalesViewer/\u001b[39m)\u001b[33m,\u001b[39m equals(\u001b[36mtrue\u001b[39m))\n \u001b[90m 30 |\u001b[39m         )\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts:27:9\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-06T03:56:59.276Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-simple-br-47d79-e-to-ScalesViewer-home-page-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-simple-br-47d79-e-to-ScalesViewer-home-page-chromium\\video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-simple-br-47d79-e-to-ScalesViewer-home-page-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts",
+                        "column": 9,
+                        "line": 27
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e992114bc4c7d1f4f783-d271faff39c29ac1107c",
+              "file": "screenplay/tests/simple-browser-test.spec.ts",
+              "line": 21,
+              "column": 9
+            },
+            {
+              "title": "can navigate to guitar page as expert user",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 8,
+                      "status": "failed",
+                      "duration": 1016,
+                      "error": {
+                        "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')",
+                        "stack": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\n    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\n    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts:39:9",
+                        "location": {
+                          "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts",
+                          "column": 9,
+                          "line": 39
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 37 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 38 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 39 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 40 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mBasicNavigation\u001b[39m\u001b[33m.\u001b[39mtoGuitarPage()\u001b[33m,\u001b[39m\n \u001b[90m 41 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPageTitle\u001b[39m\u001b[33m.\u001b[39mmatches(\u001b[35m/Guitar/\u001b[39m)\u001b[33m,\u001b[39m equals(\u001b[36mtrue\u001b[39m))\n \u001b[90m 42 |\u001b[39m         )\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts",
+                            "column": 9,
+                            "line": 39
+                          },
+                          "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n\n\u001b[0m \u001b[90m 37 |\u001b[39m             )\u001b[33m;\u001b[39m\n \u001b[90m 38 |\u001b[39m             \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 39 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 40 |\u001b[39m             \u001b[33m...\u001b[39m\u001b[33mBasicNavigation\u001b[39m\u001b[33m.\u001b[39mtoGuitarPage()\u001b[33m,\u001b[39m\n \u001b[90m 41 |\u001b[39m             \u001b[33mEnsure\u001b[39m\u001b[33m.\u001b[39mthat(\u001b[33mPageTitle\u001b[39m\u001b[33m.\u001b[39mmatches(\u001b[35m/Guitar/\u001b[39m)\u001b[33m,\u001b[39m equals(\u001b[36mtrue\u001b[39m))\n \u001b[90m 42 |\u001b[39m         )\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts:39:9\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-06T03:56:59.354Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-simple-br-6c6c3--guitar-page-as-expert-user-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-simple-br-6c6c3--guitar-page-as-expert-user-chromium\\video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-simple-br-6c6c3--guitar-page-as-expert-user-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\simple-browser-test.spec.ts",
+                        "column": 9,
+                        "line": 39
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "e992114bc4c7d1f4f783-7321c153a03f0f41b177",
+              "file": "screenplay/tests/simple-browser-test.spec.ts",
+              "line": 33,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "screenplay\\tests\\simple-test.spec.ts",
+      "file": "screenplay/tests/simple-test.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Simple Playwright Test",
+          "file": "screenplay/tests/simple-test.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should load the home page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 9,
+                      "status": "passed",
+                      "duration": 3838,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Testing basic navigation to http://localhost:3000\n"
+                        },
+                        {
+                          "text": "Page title: Scales viewer by Jean-Yves Pelletier\n"
+                        },
+                        {
+                          "text": "Test completed successfully!\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-06T03:56:58.428Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-simple-te-092e2-t-should-load-the-home-page-chromium\\trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ecc98e2ca3cc9c50ddd0-37bf632f4b5ffbf198d6",
+              "file": "screenplay/tests/simple-test.spec.ts",
+              "line": 4,
+              "column": 9
+            },
+            {
+              "title": "should navigate to guitar page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 10,
+                      "status": "passed",
+                      "duration": 5008,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Testing navigation to guitar page\n"
+                        },
+                        {
+                          "text": "Current URL: http://localhost:3000/guitar\n"
+                        },
+                        {
+                          "text": "Guitar page test completed successfully!\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-06T03:56:58.343Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-simple-te-72222-uld-navigate-to-guitar-page-chromium\\trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ecc98e2ca3cc9c50ddd0-496f8ea321576338849d",
+              "file": "screenplay/tests/simple-test.spec.ts",
+              "line": 27,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "screenplay\\tests\\working-serenity-test.spec.ts",
+      "file": "screenplay/tests/working-serenity-test.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Working SerenityJS Test",
+          "file": "screenplay/tests/working-serenity-test.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should navigate to piano page using SerenityJS",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 6,
+                      "status": "failed",
+                      "duration": 844,
+                      "error": {
+                        "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')",
+                        "stack": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\n    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\n    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\working-serenity-test.spec.ts:16:9",
+                        "location": {
+                          "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\working-serenity-test.spec.ts",
+                          "column": 9,
+                          "line": 16
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 14 |\u001b[39m         \n \u001b[90m 15 |\u001b[39m         \u001b[90m// Navigate to piano page using the simplified task\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 16 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 17 |\u001b[39m             page\u001b[33m.\u001b[39mgoto(\u001b[32m'http://localhost:3000/piano'\u001b[39m)\n \u001b[90m 18 |\u001b[39m         )\u001b[33m;\u001b[39m\n \u001b[90m 19 |\u001b[39m         \u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\working-serenity-test.spec.ts",
+                            "column": 9,
+                            "line": 16
+                          },
+                          "message": "TypeError: Cannot read properties of undefined (reading 'currentSceneId')\n\n\u001b[0m \u001b[90m 14 |\u001b[39m         \n \u001b[90m 15 |\u001b[39m         \u001b[90m// Navigate to piano page using the simplified task\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 16 |\u001b[39m         \u001b[36mawait\u001b[39m actor\u001b[33m.\u001b[39mattemptsTo(\n \u001b[90m    |\u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 17 |\u001b[39m             page\u001b[33m.\u001b[39mgoto(\u001b[32m'http://localhost:3000/piano'\u001b[39m)\n \u001b[90m 18 |\u001b[39m         )\u001b[33m;\u001b[39m\n \u001b[90m 19 |\u001b[39m         \u001b[0m\n\u001b[2m    at PerformActivities.perform (C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\abilities\\PerformActivities.ts:42:39)\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\node_modules\\.pnpm\\@serenity-js+core@3.34.1\\node_modules\\@serenity-js\\core\\src\\screenplay\\Actor.ts:133:60\u001b[22m\n\u001b[2m    at C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\working-serenity-test.spec.ts:16:9\u001b[22m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "Testing SerenityJS navigation to piano page...\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-06T03:57:11.310Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-working-s-72ec1-piano-page-using-SerenityJS-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-working-s-72ec1-piano-page-using-SerenityJS-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-working-s-72ec1-piano-page-using-SerenityJS-chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\dev\\Ref\\ScalesViewer\\test-results\\screenplay-tests-working-s-72ec1-piano-page-using-SerenityJS-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\dev\\Ref\\ScalesViewer\\src\\e2e\\screenplay\\tests\\working-serenity-test.spec.ts",
+                        "column": 9,
+                        "line": 16
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "be489c58c50851607923-e8dfe6e3ee080e65eaf7",
+              "file": "screenplay/tests/working-serenity-test.spec.ts",
+              "line": 6,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-09-06T03:56:53.970Z",
+    "duration": 37641.333,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 10,
+    "flaky": 0
+  }
+}

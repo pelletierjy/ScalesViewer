@@ -1,11 +1,12 @@
+import { describe, it, expect, vi } from 'vitest';
 import { screen, fireEvent } from "@testing-library/react";
 import { CustomTuningEditor } from "../app/guitar/CustomTuningEditor/CustomTuningEditor";
 import { renderWithProviders } from "./test-utils";
 
 describe("CustomTuningEditor", () => {
   it("renders with default values", () => {
-    const onSaveMock = jest.fn();
-    const onCancelMock = jest.fn();
+    const onSaveMock = vi.fn();
+    const onCancelMock = vi.fn();
 
     renderWithProviders(
       <CustomTuningEditor
@@ -24,8 +25,8 @@ describe("CustomTuningEditor", () => {
   });
 
   it("calls onCancel when cancel button is clicked", () => {
-    const onSaveMock = jest.fn();
-    const onCancelMock = jest.fn();
+    const onSaveMock = vi.fn();
+    const onCancelMock = vi.fn();
 
     renderWithProviders(
       <CustomTuningEditor

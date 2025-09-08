@@ -1,0 +1,488 @@
+<testsuites id="" name="" tests="12" failures="10" skipped="0" errors="0" time="37.641332999999996">
+<testsuite name="screenplay\tests\debug-navigation.spec.ts" timestamp="2025-09-06T03:56:56.487Z" hostname="chromium" tests="1" failures="1" skipped="0" time="2.423" errors="0">
+<testcase name="Debug Navigation › should navigate to home page" classname="screenplay\tests\debug-navigation.spec.ts" time="2.423">
+<failure message="debug-navigation.spec.ts:7:9 should navigate to home page" type="FAILURE">
+<![CDATA[  [chromium] › screenplay\tests\debug-navigation.spec.ts:7:9 › Debug Navigation › should navigate to home page 
+
+    TypeError: Cannot read properties of undefined (reading 'currentSceneId')
+
+      26 |             );
+      27 |         
+    > 28 |         await actor.attemptsTo(
+         |         ^
+      29 |             ...BasicNavigation.toHomePage()
+      30 |         );
+      31 |         
+        at PerformActivities.perform (C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\abilities\PerformActivities.ts:42:39)
+        at C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\Actor.ts:133:60
+        at C:\dev\Ref\ScalesViewer\src\e2e\screenplay\tests\debug-navigation.spec.ts:28:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-debug-nav-90f46-hould-navigate-to-home-page-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-debug-nav-90f46-hould-navigate-to-home-page-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\test-results\screenplay-tests-debug-nav-90f46-hould-navigate-to-home-page-chromium\error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-debug-nav-90f46-hould-navigate-to-home-page-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ..\..\test-results\screenplay-tests-debug-nav-90f46-hould-navigate-to-home-page-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[Starting navigation test...
+Server should be running on http://localhost:3000
+Current URL after direct navigation: http://localhost:3000/
+Page title: Scales viewer by Jean-Yves Pelletier
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-debug-nav-90f46-hould-navigate-to-home-page-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-debug-nav-90f46-hould-navigate-to-home-page-chromium\video.webm]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-debug-nav-90f46-hould-navigate-to-home-page-chromium\error-context.md]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-debug-nav-90f46-hould-navigate-to-home-page-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="screenplay\tests\piano\piano-basic-functionality.spec.ts" timestamp="2025-09-06T03:56:56.487Z" hostname="chromium" tests="5" failures="5" skipped="0" time="9.465" errors="0">
+<testcase name="Piano Component - Basic Functionality › should render piano keyboard with default settings" classname="screenplay\tests\piano\piano-basic-functionality.spec.ts" time="2.154">
+<failure message="piano-basic-functionality.spec.ts:11:9 should render piano keyboard with default settings" type="FAILURE">
+<![CDATA[  [chromium] › screenplay\tests\piano\piano-basic-functionality.spec.ts:11:9 › Piano Component - Basic Functionality › should render piano keyboard with default settings 
+
+    TypeError: Cannot read properties of undefined (reading 'currentSceneId')
+
+      15 |             );
+      16 |             
+    > 17 |         await actor.attemptsTo(
+         |         ^
+      18 |             ...NavigateToPianoPage.asRegularUser(),
+      19 |             Ensure.that(PianoKeyboard.visibleKeyCount(), equals({ white: 7, black: 5, total: 12 }))
+      20 |         );
+        at PerformActivities.perform (C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\abilities\PerformActivities.ts:42:39)
+        at C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\Actor.ts:133:60
+        at C:\dev\Ref\ScalesViewer\src\e2e\screenplay\tests\piano\piano-basic-functionality.spec.ts:17:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-7c685-board-with-default-settings-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-7c685-board-with-default-settings-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-7c685-board-with-default-settings-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ..\..\test-results\screenplay-tests-piano-pia-7c685-board-with-default-settings-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-7c685-board-with-default-settings-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-7c685-board-with-default-settings-chromium\video.webm]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-7c685-board-with-default-settings-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Piano Component - Basic Functionality › should highlight C Major scale notes correctly" classname="screenplay\tests\piano\piano-basic-functionality.spec.ts" time="1.834">
+<failure message="piano-basic-functionality.spec.ts:23:9 should highlight C Major scale notes correctly" type="FAILURE">
+<![CDATA[  [chromium] › screenplay\tests\piano\piano-basic-functionality.spec.ts:23:9 › Piano Component - Basic Functionality › should highlight C Major scale notes correctly 
+
+    TypeError: Cannot read properties of undefined (reading 'currentSceneId')
+
+      27 |             );
+      28 |             
+    > 29 |         await actor.attemptsTo(
+         |         ^
+      30 |             ...NavigateToPianoPage.asExpert(),
+      31 |             SelectScale.named('Major'),
+      32 |             Ensure.that(PianoKeyboard.highlightedNotes(), isGreaterThan(0)),
+        at PerformActivities.perform (C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\abilities\PerformActivities.ts:42:39)
+        at C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\Actor.ts:133:60
+        at C:\dev\Ref\ScalesViewer\src\e2e\screenplay\tests\piano\piano-basic-functionality.spec.ts:29:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-d1b65-Major-scale-notes-correctly-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-d1b65-Major-scale-notes-correctly-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-d1b65-Major-scale-notes-correctly-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ..\..\test-results\screenplay-tests-piano-pia-d1b65-Major-scale-notes-correctly-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[Setting up piano page for expert user
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-d1b65-Major-scale-notes-correctly-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-d1b65-Major-scale-notes-correctly-chromium\video.webm]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-d1b65-Major-scale-notes-correctly-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Piano Component - Basic Functionality › should change octave count correctly" classname="screenplay\tests\piano\piano-basic-functionality.spec.ts" time="2.035">
+<failure message="piano-basic-functionality.spec.ts:37:9 should change octave count correctly" type="FAILURE">
+<![CDATA[  [chromium] › screenplay\tests\piano\piano-basic-functionality.spec.ts:37:9 › Piano Component - Basic Functionality › should change octave count correctly 
+
+    TypeError: Cannot read properties of undefined (reading 'currentSceneId')
+
+      44 |                 );
+      45 |                 
+    > 46 |             await actor.attemptsTo(
+         |             ^
+      47 |                 ...NavigateToPianoPage.asRegularUser(),
+      48 |                 Ensure.that(PianoKeyboard.currentOctaveCount(), isGreaterThan(0)),
+      49 |                 Ensure.that(PianoKeyboard.visibleKeyCount(), equals({ white: 7, black: 5, total: 12 }))
+        at PerformActivities.perform (C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\abilities\PerformActivities.ts:42:39)
+        at C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\Actor.ts:133:60
+        at C:\dev\Ref\ScalesViewer\src\e2e\screenplay\tests\piano\piano-basic-functionality.spec.ts:46:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-cbf7d-ange-octave-count-correctly-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-cbf7d-ange-octave-count-correctly-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-cbf7d-ange-octave-count-correctly-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ..\..\test-results\screenplay-tests-piano-pia-cbf7d-ange-octave-count-correctly-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-cbf7d-ange-octave-count-correctly-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-cbf7d-ange-octave-count-correctly-chromium\video.webm]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-cbf7d-ange-octave-count-correctly-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Piano Component - Basic Functionality › should toggle between flats and sharps" classname="screenplay\tests\piano\piano-basic-functionality.spec.ts" time="1.789">
+<failure message="piano-basic-functionality.spec.ts:54:9 should toggle between flats and sharps" type="FAILURE">
+<![CDATA[  [chromium] › screenplay\tests\piano\piano-basic-functionality.spec.ts:54:9 › Piano Component - Basic Functionality › should toggle between flats and sharps 
+
+    TypeError: Cannot read properties of undefined (reading 'currentSceneId')
+
+      58 |             );
+      59 |             
+    > 60 |         await actor.attemptsTo(
+         |         ^
+      61 |             ...NavigateToPianoPage.asExpert(),
+      62 |             SelectScale.named('Major'),
+      63 |             Ensure.that(PianoKeyboard.currentScale(), equals('Major'))
+        at PerformActivities.perform (C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\abilities\PerformActivities.ts:42:39)
+        at C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\Actor.ts:133:60
+        at C:\dev\Ref\ScalesViewer\src\e2e\screenplay\tests\piano\piano-basic-functionality.spec.ts:60:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-92f1b-le-between-flats-and-sharps-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-92f1b-le-between-flats-and-sharps-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-92f1b-le-between-flats-and-sharps-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ..\..\test-results\screenplay-tests-piano-pia-92f1b-le-between-flats-and-sharps-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[Setting up piano page for expert user
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-92f1b-le-between-flats-and-sharps-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-92f1b-le-between-flats-and-sharps-chromium\video.webm]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-92f1b-le-between-flats-and-sharps-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Piano Component - Basic Functionality › should display scale degrees instead of note names" classname="screenplay\tests\piano\piano-basic-functionality.spec.ts" time="1.653">
+<failure message="piano-basic-functionality.spec.ts:67:9 should display scale degrees instead of note names" type="FAILURE">
+<![CDATA[  [chromium] › screenplay\tests\piano\piano-basic-functionality.spec.ts:67:9 › Piano Component - Basic Functionality › should display scale degrees instead of note names 
+
+    TypeError: Cannot read properties of undefined (reading 'currentSceneId')
+
+      71 |             );
+      72 |             
+    > 73 |         await actor.attemptsTo(
+         |         ^
+      74 |             ...NavigateToPianoPage.asExpert(),
+      75 |             SelectScale.named('Major'),
+      76 |             Ensure.that(PianoKeyboard.highlightedNotes(), isGreaterThan(0))
+        at PerformActivities.perform (C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\abilities\PerformActivities.ts:42:39)
+        at C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\Actor.ts:133:60
+        at C:\dev\Ref\ScalesViewer\src\e2e\screenplay\tests\piano\piano-basic-functionality.spec.ts:73:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-7b58c-grees-instead-of-note-names-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-7b58c-grees-instead-of-note-names-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-piano-pia-7b58c-grees-instead-of-note-names-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ..\..\test-results\screenplay-tests-piano-pia-7b58c-grees-instead-of-note-names-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[Setting up piano page for expert user
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-7b58c-grees-instead-of-note-names-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-7b58c-grees-instead-of-note-names-chromium\video.webm]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-piano-pia-7b58c-grees-instead-of-note-names-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="screenplay\tests\simple-browser-test.spec.ts" timestamp="2025-09-06T03:56:56.487Z" hostname="chromium" tests="3" failures="3" skipped="0" time="4.055" errors="0">
+<testcase name="Simple Browser Test › can launch browser and navigate to example site" classname="screenplay\tests\simple-browser-test.spec.ts" time="1.361">
+<failure message="simple-browser-test.spec.ts:9:9 can launch browser and navigate to example site" type="FAILURE">
+<![CDATA[  [chromium] › screenplay\tests\simple-browser-test.spec.ts:9:9 › Simple Browser Test › can launch browser and navigate to example site 
+
+    TypeError: Cannot read properties of undefined (reading 'currentSceneId')
+
+      13 |             );
+      14 |             
+    > 15 |         await actor.attemptsTo(
+         |         ^
+      16 |             ...BasicNavigation.toInstrumentPage('https://example.com'),
+      17 |             Ensure.that(PageTitle.ofCurrentPage(), equals('Example Domain'))
+      18 |         );
+        at PerformActivities.perform (C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\abilities\PerformActivities.ts:42:39)
+        at C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\Actor.ts:133:60
+        at C:\dev\Ref\ScalesViewer\src\e2e\screenplay\tests\simple-browser-test.spec.ts:15:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-simple-br-1effc-nd-navigate-to-example-site-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-simple-br-1effc-nd-navigate-to-example-site-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-simple-br-1effc-nd-navigate-to-example-site-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ..\..\test-results\screenplay-tests-simple-br-1effc-nd-navigate-to-example-site-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-simple-br-1effc-nd-navigate-to-example-site-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-simple-br-1effc-nd-navigate-to-example-site-chromium\video.webm]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-simple-br-1effc-nd-navigate-to-example-site-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Simple Browser Test › can navigate to ScalesViewer home page" classname="screenplay\tests\simple-browser-test.spec.ts" time="1.678">
+<failure message="simple-browser-test.spec.ts:21:9 can navigate to ScalesViewer home page" type="FAILURE">
+<![CDATA[  [chromium] › screenplay\tests\simple-browser-test.spec.ts:21:9 › Simple Browser Test › can navigate to ScalesViewer home page 
+
+    TypeError: Cannot read properties of undefined (reading 'currentSceneId')
+
+      25 |             );
+      26 |             
+    > 27 |         await actor.attemptsTo(
+         |         ^
+      28 |             ...BasicNavigation.toHomePage(),
+      29 |             Ensure.that(PageTitle.matches(/ScalesViewer/), equals(true))
+      30 |         );
+        at PerformActivities.perform (C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\abilities\PerformActivities.ts:42:39)
+        at C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\Actor.ts:133:60
+        at C:\dev\Ref\ScalesViewer\src\e2e\screenplay\tests\simple-browser-test.spec.ts:27:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-simple-br-47d79-e-to-ScalesViewer-home-page-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-simple-br-47d79-e-to-ScalesViewer-home-page-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-simple-br-47d79-e-to-ScalesViewer-home-page-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ..\..\test-results\screenplay-tests-simple-br-47d79-e-to-ScalesViewer-home-page-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-simple-br-47d79-e-to-ScalesViewer-home-page-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-simple-br-47d79-e-to-ScalesViewer-home-page-chromium\video.webm]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-simple-br-47d79-e-to-ScalesViewer-home-page-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Simple Browser Test › can navigate to guitar page as expert user" classname="screenplay\tests\simple-browser-test.spec.ts" time="1.016">
+<failure message="simple-browser-test.spec.ts:33:9 can navigate to guitar page as expert user" type="FAILURE">
+<![CDATA[  [chromium] › screenplay\tests\simple-browser-test.spec.ts:33:9 › Simple Browser Test › can navigate to guitar page as expert user 
+
+    TypeError: Cannot read properties of undefined (reading 'currentSceneId')
+
+      37 |             );
+      38 |             
+    > 39 |         await actor.attemptsTo(
+         |         ^
+      40 |             ...BasicNavigation.toGuitarPage(),
+      41 |             Ensure.that(PageTitle.matches(/Guitar/), equals(true))
+      42 |         );
+        at PerformActivities.perform (C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\abilities\PerformActivities.ts:42:39)
+        at C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\Actor.ts:133:60
+        at C:\dev\Ref\ScalesViewer\src\e2e\screenplay\tests\simple-browser-test.spec.ts:39:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-simple-br-6c6c3--guitar-page-as-expert-user-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-simple-br-6c6c3--guitar-page-as-expert-user-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-simple-br-6c6c3--guitar-page-as-expert-user-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ..\..\test-results\screenplay-tests-simple-br-6c6c3--guitar-page-as-expert-user-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-simple-br-6c6c3--guitar-page-as-expert-user-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-simple-br-6c6c3--guitar-page-as-expert-user-chromium\video.webm]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-simple-br-6c6c3--guitar-page-as-expert-user-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="screenplay\tests\simple-test.spec.ts" timestamp="2025-09-06T03:56:56.487Z" hostname="chromium" tests="2" failures="0" skipped="0" time="8.846" errors="0">
+<testcase name="Simple Playwright Test › should load the home page" classname="screenplay\tests\simple-test.spec.ts" time="3.838">
+<system-out>
+<![CDATA[Testing basic navigation to http://localhost:3000
+Page title: Scales viewer by Jean-Yves Pelletier
+Test completed successfully!
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-simple-te-092e2-t-should-load-the-home-page-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Simple Playwright Test › should navigate to guitar page" classname="screenplay\tests\simple-test.spec.ts" time="5.008">
+<system-out>
+<![CDATA[Testing navigation to guitar page
+Current URL: http://localhost:3000/guitar
+Guitar page test completed successfully!
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-simple-te-72222-uld-navigate-to-guitar-page-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="screenplay\tests\working-serenity-test.spec.ts" timestamp="2025-09-06T03:56:56.487Z" hostname="chromium" tests="1" failures="1" skipped="0" time="0.844" errors="0">
+<testcase name="Working SerenityJS Test › should navigate to piano page using SerenityJS" classname="screenplay\tests\working-serenity-test.spec.ts" time="0.844">
+<failure message="working-serenity-test.spec.ts:6:9 should navigate to piano page using SerenityJS" type="FAILURE">
+<![CDATA[  [chromium] › screenplay\tests\working-serenity-test.spec.ts:6:9 › Working SerenityJS Test › should navigate to piano page using SerenityJS 
+
+    TypeError: Cannot read properties of undefined (reading 'currentSceneId')
+
+      14 |         
+      15 |         // Navigate to piano page using the simplified task
+    > 16 |         await actor.attemptsTo(
+         |         ^
+      17 |             page.goto('http://localhost:3000/piano')
+      18 |         );
+      19 |         
+        at PerformActivities.perform (C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\abilities\PerformActivities.ts:42:39)
+        at C:\dev\Ref\ScalesViewer\node_modules\.pnpm\@serenity-js+core@3.34.1\node_modules\@serenity-js\core\src\screenplay\Actor.ts:133:60
+        at C:\dev\Ref\ScalesViewer\src\e2e\screenplay\tests\working-serenity-test.spec.ts:16:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-working-s-72ec1-piano-page-using-SerenityJS-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-working-s-72ec1-piano-page-using-SerenityJS-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\test-results\screenplay-tests-working-s-72ec1-piano-page-using-SerenityJS-chromium\error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ..\..\test-results\screenplay-tests-working-s-72ec1-piano-page-using-SerenityJS-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ..\..\test-results\screenplay-tests-working-s-72ec1-piano-page-using-SerenityJS-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[Testing SerenityJS navigation to piano page...
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-working-s-72ec1-piano-page-using-SerenityJS-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-working-s-72ec1-piano-page-using-SerenityJS-chromium\video.webm]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-working-s-72ec1-piano-page-using-SerenityJS-chromium\error-context.md]]
+
+[[ATTACHMENT|..\..\..\..\test-results\screenplay-tests-working-s-72ec1-piano-page-using-SerenityJS-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>

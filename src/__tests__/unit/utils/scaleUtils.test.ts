@@ -3,6 +3,7 @@
  * Tests core music theory calculations and scale generation
  */
 
+import { describe, it, expect } from 'vitest';
 import {
   getNoteIndex,
   getNoteAtInterval,
@@ -24,7 +25,7 @@ import {
   areEnharmonicEquivalents
 } from '../../utils/musicTestUtils';
 
-// Extend Jest matchers
+// Extend Vitest matchers
 expect.extend({
   toBeEnharmonicWith(received: Note, expected: Note) {
     const pass = areEnharmonicEquivalents(received, expected);
@@ -35,12 +36,9 @@ expect.extend({
   }
 });
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace jest {
-    interface Matchers<R> {
-      toBeEnharmonicWith(expected: Note): R;
-    }
+declare module 'vitest' {
+  interface Assertion<T = unknown> {
+    toBeEnharmonicWith(expected: Note): T;
   }
 }
 

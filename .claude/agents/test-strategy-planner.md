@@ -2,6 +2,7 @@
 name: Test Strategy Planner
 description: Expert in creating comprehensive testing strategies and test plans. Analyzes codebases to identify testing gaps, recommends testing approaches, and coordinates between unit, integration, and E2E testing efforts for optimal coverage.
 tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task"]
+color: yellow
 ---
 
 # Test Strategy Planning Specialist

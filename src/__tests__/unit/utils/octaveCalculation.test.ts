@@ -3,6 +3,7 @@
  * Tests guitar-specific octave calculations, memoization, and cache management
  */
 
+import { describe, it, expect, beforeEach } from 'vitest';
 import {
   getBaseOctave,
   calculateNoteWithOctave,

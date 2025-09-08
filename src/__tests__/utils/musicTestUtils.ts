@@ -3,6 +3,7 @@
  * Provides constants, helpers, and custom matchers for testing music calculations
  */
 
+// import { expect } from 'vitest';
 import { Note } from '../../lib/utils/note';
 import { Scale, ScaleMode } from '../../lib/utils/scaleType';
 
@@ -149,7 +150,7 @@ export function createMockTuning(stringCount: number, startingNote: Note = 'E'):
 // ==================== CUSTOM JEST MATCHERS ====================
 
 /**
- * Custom Jest matcher to check if two notes are enharmonic equivalents
+ * Custom Vitest matchers for music theory testing
  */
 export function toBeEnharmonicWith(received: Note, expected: Note): { pass: boolean; message: () => string } {
   const pass = areEnharmonicEquivalents(received, expected);
@@ -164,7 +165,7 @@ export function toBeEnharmonicWith(received: Note, expected: Note): { pass: bool
 }
 
 /**
- * Custom Jest matcher to check if a note is in a scale
+ * Custom Vitest matcher to check if a note is in a scale
  */
 export function toBeInScale(received: Note, scale: Note[]): { pass: boolean; message: () => string } {
   const pass = scale.some(scaleNote => areEnharmonicEquivalents(received, scaleNote));
@@ -179,7 +180,7 @@ export function toBeInScale(received: Note, scale: Note[]): { pass: boolean; mes
 }
 
 /**
- * Custom Jest matcher to validate frequency calculations within tolerance
+ * Custom Vitest matcher to validate frequency calculations within tolerance
  */
 export function toBeCloseToFrequency(received: number, expected: number, tolerance = 0.01): { pass: boolean; message: () => string } {
   const pass = Math.abs(received - expected) <= tolerance;
@@ -193,7 +194,7 @@ export function toBeCloseToFrequency(received: number, expected: number, toleran
   };
 }
 
-// Export custom matchers for Jest setup
+// Export custom matchers for Vitest setup
 export const customMatchers = {
   toBeEnharmonicWith,
   toBeInScale,
@@ -201,13 +202,10 @@ export const customMatchers = {
 };
 
 // Type declarations for custom matchers
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace jest {
-    interface Matchers<R> {
-      toBeEnharmonicWith(expected: Note): R;
-      toBeInScale(scale: Note[]): R;
-      toBeCloseToFrequency(expected: number, tolerance?: number): R;
-    }
+declare module 'vitest' {
+  interface Assertion<T = unknown> {
+    toBeEnharmonicWith(expected: Note): T;
+    toBeInScale(scale: Note[]): T;
+    toBeCloseToFrequency(expected: number, tolerance?: number): T;
   }
 }

@@ -73,7 +73,7 @@ const calculateFrequency = (note: NoteWithOctave): number => {
 };
 
 // Initialize audio context with error handling
-const initializeAudio = async (): Promise<boolean> => {
+export const initializeAudio = async (): Promise<boolean> => {
   if (typeof window === "undefined") return false;
   
   try {
@@ -144,5 +144,15 @@ export const playNote = async (note: NoteWithOctave, duration: number = 0.5) => 
     };
   } catch (error) {
     console.warn('Failed to play note:', error);
+  }
+};
+
+export const cleanupAudio = () => {
+  if (audioContext) {
+    audioContext.close().catch(() => {
+      // Ignore cleanup errors
+    });
+    audioContext = null;
+    isAudioInitialized = false;
   }
 };

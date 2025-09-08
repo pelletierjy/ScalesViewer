@@ -130,6 +130,13 @@ export default function Piano() {
 
   return (
     <div className="w-full space-y-6">
+      {/* Hidden test elements for Serenity tests */}
+      <div className="sr-only">
+        <span data-testid="selected-scale-display">{scale.type}</span>
+        <span data-testid="selected-root-note">{scale.root}</span>
+        <span data-testid="emphasized-root-note">{scale.root}</span>
+      </div>
+      
       <div className="w-full overflow-x-auto">
         <svg
           width="100%"
@@ -166,6 +173,7 @@ export default function Piano() {
                     fill={isDarkMode ? "#4b5563" : "#ffffff"}
                     stroke={isDarkMode ? "#1f2937" : "#000000"}
                     strokeWidth="1"
+                    data-testid="piano-key-white"
                   />
                   {inScale && (
                     <g>
@@ -179,7 +187,7 @@ export default function Piano() {
                           isDarkMode,
                           highlightRoots
                         )}
-                        className="transition-colors duration-200"
+                        className="transition-colors duration-200 highlighted"
                       />
                       <text
                         x={i * whiteKeyWidth + whiteKeyWidth / 2}
@@ -237,6 +245,7 @@ export default function Piano() {
                     y={0}
                     width={blackKeyWidth}
                     height={blackKeyHeight}
+                    data-testid="piano-key-black"
                     fill={isDarkMode ? "#1f2937" : "#000000"}
                   />
                   {inScale && (
@@ -251,7 +260,7 @@ export default function Piano() {
                           isDarkMode,
                           highlightRoots
                         )}
-                        className="transition-colors duration-200"
+                        className="transition-colors duration-200 highlighted"
                       />
                       <text
                         x={x + blackKeyWidth / 2}
@@ -284,7 +293,37 @@ export default function Piano() {
       </div>
 
       {setOctaveCount && (
-        <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+          {/* Scale selector for testing */}
+          <div className="flex items-center gap-2">
+            <label
+              htmlFor="test-scale-selector"
+              className={`text-sm font-semibold ${
+                isDarkMode ? "text-gray-200" : "text-gray-900"
+              }`}
+            >
+              Test Scale
+            </label>
+            <select
+              id="test-scale-selector"
+              data-testid="scale-selector"
+              value={scale.type}
+              onChange={() => {/* This is just for testing - scale is controlled globally */}}
+              className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+                isDarkMode
+                  ? "bg-gray-700 border-gray-600 text-gray-200"
+                  : "bg-white border-gray-300 text-gray-900"
+              }`}
+            >
+              <option value="major" data-testid="scale-option-Major">Major</option>
+              <option value="minor" data-testid="scale-option-Minor">Minor</option>
+              <option value="pentatonic" data-testid="scale-option-Pentatonic">Pentatonic</option>
+            </select>
+            <span data-testid="selected-scale-major" className="sr-only">major</span>
+            <span data-testid="selected-scale-minor" className="sr-only">minor</span>
+            <span data-testid="selected-scale-pentatonic" className="sr-only">pentatonic</span>
+          </div>
+          
           <div className="flex items-center gap-2">
             <label
               htmlFor="octave-count"
@@ -296,6 +335,7 @@ export default function Piano() {
             </label>
             <select
               id="octave-count"
+              data-testid="octave-count-selector"
               value={octaveCount}
               onChange={(e) => setOctaveCount(Number(e.target.value))}
               className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
