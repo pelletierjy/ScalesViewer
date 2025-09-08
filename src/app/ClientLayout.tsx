@@ -2,7 +2,7 @@
 import { Details } from "@/components/Details";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {
@@ -32,6 +32,12 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   const isDarkMode = useSelector(selectIsDarkMode);
   const applicationState = useSelector(selectApplicationState);
   const instrument = useSelector(selectInstrument);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // Handle hydration
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   useEffect(() => {
     if (applicationState === "started") {
@@ -67,6 +73,8 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   }, [applicationState, dispatch, instrument, router, pathname]);
 
   useEffect(() => {
+    if (!isHydrated) return;
+    
     const savedScale = localStorage.getItem("current-scale");
     if (savedScale) {
       try {
@@ -75,19 +83,21 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         console.error("Failed to load saved scale:", e);
       }
     }
-  }, [router, dispatch]);
+  }, [router, dispatch, isHydrated]);
 
   useEffect(() => {
+    if (!isHydrated) return;
+    
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, [isDarkMode]);
+  }, [isDarkMode, isHydrated]);
 
   return (
     <>
-      {applicationState === "initialized" ? (
+      {isHydrated && applicationState === "initialized" ? (
         <main
           className={`min-h-screen p-4 sm:p-8 transition-colors duration-200 ${
             isDarkMode ? "bg-gray-900" : "bg-slate-100"
@@ -111,7 +121,11 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
           </div>
           <Footer isDarkMode={isDarkMode} />
         </main>
-      ) : (<></>)}
+      ) : (
+        <div className="min-h-screen flex items-center justify-center bg-slate-100">
+          <div className="text-gray-500">Loading...</div>
+        </div>
+      )}
     </>
   );
 }

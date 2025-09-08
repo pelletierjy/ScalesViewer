@@ -500,7 +500,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, isDarkMod
                   <p className={`text-lg text-center ${
                     isDarkMode ? 'text-gray-300' : 'text-gray-700'
                   }`}>
-                    GScale makes learning and understanding musical scales intuitive and engaging. Whether you're a beginner learning your first scales or an advanced musician exploring exotic modes, GScale provides the tools you need.
+                    GScale makes learning and understanding musical scales intuitive and engaging. Whether you&apos;re a beginner learning your first scales or an advanced musician exploring exotic modes, GScale provides the tools you need.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {currentSlideData.userTypes?.map((userType, index) => (

@@ -1,7 +1,7 @@
 import { TuningPreset } from "@/app/guitar/types/tuningPreset";
 import { createSlice } from "@reduxjs/toolkit";
+import type { WritableDraft } from "@reduxjs/toolkit";
 import { initializeApplication } from "../application/applicationSlice";
-import { WritableDraft } from "immer";
 import { Instrument } from "@/lib/utils/instrument";
 import { Scale } from "@/lib/utils/scaleType";
 import { TUNING_PRESETS } from "@/app/guitar/tuningConstants";
