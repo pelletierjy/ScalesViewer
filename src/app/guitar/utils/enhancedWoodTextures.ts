@@ -281,20 +281,8 @@ const createFallbackTexture = (): string => {
   `;
   
   return 'data:image/svg+xml;base64,' + btoa(svg);
-};";
-
-export const generateEnhancedWoodTexture = (woodType: string, variant: 'light' | 'dark'): string => {
-  const config = woodConfigs[woodType]?.[variant];
-  if (!config) return createFallbackTexture();
-
-  return createEnhancedSVGTexture(config, woodType, variant);
-};";
+};
 
 export const createWoodThumbnail = (woodType: string): string => {
   return generateEnhancedWoodTexture(woodType, 'light');
-};";
-
-export default {
-  generateEnhancedWoodTexture,
-  createWoodThumbnail
-};"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}";"}";"}";"file_path":"C:\dev\Ref\ScalesViewer\src\app\guitar\utils\enhancedWoodTextures.ts"}
+};

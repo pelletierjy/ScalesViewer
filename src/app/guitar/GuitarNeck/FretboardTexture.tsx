@@ -52,33 +52,29 @@ export const FretboardTexture: React.FC<FretboardTextureProps> = ({
       const fretboardLeft = standardPositions[0];
       const fretboardRight = standardPositions[standardPositions.length - 1];
       
-      return `
-        M ${fretboardLeft} ${stringSpacing}
-        L ${fretboardRight} ${stringSpacing}
-        L ${fretboardRight} ${stringCount * stringSpacing}
-        L ${fretboardLeft} ${stringCount * stringSpacing}
-        Z
-      `;
+      return `M ${fretboardLeft} ${stringSpacing} L ${fretboardRight} ${stringSpacing} L ${fretboardRight} ${stringCount * stringSpacing} L ${fretboardLeft} ${stringCount * stringSpacing} Z`;
     }
   };
 
   return (
-    <defs>
-      {/* Wood texture pattern */}
-      <pattern 
-        id={patternId} 
-        patternUnits="userSpaceOnUse" 
-        width="200" 
-        height="200"
-        patternTransform="rotate(15)"
-      >
-        <image 
-          href={isDarkMode ? texture.dark : texture.light}
+    <>
+      <defs>
+        {/* Wood texture pattern */}
+        <pattern 
+          id={patternId} 
+          patternUnits="userSpaceOnUse" 
           width="200" 
           height="200"
-          preserveAspectRatio="xMidYMid slice"
-        />
-      </pattern>
+          patternTransform="rotate(15)"
+        >
+          <image 
+            href={isDarkMode ? texture.dark : texture.light}
+            width="200" 
+            height="200"
+            preserveAspectRatio="xMidYMid slice"
+          />
+        </pattern>
+      </defs>
       
       {/* Fretboard shape with wood texture */}
       <path
@@ -86,6 +82,6 @@ export const FretboardTexture: React.FC<FretboardTextureProps> = ({
         fill={`url(#${patternId})`}
         className="transition-all duration-200"
       />
-    </defs>
+    </>
   );
 };

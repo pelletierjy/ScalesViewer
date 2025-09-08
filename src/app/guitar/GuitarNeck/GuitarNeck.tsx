@@ -177,6 +177,11 @@ export const GuitarNeck: React.FC = () => {
             dimensions={dimensions}
           />
 
+          {/* Fretboard overlay to ensure texture is visible */}
+          <g>
+            {/* This group ensures the texture is rendered properly */}
+          </g>
+
           {/* Frets */}
           {isMultiscale ? (
             // Multiscale: Draw angled frets

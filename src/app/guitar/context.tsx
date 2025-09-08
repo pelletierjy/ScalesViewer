@@ -116,10 +116,26 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
   
   const [fretboardTexture, setFretboardTexture] = useLocalStorage<string>("fretboard-texture", "pale-ebony");
   
-  // Preload wood textures on mount
+  // Preload wood textures on mount and regenerate after hydration
   useEffect(() => {
+    // Force regeneration of textures after client-side hydration
+    const regenerateTextures = () => {
+      // Clear any cached textures and regenerate
+      if (typeof window !== 'undefined') {
+        // Force a re-render by updating the texture reference
+        const currentTexture = localStorage.getItem('fretboard-texture') || 'pale-ebony';
+        setFretboardTexture(currentTexture + '_');
+        setTimeout(() => setFretboardTexture(currentTexture), 0);
+      }
+    };
+    
     preloadWoodTextures();
-  }, []);
+    
+    // Regenerate textures after a short delay to ensure hydration is complete
+    const timer = setTimeout(regenerateTextures, 100);
+    
+    return () => clearTimeout(timer);
+  }, [setFretboardTexture]);
   
   // Tuning management state
   const [scaleRoot, setScaleRoot] = useLocalStorage<TuningPreset>("current-scaleRoot", getTuning());

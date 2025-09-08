@@ -261,9 +261,6 @@ export const Configuration: React.FC = () => {
                     </option>
                   ))}
                 </select>
-                <div className="text-xs text-gray-500 mt-1">
-                  {getCurrentTexture(fretboardTexture).name}
-                </div>
               </div>
             </div>
           </div>
