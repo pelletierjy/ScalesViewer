@@ -1,0 +1,26 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pau-ferro-dark-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A3221;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#5F3F2C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#744C38;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#pau-ferro-dark-grad)"/>
+  <path d="M0,33 Q128,23 256,33 T512,33" stroke="#895944" stroke-width="2.1" opacity="0.8" fill="none"/>
+  <path d="M0,83 Q128,73 256,83 T512,83" stroke="#5F3F2C" stroke-width="1.7" opacity="0.7" fill="none"/>
+  <path d="M0,133 Q128,123 256,133 T512,133" stroke="#744C38" stroke-width="2.4" opacity="0.9" fill="none"/>
+  <path d="M0,183 Q128,173 256,183 T512,183" stroke="#895944" stroke-width="1.4" opacity="0.7" fill="none"/>
+  <path d="M0,233 Q128,223 256,233 T512,233" stroke="#5F3F2C" stroke-width="2.0" opacity="0.8" fill="none"/>
+  <path d="M0,283 Q128,273 256,283 T512,283" stroke="#744C38" stroke-width="1.8" opacity="0.7" fill="none"/>
+  <path d="M0,333 Q128,323 256,333 T512,333" stroke="#895944" stroke-width="2.2" opacity="0.9" fill="none"/>
+  <path d="M0,383 Q128,373 256,383 T512,383" stroke="#5F3F2C" stroke-width="1.6" opacity="0.7" fill="none"/>
+  <path d="M0,433 Q128,423 256,433 T512,433" stroke="#744C38" stroke-width="2.0" opacity="0.8" fill="none"/>
+  <circle cx="85" cy="58" r="1.8" fill="#895944" opacity="0.5"/>
+  <circle cx="305" cy="108" r="1.3" fill="#744C38" opacity="0.4"/>
+  <circle cx="485" cy="168" r="2.1" fill="#895944" opacity="0.55"/>
+  <circle cx="155" cy="218" r="1.7" fill="#5F3F2C" opacity="0.45"/>
+  <circle cx="395" cy="278" r="2.0" fill="#744C38" opacity="0.5"/>
+  <circle cx="205" cy="338" r="1.5" fill="#895944" opacity="0.4"/>
+  <circle cx="475" cy="398" r="1.9" fill="#5F3F2C" opacity="0.5"/>
+</svg>

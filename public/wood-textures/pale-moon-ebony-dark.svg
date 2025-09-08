@@ -1,0 +1,62 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pale-moon-dark-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2A2520;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#1A1612;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#16120E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#120E0A;stop-opacity:1" />
+    </linearGradient>
+    <filter id="dark-roughness">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" fill="url(#pale-moon-dark-grad)"/>
+  <rect width="512" height="512" fill="#1A1612" opacity="0.4" filter="url(#dark-roughness)"/>
+  
+  <!-- Crazy black lines characteristic of pale moon ebony -->
+  <path d="M-20,42 Q60,22 140,42 Q220,62 300,42 Q380,22 460,42 Q540,62 620,42" stroke="#000000" stroke-width="2.8" opacity="0.9" fill="none"/>
+  <path d="M-20,52 Q65,32 145,52 Q225,72 305,52 Q385,32 465,52 Q545,72 625,52" stroke="#0A0A0A" stroke-width="2.0" opacity="0.7" fill="none"/>
+  <path d="M-20,82 Q70,47 150,82 Q230,117 310,82 Q390,47 470,82 Q550,117 630,82" stroke="#000000" stroke-width="3.5" opacity="1.0" fill="none"/>
+  <path d="M-20,92 Q75,57 155,92 Q235,127 315,92 Q395,57 475,92 Q575,127 655,92" stroke="#0A0A0A" stroke-width="2.2" opacity="0.8" fill="none"/>
+  
+  <path d="M-20,127 Q55,87 135,127 Q215,167 295,127 Q375,87 455,127 Q535,167 615,127" stroke="#000000" stroke-width="3.1" opacity="0.9" fill="none"/>
+  <path d="M-20,142 Q65,102 145,142 Q225,182 305,142 Q385,102 465,142 Q545,182 625,142" stroke="#0A0A0A" stroke-width="2.1" opacity="0.7" fill="none"/>
+  
+  <path d="M-20,172 Q80,132 160,172 Q240,212 320,172 Q400,132 480,172 Q560,212 640,172" stroke="#000000" stroke-width="3.8" opacity="1.0" fill="none"/>
+  <path d="M-20,187 Q85,147 165,187 Q245,227 325,187 Q405,147 485,187 Q565,227 655,187" stroke="#0A0A0A" stroke-width="2.4" opacity="0.8" fill="none"/>
+  
+  <path d="M-20,217 Q75,177 155,217 Q235,257 315,217 Q395,177 475,217 Q555,257 635,217" stroke="#000000" stroke-width="3.2" opacity="0.9" fill="none"/>
+  <path d="M-20,232 Q80,192 160,232 Q240,272 320,232 Q400,192 480,232 Q560,272 640,232" stroke="#0A0A0A" stroke-width="2.3" opacity="0.7" fill="none"/>
+  
+  <path d="M-20,262 Q90,222 170,262 Q250,302 330,262 Q410,222 490,262 Q570,302 650,262" stroke="#000000" stroke-width="3.5" opacity="1.0" fill="none"/>
+  <path d="M-20,277 Q95,237 175,277 Q255,317 355,277 Q415,237 495,277 Q575,317 655,277" stroke="#0A0A0A" stroke-width="2.6" opacity="0.8" fill="none"/>
+  
+  <path d="M-20,307 Q85,267 165,307 Q245,347 325,307 Q405,267 485,307 Q565,347 645,307" stroke="#000000" stroke-width="2.9" opacity="0.9" fill="none"/>
+  <path d="M-20,322 Q90,282 170,322 Q250,362 330,322 Q410,282 490,322 Q570,362 650,322" stroke="#0A0A0A" stroke-width="1.9" opacity="0.7" fill="none"/>
+  
+  <path d="M-20,352 Q95,312 175,352 Q255,392 335,352 Q415,312 495,352 Q575,392 655,352" stroke="#000000" stroke-width="3.3" opacity="1.0" fill="none"/>
+  <path d="M-20,367 Q100,327 180,367 Q260,407 340,367 Q420,327 500,367 Q580,407 660,367" stroke="#0A0A0A" stroke-width="2.5" opacity="0.8" fill="none"/>
+  
+  <path d="M-20,397 Q105,357 185,397 Q265,437 345,397 Q425,357 505,397 Q585,437 665,397" stroke="#000000" stroke-width="2.9" opacity="0.9" fill="none"/>
+  <path d="M-20,412 Q110,372 190,412 Q270,452 350,412 Q430,372 510,412 Q590,452 670,412" stroke="#0A0A0A" stroke-width="2.1" opacity="0.7" fill="none"/>
+  
+  <path d="M-20,442 Q100,402 180,442 Q260,482 340,442 Q420,402 500,442 Q580,482 660,442" stroke="#000000" stroke-width="2.7" opacity="1.0" fill="none"/>
+  <path d="M-20,457 Q105,417 185,457 Q265,497 345,457 Q425,417 505,457 Q585,497 665,457" stroke="#0A0A0A" stroke-width="1.8" opacity="0.8" fill="none"/>
+  
+  <!-- Additional irregular black patches -->
+  <ellipse cx="140" cy="95" rx="28" ry="9" fill="#0A0A0A" opacity="0.5"/>
+  <ellipse cx="370" cy="175" rx="33" ry="13" fill="#000000" opacity="0.6"/>
+  <ellipse cx="230" cy="275" rx="22" ry="7" fill="#0A0A0A" opacity="0.7"/>
+  <ellipse cx="460" cy="345" rx="37" ry="11" fill="#000000" opacity="0.5"/>
+  <ellipse cx="130" cy="415" rx="30" ry="10" fill="#0A0A0A" opacity="0.6"/>
+  
+  <!-- Wood pores -->
+  <circle cx="100" cy="75" r="1.4" fill="#000000" opacity="0.4"/>
+  <circle cx="330" cy="135" r="1.0" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="490" cy="205" r="1.7" fill="#000000" opacity="0.45"/>
+  <circle cx="170" cy="265" r="1.2" fill="#0A0A0A" opacity="0.4"/>
+  <circle cx="400" cy="325" r="1.5" fill="#000000" opacity="0.38"/>
+  <circle cx="220" cy="385" r="1.1" fill="#0A0A0A" opacity="0.42"/>
+  <circle cx="480" cy="445" r="1.3" fill="#000000" opacity="0.36"/>
+</svg>

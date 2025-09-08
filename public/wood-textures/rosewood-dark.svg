@@ -1,0 +1,25 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="rosewood-dark-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#654321;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#7A3F0F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#502709;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#rosewood-dark-grad)"/>
+  <path d="M0,35 Q128,25 256,35 T512,35" stroke="#502709" stroke-width="2.2" opacity="0.8" fill="none"/>
+  <path d="M0,90 Q128,80 256,90 T512,90" stroke="#7A3F0F" stroke-width="1.8" opacity="0.7" fill="none"/>
+  <path d="M0,145 Q128,135 256,145 T512,145" stroke="#502709" stroke-width="2.5" opacity="0.9" fill="none"/>
+  <path d="M0,200 Q128,190 256,200 T512,200" stroke="#7A3F0F" stroke-width="1.5" opacity="0.7" fill="none"/>
+  <path d="M0,255 Q128,245 256,255 T512,255" stroke="#502709" stroke-width="2.1" opacity="0.8" fill="none"/>
+  <path d="M0,310 Q128,300 256,310 T512,310" stroke="#7A3F0F" stroke-width="1.9" opacity="0.7" fill="none"/>
+  <path d="M0,365 Q128,355 256,365 T512,365" stroke="#502709" stroke-width="2.3" opacity="0.9" fill="none"/>
+  <path d="M0,420 Q128,410 256,420 T512,420" stroke="#7A3F0F" stroke-width="1.7" opacity="0.7" fill="none"/>
+  <circle cx="90" cy="60" r="2.0" fill="#502709" opacity="0.5"/>
+  <circle cx="320" cy="115" r="1.5" fill="#7A3F0F" opacity="0.4"/>
+  <circle cx="470" cy="175" r="2.2" fill="#502709" opacity="0.55"/>
+  <circle cx="160" cy="235" r="1.8" fill="#7A3F0F" opacity="0.45"/>
+  <circle cx="390" cy="295" r="2.1" fill="#502709" opacity="0.5"/>
+  <circle cx="210" cy="355" r="1.6" fill="#7A3F0F" opacity="0.4"/>
+  <circle cx="490" cy="415" r="1.9" fill="#502709" opacity="0.5"/>
+</svg>

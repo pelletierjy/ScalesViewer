@@ -1,95 +1,104 @@
-import { generateEnhancedWoodTexture } from './enhancedWoodTextures';
-
 export interface WoodTexture {
   id: string;
   name: string;
-  light: string; // Texture data URL for light mode
-  dark: string;  // Texture data URL for dark mode
+  light: string; // Texture URL for light mode (can be image URL or data URL)
+  dark: string;  // Texture URL for dark mode (can be image URL or data URL)
   thumbnail: string;
 }
 
-// Lazy load textures to prevent hydration issues
-const textureCache = new Map<string, WoodTexture>();
-
 const createWoodTextures = (): WoodTexture[] => {
-  // Only generate textures on the client side to prevent hydration issues
+  // Only load textures on the client side to prevent hydration issues
   if (typeof window === 'undefined') {
     // Return placeholder data for SSR
     return [
       {
         id: 'pale-ebony',
         name: 'Pale Ebony',
-        light: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI0U4RTBEMCIvPjwvc3ZnPg==',
-        dark: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzJBMjUyMCIvPjwvc3ZnPg==',
-        thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI0U4RTBEMCIvPjwvc3ZnPg=='
+        light: '/wood-textures/pale-ebony-light.svg',
+        dark: '/wood-textures/pale-ebony-dark.svg',
+        thumbnail: '/wood-textures/pale-ebony-light.svg'
       },
       {
         id: 'black-ebony',
         name: 'Black Ebony',
-        light: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzJBMkEyQSIvPjwvc3ZnPg==',
-        dark: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzBBMEEwQSIvPjwvc3ZnPg==',
-        thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzJBMkEyQSIvPjwvc3ZnPg=='
+        light: '/wood-textures/black-ebony-light.svg',
+        dark: '/wood-textures/black-ebony-dark.svg',
+        thumbnail: '/wood-textures/black-ebony-light.svg'
       },
       {
         id: 'rosewood',
         name: 'Rosewood',
-        light: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzhCNDUxMyIvPjwvc3ZnPg==',
-        dark: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzY1NDMyMSIvPjwvc3ZnPg==',
-        thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzhCNDUxMyIvPjwvc3ZnPg=='
+        light: '/wood-textures/rosewood-light.svg',
+        dark: '/wood-textures/rosewood-dark.svg',
+        thumbnail: '/wood-textures/rosewood-light.svg'
       },
       {
         id: 'maple',
         name: 'Maple',
-        light: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI0QyNjkxRSIvPjwvc3ZnPg==',
-        dark: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI0EwNzQwQSIvPjwvc3ZnPg==',
-        thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI0QyNjkxRSIvPjwvc3ZnPg=='
+        light: '/wood-textures/maple-light.svg',
+        dark: '/wood-textures/maple-dark.svg',
+        thumbnail: '/wood-textures/maple-light.svg'
       },
       {
         id: 'pau-ferro',
         name: 'Pau Ferro',
-        light: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzY1NDMyMSIvPjwvc3ZnPg==',
-        dark: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzRBMzIyMSIvPjwvc3ZnPg==',
-        thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzY1NDMyMSIvPjwvc3ZnPg=='
+        light: '/wood-textures/pau-ferro-light.svg',
+        dark: '/wood-textures/pau-ferro-dark.svg',
+        thumbnail: '/wood-textures/pau-ferro-light.svg'
+      },
+      {
+        id: 'pale-moon-ebony',
+        name: 'Pale Moon Ebony',
+        light: '/wood-textures/pale-moon-ebony-light.svg',
+        dark: '/wood-textures/pale-moon-ebony-dark.svg',
+        thumbnail: '/wood-textures/pale-moon-ebony-light.svg'
       }
     ];
   }
 
-  // Generate real textures on client side
+  // Use real wood texture images on client side
   return [
     {
       id: 'pale-ebony',
       name: 'Pale Ebony',
-      light: generateEnhancedWoodTexture('pale-ebony', 'light'),
-      dark: generateEnhancedWoodTexture('pale-ebony', 'dark'),
-      thumbnail: generateEnhancedWoodTexture('pale-ebony', 'light')
+      light: '/wood-textures/pale-ebony-light.svg',
+      dark: '/wood-textures/pale-ebony-dark.svg',
+      thumbnail: '/wood-textures/pale-ebony-light.svg'
     },
     {
       id: 'black-ebony',
       name: 'Black Ebony',
-      light: generateEnhancedWoodTexture('black-ebony', 'light'),
-      dark: generateEnhancedWoodTexture('black-ebony', 'dark'),
-      thumbnail: generateEnhancedWoodTexture('black-ebony', 'light')
+      light: '/wood-textures/black-ebony-light.svg',
+      dark: '/wood-textures/black-ebony-dark.svg',
+      thumbnail: '/wood-textures/black-ebony-light.svg'
     },
     {
       id: 'rosewood',
       name: 'Rosewood',
-      light: generateEnhancedWoodTexture('rosewood', 'light'),
-      dark: generateEnhancedWoodTexture('rosewood', 'dark'),
-      thumbnail: generateEnhancedWoodTexture('rosewood', 'light')
+      light: '/wood-textures/rosewood-light.svg',
+      dark: '/wood-textures/rosewood-dark.svg',
+      thumbnail: '/wood-textures/rosewood-light.svg'
     },
     {
       id: 'maple',
       name: 'Maple',
-      light: generateEnhancedWoodTexture('maple', 'light'),
-      dark: generateEnhancedWoodTexture('maple', 'dark'),
-      thumbnail: generateEnhancedWoodTexture('maple', 'light')
+      light: '/wood-textures/maple-light.svg',
+      dark: '/wood-textures/maple-dark.svg',
+      thumbnail: '/wood-textures/maple-light.svg'
     },
     {
       id: 'pau-ferro',
       name: 'Pau Ferro',
-      light: generateEnhancedWoodTexture('pau-ferro', 'light'),
-      dark: generateEnhancedWoodTexture('pau-ferro', 'dark'),
-      thumbnail: generateEnhancedWoodTexture('pau-ferro', 'light')
+      light: '/wood-textures/pau-ferro-light.svg',
+      dark: '/wood-textures/pau-ferro-dark.svg',
+      thumbnail: '/wood-textures/pau-ferro-light.svg'
+    },
+    {
+      id: 'pale-moon-ebony',
+      name: 'Pale Moon Ebony',
+      light: '/wood-textures/pale-moon-ebony-light.svg',
+      dark: '/wood-textures/pale-moon-ebony-dark.svg',
+      thumbnail: '/wood-textures/pale-moon-ebony-light.svg'
     }
   ];
 };

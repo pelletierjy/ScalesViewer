@@ -7,7 +7,7 @@ import { DataContext } from "@/app/guitar/context";
 import { tuningGroups } from "@/app/guitar/tunings";
 import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
 import { MULTISCALE_PRESETS, PERPENDICULAR_FRET_OPTIONS } from "../multiscaleConstants";
-import { woodTextures, getCurrentTexture } from "../utils/textureManager";
+import { woodTextures } from "../utils/textureManager";
 
 import { DataContextType } from "../context";
 import { CustomTuningEditor } from "../CustomTuningEditor/CustomTuningEditor";

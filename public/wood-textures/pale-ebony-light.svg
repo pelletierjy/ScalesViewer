@@ -1,0 +1,21 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pale-ebony-light-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8E0D0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#D4C8B8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C8BCAC;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#pale-ebony-light-grad)"/>
+  <path d="M0,50 Q128,45 256,50 T512,50" stroke="#BCB0A0" stroke-width="1.5" opacity="0.4" fill="none"/>
+  <path d="M0,120 Q128,115 256,120 T512,120" stroke="#D4C8B8" stroke-width="1.2" opacity="0.3" fill="none"/>
+  <path d="M0,200 Q128,195 256,200 T512,200" stroke="#BCB0A0" stroke-width="1.8" opacity="0.5" fill="none"/>
+  <path d="M0,280 Q128,275 256,280 T512,280" stroke="#D4C8B8" stroke-width="1.0" opacity="0.3" fill="none"/>
+  <path d="M0,360 Q128,355 256,360 T512,360" stroke="#BCB0A0" stroke-width="1.6" opacity="0.4" fill="none"/>
+  <path d="M0,440 Q128,435 256,440 T512,440" stroke="#D4C8B8" stroke-width="1.3" opacity="0.3" fill="none"/>
+  <circle cx="100" cy="80" r="1.5" fill="#BCB0A0" opacity="0.2"/>
+  <circle cx="350" cy="150" r="1.2" fill="#D4C8B8" opacity="0.25"/>
+  <circle cx="200" cy="250" r="1.8" fill="#BCB0A0" opacity="0.3"/>
+  <circle cx="450" cy="320" r="1.0" fill="#D4C8B8" opacity="0.2"/>
+  <circle cx="150" cy="400" r="1.4" fill="#BCB0A0" opacity="0.25"/>
+</svg>

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { getCurrentTexture } from '../utils/textureManager';
+import { generateEnhancedWoodTexture } from '../utils/enhancedWoodTextures';
 
 interface FretboardTextureProps {
   textureId: string;
@@ -20,7 +21,36 @@ export const FretboardTexture: React.FC<FretboardTextureProps> = ({
   stringCount,
 }) => {
   const texture = getCurrentTexture(textureId);
-  const patternId = `wood-pattern-${textureId}-${isDarkMode ? 'dark' : 'light'}`;
+  const [imageUrl, setImageUrl] = useState(isDarkMode ? texture.dark : texture.light);
+  const [useFallback, setUseFallback] = useState(false);
+  const patternId = `wood-pattern-${textureId}-${isDarkMode ? 'dark' : 'light'}-${useFallback ? 'fallback' : 'image'}`;
+
+  useEffect(() => {
+    const newImageUrl = isDarkMode ? texture.dark : texture.light;
+    setImageUrl(newImageUrl);
+    setUseFallback(false);
+
+    // Check if the image URL is a generated SVG (data URL) or an external image
+    if (newImageUrl.startsWith('data:')) {
+      // Already using a data URL, no need to test loading
+      return;
+    }
+
+    // Test if external image loads successfully
+    const img = new Image();
+    img.onload = () => {
+      // Image loaded successfully, use it
+      setImageUrl(newImageUrl);
+      setUseFallback(false);
+    };
+    img.onerror = () => {
+      // Image failed to load, use fallback
+      const fallbackTexture = generateEnhancedWoodTexture(textureId, isDarkMode ? 'dark' : 'light');
+      setImageUrl(fallbackTexture);
+      setUseFallback(true);
+    };
+    img.src = newImageUrl;
+  }, [textureId, isDarkMode, texture]);
 
   const getFretboardPath = () => {
     if (isMultiscale) {
@@ -68,7 +98,7 @@ export const FretboardTexture: React.FC<FretboardTextureProps> = ({
           patternTransform="rotate(15)"
         >
           <image 
-            href={isDarkMode ? texture.dark : texture.light}
+            href={imageUrl}
             width="200" 
             height="200"
             preserveAspectRatio="xMidYMid slice"
