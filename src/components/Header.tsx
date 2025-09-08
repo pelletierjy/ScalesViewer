@@ -20,6 +20,8 @@ import {
 import { Instrument } from "@/lib/utils/instrument";
 import { Note } from "@/lib/utils/note";
 import { ScaleType } from "@/lib/utils/scaleType";
+import React from "react";
+import { HelpModal } from "./HelpModal";
 
 export const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -29,6 +31,8 @@ export const Header: React.FC = () => {
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
   const highlightRoots = useSelector(selectIsMonochrome);
+  const [showHelp, setShowHelp] = React.useState(false);
+  
   const handleInstrumentChange = (newInstrument: Instrument) => {
     dispatch(setInstrument(newInstrument));
   };
@@ -191,6 +195,17 @@ export const Header: React.FC = () => {
           {highlightRoots ? "🎨" : "⚫"}
         </button>
         <button
+          onClick={() => setShowHelp(true)}
+          className={`p-2 rounded-lg transition-colors duration-200 ${
+            isDarkMode
+              ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
+              : "bg-white text-gray-700 hover:bg-gray-100"
+          }`}
+          title="Show help slideshow"
+        >
+          ❓
+        </button>
+        <button
           onClick={() => dispatch(toggleDarkMode())}
           className={`p-2 rounded-lg transition-colors duration-200 ${
             isDarkMode
@@ -202,6 +217,7 @@ export const Header: React.FC = () => {
           {isDarkMode ? "☀️" : "🌙"}
         </button>
       </div>
+      <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)} isDarkMode={isDarkMode} />
     </>
   );
 };
