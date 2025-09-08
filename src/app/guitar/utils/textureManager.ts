@@ -1,4 +1,4 @@
-import { generateRealisticWoodTexture } from './generateRealisticTextures';
+import { generateEnhancedWoodTexture } from './enhancedWoodTextures';
 
 export interface WoodTexture {
   id: string;
@@ -12,37 +12,37 @@ export const woodTextures: WoodTexture[] = [
   {
     id: 'pale-ebony',
     name: 'Pale Ebony',
-    light: generateRealisticWoodTexture('pale-ebony', 'light'),
-    dark: generateRealisticWoodTexture('pale-ebony', 'dark'),
-    thumbnail: generateRealisticWoodTexture('pale-ebony', 'light')
+    light: generateEnhancedWoodTexture('pale-ebony', 'light'),
+    dark: generateEnhancedWoodTexture('pale-ebony', 'dark'),
+    thumbnail: generateEnhancedWoodTexture('pale-ebony', 'light')
   },
   {
     id: 'black-ebony',
     name: 'Black Ebony',
-    light: generateRealisticWoodTexture('black-ebony', 'light'),
-    dark: generateRealisticWoodTexture('black-ebony', 'dark'),
-    thumbnail: generateRealisticWoodTexture('black-ebony', 'light')
+    light: generateEnhancedWoodTexture('black-ebony', 'light'),
+    dark: generateEnhancedWoodTexture('black-ebony', 'dark'),
+    thumbnail: generateEnhancedWoodTexture('black-ebony', 'light')
   },
   {
     id: 'rosewood',
     name: 'Rosewood',
-    light: generateRealisticWoodTexture('rosewood', 'light'),
-    dark: generateRealisticWoodTexture('rosewood', 'dark'),
-    thumbnail: generateRealisticWoodTexture('rosewood', 'light')
+    light: generateEnhancedWoodTexture('rosewood', 'light'),
+    dark: generateEnhancedWoodTexture('rosewood', 'dark'),
+    thumbnail: generateEnhancedWoodTexture('rosewood', 'light')
   },
   {
     id: 'maple',
     name: 'Maple',
-    light: generateRealisticWoodTexture('maple', 'light'),
-    dark: generateRealisticWoodTexture('maple', 'dark'),
-    thumbnail: generateRealisticWoodTexture('maple', 'light')
+    light: generateEnhancedWoodTexture('maple', 'light'),
+    dark: generateEnhancedWoodTexture('maple', 'dark'),
+    thumbnail: generateEnhancedWoodTexture('maple', 'light')
   },
   {
     id: 'pau-ferro',
     name: 'Pau Ferro',
-    light: generateRealisticWoodTexture('pau-ferro', 'light'),
-    dark: generateRealisticWoodTexture('pau-ferro', 'dark'),
-    thumbnail: generateRealisticWoodTexture('pau-ferro', 'light')
+    light: generateEnhancedWoodTexture('pau-ferro', 'light'),
+    dark: generateEnhancedWoodTexture('pau-ferro', 'dark'),
+    thumbnail: generateEnhancedWoodTexture('pau-ferro', 'light')
   }
 ];
 

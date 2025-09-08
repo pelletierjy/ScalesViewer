@@ -238,53 +238,29 @@ export const Configuration: React.FC = () => {
             <div className="flex flex-col min-w-[200px]">
               <div className="flex flex-col gap-2">
                 <label
+                  htmlFor="wood-texture"
                   className={`text-sm font-semibold whitespace-nowrap ${
                     isDarkMode ? "text-gray-200" : "text-gray-900"
                   }`}
                 >
                   Wood Texture
                 </label>
-                <div className="grid grid-cols-3 gap-2">
-                  {woodTextures.map((texture) => {
-                    const isSelected = fretboardTexture === texture.id;
-                    return (
-                      <button
-                        key={texture.id}
-                        onClick={() => setFretboardTexture(texture.id)}
-                        className={`relative w-16 h-16 rounded border-2 transition-all ${
-                          isSelected 
-                            ? 'border-blue-500 ring-2 ring-blue-500 ring-opacity-50' 
-                            : isDarkMode 
-                              ? 'border-gray-600 hover:border-gray-500' 
-                              : 'border-gray-300 hover:border-gray-400'
-                        }`}
-                        title={texture.name}
-                      >
-                        <img 
-                          src={texture.thumbnail} 
-                          alt={texture.name}
-                          className="w-full h-full object-cover rounded"
-                          onError={(e) => {
-                            // Fallback to colored div if image fails to load
-                            const target = e.target as HTMLImageElement;
-                            target.style.display = 'none';
-                            const fallbackDiv = document.createElement('div');
-                            fallbackDiv.className = 'w-full h-full rounded';
-                            fallbackDiv.style.backgroundColor = isDarkMode ? '#8B4513' : '#D2691E';
-                            target.parentNode?.appendChild(fallbackDiv);
-                          }}
-                        />
-                        {isSelected && (
-                          <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full border-2 border-white">
-                            <div className="w-full h-full flex items-center justify-center">
-                              <div className="w-1 h-1 bg-white rounded-full"></div>
-                            </div>
-                          </div>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
+                <select
+                  id="wood-texture"
+                  value={fretboardTexture}
+                  onChange={(e) => setFretboardTexture(e.target.value)}
+                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+                    isDarkMode
+                      ? "bg-gray-700 border-gray-600 text-gray-200"
+                      : "bg-white border-gray-300 text-gray-900"
+                  }`}
+                >
+                  {woodTextures.map((texture) => (
+                    <option key={texture.id} value={texture.id}>
+                      {texture.name}
+                    </option>
+                  ))}
+                </select>
                 <div className="text-xs text-gray-500 mt-1">
                   {getCurrentTexture(fretboardTexture).name}
                 </div>
