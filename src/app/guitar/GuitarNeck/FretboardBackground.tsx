@@ -1,12 +1,13 @@
 import React from 'react';
+import { FretboardTexture } from './FretboardTexture';
 
 interface FretboardBackgroundProps {
   isMultiscale: boolean;
   fretPositions: number[][] | number[];
-  fretCount: number;
+  fretCount: number; // Kept for API consistency
   stringSpacing: number;
   stringCount: number;
-  fretboardColor: string;
+  fretboardTexture: string;
   isDarkMode: boolean;
   dimensions: { width: number; height: number };
 }
@@ -14,34 +15,17 @@ interface FretboardBackgroundProps {
 export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
   isMultiscale,
   fretPositions,
-  fretCount,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  fretCount, // Kept for API compatibility
   stringSpacing,
   stringCount,
-  fretboardColor,
+  fretboardTexture,
   isDarkMode,
   dimensions,
 }) => {
   if (isMultiscale) {
     // For multiscale, create a path that follows the fanned frets
-    const topStringPositions = Array.isArray(fretPositions[0]) 
-      ? fretPositions[0] as number[]
-      : fretPositions as number[];
-    const bottomStringPositions = Array.isArray(fretPositions[stringCount - 1])
-      ? fretPositions[stringCount - 1] as number[]
-      : fretPositions as number[];
-    
-    // Create path points
-    const pathPoints = [
-      // Top edge: from first fret to last fret
-      `M ${topStringPositions[0]} ${stringSpacing}`,
-      `L ${topStringPositions[fretCount]} ${stringSpacing}`,
-      // Right edge: from top string to bottom string at last fret
-      `L ${bottomStringPositions[fretCount]} ${stringCount * stringSpacing}`,
-      // Bottom edge: from last fret to first fret
-      `L ${bottomStringPositions[0]} ${stringCount * stringSpacing}`,
-      // Close path
-      `Z`
-    ];
+    // Path generation is handled in FretboardTexture component
     
     return (
       <>
@@ -53,19 +37,20 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
           className="transition-colors duration-200"
         />
         
-        {/* Fretboard */}
-        <path
-          d={pathPoints.join(' ')}
-          fill={fretboardColor}
-          className="transition-colors duration-200"
+        {/* Wood Texture Fretboard */}
+        <FretboardTexture
+          textureId={fretboardTexture}
+          isDarkMode={isDarkMode}
+          isMultiscale={isMultiscale}
+          fretPositions={fretPositions}
+          stringSpacing={stringSpacing}
+          stringCount={stringCount}
+          dimensions={dimensions}
         />
       </>
     );
   } else {
-    // For standard guitars, use a simple rectangle
-    const standardPositions = fretPositions as number[];
-    const fretboardLeft = standardPositions[0];
-    const fretboardRight = standardPositions[fretCount];
+    // For standard guitars, use a simple rectangle (coordinates handled in FretboardTexture)
     
     return (
       <>
@@ -77,14 +62,15 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
           className="transition-colors duration-200"
         />
         
-        {/* Fretboard */}
-        <rect
-          x={fretboardLeft}
-          y={stringSpacing}
-          width={fretboardRight - fretboardLeft}
-          height={(stringCount - 1) * stringSpacing}
-          fill={fretboardColor}
-          className="transition-colors duration-200"
+        {/* Wood Texture Fretboard */}
+        <FretboardTexture
+          textureId={fretboardTexture}
+          isDarkMode={isDarkMode}
+          isMultiscale={isMultiscale}
+          fretPositions={fretPositions}
+          stringSpacing={stringSpacing}
+          stringCount={stringCount}
+          dimensions={dimensions}
         />
       </>
     );

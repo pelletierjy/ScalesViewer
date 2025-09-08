@@ -7,6 +7,7 @@ import { DataContext } from "@/app/guitar/context";
 import { tuningGroups } from "@/app/guitar/tunings";
 import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
 import { MULTISCALE_PRESETS, PERPENDICULAR_FRET_OPTIONS } from "../multiscaleConstants";
+import { woodTextures, getCurrentTexture } from "../utils/textureManager";
 
 import { DataContextType } from "../context";
 import { CustomTuningEditor } from "../CustomTuningEditor/CustomTuningEditor";
@@ -28,8 +29,8 @@ export const Configuration: React.FC = () => {
     setScaleLength,
     perpendicular,
     setPerpendicular,
-    fretboardColor,
-    setFretboardColor,
+    fretboardTexture,
+    setFretboardTexture,
     
     // Tuning management
     scaleRoot,
@@ -234,43 +235,58 @@ export const Configuration: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-col min-w-[150px]">
-              <div className="flex items-center gap-2">
+            <div className="flex flex-col min-w-[200px]">
+              <div className="flex flex-col gap-2">
                 <label
-                  htmlFor="fretboard-color"
                   className={`text-sm font-semibold whitespace-nowrap ${
                     isDarkMode ? "text-gray-200" : "text-gray-900"
                   }`}
                 >
-                  Fretboard Color
+                  Wood Texture
                 </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="color"
-                    id="fretboard-color"
-                    value={fretboardColor}
-                    onChange={(e) => setFretboardColor(e.target.value)}
-                    className={`w-10 h-10 rounded cursor-pointer ${
-                      isDarkMode
-                        ? "border-gray-600"
-                        : "border-gray-300"
-                    }`}
-                  />
-                  <select
-                    value={fretboardColor}
-                    onChange={(e) => setFretboardColor(e.target.value)}
-                    className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
-                      isDarkMode
-                        ? "bg-gray-700 border-gray-600 text-gray-200"
-                        : "bg-white border-gray-300 text-gray-900"
-                    }`}
-                  >
-                    <option value="#8B4513">Rosewood</option>
-                    <option value="#3E2723">Ebony</option>
-                    <option value="#D2691E">Maple</option>
-                    <option value="#654321">Pau Ferro</option>
-                    <option value="#2E2E2E">Richlite</option>
-                  </select>
+                <div className="grid grid-cols-3 gap-2">
+                  {woodTextures.map((texture) => {
+                    const isSelected = fretboardTexture === texture.id;
+                    return (
+                      <button
+                        key={texture.id}
+                        onClick={() => setFretboardTexture(texture.id)}
+                        className={`relative w-16 h-16 rounded border-2 transition-all ${
+                          isSelected 
+                            ? 'border-blue-500 ring-2 ring-blue-500 ring-opacity-50' 
+                            : isDarkMode 
+                              ? 'border-gray-600 hover:border-gray-500' 
+                              : 'border-gray-300 hover:border-gray-400'
+                        }`}
+                        title={texture.name}
+                      >
+                        <img 
+                          src={texture.thumbnail} 
+                          alt={texture.name}
+                          className="w-full h-full object-cover rounded"
+                          onError={(e) => {
+                            // Fallback to colored div if image fails to load
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            const fallbackDiv = document.createElement('div');
+                            fallbackDiv.className = 'w-full h-full rounded';
+                            fallbackDiv.style.backgroundColor = isDarkMode ? '#8B4513' : '#D2691E';
+                            target.parentNode?.appendChild(fallbackDiv);
+                          }}
+                        />
+                        {isSelected && (
+                          <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full border-2 border-white">
+                            <div className="w-full h-full flex items-center justify-center">
+                              <div className="w-1 h-1 bg-white rounded-full"></div>
+                            </div>
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {getCurrentTexture(fretboardTexture).name}
                 </div>
               </div>
             </div>

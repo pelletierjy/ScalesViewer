@@ -15,6 +15,7 @@ import { getAdjustedTuning } from "./getAdjustedTuning";
 import { FretMarkers } from "./FretMarkers";
 import { StringGroup } from "./StringGroup";
 import { FretNumbers } from "./FretNumbers";
+import { FretboardTexture } from "./FretboardTexture";
 import { calculateNoteWithOctaveMemoized } from "../utils/octaveCalculation";
 
 export const GuitarNeck: React.FC = () => {
@@ -26,7 +27,7 @@ export const GuitarNeck: React.FC = () => {
     isMultiscale,
     scaleLength,
     perpendicular,
-    fretboardColor,
+    fretboardTexture,
     scaleRoot,
   } = useContext(DataContext) as DataContextType;
   const showFlats = useSelector(selectShowFlats);
@@ -165,60 +166,16 @@ export const GuitarNeck: React.FC = () => {
             className="transition-colors duration-200"
           />
 
-          {/* Fretboard */}
-          {(() => {
-            if (isMultiscale) {
-              // For multiscale, create a path that follows the fanned frets
-              const topStringPositions = Array.isArray(fretPositions[0]) 
-                ? fretPositions[0] as number[]
-                : fretPositions as number[];
-              const bottomStringPositions = Array.isArray(fretPositions[scaleRoot.strings.length - 1])
-                ? fretPositions[scaleRoot.strings.length - 1] as number[]
-                : fretPositions as number[];
-              
-              // Create path points
-              const pathPoints = [
-                // Top edge: from first fret to last fret
-                `M ${topStringPositions[0]} ${stringSpacing}`,
-                `L ${topStringPositions[fretCount]} ${stringSpacing}`,
-                // Right edge: from top string to bottom string at last fret
-                `L ${bottomStringPositions[fretCount]} ${scaleRoot.strings.length * stringSpacing}`,
-                // Bottom edge: from last fret to first fret
-                `L ${bottomStringPositions[0]} ${scaleRoot.strings.length * stringSpacing}`,
-                // Close path
-                `Z`
-              ];
-              
-              return (
-                <path
-                  d={pathPoints.join(' ')}
-                  fill={fretboardColor}
-                  className="transition-colors duration-200"
-                />
-              );
-            } else {
-              // For standard guitars, use a simple rectangle
-              const standardPositions = fretPositions as number[];
-              const fretboardLeft = standardPositions?.[0] || 0;
-              const fretboardRight = standardPositions?.[fretCount] || dimensions.width;
-              
-              // Ensure we have valid numbers
-              const validLeft = isNaN(fretboardLeft) ? 0 : fretboardLeft;
-              const validRight = isNaN(fretboardRight) ? dimensions.width : fretboardRight;
-              const validWidth = validRight - validLeft;
-              
-              return (
-                <rect
-                  x={validLeft}
-                  y={stringSpacing}
-                  width={isNaN(validWidth) || validWidth <= 0 ? dimensions.width : validWidth}
-                  height={(scaleRoot.strings.length - 1) * stringSpacing}
-                  fill={fretboardColor}
-                  className="transition-colors duration-200"
-                />
-              );
-            }
-          })()}
+          {/* Wood Texture Fretboard */}
+          <FretboardTexture
+            textureId={fretboardTexture}
+            isDarkMode={isDarkMode}
+            isMultiscale={isMultiscale}
+            fretPositions={fretPositions}
+            stringSpacing={stringSpacing}
+            stringCount={scaleRoot.strings.length}
+            dimensions={dimensions}
+          />
 
           {/* Frets */}
           {isMultiscale ? (

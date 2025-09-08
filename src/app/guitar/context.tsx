@@ -11,6 +11,7 @@ import { getCustomTunings, getTuning } from "@/app/guitar/tunings";
 import { TuningPreset } from "./types/tuningPreset";
 import { TuningPresetWithMetadata } from "./tuningConstants";
 import { MULTISCALE_PRESETS } from "./multiscaleConstants";
+import { preloadWoodTextures } from "./utils/textureManager";
 
 export interface DataContextType {
   // Display settings
@@ -28,8 +29,8 @@ export interface DataContextType {
   setScaleLength: (lengths: { treble: number; bass: number }) => void;
   perpendicular: number;
   setPerpendicular: (fret: number) => void;
-  fretboardColor: string;
-  setFretboardColor: (color: string) => void;
+  fretboardTexture: string;
+  setFretboardTexture: (textureId: string) => void;
   
   // Tuning management
   scaleRoot: TuningPreset;
@@ -60,8 +61,8 @@ const defaultContextValue: DataContextType = {
   setScaleLength: () => {},
   perpendicular: 9,
   setPerpendicular: () => {},
-  fretboardColor: "#8B4513",
-  setFretboardColor: () => {},
+  fretboardTexture: 'pale-ebony',
+  setFretboardTexture: () => {},
   
   // Tuning management
   scaleRoot: { name: "Standard E", strings: ["E", "B", "G", "D", "A", "E"] },
@@ -89,7 +90,36 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     { treble: 25.5, bass: 27 }
   );
   const [perpendicular, setPerpendicular] = useLocalStorageNumber("perpendicular", 9, 0, 24);
-  const [fretboardColor, setFretboardColor] = useLocalStorage<string>("fretboard-color", "#8B4513");
+  
+  // Migrate from old color system to new texture system
+  useEffect(() => {
+    const migrateFromColorToTexture = () => {
+      const oldColor = localStorage.getItem('fretboard-color');
+      if (oldColor) {
+        // Map old colors to closest wood texture
+        const colorToTextureMap: Record<string, string> = {
+          '#8B4513': 'rosewood',
+          '#3E2723': 'black-ebony',
+          '#D2691E': 'maple',
+          '#654321': 'pau-ferro',
+          '#2E2E2E': 'black-ebony'
+        };
+        
+        const newTexture = colorToTextureMap[oldColor] || 'rosewood';
+        localStorage.setItem('fretboard-texture', newTexture);
+        localStorage.removeItem('fretboard-color');
+      }
+    };
+    
+    migrateFromColorToTexture();
+  }, []);
+  
+  const [fretboardTexture, setFretboardTexture] = useLocalStorage<string>("fretboard-texture", "pale-ebony");
+  
+  // Preload wood textures on mount
+  useEffect(() => {
+    preloadWoodTextures();
+  }, []);
   
   // Tuning management state
   const [scaleRoot, setScaleRoot] = useLocalStorage<TuningPreset>("current-scaleRoot", getTuning());
@@ -149,8 +179,8 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         setScaleLength,
         perpendicular,
         setPerpendicular,
-        fretboardColor,
-        setFretboardColor,
+        fretboardTexture,
+        setFretboardTexture,
         
         // Tuning management
         scaleRoot,

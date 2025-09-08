@@ -1,7 +1,6 @@
 import { TuningPreset } from "@/app/guitar/types/tuningPreset";
 import { createSlice } from "@reduxjs/toolkit";
 import { initializeApplication } from "../application/applicationSlice";
-import { WritableDraft } from "immer";
 import { Instrument } from "@/lib/utils/instrument";
 import { Scale } from "@/lib/utils/scaleType";
 import { TUNING_PRESETS } from "@/app/guitar/tuningConstants";
@@ -23,21 +22,25 @@ export interface GlobalConfig {
 
 const updateState = (
   savedState: GlobalConfig | undefined,
-  state: WritableDraft<GlobalConfig>
-) => {
+  currentState: GlobalConfig
+): GlobalConfig => {
   if (savedState) {
-    state.isDarkMode = savedState?.isDarkMode ?? true;
-    state.instrument = savedState?.instrument ?? "piano";
-    state.scale = savedState?.scale ?? {
-      root: "A",
-      type: "major",
-      mode: "ionian",
+    return {
+      ...currentState,
+      isDarkMode: savedState?.isDarkMode ?? true,
+      instrument: savedState?.instrument ?? "piano",
+      scale: savedState?.scale ?? {
+        root: "A",
+        type: "major",
+        mode: "ionian",
+      },
+      scaleRoot: savedState?.scaleRoot ?? TUNING_PRESETS[0],
+      showFlats: savedState?.showFlats ?? false,
+      highlightRoots: savedState?.highlightRoots ?? true,
+      showDegrees: savedState?.showDegrees ?? false,
     };
-    state.scaleRoot = savedState?.scaleRoot ?? TUNING_PRESETS[0];
-    state.showFlats = savedState?.showFlats ?? false;
-    state.highlightRoots = savedState?.highlightRoots ?? true;
-    state.showDegrees = savedState?.showDegrees ?? false;
   }
+  return currentState;
 };
 
 const loadState = (): GlobalConfig | undefined => {
@@ -104,7 +107,7 @@ export const globalConfigSlice = createSlice({
       if (action.type !== "applicationState/initializeApplication") {
         return;
       }
-      updateState(loadState(), state);
+      return updateState(loadState(), state);
     });
   },
 });
