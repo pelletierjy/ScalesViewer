@@ -47,11 +47,11 @@ export const Header: React.FC = () => {
         >
           Scales Viewer
         </h1>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-6">
+          <div className="flex flex-col gap-1">
             <label
               htmlFor="instrument"
-              className={`text-sm font-semibold whitespace-nowrap ${
+              className={`text-sm font-semibold ${
                 isDarkMode ? "text-gray-200" : "text-gray-900"
               }`}
             >
@@ -76,10 +76,10 @@ export const Header: React.FC = () => {
             </select>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-1">
             <label
               htmlFor="scale-type"
-              className={`text-sm font-semibold whitespace-nowrap ${
+              className={`text-sm font-semibold ${
                 isDarkMode ? "text-gray-200" : "text-gray-900"
               }`}
             >
@@ -123,10 +123,10 @@ export const Header: React.FC = () => {
             </select>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-1">
             <label
               htmlFor="root-note"
-              className={`text-sm font-semibold whitespace-nowrap ${
+              className={`text-sm font-semibold ${
                 isDarkMode ? "text-gray-200" : "text-gray-900"
               }`}
             >

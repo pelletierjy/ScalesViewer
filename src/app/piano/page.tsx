@@ -285,7 +285,7 @@ export default function Piano() {
 
       {setOctaveCount && (
         <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-1">
             <label
               htmlFor="octave-count"
               className={`text-sm font-semibold ${

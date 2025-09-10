@@ -78,10 +78,10 @@ export const Configuration: React.FC = () => {
           {/* Left side inputs */}
           <div className="flex flex-col gap-4 md:flex-row md:flex-wrap md:items-start">
             <div className="flex flex-col gap-2 min-w-[200px]">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-1">
                 <label
                   htmlFor="scaleRoot"
-                  className={`text-sm font-semibold whitespace-nowrap ${
+                  className={`text-sm font-semibold ${
                     isDarkMode ? "text-gray-200" : "text-gray-900"
                   }`}
                 >
@@ -177,10 +177,10 @@ export const Configuration: React.FC = () => {
             </div>
 
             <div className="flex flex-col min-w-[180px]">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-1">
                 <label
                   htmlFor="base-scaleRoot"
-                  className={`text-sm font-semibold whitespace-nowrap ${
+                  className={`text-sm font-semibold ${
                     isDarkMode ? "text-gray-200" : "text-gray-900"
                   }`}
                 >
@@ -206,10 +206,10 @@ export const Configuration: React.FC = () => {
             </div>
 
             <div className="flex flex-col min-w-[200px]">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-1">
                 <label
                   htmlFor="fret-count"
-                  className={`text-sm font-semibold whitespace-nowrap ${
+                  className={`text-sm font-semibold ${
                     isDarkMode ? "text-gray-200" : "text-gray-900"
                   }`}
                 >
@@ -235,16 +235,16 @@ export const Configuration: React.FC = () => {
             </div>
 
             <div className="flex flex-col min-w-[150px]">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-1">
                 <label
                   htmlFor="fretboard-texture"
-                  className={`text-sm font-semibold whitespace-nowrap ${
+                  className={`text-sm font-semibold ${
                     isDarkMode ? "text-gray-200" : "text-gray-900"
                   }`}
                 >
                   Fretboard Texture
                 </label>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col gap-1">
                   <select
                     value={fretboardTexture}
                     onChange={(e) => setFretboardTexture(e.target.value)}

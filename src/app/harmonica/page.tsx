@@ -266,7 +266,7 @@ export default function Harmonica() {
         </svg>
       </div>
       <div className="flex justify-end mt-2">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col gap-1">
           <label
             htmlFor="harmonicaKey"
             className={`text-sm font-medium ${
