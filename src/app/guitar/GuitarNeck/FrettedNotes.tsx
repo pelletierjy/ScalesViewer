@@ -5,6 +5,9 @@ import { calculateFretNote, isNoteInScale, getScaleDegree, sharpToFlat } from "@
 import { playNote } from "@/lib/utils/audioUtils";
 import { getNoteColor } from "./getNoteColor";
 import { getFretPositions } from './getFretPositions';
+import { useSelector } from 'react-redux';
+import { selectAudioStatus } from '@/features/audio/audioSlice';
+import { RootState } from '@/app/store';
 
 interface FrettedNotesProps {
   openNote: Note;
@@ -39,6 +42,8 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = ({
   calculateNoteWithOctave,
   fretPositions = [],
 }) => {
+  const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
+
   return (
     <>
       {Array.from({ length: fretCount }, (_, index) => {
@@ -64,7 +69,7 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = ({
               transform={`translate(${
                 fretPosition - stringSpacing / 4
               }, ${(stringIndex + 1) * stringSpacing})`}
-              onClick={() => playNote(noteWithOctave)}
+              onClick={() => playNote(noteWithOctave, audioStatus)}
               className="cursor-pointer"
             >
               <title>{noteWithOctave}</title>
@@ -106,4 +111,4 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = ({
       })}
     </>
   );
-}; 
+};

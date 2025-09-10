@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import {
   isNoteInScale,
   getScaleDegree,
@@ -17,6 +18,8 @@ import {
   selectShowDegrees,
 } from "../../features/globalConfig/globalConfigSlice";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
+import { selectAudioStatus } from "@/features/audio/audioSlice";
+import { RootState } from "@/app/store";
 
 // Common harmonica keys
 const HARMONICA_KEYS: Note[] = ["C", "G", "A", "D", "F", "Bb", "Eb"];
@@ -32,7 +35,7 @@ const sharpToFlat = (note: Note): Note => {
 };
 
 // Function to transpose harmonica notes based on selected key
-const transposeHarmonicaNotes = (key: Note) => {
+const transposeHarmonicaNotes = (key: Note): { blow: Note[]; draw: Note[] } => {
   if (key === "C") return BASE_HARMONICA_NOTES;
 
   const interval = getInterval("C", key);
@@ -52,6 +55,7 @@ export default function Harmonica() {
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
   const highlightRoots = useSelector(selectIsMonochrome);
+  const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
   const [selectedKey, setSelectedKey] = useState<Note>("C");
   const harmonicaNotes = transposeHarmonicaNotes(selectedKey);
 
@@ -92,7 +96,7 @@ export default function Harmonica() {
     }
   };
 
-  const handleNoteClick = (note: Note, holeNumber: number) => {
+  const handleNoteClick = (note: Note, holeNumber: number): void => {
     // Calculate octave based on hole number
     // Harmonica typically spans 3 octaves
     // For a C harmonica:
@@ -102,7 +106,7 @@ export default function Harmonica() {
     const octaveOffset = Math.floor((holeNumber - 1) / 3);
     const octave = baseOctave + octaveOffset;
     const noteWithOctave = `${note}${octave}` as NoteWithOctave;
-    playNote(noteWithOctave);
+    playNote(noteWithOctave, audioStatus);
   };
 
   return (

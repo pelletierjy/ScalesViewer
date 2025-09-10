@@ -20,14 +20,14 @@ This is a musical scale visualization tool built with Next.js, React, and TypeSc
 1.  Clone the repository.
 2.  Install dependencies:
     ```bash
-    npm install
+    pnpm install
     ```
 
 ### Development
 
 -   **Web Development:**
     ```bash
-    npm run dev
+    pnpm dev
     ```
     This runs the Next.js development server with Turbopack and hot reloading. Access the application at `http://localhost:3000`.
 
@@ -35,11 +35,11 @@ This is a musical scale visualization tool built with Next.js, React, and TypeSc
 
 -   **Web Production Build:**
     ```bash
-    npm run build
+    pnpm build
     ```
 -   **Desktop Production Build:**
     ```bash
-    npm run build-prepare
+    pnpm build-prepare
     ```
 
 ### Testing
@@ -48,23 +48,19 @@ This project uses Jest for unit tests, Playwright for end-to-end tests, and Cucu
 
 -   **Run all tests:**
     ```bash
-    npm test
-    ```
--   **Run tests in watch mode:**
-    ```bash
-    npm run test:watch
+    pnpm test
     ```
 -   **Run tests with coverage report:**
     ```bash
-    npm run test:coverage
+    pnpm test:coverage
     ```
 -   **Run Playwright E2E tests:**
     ```bash
-    npm run test:e2e
+    pnpm test:e2e
     ```
 -   **Run Cucumber tests:**
     ```bash
-    npm run test:cucumber
+    pnpm test:cucumber
     ```
 
 ## Development Conventions

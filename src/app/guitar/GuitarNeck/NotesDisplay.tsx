@@ -6,6 +6,9 @@ import { playNote } from "@/lib/utils/audioUtils";
 import { getNoteColor } from "./getNoteColor";
 import { TuningPreset } from "../types/tuningPreset";
 import { FrettedNotes } from './FrettedNotes';
+import { useSelector } from 'react-redux';
+import { selectAudioStatus } from '@/features/audio/audioSlice';
+import { RootState } from '@/app/store';
 
 interface NotesDisplayProps {
   adjustedTuning: TuningPreset;
@@ -42,6 +45,8 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = ({
   stringIndex = 0,
   openNote: openNoteProp,
 }) => {
+  const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
+
   // Get the open note for this specific string
   const openNote = openNoteProp || [...adjustedTuning.strings].reverse()[stringIndex];
   
@@ -60,7 +65,8 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = ({
           })`}
           onClick={() =>
             playNote(
-              calculateNoteWithOctave(openNote, stringIndex, 0)
+              calculateNoteWithOctave(openNote, stringIndex, 0),
+              audioStatus
             )
           }
           className="cursor-pointer"
@@ -125,4 +131,4 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = ({
       />
     </>
   );
-}; 
+};

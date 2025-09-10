@@ -1,4 +1,5 @@
 import { Note, NoteWithOctave } from "./note";
+import { AudioStatus } from "@/features/audio/audioSlice";
 
 // Base frequencies for notes in octave 4 (A4 = 440Hz)
 const BASE_FREQUENCIES: Record<Note, number> = {
@@ -23,7 +24,6 @@ const BASE_FREQUENCIES: Record<Note, number> = {
 };
 
 let audioContext: AudioContext | null = null;
-let isAudioInitialized = false;
 
 const getBaseNote = (note: NoteWithOctave): Note => {
   return note.replace(/\d+$/, "") as Note;
@@ -73,7 +73,7 @@ const calculateFrequency = (note: NoteWithOctave): number => {
 };
 
 // Initialize audio context with error handling
-const initializeAudio = async (): Promise<boolean> => {
+export const initializeAudio = async (): Promise<boolean> => {
   if (typeof window === "undefined") return false;
   
   try {
@@ -86,7 +86,6 @@ const initializeAudio = async (): Promise<boolean> => {
       await audioContext.resume();
     }
     
-    isAudioInitialized = true;
     return true;
   } catch (error) {
     console.warn('Failed to initialize audio context:', error);
@@ -94,17 +93,14 @@ const initializeAudio = async (): Promise<boolean> => {
   }
 };
 
-export const playNote = async (note: NoteWithOctave, duration: number = 0.5) => {
+export const playNote = async (note: NoteWithOctave, audioStatus: AudioStatus, duration: number = 0.5) => {
   // Skip during server-side rendering or when window is not available
   if (typeof window === "undefined") return;
 
-  // Initialize audio if not already done
-  if (!isAudioInitialized) {
-    const initialized = await initializeAudio();
-    if (!initialized) {
-      console.warn('Audio playback not available');
-      return;
-    }
+  // Check if audio is initialized
+  if (audioStatus !== 'initialized') {
+    console.warn('Audio playback not available. Status:', audioStatus);
+    return;
   }
   
   if (!audioContext) return;

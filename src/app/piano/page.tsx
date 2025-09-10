@@ -16,6 +16,7 @@ import {
 } from "../../features/globalConfig/globalConfigSlice";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
+import { selectAudioStatus } from "@/features/audio/audioSlice";
 
 // Define piano keys for one octave
 const OCTAVE_NOTES: { note: Note; isBlack: boolean }[] = [
@@ -109,6 +110,7 @@ export default function Piano() {
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
   const highlightRoots = useSelector(selectIsMonochrome);
+  const audioStatus = useSelector(selectAudioStatus);
   const whiteKeyWidth = 40;
   const blackKeyWidth = 24;
   const whiteKeyHeight = 150;
@@ -123,9 +125,9 @@ export default function Piano() {
     localStorage.setItem("octave-count", octaveCount.toString());
   }, [octaveCount]);
 
-  const handleNoteClick = (note: Note, octave: number) => {
+  const handleNoteClick = (note: Note, octave: number): void => {
     const noteWithOctave = `${note}${octave}` as NoteWithOctave;
-    playNote(noteWithOctave);
+    playNote(noteWithOctave, audioStatus);
   };
 
   return (
@@ -154,9 +156,19 @@ export default function Piano() {
                 <g
                   key={`white-${i}`}
                   onClick={() => inScale && handleNoteClick(key.note, octave)}
+                  onKeyDown={(e) => {
+                    if (inScale && (e.key === 'Enter' || e.key === ' ')) {
+                      handleNoteClick(key.note, octave);
+                    }
+                  }}
+                  role="button"
+                  aria-label={inScale ? `${key.note}${octave}` : undefined}
+                  tabIndex={inScale ? 0 : -1}
                   className={`transition-colors duration-200 ${
-                    inScale ? "hover:fill-opacity-90" : ""
-                  }`}
+                    inScale
+                      ? "hover:fill-opacity-90 cursor-pointer"
+                      : "cursor-not-allowed"
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-lg`}
                 >
                   <rect
                     x={i * whiteKeyWidth}
@@ -228,9 +240,19 @@ export default function Piano() {
                 <g
                   key={`black-${i}`}
                   onClick={() => inScale && handleNoteClick(key.note, octave)}
+                  onKeyDown={(e) => {
+                    if (inScale && (e.key === 'Enter' || e.key === ' ')) {
+                      handleNoteClick(key.note, octave);
+                    }
+                  }}
+                  role="button"
+                  aria-label={inScale ? `${key.note}${octave}` : undefined}
+                  tabIndex={inScale ? 0 : -1}
                   className={`transition-colors duration-200 ${
-                    inScale ? "hover:fill-opacity-90" : ""
-                  }`}
+                    inScale
+                      ? "hover:fill-opacity-90 cursor-pointer"
+                      : "cursor-not-allowed"
+                  } focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg`}
                 >
                   <rect
                     x={x}
@@ -296,6 +318,7 @@ export default function Piano() {
             </label>
             <select
               id="octave-count"
+              aria-label="Select number of octaves to display"
               value={octaveCount}
               onChange={(e) => setOctaveCount(Number(e.target.value))}
               className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${

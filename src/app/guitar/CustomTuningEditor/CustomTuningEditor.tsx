@@ -10,6 +10,7 @@ interface CustomTuningEditorProps {
   onSaveTuning: (scaleRoot: TuningPreset) => void;
   onCancel: () => void;
   initialTuning?: TuningPresetWithMetadata | null;
+  customTunings: TuningPresetWithMetadata[];
 }
 
 const MIN_STRINGS = 4;
@@ -20,6 +21,7 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
   onSaveTuning,
   onCancel,
   initialTuning,
+  customTunings,
 }) => {
   const isDarkMode = useSelector(selectIsDarkMode);
   const [tuningName, setTuningName] = useState(
@@ -51,7 +53,7 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
     });
   }, [stringCount]);
 
-  const handleStringChange = (index: number, note: Note) => {
+  const handleStringChange = (index: number, note: Note): void => {
     const newStrings = [...strings];
     newStrings[index] = note;
     setStrings(newStrings);
@@ -59,25 +61,34 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
 
   const handleStringCountChange = (
     event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  ): void => {
     const newCount = parseInt(event.target.value, 10);
     setStringCount(newCount);
   };
 
-  const validateAndSave = () => {
-    // Check for empty or duplicate name
-    if (!tuningName.trim()) {
+  const validateAndSave = (): void => {
+    const trimmedName = tuningName.trim();
+    if (!trimmedName) {
       setNameError("Tuning name cannot be empty");
       return;
     }
 
+    const isDuplicate = customTunings.some(
+      (tuning) => tuning.name === trimmedName && tuning.name !== initialTuning?.name
+    );
+
+    if (isDuplicate) {
+      setNameError("A tuning with this name already exists");
+      return;
+    }
+
     onSaveTuning({
-      name: tuningName,
+      name: trimmedName,
       strings: strings,
     });
   };
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setTuningName(e.target.value);
     setNameError("");
   };

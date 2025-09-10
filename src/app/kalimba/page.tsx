@@ -15,6 +15,8 @@ import {
   selectShowDegrees,
 } from "../../features/globalConfig/globalConfigSlice";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
+import { selectAudioStatus } from "@/features/audio/audioSlice";
+import { RootState } from "@/app/store";
 
 // Standard 17-key kalimba scaleRoot (from center outward)
 const KALIMBA_NOTES: Note[] = [
@@ -47,6 +49,7 @@ export default function Kalimba() {
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
   const highlightRoots = useSelector(selectIsMonochrome);
+  const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
 
   const getNoteColor = (note: Note, isRoot: boolean): string => {
     if (isRoot) {
@@ -85,14 +88,14 @@ export default function Kalimba() {
     }
   };
 
-  const handleNoteClick = (note: Note, index: number) => {
+  const handleNoteClick = (note: Note, index: number): void => {
     // Kalimba typically spans octaves 4-6
     // Middle tine (index 8) is usually G5
     const baseOctave = 5; // for the middle G
     const octaveOffset = Math.floor((index - 8) / 7);
     const octave = baseOctave + octaveOffset;
     const noteWithOctave = `${note}${octave}` as NoteWithOctave;
-    playNote(noteWithOctave);
+    playNote(noteWithOctave, audioStatus);
   };
 
   return (
