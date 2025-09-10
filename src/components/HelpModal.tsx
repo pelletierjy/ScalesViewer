@@ -116,14 +116,16 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, isDarkMod
       }
     };
 
-    if (isOpen) {
+    if (isOpen && typeof window !== 'undefined') {
       document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
     }
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'unset';
+      if (typeof window !== 'undefined') {
+        document.removeEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = 'unset';
+      }
     };
   }, [isOpen, onClose, slides.length]);
 
