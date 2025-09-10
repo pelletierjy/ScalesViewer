@@ -47,11 +47,11 @@ export const Header: React.FC = () => {
         >
           Scales Viewer
         </h1>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-6">
+          <div className="flex flex-col gap-1">
             <label
               htmlFor="instrument"
-              className={`text-sm font-semibold whitespace-nowrap ${
+              className={`text-sm font-semibold ${
                 isDarkMode ? "text-gray-200" : "text-gray-900"
               }`}
             >
@@ -66,7 +66,7 @@ export const Header: React.FC = () => {
               className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
                 isDarkMode
                   ? "bg-gray-700 border-gray-600 text-gray-200"
-                  : "bg-white border-gray-300 text-gray-900"
+                  : "bg-slate-300 border-slate-500 text-slate-800"
               }`}
             >
               <option value="guitar">Guitar</option>
@@ -76,10 +76,10 @@ export const Header: React.FC = () => {
             </select>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-1">
             <label
               htmlFor="scale-type"
-              className={`text-sm font-semibold whitespace-nowrap ${
+              className={`text-sm font-semibold ${
                 isDarkMode ? "text-gray-200" : "text-gray-900"
               }`}
             >
@@ -90,7 +90,7 @@ export const Header: React.FC = () => {
               className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
                 isDarkMode
                   ? "bg-gray-700 border-gray-600 text-gray-200"
-                  : "bg-white border-gray-300 text-gray-900"
+                  : "bg-slate-300 border-slate-500 text-slate-800"
               }`}
               value={scale.type}
               onChange={(e) =>
@@ -123,10 +123,10 @@ export const Header: React.FC = () => {
             </select>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-1">
             <label
               htmlFor="root-note"
-              className={`text-sm font-semibold whitespace-nowrap ${
+              className={`text-sm font-semibold ${
                 isDarkMode ? "text-gray-200" : "text-gray-900"
               }`}
             >
@@ -137,7 +137,7 @@ export const Header: React.FC = () => {
               className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
                 isDarkMode
                   ? "bg-gray-700 border-gray-600 text-gray-200"
-                  : "bg-white border-gray-300 text-gray-900"
+                  : "bg-slate-300 border-slate-500 text-slate-800"
               }`}
               value={scale.root}
               onChange={(e) =>
@@ -164,7 +164,7 @@ export const Header: React.FC = () => {
           className={`p-2 rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
-              : "bg-white text-gray-700 hover:bg-gray-100"
+              : "bg-slate-400 text-slate-900 hover:bg-slate-500"
           }`}
           title={showDegrees ? "Show note names" : "Show scale degrees"}
         >
@@ -175,7 +175,7 @@ export const Header: React.FC = () => {
           className={`p-2 rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
-              : "bg-white text-gray-700 hover:bg-gray-100"
+              : "bg-slate-400 text-slate-900 hover:bg-slate-500"
           }`}
           title={showFlats ? "Show sharp notes" : "Show flat notes"}
         >
@@ -186,7 +186,7 @@ export const Header: React.FC = () => {
           className={`p-2 rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
-              : "bg-white text-gray-700 hover:bg-gray-100"
+              : "bg-slate-400 text-slate-900 hover:bg-slate-500"
           }`}
           title={
             highlightRoots ? "Highlight intervals" : "Highlight root notes"
@@ -199,7 +199,7 @@ export const Header: React.FC = () => {
           className={`p-2 rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
-              : "bg-white text-gray-700 hover:bg-gray-100"
+              : "bg-slate-400 text-slate-900 hover:bg-slate-500"
           }`}
           title="Show help slideshow"
         >
@@ -210,7 +210,7 @@ export const Header: React.FC = () => {
           className={`p-2 rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "bg-gray-800 text-yellow-400 hover:bg-gray-700"
-              : "bg-white text-gray-700 hover:bg-gray-100"
+              : "bg-slate-400 text-slate-900 hover:bg-slate-500"
           }`}
           title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
         >

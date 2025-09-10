@@ -11,9 +11,9 @@ export const getNoteColor = (
   const isRoot = note === scale.root;
   if (highlightRoots) {
     if (isRoot) {
-      return isDarkMode ? "#4ade80" : "#22c55e"; // Green-500/600 for root notes
+      return isDarkMode ? "#4ade80" : "#16a34a"; // Green-500/600 for root notes - darker green for light mode
     }
-    return isDarkMode ? "#60a5fa" : "#3b82f6"; // Blue-400/500 for scale notes
+    return isDarkMode ? "#60a5fa" : "#2563eb"; // Blue-400/500 for scale notes - darker blue for light mode
   }
 
   return highlightRoots
@@ -22,7 +22,7 @@ export const getNoteColor = (
         ? "#f3f4f6"
         : "#4b5563"
       : isRoot
-      ? "#000000"
-      : "#d1d5db"
+      ? "#1f2937"  // Dark gray for root in light mode
+      : "#6b7280"  // Medium gray for scale notes in light mode
     : getScaleNoteColor(note, scale, isDarkMode, highlightRoots);
 };

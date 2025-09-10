@@ -147,7 +147,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, isDarkMod
         <div className={`relative w-full max-w-4xl h-[80vh] rounded-lg shadow-2xl overflow-hidden ${
           isDarkMode 
             ? 'bg-gray-900 text-white' 
-            : 'bg-white text-gray-900'
+            : 'bg-slate-300 text-slate-800'
         }`}>
           
           {/* Close button */}
@@ -156,7 +156,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, isDarkMod
             className={`absolute top-4 right-4 z-10 p-2 rounded-full transition-colors ${
               isDarkMode
                 ? 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900'
+                : 'bg-slate-400 text-slate-700 hover:bg-slate-500 hover:text-slate-900'
             }`}
             title="Close help"
           >
