@@ -104,7 +104,7 @@ export default function Kalimba() {
         className={`border rounded-lg transition-colors duration-200 ${
           isDarkMode
             ? "border-gray-700 bg-gray-800"
-            : "border-slate-200 bg-slate-50"
+            : "border-slate-400 bg-slate-300"
         }`}
       >
         {/* Kalimba body */}

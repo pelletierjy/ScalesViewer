@@ -26,7 +26,7 @@ const updateState = (
   state: WritableDraft<GlobalConfig>
 ) => {
   if (savedState) {
-    state.isDarkMode = savedState?.isDarkMode ?? true;
+    state.isDarkMode = savedState?.isDarkMode ?? true; // Dark mode is default
     state.instrument = savedState?.instrument ?? "piano";
     state.scale = savedState?.scale ?? {
       root: "A",
@@ -57,7 +57,7 @@ const loadState = (): GlobalConfig | undefined => {
 };
 
 export const initialState: GlobalConfig = {
-  isDarkMode: true,
+  isDarkMode: true, // Dark mode is default
   instrument: "piano",
   scale: {
     root: "A",

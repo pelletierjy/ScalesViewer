@@ -115,7 +115,7 @@ export default function Harmonica() {
           className={`border rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "border-gray-700 bg-gray-800"
-              : "border-slate-200 bg-slate-50"
+              : "border-slate-400 bg-slate-300"
           }`}
         >
           {/* Harmonica body - wider and taller */}
@@ -282,7 +282,7 @@ export default function Harmonica() {
             className={`rounded-md border px-3 py-1.5 text-sm ${
               isDarkMode
                 ? "bg-gray-700 border-gray-600 text-gray-200"
-                : "bg-white border-gray-300 text-gray-900"
+                : "bg-slate-300 border-slate-500 text-slate-800"
             }`}
           >
             {HARMONICA_KEYS.map((key) => (

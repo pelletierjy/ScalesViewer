@@ -107,7 +107,7 @@ export const Configuration: React.FC = () => {
                   className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-full min-w-[120px] ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-gray-200"
-                      : "bg-white border-gray-300 text-gray-900"
+                      : "bg-slate-300 border-slate-500 text-slate-800"
                   }`}
                 >
                   {Object.entries(tuningGroups(customTunings)).map(
@@ -143,7 +143,7 @@ export const Configuration: React.FC = () => {
                     className={`px-2 py-1 text-xs rounded-md ${
                       isDarkMode
                         ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
-                        : "bg-white text-gray-700 hover:bg-gray-50"
+                        : "bg-slate-400 text-slate-900 hover:bg-slate-500"
                     } border border-gray-300 dark:border-gray-600`}
                   >
                     Edit
@@ -157,7 +157,7 @@ export const Configuration: React.FC = () => {
                     className={`px-2 py-1 text-xs rounded-md ${
                       isDarkMode
                         ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
-                        : "bg-white text-gray-700 hover:bg-gray-50"
+                        : "bg-slate-400 text-slate-900 hover:bg-slate-500"
                     } border border-gray-300 dark:border-gray-600`}
                   >
                     Duplicate
@@ -167,7 +167,7 @@ export const Configuration: React.FC = () => {
                     className={`px-2 py-1 text-xs rounded-md text-red-600 hover:text-red-700 ${
                       isDarkMode
                         ? "bg-gray-700 hover:bg-gray-600"
-                        : "bg-white hover:bg-gray-50"
+                        : "bg-slate-400 hover:bg-slate-500"
                     } border border-gray-300 dark:border-gray-600`}
                   >
                     Delete
@@ -193,7 +193,7 @@ export const Configuration: React.FC = () => {
                   className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-full min-w-[80px] ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-gray-200"
-                      : "bg-white border-gray-300 text-gray-900"
+                      : "bg-slate-300 border-slate-500 text-slate-800"
                   }`}
                 >
                   {ROOTS.map((note) => (
@@ -222,7 +222,7 @@ export const Configuration: React.FC = () => {
                   className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-full min-w-[100px] ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-gray-200"
-                      : "bg-white border-gray-300 text-gray-900"
+                      : "bg-slate-300 border-slate-500 text-slate-800"
                   }`}
                 >
                   {[12, 20, 21, 22, 23, 24].map((num) => (
@@ -251,7 +251,7 @@ export const Configuration: React.FC = () => {
                     className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
                       isDarkMode
                         ? "bg-gray-700 border-gray-600 text-gray-200"
-                        : "bg-white border-gray-300 text-gray-900"
+                        : "bg-slate-300 border-slate-500 text-slate-800"
                     }`}
                   >
                     <option value="rosewood">Rosewood</option>
@@ -281,7 +281,7 @@ export const Configuration: React.FC = () => {
                   className={`p-2 rounded-lg transition-colors duration-200 ${
                     isDarkMode
                       ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
-                      : "bg-white text-gray-700 hover:bg-gray-100"
+                      : "bg-slate-400 text-slate-900 hover:bg-slate-500"
                   } ${flipX ? "bg-blue-100 dark:bg-blue-900" : ""}`}
                   title="Flip horizontally"
                 >
@@ -292,7 +292,7 @@ export const Configuration: React.FC = () => {
                   className={`p-2 rounded-lg transition-colors duration-200 ${
                     isDarkMode
                       ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
-                      : "bg-white text-gray-700 hover:bg-gray-100"
+                      : "bg-slate-400 text-slate-900 hover:bg-slate-500"
                   } ${flipY ? "bg-blue-100 dark:bg-blue-900" : ""}`}
                   title="Flip vertically"
                 >
@@ -352,7 +352,7 @@ export const Configuration: React.FC = () => {
                       className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-20 ${
                         isDarkMode
                           ? "bg-gray-700 border-gray-600 text-gray-200"
-                          : "bg-white border-gray-300 text-gray-900"
+                          : "bg-slate-300 border-slate-500 text-slate-800"
                       }`}
                     />
                   </div>
@@ -379,7 +379,7 @@ export const Configuration: React.FC = () => {
                       className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-20 ${
                         isDarkMode
                           ? "bg-gray-700 border-gray-600 text-gray-200"
-                          : "bg-white border-gray-300 text-gray-900"
+                          : "bg-slate-300 border-slate-500 text-slate-800"
                       }`}
                     />
                   </div>
@@ -402,7 +402,7 @@ export const Configuration: React.FC = () => {
                   className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-gray-200"
-                      : "bg-white border-gray-300 text-gray-900"
+                      : "bg-slate-300 border-slate-500 text-slate-800"
                   }`}
                 >
                   {PERPENDICULAR_FRET_OPTIONS.map((option) => (

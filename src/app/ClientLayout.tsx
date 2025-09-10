@@ -102,8 +102,8 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     <main
       className={`min-h-screen transition-colors duration-200 ${
         showContent 
-          ? `p-4 sm:p-8 ${isDarkMode ? "bg-gray-900" : "bg-slate-100"}`
-          : "bg-slate-100 flex items-center justify-center"
+          ? `p-4 sm:p-8 ${isDarkMode ? "bg-gray-900" : "bg-slate-200"}`
+          : "bg-slate-200 flex items-center justify-center"
       }`}
       suppressHydrationWarning
     >
@@ -117,7 +117,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
             className={`p-4 sm:p-6 rounded-lg shadow-lg space-y-6 transition-colors duration-200 ${
               isDarkMode
                 ? "bg-gray-800 border border-gray-700"
-                : "bg-slate-50/80 border border-slate-200"
+                : "bg-slate-300 border border-slate-400"
             }`}
           >
             <div className="max-w-full mx-auto">{children}</div>
@@ -125,7 +125,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
           <Details />
         </div>
       ) : (
-        <div className="text-gray-500">Loading...</div>
+        <div className="text-slate-700">Loading...</div>
       )}
       {showContent && <Footer isDarkMode={isDarkMode} />}
     </main>

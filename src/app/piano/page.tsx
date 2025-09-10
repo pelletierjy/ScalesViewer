@@ -140,7 +140,7 @@ export default function Piano() {
           className={`border rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "border-gray-700 bg-gray-800"
-              : "border-slate-200 bg-slate-50"
+              : "border-slate-400 bg-slate-300"
           }`}
         >
           <g transform="translate(0, 25)">
@@ -301,7 +301,7 @@ export default function Piano() {
               className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
                 isDarkMode
                   ? "bg-gray-700 border-gray-600 text-gray-200"
-                  : "bg-white border-gray-300 text-gray-900"
+                  : "bg-slate-300 border-slate-500 text-slate-800"
               }`}
             >
               {[1, 2, 3, 4].map((num) => (

@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div
       className={`min-h-screen flex items-center justify-center ${
-        isDarkMode ? "bg-gray-900 text-white" : "bg-slate-100 text-gray-900"
+        isDarkMode ? "bg-gray-900 text-white" : "bg-slate-200 text-slate-800"
       }`}
     >
       <div className="text-center">
