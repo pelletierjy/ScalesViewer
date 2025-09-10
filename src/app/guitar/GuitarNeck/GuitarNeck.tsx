@@ -18,7 +18,7 @@ import { FretNumbers } from "./FretNumbers";
 import { calculateNoteWithOctaveMemoized } from "../utils/octaveCalculation";
 import { FretboardBackground } from "./FretboardBackground";
 
-export const GuitarNeck: React.FC = () => {
+export const GuitarNeck: React.FC = React.memo(() => {
   const {
     fretCount,
     flipX,
@@ -270,4 +270,6 @@ export const GuitarNeck: React.FC = () => {
       </div>
     </div>
   );
-};
+});
+
+GuitarNeck.displayName = 'GuitarNeck';

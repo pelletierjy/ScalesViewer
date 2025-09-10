@@ -5,6 +5,7 @@ import { TuningPreset } from "../types/tuningPreset";
 import { useSelector } from "react-redux";
 import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
 import { TuningPresetWithMetadata } from "../tuningConstants";
+import { validateTuningName, sanitizeString } from "@/lib/utils/inputSanitization";
 
 interface CustomTuningEditorProps {
   onSaveTuning: (scaleRoot: TuningPreset) => void;
@@ -67,14 +68,16 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
   };
 
   const validateAndSave = (): void => {
-    const trimmedName = tuningName.trim();
-    if (!trimmedName) {
-      setNameError("Tuning name cannot be empty");
+    const sanitizedName = sanitizeString(tuningName);
+    const validation = validateTuningName(sanitizedName);
+    
+    if (!validation.isValid) {
+      setNameError(validation.error);
       return;
     }
 
     const isDuplicate = customTunings.some(
-      (tuning) => tuning.name === trimmedName && tuning.name !== initialTuning?.name
+      (tuning) => tuning.name === sanitizedName && tuning.name !== initialTuning?.name
     );
 
     if (isDuplicate) {
@@ -83,7 +86,7 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
     }
 
     onSaveTuning({
-      name: trimmedName,
+      name: sanitizedName,
       strings: strings,
     });
   };

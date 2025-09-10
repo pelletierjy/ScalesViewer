@@ -21,7 +21,7 @@ interface StringGroupProps {
   fretPositions?: number[][];
 }
 
-export const StringGroup: React.FC<StringGroupProps> = ({
+export const StringGroup: React.FC<StringGroupProps> = React.memo(({
   adjustedTuning,
   dimensions,
   stringSpacing,
@@ -94,4 +94,6 @@ export const StringGroup: React.FC<StringGroupProps> = ({
         ))}
     </>
   );
-}; 
+});
+
+StringGroup.displayName = 'StringGroup';

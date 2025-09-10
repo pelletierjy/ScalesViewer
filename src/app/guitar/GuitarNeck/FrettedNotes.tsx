@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
 import { calculateFretNote, isNoteInScale, getScaleDegree, sharpToFlat } from "@/lib/utils/scaleUtils";
@@ -26,7 +26,7 @@ interface FrettedNotesProps {
   fretPositions?: number[];
 }
 
-export const FrettedNotes: React.FC<FrettedNotesProps> = ({
+export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
   openNote,
   stringIndex,
   fretCount,
@@ -44,6 +44,24 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = ({
 }) => {
   const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
 
+  // Memoize fret positions calculation
+  const defaultFretPositions = useMemo(() => 
+    getFretPositions(dimensions.width, fretCount), 
+    [dimensions.width, fretCount]
+  );
+
+  // Memoize circle radius calculation
+  const circleRadius = useMemo(() => 
+    Math.min(stringSpacing / 3.5, stringSpacing / 3.5), 
+    [stringSpacing]
+  );
+
+  // Memoize font size calculation
+  const fontSize = useMemo(() => 
+    Math.min(stringSpacing / 3, stringSpacing / 3), 
+    [stringSpacing]
+  );
+
   return (
     <>
       {Array.from({ length: fretCount }, (_, index) => {
@@ -60,7 +78,7 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = ({
         // Get fret position based on whether it's multiscale or not
         const fretPosition = fretPositions.length > 0
           ? fretPositions[fretIndex]
-          : getFretPositions(dimensions.width, fretCount)[fretIndex];
+          : defaultFretPositions[fretIndex];
           
         return (
           inScale && (
@@ -74,7 +92,7 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = ({
             >
               <title>{noteWithOctave}</title>
               <circle
-                r={Math.min(stringSpacing / 3.5, stringSpacing / 3.5)}
+                r={circleRadius}
                 fill={getNoteColor(note, scale, isDarkMode, highlightRoots)}
                 className="transition-colors duration-200"
               />
@@ -86,7 +104,7 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = ({
                     ? "#ffffff"
                     : "#1f2937"
                 }
-                fontSize={Math.min(stringSpacing / 3, stringSpacing / 3)}
+                fontSize={fontSize}
                 textAnchor="middle"
                 dy=".3em"
                 className="select-none font-bold transition-colors duration-200"
@@ -111,4 +129,6 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = ({
       })}
     </>
   );
-};
+});
+
+FrettedNotes.displayName = 'FrettedNotes';
