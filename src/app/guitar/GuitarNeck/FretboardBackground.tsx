@@ -1,5 +1,5 @@
 import React from 'react';
-import { FretboardTexture, getTexturePatternUrl } from './FretboardTexture';
+import { FretboardTexture } from './FretboardTexture';
 
 interface FretboardBackgroundProps {
   isMultiscale: boolean;
@@ -46,7 +46,6 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
     
     return (
       <>
-        <FretboardTexture texture={fretboardTexture} />
         {/* Background */}
         <rect
           width={dimensions.width}
@@ -55,23 +54,41 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
           className="transition-colors duration-200"
         />
         
-        {/* Fretboard */}
-        <path
-          d={pathPoints.join(' ')}
-          fill={getTexturePatternUrl(fretboardTexture)}
-          className="transition-colors duration-200"
-        />
+        {/* Fretboard with texture overlay */}
+        <defs>
+          <clipPath id={`fretboard-clip-${fretboardTexture}`}>
+            <path d={pathPoints.join(' ')} />
+          </clipPath>
+        </defs>
+        
+        <g clipPath={`url(#fretboard-clip-${fretboardTexture})`}>
+          <foreignObject 
+            x={0} 
+            y={stringSpacing} 
+            width={dimensions.width || 1000} 
+            height={Math.max((stringCount - 1) * stringSpacing, 100)}
+          >
+            <FretboardTexture texture={fretboardTexture} />
+          </foreignObject>
+        </g>
       </>
     );
   } else {
     // For standard guitars, use a simple rectangle
     const standardPositions = fretPositions as number[];
-    const fretboardLeft = standardPositions[0];
-    const fretboardRight = standardPositions[fretCount];
+    const fretboardLeft = standardPositions?.[0] || 0;
+    const fretboardRight = standardPositions?.[fretCount] || dimensions.width;
+    
+    // Ensure we have valid numbers and prevent NaN
+    const validLeft = isNaN(fretboardLeft) ? 0 : fretboardLeft;
+    const validRight = isNaN(fretboardRight) ? dimensions.width : fretboardRight;
+    const validWidth = validRight - validLeft;
+    const safeWidth = isNaN(validWidth) || validWidth <= 0 ? dimensions.width : validWidth;
+    const safeHeight = (stringCount - 1) * stringSpacing;
+    const validHeight = isNaN(safeHeight) || safeHeight <= 0 ? 100 : safeHeight;
     
     return (
       <>
-        <FretboardTexture texture={fretboardTexture} />
         {/* Background */}
         <rect
           width={dimensions.width}
@@ -80,15 +97,28 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
           className="transition-colors duration-200"
         />
         
-        {/* Fretboard */}
-        <rect
-          x={fretboardLeft}
-          y={stringSpacing}
-          width={fretboardRight - fretboardLeft}
-          height={(stringCount - 1) * stringSpacing}
-          fill={getTexturePatternUrl(fretboardTexture)}
-          className="transition-colors duration-200"
-        />
+        {/* Fretboard with texture overlay */}
+        <defs>
+          <clipPath id={`standard-fretboard-clip-${fretboardTexture}`}>
+            <rect
+              x={validLeft}
+              y={stringSpacing}
+              width={safeWidth}
+              height={validHeight}
+            />
+          </clipPath>
+        </defs>
+        
+        <g clipPath={`url(#standard-fretboard-clip-${fretboardTexture})`}>
+          <foreignObject 
+            x={validLeft} 
+            y={stringSpacing} 
+            width={safeWidth} 
+            height={validHeight}
+          >
+            <FretboardTexture texture={fretboardTexture} />
+          </foreignObject>
+        </g>
       </>
     );
   }
