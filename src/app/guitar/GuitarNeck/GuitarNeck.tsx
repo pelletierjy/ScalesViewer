@@ -16,6 +16,7 @@ import { FretMarkers } from "./FretMarkers";
 import { StringGroup } from "./StringGroup";
 import { FretNumbers } from "./FretNumbers";
 import { calculateNoteWithOctaveMemoized } from "../utils/octaveCalculation";
+import { FretboardTexture, getTexturePatternUrl } from "./FretboardTexture";
 
 export const GuitarNeck: React.FC = () => {
   const {
@@ -26,7 +27,7 @@ export const GuitarNeck: React.FC = () => {
     isMultiscale,
     scaleLength,
     perpendicular,
-    fretboardColor,
+    fretboardTexture,
     scaleRoot,
   } = useContext(DataContext) as DataContextType;
   const showFlats = useSelector(selectShowFlats);
@@ -157,6 +158,7 @@ export const GuitarNeck: React.FC = () => {
             transition: "transform 0.3s ease-in-out",
           }}
         >
+          <FretboardTexture texture={fretboardTexture} />
           {/* Background */}
           <rect
             width={dimensions.width}
@@ -192,7 +194,7 @@ export const GuitarNeck: React.FC = () => {
               return (
                 <path
                   d={pathPoints.join(' ')}
-                  fill={fretboardColor}
+                  fill={getTexturePatternUrl(fretboardTexture)}
                   className="transition-colors duration-200"
                 />
               );
@@ -213,7 +215,7 @@ export const GuitarNeck: React.FC = () => {
                   y={stringSpacing}
                   width={isNaN(validWidth) || validWidth <= 0 ? dimensions.width : validWidth}
                   height={(scaleRoot.strings.length - 1) * stringSpacing}
-                  fill={fretboardColor}
+                  fill={getTexturePatternUrl(fretboardTexture)}
                   className="transition-colors duration-200"
                 />
               );
