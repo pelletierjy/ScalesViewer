@@ -12,6 +12,45 @@ import { TuningPreset } from "./types/tuningPreset";
 import { TuningPresetWithMetadata } from "./tuningConstants";
 import { MULTISCALE_PRESETS } from "./multiscaleConstants";
 
+// Migration hook to convert old fretboard-color to fretboard-texture
+function useMigratedTexture(): [string, (value: string) => void] {
+  const [texture, setTexture] = useLocalStorage<string>("fretboard-texture", "rosewood");
+  const [hasMigrated, setHasMigrated] = useLocalStorageBoolean("fretboard-migrated", false);
+
+  useEffect(() => {
+    if (hasMigrated || typeof window === 'undefined') return;
+
+    try {
+      // Check for old fretboard-color value
+      const oldColor = localStorage.getItem("fretboard-color");
+      if (oldColor) {
+        // Map old hex colors to texture names
+        const colorToTexture: Record<string, string> = {
+          '"#8B4513"': "rosewood",
+          '"#3E2723"': "ebony", 
+          '"#D2691E"': "maple",
+          '"#654321"': "pau-ferro",
+          '"#2E2E2E"': "richlite"
+        };
+
+        const mappedTexture = colorToTexture[oldColor] || "rosewood";
+        setTexture(mappedTexture);
+        
+        // Clean up old key
+        localStorage.removeItem("fretboard-color");
+        console.log(`Migrated fretboard color ${oldColor} to texture: ${mappedTexture}`);
+      }
+      
+      setHasMigrated(true);
+    } catch (error) {
+      console.warn("Failed to migrate fretboard color to texture:", error);
+      setHasMigrated(true); // Don't keep trying if it fails
+    }
+  }, [hasMigrated, setTexture, setHasMigrated]);
+
+  return [texture, setTexture];
+}
+
 export interface DataContextType {
   // Display settings
   fretCount: number;
@@ -28,8 +67,8 @@ export interface DataContextType {
   setScaleLength: (lengths: { treble: number; bass: number }) => void;
   perpendicular: number;
   setPerpendicular: (fret: number) => void;
-  fretboardColor: string;
-  setFretboardColor: (color: string) => void;
+  fretboardTexture: string;
+  setFretboardTexture: (texture: string) => void;
   
   // Tuning management
   scaleRoot: TuningPreset;
@@ -60,8 +99,8 @@ const defaultContextValue: DataContextType = {
   setScaleLength: () => {},
   perpendicular: 9,
   setPerpendicular: () => {},
-  fretboardColor: "#8B4513",
-  setFretboardColor: () => {},
+  fretboardTexture: "rosewood",
+  setFretboardTexture: () => {},
   
   // Tuning management
   scaleRoot: { name: "Standard E", strings: ["E", "B", "G", "D", "A", "E"] },
@@ -89,7 +128,9 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     { treble: 25.5, bass: 27 }
   );
   const [perpendicular, setPerpendicular] = useLocalStorageNumber("perpendicular", 9, 0, 24);
-  const [fretboardColor, setFretboardColor] = useLocalStorage<string>("fretboard-color", "#8B4513");
+  
+  // Migration from old fretboard-color to fretboard-texture
+  const [fretboardTexture, setFretboardTexture] = useMigratedTexture();
   
   // Tuning management state
   const [scaleRoot, setScaleRoot] = useLocalStorage<TuningPreset>("current-scaleRoot", getTuning());
@@ -149,8 +190,8 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         setScaleLength,
         perpendicular,
         setPerpendicular,
-        fretboardColor,
-        setFretboardColor,
+        fretboardTexture,
+        setFretboardTexture,
         
         // Tuning management
         scaleRoot,

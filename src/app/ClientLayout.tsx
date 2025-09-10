@@ -95,37 +95,39 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     }
   }, [isDarkMode, isHydrated]);
 
+  // Always render the same structure to avoid hydration mismatch
+  const showContent = isHydrated && applicationState === "initialized";
+  
   return (
-    <>
-      {isHydrated && applicationState === "initialized" ? (
-        <main
-          className={`min-h-screen p-4 sm:p-8 transition-colors duration-200 ${
-            isDarkMode ? "bg-gray-900" : "bg-slate-100"
-          }`}
-        >
-          <div className="max-w-[1400px] mx-auto space-y-6 sm:space-y-8">
-            <div className="flex justify-between items-center">
-              <Header />
-            </div>
-
-            <div
-              className={`p-4 sm:p-6 rounded-lg shadow-lg space-y-6 transition-colors duration-200 ${
-                isDarkMode
-                  ? "bg-gray-800 border border-gray-700"
-                  : "bg-slate-50/80 border border-slate-200"
-              }`}
-            >
-              <div className="max-w-full mx-auto">{children}</div>
-            </div>
-            <Details />
+    <main
+      className={`min-h-screen transition-colors duration-200 ${
+        showContent 
+          ? `p-4 sm:p-8 ${isDarkMode ? "bg-gray-900" : "bg-slate-100"}`
+          : "bg-slate-100 flex items-center justify-center"
+      }`}
+      suppressHydrationWarning
+    >
+      {showContent ? (
+        <div className="max-w-[1400px] mx-auto space-y-6 sm:space-y-8">
+          <div className="flex justify-between items-center">
+            <Header />
           </div>
-          <Footer isDarkMode={isDarkMode} />
-        </main>
-      ) : (
-        <div className="min-h-screen flex items-center justify-center bg-slate-100">
-          <div className="text-gray-500">Loading...</div>
+
+          <div
+            className={`p-4 sm:p-6 rounded-lg shadow-lg space-y-6 transition-colors duration-200 ${
+              isDarkMode
+                ? "bg-gray-800 border border-gray-700"
+                : "bg-slate-50/80 border border-slate-200"
+            }`}
+          >
+            <div className="max-w-full mx-auto">{children}</div>
+          </div>
+          <Details />
         </div>
+      ) : (
+        <div className="text-gray-500">Loading...</div>
       )}
-    </>
+      {showContent && <Footer isDarkMode={isDarkMode} />}
+    </main>
   );
 }

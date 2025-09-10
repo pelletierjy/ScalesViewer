@@ -1,4 +1,5 @@
 import React from 'react';
+import { FretboardTexture, getTexturePatternUrl } from './FretboardTexture';
 
 interface FretboardBackgroundProps {
   isMultiscale: boolean;
@@ -6,7 +7,7 @@ interface FretboardBackgroundProps {
   fretCount: number;
   stringSpacing: number;
   stringCount: number;
-  fretboardColor: string;
+  fretboardTexture: string;
   isDarkMode: boolean;
   dimensions: { width: number; height: number };
 }
@@ -17,7 +18,7 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
   fretCount,
   stringSpacing,
   stringCount,
-  fretboardColor,
+  fretboardTexture,
   isDarkMode,
   dimensions,
 }) => {
@@ -45,6 +46,7 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
     
     return (
       <>
+        <FretboardTexture texture={fretboardTexture} />
         {/* Background */}
         <rect
           width={dimensions.width}
@@ -56,7 +58,7 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
         {/* Fretboard */}
         <path
           d={pathPoints.join(' ')}
-          fill={fretboardColor}
+          fill={getTexturePatternUrl(fretboardTexture)}
           className="transition-colors duration-200"
         />
       </>
@@ -69,6 +71,7 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
     
     return (
       <>
+        <FretboardTexture texture={fretboardTexture} />
         {/* Background */}
         <rect
           width={dimensions.width}
@@ -83,7 +86,7 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
           y={stringSpacing}
           width={fretboardRight - fretboardLeft}
           height={(stringCount - 1) * stringSpacing}
-          fill={fretboardColor}
+          fill={getTexturePatternUrl(fretboardTexture)}
           className="transition-colors duration-200"
         />
       </>
