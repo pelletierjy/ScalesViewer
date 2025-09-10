@@ -1,14 +1,12 @@
 import { ROOTS } from "@/lib/utils/scaleConstants";
 import { useSelector } from "react-redux";
 import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
-import { useContext } from "react";
 import { Note } from "@/lib/utils/note";
-import { DataContext } from "@/app/guitar/context";
+import { useDataContext } from "@/app/guitar/context";
 import { tuningGroups } from "@/app/guitar/tunings";
 import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
 import { MULTISCALE_PRESETS, PERPENDICULAR_FRET_OPTIONS } from "../multiscaleConstants";
 
-import { DataContextType } from "../context";
 import { CustomTuningEditor } from "../CustomTuningEditor/CustomTuningEditor";
 
 export const Configuration: React.FC = () => {
@@ -41,11 +39,11 @@ export const Configuration: React.FC = () => {
     showCustomTuning,
     setShowCustomTuning,
     handleSaveCustomTuning,
-  } = useContext(DataContext) as DataContextType;
+  } = useDataContext();
 
   const isDarkMode = useSelector(selectIsDarkMode);
 
-  const handleEditTuning = (tuning: TuningPresetWithMetadata) => {
+  const handleEditTuning = (tuning: TuningPresetWithMetadata): void => {
     setEditingTuning(tuning);
     setShowCustomTuning(true);
   };
@@ -267,9 +265,9 @@ export const Configuration: React.FC = () => {
 
           {/* Right side orientation controls */}
           <div className="flex items-center self-start pt-0">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col gap-1">
               <label
-                className={`text-sm font-semibold whitespace-nowrap ${
+                className={`text-sm font-semibold ${
                   isDarkMode ? "text-gray-200" : "text-gray-900"
                 }`}
               >
@@ -426,6 +424,7 @@ export const Configuration: React.FC = () => {
                 setShowCustomTuning(false);
                 setEditingTuning(null);
               }}
+              customTunings={customTunings}
             />
           </div>
         )}

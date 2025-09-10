@@ -5,11 +5,13 @@ import { TuningPreset } from "../types/tuningPreset";
 import { useSelector } from "react-redux";
 import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
 import { TuningPresetWithMetadata } from "../tuningConstants";
+import { validateTuningName, sanitizeString } from "@/lib/utils/inputSanitization";
 
 interface CustomTuningEditorProps {
   onSaveTuning: (scaleRoot: TuningPreset) => void;
   onCancel: () => void;
   initialTuning?: TuningPresetWithMetadata | null;
+  customTunings: TuningPresetWithMetadata[];
 }
 
 const MIN_STRINGS = 4;
@@ -20,6 +22,7 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
   onSaveTuning,
   onCancel,
   initialTuning,
+  customTunings,
 }) => {
   const isDarkMode = useSelector(selectIsDarkMode);
   const [tuningName, setTuningName] = useState(
@@ -51,7 +54,7 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
     });
   }, [stringCount]);
 
-  const handleStringChange = (index: number, note: Note) => {
+  const handleStringChange = (index: number, note: Note): void => {
     const newStrings = [...strings];
     newStrings[index] = note;
     setStrings(newStrings);
@@ -59,25 +62,36 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
 
   const handleStringCountChange = (
     event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  ): void => {
     const newCount = parseInt(event.target.value, 10);
     setStringCount(newCount);
   };
 
-  const validateAndSave = () => {
-    // Check for empty or duplicate name
-    if (!tuningName.trim()) {
-      setNameError("Tuning name cannot be empty");
+  const validateAndSave = (): void => {
+    const sanitizedName = sanitizeString(tuningName);
+    const validation = validateTuningName(sanitizedName);
+    
+    if (!validation.isValid) {
+      setNameError(validation.error);
+      return;
+    }
+
+    const isDuplicate = customTunings.some(
+      (tuning) => tuning.name === sanitizedName && tuning.name !== initialTuning?.name
+    );
+
+    if (isDuplicate) {
+      setNameError("A tuning with this name already exists");
       return;
     }
 
     onSaveTuning({
-      name: tuningName,
+      name: sanitizedName,
       strings: strings,
     });
   };
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setTuningName(e.target.value);
     setNameError("");
   };

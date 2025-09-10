@@ -1,4 +1,5 @@
 "use client";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import { Details } from "@/components/Details";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -20,6 +21,8 @@ import {
   initializeApplication,
   selectApplicationState,
 } from "@/features/application/applicationSlice";
+import { setAudioStatus } from "@/features/audio/audioSlice";
+import { initializeAudio } from "@/lib/utils/audioUtils";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -95,6 +98,15 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     }
   }, [isDarkMode, isHydrated]);
 
+  useEffect(() => {
+    const initAudio = async () => {
+      dispatch(setAudioStatus('initializing'));
+      const success = await initializeAudio();
+      dispatch(setAudioStatus(success ? 'initialized' : 'failed'));
+    };
+    initAudio();
+  }, [dispatch]);
+
   // Always render the same structure to avoid hydration mismatch
   const showContent = isHydrated && applicationState === "initialized";
   
@@ -120,7 +132,9 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
                 : "bg-slate-300 border border-slate-400"
             }`}
           >
-            <div className="max-w-full mx-auto">{children}</div>
+            <ErrorBoundary fallback={<div className="text-red-500"><p>Something went wrong.</p><p>Please try refreshing the page.</p></div>}>
+              <div className="max-w-full mx-auto">{children}</div>
+            </ErrorBoundary>
           </div>
           <Details />
         </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
 import { isNoteInScale, getScaleDegree, sharpToFlat } from "@/lib/utils/scaleUtils";
@@ -6,6 +6,10 @@ import { playNote } from "@/lib/utils/audioUtils";
 import { getNoteColor } from "./getNoteColor";
 import { TuningPreset } from "../types/tuningPreset";
 import { FrettedNotes } from './FrettedNotes';
+import { VirtualizedFrettedNotes } from './VirtualizedFrettedNotes';
+import { useSelector } from 'react-redux';
+import { selectAudioStatus } from '@/features/audio/audioSlice';
+import { RootState } from '@/app/store';
 
 interface NotesDisplayProps {
   adjustedTuning: TuningPreset;
@@ -25,7 +29,7 @@ interface NotesDisplayProps {
   openNote?: Note;
 }
 
-export const NotesDisplay: React.FC<NotesDisplayProps> = ({
+export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
   adjustedTuning,
   dimensions,
   stringSpacing,
@@ -42,6 +46,19 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = ({
   stringIndex = 0,
   openNote: openNoteProp,
 }) => {
+  const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
+
+  // Memoize circle radius and font size calculations
+  const circleRadius = useMemo(() => 
+    Math.min(stringSpacing / 3.5, stringSpacing / 3.5), 
+    [stringSpacing]
+  );
+
+  const fontSize = useMemo(() => 
+    Math.min(stringSpacing / 3, stringSpacing / 3), 
+    [stringSpacing]
+  );
+
   // Get the open note for this specific string
   const openNote = openNoteProp || [...adjustedTuning.strings].reverse()[stringIndex];
   
@@ -60,14 +77,15 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = ({
           })`}
           onClick={() =>
             playNote(
-              calculateNoteWithOctave(openNote, stringIndex, 0)
+              calculateNoteWithOctave(openNote, stringIndex, 0),
+              audioStatus
             )
           }
           className="cursor-pointer"
         >
           <title>{calculateNoteWithOctave(openNote, stringIndex, 0)}</title>
           <circle
-            r={Math.min(stringSpacing / 3.5, stringSpacing / 3.5)}
+            r={circleRadius}
             fill={getNoteColor(
               openNote,
               scale,
@@ -84,7 +102,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = ({
                 ? "#ffffff"
                 : "#1f2937"
             }
-            fontSize={Math.min(stringSpacing / 3, stringSpacing / 3)}
+            fontSize={fontSize}
             textAnchor="middle"
             dy=".3em"
             className="select-none font-bold transition-colors duration-200"
@@ -106,23 +124,44 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = ({
         </g>
       )}
 
-      {/* Fretted notes */}
-      <FrettedNotes
-        openNote={openNote}
-        stringIndex={stringIndex}
-        fretCount={fretCount}
-        dimensions={dimensions}
-        stringSpacing={stringSpacing}
-        scale={scale}
-        isDarkMode={isDarkMode}
-        showDegrees={showDegrees}
-        showFlats={showFlats}
-        highlightRoots={highlightRoots}
-        flipX={flipX}
-        flipY={flipY}
-        calculateNoteWithOctave={calculateNoteWithOctave}
-        fretPositions={fretPositions[stringIndex] || []}
-      />
+      {/* Fretted notes - use virtualization for large fretboards */}
+      {fretCount > 24 ? (
+        <VirtualizedFrettedNotes
+          openNote={openNote}
+          stringIndex={stringIndex}
+          fretCount={fretCount}
+          dimensions={dimensions}
+          stringSpacing={stringSpacing}
+          scale={scale}
+          isDarkMode={isDarkMode}
+          showDegrees={showDegrees}
+          showFlats={showFlats}
+          highlightRoots={highlightRoots}
+          flipX={flipX}
+          flipY={flipY}
+          calculateNoteWithOctave={calculateNoteWithOctave}
+          fretPositions={fretPositions[stringIndex] || []}
+        />
+      ) : (
+        <FrettedNotes
+          openNote={openNote}
+          stringIndex={stringIndex}
+          fretCount={fretCount}
+          dimensions={dimensions}
+          stringSpacing={stringSpacing}
+          scale={scale}
+          isDarkMode={isDarkMode}
+          showDegrees={showDegrees}
+          showFlats={showFlats}
+          highlightRoots={highlightRoots}
+          flipX={flipX}
+          flipY={flipY}
+          calculateNoteWithOctave={calculateNoteWithOctave}
+          fretPositions={fretPositions[stringIndex] || []}
+        />
+      )}
     </>
   );
-}; 
+});
+
+NotesDisplay.displayName = 'NotesDisplay';
