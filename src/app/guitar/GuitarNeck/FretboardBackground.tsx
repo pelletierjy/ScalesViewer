@@ -1,5 +1,6 @@
 import React from 'react';
 import { FretboardTexture } from './FretboardTexture';
+import { GuitarBody } from './GuitarBody';
 
 interface FretboardBackgroundProps {
   isMultiscale: boolean;
@@ -71,6 +72,17 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
             <FretboardTexture texture={fretboardTexture} />
           </foreignObject>
         </g>
+        
+        {/* Guitar Body */}
+        <GuitarBody
+          fretboardRight={Array.isArray(fretPositions[0]) 
+            ? (fretPositions[0] as number[])[fretCount]
+            : (fretPositions as number[])[fretCount]
+          }
+          stringSpacing={stringSpacing}
+          stringCount={stringCount}
+          isDarkMode={isDarkMode}
+        />
       </>
     );
   } else {
@@ -119,6 +131,14 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
             <FretboardTexture texture={fretboardTexture} />
           </foreignObject>
         </g>
+        
+        {/* Guitar Body */}
+        <GuitarBody
+          fretboardRight={validRight}
+          stringSpacing={stringSpacing}
+          stringCount={stringCount}
+          isDarkMode={isDarkMode}
+        />
       </>
     );
   }
