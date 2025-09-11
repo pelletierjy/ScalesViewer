@@ -63,19 +63,19 @@ export const GuitarBody: React.FC<GuitarBodyProps> = ({
       {/* Guitar body shadow/depth */}
       <path
         d={bodyPath}
-        fill={isDarkMode ? "#0f172a" : "#e2e8f0"}
-        stroke={isDarkMode ? "#374151" : "#94a3b8"}
+        fill={isDarkMode ? "#3c2415" : "#4a2c17"}
+        stroke={isDarkMode ? "#6b4423" : "#5d3419"}
         strokeWidth="1"
         className="transition-colors duration-200"
         transform="translate(2, 2)"
-        opacity="0.3"
+        opacity="0.4"
       />
       
       {/* Main guitar body */}
       <path
         d={bodyPath}
-        fill={isDarkMode ? "#1e293b" : "#f1f5f9"}
-        stroke={isDarkMode ? "#475569" : "#64748b"}
+        fill={isDarkMode ? "#5d3a1a" : "#7c4a1e"}
+        stroke={isDarkMode ? "#8b5a2b" : "#925a2a"}
         strokeWidth="2"
         className="transition-colors duration-200"
       />

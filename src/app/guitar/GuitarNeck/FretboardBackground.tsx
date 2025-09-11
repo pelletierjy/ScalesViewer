@@ -1,6 +1,7 @@
 import React from 'react';
 import { FretboardTexture } from './FretboardTexture';
 import { GuitarBody } from './GuitarBody';
+import { GuitarHeadstock } from './GuitarHeadstock';
 
 interface FretboardBackgroundProps {
   isMultiscale: boolean;
@@ -55,6 +56,28 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
           className="transition-colors duration-200"
         />
         
+        {/* Guitar Body (behind fretboard) */}
+        <GuitarBody
+          fretboardRight={Array.isArray(fretPositions[0]) 
+            ? (fretPositions[0] as number[])[fretCount]
+            : (fretPositions as number[])[fretCount]
+          }
+          stringSpacing={stringSpacing}
+          stringCount={stringCount}
+          isDarkMode={isDarkMode}
+        />
+        
+        {/* Guitar Headstock (behind fretboard) */}
+        <GuitarHeadstock
+          fretboardLeft={Array.isArray(fretPositions[0]) 
+            ? (fretPositions[0] as number[])[0]
+            : (fretPositions as number[])[0]
+          }
+          stringSpacing={stringSpacing}
+          stringCount={stringCount}
+          isDarkMode={isDarkMode}
+        />
+        
         {/* Fretboard with texture overlay */}
         <defs>
           <clipPath id={`fretboard-clip-${fretboardTexture}`}>
@@ -72,17 +95,6 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
             <FretboardTexture texture={fretboardTexture} />
           </foreignObject>
         </g>
-        
-        {/* Guitar Body */}
-        <GuitarBody
-          fretboardRight={Array.isArray(fretPositions[0]) 
-            ? (fretPositions[0] as number[])[fretCount]
-            : (fretPositions as number[])[fretCount]
-          }
-          stringSpacing={stringSpacing}
-          stringCount={stringCount}
-          isDarkMode={isDarkMode}
-        />
       </>
     );
   } else {
@@ -109,6 +121,22 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
           className="transition-colors duration-200"
         />
         
+        {/* Guitar Body (behind fretboard) */}
+        <GuitarBody
+          fretboardRight={validRight}
+          stringSpacing={stringSpacing}
+          stringCount={stringCount}
+          isDarkMode={isDarkMode}
+        />
+        
+        {/* Guitar Headstock (behind fretboard) */}
+        <GuitarHeadstock
+          fretboardLeft={validLeft}
+          stringSpacing={stringSpacing}
+          stringCount={stringCount}
+          isDarkMode={isDarkMode}
+        />
+        
         {/* Fretboard with texture overlay */}
         <defs>
           <clipPath id={`standard-fretboard-clip-${fretboardTexture}`}>
@@ -131,14 +159,6 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
             <FretboardTexture texture={fretboardTexture} />
           </foreignObject>
         </g>
-        
-        {/* Guitar Body */}
-        <GuitarBody
-          fretboardRight={validRight}
-          stringSpacing={stringSpacing}
-          stringCount={stringCount}
-          isDarkMode={isDarkMode}
-        />
       </>
     );
   }
