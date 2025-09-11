@@ -14,35 +14,34 @@ export const GuitarHeadstock: React.FC<GuitarHeadstockProps> = ({
   isDarkMode,
 }) => {
   // Calculate headstock dimensions based on fretboard
-  const headstockWidth = stringSpacing * 4; // Make the headstock wider than the neck
+  const headstockWidth = stringSpacing * 10; // Make the headstock wider than the neck
   const headstockStartX = fretboardLeft - headstockWidth;
   const headstockHeight = (stringCount - 1) * stringSpacing + stringSpacing * 1.5;
   const headstockTopY = stringSpacing * 0.75; // Start slightly above the first string
   const headstockBottomY = headstockTopY + headstockHeight;
   
-  // Define the guitar headstock shape - classic 3+3 or 6-inline style
+  // Define the pointy electric guitar headstock shape - sharp angular design
   const headstockPath = [
     // Start at the nut (neck joint)
     `M ${fretboardLeft} ${stringSpacing}`,
     
-    // Top edge with slight curve
-    `Q ${headstockStartX + headstockWidth * 0.8} ${headstockTopY - stringSpacing * 0.1}`,
-    `${headstockStartX + headstockWidth * 0.3} ${headstockTopY}`,
+    // Sharp angled top edge - pointy design
+    `L ${headstockStartX + headstockWidth * 0.6} ${headstockTopY - stringSpacing * 0.2}`,
+    `L ${headstockStartX + headstockWidth * 0.2} ${headstockTopY - stringSpacing * 0.5}`,
     
-    // Left upper curve
-    `Q ${headstockStartX + headstockWidth * 0.1} ${headstockTopY + stringSpacing * 0.3}`,
-    `${headstockStartX} ${headstockTopY + headstockHeight * 0.3}`,
+    // Sharp point at the top
+    `L ${headstockStartX} ${headstockTopY + headstockHeight * 0.2}`,
     
-    // Left side to center
-    `L ${headstockStartX} ${headstockTopY + headstockHeight * 0.7}`,
+    // Angled left side - aggressive cutout
+    `L ${headstockStartX + headstockWidth * 0.1} ${headstockTopY + headstockHeight * 0.4}`,
+    `L ${headstockStartX} ${headstockTopY + headstockHeight * 0.6}`,
     
-    // Left lower curve
-    `Q ${headstockStartX + headstockWidth * 0.1} ${headstockBottomY - stringSpacing * 0.3}`,
-    `${headstockStartX + headstockWidth * 0.3} ${headstockBottomY}`,
+    // Sharp point at the bottom
+    `L ${headstockStartX + headstockWidth * 0.2} ${headstockBottomY + stringSpacing * 0.5}`,
+    `L ${headstockStartX + headstockWidth * 0.6} ${headstockBottomY + stringSpacing * 0.2}`,
     
-    // Bottom edge with slight curve
-    `Q ${headstockStartX + headstockWidth * 0.8} ${headstockBottomY + stringSpacing * 0.1}`,
-    `${fretboardLeft} ${headstockBottomY - stringSpacing}`,
+    // Sharp angled bottom edge back to nut
+    `L ${fretboardLeft} ${headstockBottomY - stringSpacing}`,
     
     // Close path along the nut
     `L ${fretboardLeft} ${stringSpacing}`,
@@ -71,6 +70,36 @@ export const GuitarHeadstock: React.FC<GuitarHeadstockProps> = ({
         strokeWidth="2"
         className="transition-colors duration-200"
       />
+      
+      {/* Tuning Pegs - positioned horizontally along the strings */}
+      {Array.from({ length: stringCount }, (_, i) => {
+        // For horizontal guitar, pegs should be positioned along each string
+        const pegX = headstockStartX + headstockWidth * 0.4;
+        const pegY = stringSpacing + (i * stringSpacing);
+        
+        return (
+          <g key={`tuning-peg-${i}`}>
+            {/* Tuning peg base */}
+            <circle
+              cx={pegX}
+              cy={pegY}
+              r={stringSpacing * 0.15}
+              fill={isDarkMode ? "#e5e5e5" : "#d0d0d0"}
+              stroke={isDarkMode ? "#b0b0b0" : "#a0a0a0"}
+              strokeWidth="1"
+              className="transition-colors duration-200"
+            />
+            {/* Tuning peg button */}
+            <circle
+              cx={pegX}
+              cy={pegY}
+              r={stringSpacing * 0.08}
+              fill={isDarkMode ? "#2a2a2a" : "#3a3a3a"}
+              className="transition-colors duration-200"
+            />
+          </g>
+        );
+      })}
     </g>
   );
 };
