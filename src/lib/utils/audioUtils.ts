@@ -97,15 +97,21 @@ export const playNote = async (note: NoteWithOctave, audioStatus: AudioStatus, d
   // Skip during server-side rendering or when window is not available
   if (typeof window === "undefined") return;
 
-  // Check if audio is initialized
-  if (audioStatus !== 'initialized') {
-    console.warn('Audio playback not available. Status:', audioStatus);
-    return;
+  // Initialize audio context if it doesn't exist or if audio is not initialized
+  if (!audioContext || audioStatus !== 'initialized') {
+    const initialized = await initializeAudio();
+    if (!initialized || !audioContext) {
+      console.warn('Failed to initialize audio context');
+      return;
+    }
   }
-  
-  if (!audioContext) return;
 
   try {
+    // Resume audio context if it's suspended (required for user gesture)
+    if (audioContext.state === 'suspended') {
+      await audioContext.resume();
+    }
+
     // Play the note one octave higher by adding 1 to the octave number
     const baseNote = getBaseNote(note);
     const originalOctave = getOctave(note);
