@@ -57,3 +57,4 @@ next-env.d.ts
 /android/captures
 /android/local.properties
 *.keystore
+.env*
