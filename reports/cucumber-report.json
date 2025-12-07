@@ -1,0 +1,859 @@
+[
+  {
+    "description": "  As a music student\n  I want to configure piano display and behavior settings\n  So that I can customize the learning experience to my preferences",
+    "elements": [
+      {
+        "description": "",
+        "id": "piano-configuration;change-octave-count-setting",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Change octave count setting",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 313199700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am on the piano page",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-keyboard-steps.ts:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1533122799
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the piano configuration panel is available",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-configuration-steps.ts:8"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8079300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "the piano is currently showing 2 octaves",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-configuration-steps.ts:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 341126599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "I change the octave count to 3",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-configuration-steps.ts:24"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 842528100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "the piano keyboard should expand to show 3 octaves",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-configuration-steps.ts:32"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13592300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "the keyboard should rerender smoothly",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-configuration-steps.ts:46"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 7271999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "all scale visualizations should update accordingly",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-configuration-steps.ts:56"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3662000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 52539499
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@piano",
+            "line": 1
+          },
+          {
+            "name": "@smoke",
+            "line": 11
+          },
+          {
+            "name": "@configuration",
+            "line": 11
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "piano-configuration",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Piano Configuration",
+    "tags": [
+      {
+        "name": "@piano",
+        "line": 1
+      }
+    ],
+    "uri": "features\\piano\\piano-configuration.feature"
+  },
+  {
+    "description": "  As a music student\n  I want to see a properly rendered piano keyboard\n  So that I can visualize notes and scales on a familiar interface",
+    "elements": [
+      {
+        "description": "",
+        "id": "piano-keyboard-rendering;display-basic-piano-keyboard-layout",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "Display basic piano keyboard layout",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 234463700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the piano page",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-keyboard-steps.ts:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1013967000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the piano keyboard is loaded",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-keyboard-steps.ts:13"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16484300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 12,
+            "name": "I should see a piano keyboard with white and black keys",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-keyboard-steps.ts:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8324099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 13,
+            "name": "the white keys should be properly spaced",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-keyboard-steps.ts:29"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 30856599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "the black keys should be positioned between appropriate white keys",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-keyboard-steps.ts:40"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13111199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "the keyboard should span at least one octave",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-keyboard-steps.ts:50"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4638600
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 23452299
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@smoke",
+            "line": 10
+          },
+          {
+            "name": "@visual",
+            "line": 10
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "piano-keyboard-rendering",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Piano Keyboard Rendering",
+    "tags": [],
+    "uri": "features\\piano\\piano-keyboard-rendering.feature"
+  },
+  {
+    "description": "  As a music student\n  I want my piano settings and preferences to be remembered\n  So that I can continue my learning session where I left off",
+    "elements": [
+      {
+        "description": "",
+        "id": "piano-state-persistence;persist-basic-piano-configuration",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "Persist basic piano configuration",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 240319199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the piano page",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-keyboard-steps.ts:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 990840500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the application supports state persistence",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-persistence-steps.ts:41"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4344199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "I set the octave count to 3",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-keyboard-steps.ts:89"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 834543500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 13,
+            "name": "I select \"A Minor\" scale",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-persistence-steps.ts:57"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1182507600
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "I set the root note to \"A\"",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-persistence-steps.ts:67"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 853197899
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 15,
+            "name": "I refresh the browser page",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-persistence-steps.ts:73"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 815527200
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "the octave count should still be 3",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-persistence-steps.ts:78"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4767500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "\"A Minor\" scale should still be selected",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-persistence-steps.ts:83"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16831500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 18,
+            "name": "the root note should still be \"A\"",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-persistence-steps.ts:102"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 7730800
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 22220400
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@smoke",
+            "line": 10
+          },
+          {
+            "name": "@persistence",
+            "line": 10
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "piano-state-persistence",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Piano State Persistence",
+    "tags": [],
+    "uri": "features\\piano\\piano-persistence.feature"
+  },
+  {
+    "description": "  As a music student using various devices\n  I want the piano interface to work well on all screen sizes\n  So that I can learn music theory on any device I have available",
+    "elements": [
+      {
+        "description": "",
+        "id": "piano-responsive-design;piano-layout-on-mobile-devices",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "Piano layout on mobile devices",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 228359100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the piano page",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-keyboard-steps.ts:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 963970600
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the piano component is loaded",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "I am viewing on a mobile phone (320px - 768px width)",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "the piano interface loads",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "the piano keyboard should fit within the screen width",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "the keys should be large enough for finger interaction",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "the configuration controls should be accessible",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "no horizontal scrolling should be required for basic interaction",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 31772400
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@smoke",
+            "line": 10
+          },
+          {
+            "name": "@responsive",
+            "line": 10
+          },
+          {
+            "name": "@mobile",
+            "line": 10
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "piano-responsive-design",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Piano Responsive Design",
+    "tags": [],
+    "uri": "features\\piano\\piano-responsive-design.feature"
+  },
+  {
+    "description": "  As a music student\n  I want to see scale patterns highlighted on the piano keyboard\n  So that I can learn and understand different musical scales",
+    "elements": [
+      {
+        "description": "",
+        "id": "piano-scale-visualization;display-scale-notes-on-piano-keyboard",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "Display scale notes on piano keyboard",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 512050100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the piano page",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-keyboard-steps.ts:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 875704700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the piano keyboard is displayed",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-scale-steps.ts:9"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 513777500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "I have selected \"C Major\" scale",
+            "result": {
+              "status": "ambiguous",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "the scale is applied to the keyboard",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-scale-steps.ts:30"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "I should see the C Major scale notes highlighted",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-scale-steps.ts:49"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "the highlighted notes should be C, D, E, F, G, A, B",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-scale-steps.ts:55"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "non-scale notes should not be highlighted",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-scale-steps.ts:65"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 20249800
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@smoke",
+            "line": 10
+          },
+          {
+            "name": "@scale-display",
+            "line": 10
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "piano-scale-visualization",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Piano Scale Visualization",
+    "tags": [],
+    "uri": "features\\piano\\piano-scale-visualization.feature"
+  },
+  {
+    "description": "  As a music student\n  I want to interact with the piano keyboard\n  So that I can hear notes and learn through active engagement",
+    "elements": [
+      {
+        "description": "",
+        "id": "piano-user-interactions;click-piano-key-to-play-note",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Click piano key to play note",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 259433199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the piano page",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-keyboard-steps.ts:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 963951799
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the piano keyboard is loaded",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-keyboard-steps.ts:13"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14772800
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "audio is enabled in the browser",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-interaction-steps.ts:8"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1128500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "I can see the piano keyboard",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-interaction-steps.ts:14"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8629999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "I click on the middle C key",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-interaction-steps.ts:22"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 5012671400,
+              "error_message": "Error: function timed out, ensure the promise resolves within 5000 milliseconds\n    at Timeout.<anonymous> (C:\\dev\\ScalesViewer\\node_modules\\.pnpm\\@cucumber+cucumber@12.3.0\\node_modules\\@cucumber\\cucumber\\src\\time.ts:52:14)\n    at listOnTimeout (node:internal/timers:588:17)\n    at processTimers (node:internal/timers:523:7)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "I should hear the C note played",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-interaction-steps.ts:34"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "the key should provide visual feedback when clicked",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-interaction-steps.ts:44"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "the audio should play immediately without delay",
+            "match": {
+              "location": "e2e\\step-definitions\\piano-interaction-steps.ts:57"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 24921500
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@smoke",
+            "line": 11
+          },
+          {
+            "name": "@interaction",
+            "line": 11
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "piano-user-interactions",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Piano User Interactions",
+    "tags": [],
+    "uri": "features\\piano\\piano-user-interactions.feature"
+  }
+]
