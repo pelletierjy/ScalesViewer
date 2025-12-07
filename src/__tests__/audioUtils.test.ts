@@ -59,7 +59,7 @@ describe('calculateFrequency', () => {
 
   it('should return default frequency for unknown notes', () => {
     // Test with an invalid note
-    const result = calculateFrequency('X4' as any);
+    const result = calculateFrequency('X4' as unknown as Note);
     expect(result).toBe(440); // Default to A4
   });
 });

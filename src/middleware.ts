@@ -1,28 +1,66 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export function middleware(request: NextRequest) {
-  // Generate a nonce for CSP
-  const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
+export function middleware(_request: NextRequest) {
+  // For development, we'll use a more permissive CSP that allows 'unsafe-inline'
+  // This is because Next.js in development mode injects inline scripts for HMR
+  const isDevelopment = process.env.NODE_ENV === 'development'
+
+  let cspHeader: string
+
+  if (isDevelopment) {
+    // Development CSP - more permissive for HMR and inline scripts
+    cspHeader = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob:",
+      "font-src 'self' data:",
+      "connect-src 'self' ws: wss:",
+      "media-src 'self'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'none'",
+      "upgrade-insecure-requests",
+    ].join('; ')
+  } else {
+    // Production CSP - strict with nonce
+    // Generate a nonce for CSP
+    const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
+
+    // Clone the response to add the nonce
+    const response = NextResponse.next()
+
+    cspHeader = [
+      "default-src 'self'",
+      `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob:",
+      "font-src 'self' data:",
+      "connect-src 'self'",
+      "media-src 'self'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'none'",
+      "upgrade-insecure-requests",
+    ].join('; ')
+
+    response.headers.set('Content-Security-Policy', cspHeader)
+    response.headers.set('X-Frame-Options', 'DENY')
+    response.headers.set('X-Content-Type-Options', 'nosniff')
+    response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+    response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+
+    // Add nonce to response headers for potential use in server components
+    response.headers.set('x-nonce', nonce)
+
+    return response
+  }
 
   // Clone the response
   const response = NextResponse.next()
-
-  // Add CSP header with nonce
-  const cspHeader = [
-    "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
-    "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob:",
-    "font-src 'self' data:",
-    "connect-src 'self'",
-    "media-src 'self'",
-    "object-src 'none'",
-    "base-uri 'self'",
-    "form-action 'self'",
-    "frame-ancestors 'none'",
-    "upgrade-insecure-requests",
-  ].join('; ')
 
   response.headers.set('Content-Security-Policy', cspHeader)
 
@@ -31,9 +69,6 @@ export function middleware(request: NextRequest) {
   response.headers.set('X-Content-Type-Options', 'nosniff')
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
   response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
-
-  // Add nonce to response headers so it can be accessed by components
-  response.headers.set('X-CSP-Nonce', nonce)
 
   return response
 }
