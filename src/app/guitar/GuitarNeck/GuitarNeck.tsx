@@ -28,6 +28,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
     scaleLength,
     perpendicular,
     fretboardTexture,
+    stringSpacing,
     scaleRoot,
   } = useContext(DataContext) as DataContextType;
   const showFlats = useSelector(selectShowFlats);
@@ -46,8 +47,9 @@ export const GuitarNeck: React.FC = React.memo(() => {
     const updateDimensions = () => {
       const containerWidth = container.clientWidth || 1000; // fallback width
       const baseHeight = Math.max(containerWidth * 0.2, 150);
-      // Use a constant (6) as reference for string spacing and then scale by actual string count.
-      const heightPerString = baseHeight / 6;
+      // Use string spacing setting to determine the divider (8 for normal, 6 for enlarged)
+      const spacingDivider = stringSpacing === 'normal' ? 8 : 6;
+      const heightPerString = baseHeight / spacingDivider;
       const adjustedHeight = heightPerString * (scaleRoot.strings.length + 1);
       
       // Ensure we have valid numbers
@@ -67,10 +69,10 @@ export const GuitarNeck: React.FC = React.memo(() => {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [scaleRoot.strings.length]);
+  }, [scaleRoot.strings.length, stringSpacing]);
 
   // Memoize expensive calculations
-  const stringSpacing = useMemo(
+  const calculatedStringSpacing = useMemo(
     () => dimensions.height / (scaleRoot.strings.length + 1),
     [dimensions.height, scaleRoot.strings.length]
   );
@@ -140,17 +142,17 @@ export const GuitarNeck: React.FC = React.memo(() => {
 
   return (
     <div ref={containerRef} className="w-full">
-      <div className="w-full overflow-x-auto">
+      <div className="w-full">
         <svg
-          width={dimensions.width || 1000}
+          width="100%"
           height={dimensions.height || 200}
           viewBox={`0 0 ${dimensions.width || 1000} ${dimensions.height || 200}`}
           className={`border rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "border-gray-700 bg-gray-800"
-              : "border-slate-400 bg-slate-300"
+              : "border-slate-300 bg-white"
           }`}
-          preserveAspectRatio="xMidYMid meet"
+          preserveAspectRatio="xMinYMid meet"
           style={{
             transform: `${flipX ? "scaleX(-1)" : ""} ${
               flipY ? "scaleY(-1)" : ""
@@ -163,7 +165,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
             isMultiscale={isMultiscale}
             fretPositions={fretPositions}
             fretCount={fretCount}
-            stringSpacing={stringSpacing}
+            stringSpacing={calculatedStringSpacing}
             stringCount={scaleRoot.strings.length}
             fretboardTexture={fretboardTexture}
             isDarkMode={isDarkMode}
@@ -183,9 +185,9 @@ export const GuitarNeck: React.FC = React.memo(() => {
               
               const endpoints = {
                 x1: topStringPositions?.[i] || 0,
-                y1: stringSpacing,
+                y1: calculatedStringSpacing,
                 x2: bottomStringPositions?.[i] || 0,
-                y2: scaleRoot.strings.length * stringSpacing
+                y2: scaleRoot.strings.length * calculatedStringSpacing
               };
               
               return (
@@ -213,9 +215,9 @@ export const GuitarNeck: React.FC = React.memo(() => {
               <line
                 key={`fret-${i}`}
                 x1={position}
-                y1={stringSpacing}
+                y1={calculatedStringSpacing}
                 x2={position}
-                y2={scaleRoot.strings.length * stringSpacing}
+                y2={scaleRoot.strings.length * calculatedStringSpacing}
                 stroke={i === 0 
                   ? isDarkMode ? "#d1d5db" : "#1f2937"
                   : isDarkMode ? "#4b5563" : "#333"
@@ -231,7 +233,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
             fretMarkers={fretMarkers}
             fretPositions={isMultiscale ? fretPositions : standardFretPositions}
             dimensions={dimensions}
-            stringSpacing={stringSpacing}
+            stringSpacing={calculatedStringSpacing}
             isDarkMode={isDarkMode}
             isMultiscale={isMultiscale}
             stringCount={scaleRoot.strings.length}
@@ -241,7 +243,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
           <StringGroup
             adjustedTuning={adjustedTuning}
             dimensions={dimensions}
-            stringSpacing={stringSpacing}
+            stringSpacing={calculatedStringSpacing}
             fretCount={fretCount}
             scale={scale}
             isDarkMode={isDarkMode}
@@ -258,7 +260,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
           <FretNumbers
             fretCount={fretCount}
             dimensions={dimensions}
-            stringSpacing={stringSpacing}
+            stringSpacing={calculatedStringSpacing}
             isDarkMode={isDarkMode}
             flipX={flipX}
             flipY={flipY}

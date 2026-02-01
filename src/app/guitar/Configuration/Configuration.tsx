@@ -28,7 +28,9 @@ export const Configuration: React.FC = () => {
     setPerpendicular,
     fretboardTexture,
     setFretboardTexture,
-    
+    stringSpacing,
+    setStringSpacing,
+
     // Tuning management
     scaleRoot,
     customTunings,
@@ -105,7 +107,7 @@ export const Configuration: React.FC = () => {
                   className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-full min-w-[120px] ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-gray-200"
-                      : "bg-slate-300 border-slate-500 text-slate-800"
+                      : "bg-white border-slate-400 text-slate-800"
                   }`}
                 >
                   {Object.entries(tuningGroups(customTunings)).map(
@@ -141,7 +143,7 @@ export const Configuration: React.FC = () => {
                     className={`px-2 py-1 text-xs rounded-md ${
                       isDarkMode
                         ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
-                        : "bg-slate-400 text-slate-900 hover:bg-slate-500"
+                        : "bg-slate-300 text-slate-800 hover:bg-slate-400"
                     } border border-gray-300 dark:border-gray-600`}
                   >
                     Edit
@@ -155,7 +157,7 @@ export const Configuration: React.FC = () => {
                     className={`px-2 py-1 text-xs rounded-md ${
                       isDarkMode
                         ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
-                        : "bg-slate-400 text-slate-900 hover:bg-slate-500"
+                        : "bg-slate-300 text-slate-800 hover:bg-slate-400"
                     } border border-gray-300 dark:border-gray-600`}
                   >
                     Duplicate
@@ -165,7 +167,7 @@ export const Configuration: React.FC = () => {
                     className={`px-2 py-1 text-xs rounded-md text-red-600 hover:text-red-700 ${
                       isDarkMode
                         ? "bg-gray-700 hover:bg-gray-600"
-                        : "bg-slate-400 hover:bg-slate-500"
+                        : "bg-slate-300 hover:bg-slate-400"
                     } border border-gray-300 dark:border-gray-600`}
                   >
                     Delete
@@ -257,6 +259,34 @@ export const Configuration: React.FC = () => {
                     <option value="maple">Maple</option>
                     <option value="pau-ferro">Pau Ferro</option>
                     <option value="richlite">Richlite</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col min-w-[150px]">
+              <div className="flex flex-col gap-1">
+                <label
+                  htmlFor="string-spacing"
+                  className={`text-sm font-semibold ${
+                    isDarkMode ? "text-gray-200" : "text-gray-900"
+                  }`}
+                >
+                  String Spacing
+                </label>
+                <div className="flex flex-col gap-1">
+                  <select
+                    id="string-spacing"
+                    value={stringSpacing}
+                    onChange={(e) => setStringSpacing(e.target.value as 'normal' | 'enlarged')}
+                    className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+                      isDarkMode
+                        ? "bg-gray-700 border-gray-600 text-gray-200"
+                        : "bg-slate-300 border-slate-500 text-slate-800"
+                    }`}
+                  >
+                    <option value="normal">Normal</option>
+                    <option value="enlarged">Enlarged</option>
                   </select>
                 </div>
               </div>
@@ -400,7 +430,7 @@ export const Configuration: React.FC = () => {
                   className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-gray-200"
-                      : "bg-slate-300 border-slate-500 text-slate-800"
+                      : "bg-white border-slate-400 text-slate-800"
                   }`}
                 >
                   {PERPENDICULAR_FRET_OPTIONS.map((option) => (

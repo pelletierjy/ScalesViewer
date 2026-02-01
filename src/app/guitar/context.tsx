@@ -69,7 +69,9 @@ export interface DataContextType {
   setPerpendicular: (fret: number) => void;
   fretboardTexture: string;
   setFretboardTexture: (texture: string) => void;
-  
+  stringSpacing: 'normal' | 'enlarged';
+  setStringSpacing: (spacing: 'normal' | 'enlarged') => void;
+
   // Tuning management
   scaleRoot: TuningPreset;
   setScaleRoot: (tuning: TuningPreset) => void;
@@ -101,7 +103,9 @@ const defaultContextValue: DataContextType = {
   setPerpendicular: () => {},
   fretboardTexture: "rosewood",
   setFretboardTexture: () => {},
-  
+  stringSpacing: "normal",
+  setStringSpacing: () => {},
+
   // Tuning management
   scaleRoot: { name: "Standard E", strings: ["E", "B", "G", "D", "A", "E"] },
   setScaleRoot: () => {},
@@ -131,6 +135,9 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
   
   // Migration from old fretboard-color to fretboard-texture
   const [fretboardTexture, setFretboardTexture] = useMigratedTexture();
+
+  // String spacing setting
+  const [stringSpacing, setStringSpacing] = useLocalStorage<'normal' | 'enlarged'>("string-spacing", "normal");
   
   // Tuning management state
   const [scaleRoot, setScaleRoot] = useLocalStorage<TuningPreset>("current-scaleRoot", getTuning());
@@ -192,7 +199,9 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         setPerpendicular,
         fretboardTexture,
         setFretboardTexture,
-        
+        stringSpacing,
+        setStringSpacing,
+
         // Tuning management
         scaleRoot,
         setScaleRoot,
