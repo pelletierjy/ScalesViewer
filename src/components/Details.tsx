@@ -21,7 +21,7 @@ export const Details: React.FC = () => {
       className={`rounded-lg transition-colors duration-200 ${
         isDarkMode
           ? "bg-gray-800 border border-gray-700"
-          : "bg-slate-300/90 border border-slate-400"
+          : "bg-white/90 border border-slate-300"
       }`}
     >
       <button
@@ -29,7 +29,7 @@ export const Details: React.FC = () => {
         className={`w-full px-4 py-2 flex items-center justify-between text-sm font-medium ${
           isDarkMode
             ? "text-gray-200 hover:bg-gray-700"
-            : "text-slate-800 hover:bg-slate-400"
+            : "text-slate-800 hover:bg-slate-200"
         }`}
       >
         <span>Details</span>

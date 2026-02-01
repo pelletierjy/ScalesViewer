@@ -37,14 +37,14 @@
   "dependencies": {
     "@capacitor/android": "^7.4.4",
     "@capacitor/core": "^7.4.4",
-    "next": "16.0.7",
+    "next": "^16.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
-    "@capacitor/cli": "^7.4.4",
+    "@capacitor/cli": "^8.0.2",
     "@cucumber/cucumber": "^12.3.0",
     "@cucumber/pretty-formatter": "^2.4.1",
     "@eslint/eslintrc": "^3",
@@ -59,7 +59,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-jest": "^30.2.0",
-    "cucumber-html-reporter": "^7.2.0",
+    "cucumber-html-reporter": "^6.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.7",
     "jest": "^30.2.0",

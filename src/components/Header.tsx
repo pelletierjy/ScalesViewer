@@ -66,7 +66,7 @@ export const Header: React.FC = () => {
               className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
                 isDarkMode
                   ? "bg-gray-700 border-gray-600 text-gray-200"
-                  : "bg-slate-300 border-slate-500 text-slate-800"
+                  : "bg-white border-slate-400 text-slate-800"
               }`}
             >
               <option value="guitar">Guitar</option>
@@ -90,7 +90,7 @@ export const Header: React.FC = () => {
               className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
                 isDarkMode
                   ? "bg-gray-700 border-gray-600 text-gray-200"
-                  : "bg-slate-300 border-slate-500 text-slate-800"
+                  : "bg-white border-slate-400 text-slate-800"
               }`}
               value={scale.type}
               onChange={(e) =>
@@ -137,7 +137,7 @@ export const Header: React.FC = () => {
               className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
                 isDarkMode
                   ? "bg-gray-700 border-gray-600 text-gray-200"
-                  : "bg-slate-300 border-slate-500 text-slate-800"
+                  : "bg-white border-slate-400 text-slate-800"
               }`}
               value={scale.root}
               onChange={(e) =>
@@ -164,7 +164,7 @@ export const Header: React.FC = () => {
           className={`p-2 rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
-              : "bg-slate-400 text-slate-900 hover:bg-slate-500"
+              : "bg-slate-300 text-slate-800 hover:bg-slate-400"
           }`}
           title={showDegrees ? "Show note names" : "Show scale degrees"}
         >
@@ -175,7 +175,7 @@ export const Header: React.FC = () => {
           className={`p-2 rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
-              : "bg-slate-400 text-slate-900 hover:bg-slate-500"
+              : "bg-slate-300 text-slate-800 hover:bg-slate-400"
           }`}
           title={showFlats ? "Show sharp notes" : "Show flat notes"}
         >
@@ -186,7 +186,7 @@ export const Header: React.FC = () => {
           className={`p-2 rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
-              : "bg-slate-400 text-slate-900 hover:bg-slate-500"
+              : "bg-slate-300 text-slate-800 hover:bg-slate-400"
           }`}
           title={
             highlightRoots ? "Highlight intervals" : "Highlight root notes"
@@ -199,7 +199,7 @@ export const Header: React.FC = () => {
           className={`p-2 rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
-              : "bg-slate-400 text-slate-900 hover:bg-slate-500"
+              : "bg-slate-300 text-slate-800 hover:bg-slate-400"
           }`}
           title="Show help slideshow"
         >
@@ -210,7 +210,7 @@ export const Header: React.FC = () => {
           className={`p-2 rounded-lg transition-colors duration-200 ${
             isDarkMode
               ? "bg-gray-800 text-yellow-400 hover:bg-gray-700"
-              : "bg-slate-400 text-slate-900 hover:bg-slate-500"
+              : "bg-slate-300 text-slate-800 hover:bg-slate-400"
           }`}
           title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
         >
