@@ -36,6 +36,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   const applicationState = useSelector(selectApplicationState);
   const instrument = useSelector(selectInstrument);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
 
   // Handle hydration
   useEffect(() => {
@@ -44,6 +45,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
   useEffect(() => {
     if (applicationState === "started") {
+      console.log("Starting application initialization");
       dispatch(initializeApplication());
       if (pathname !== "/") {
         //Init state from route.
@@ -53,21 +55,32 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     }
   }, [applicationState, dispatch, router, pathname]);
 
+  // Debug: Log when hydration completes
+  useEffect(() => {
+    if (isHydrated) {
+      console.log("Hydration completed");
+    }
+  }, [isHydrated]);
+
   useEffect(() => {
     // Handle application state transitions
+    console.log("Application state:", applicationState);
     switch (applicationState) {
       case "started":
         // Nothing to do here, handled by the first useEffect
         return;
 
       case "initializing":
-        // Complete initialization and save state
+        // The state is being loaded from localStorage in the globalConfigSlice
+        // Since the extraReducer runs synchronously, we can immediately mark as initialized
+        console.log("Dispatching applicationInitialized");
         dispatch(applicationInitialized());
-        dispatch(saveState());
+        // Don't save state here - it will be saved by the middleware after initialization
         return;
 
       case "initialized":
         // Handle routing after initialization
+        console.log("Application initialized, checking route");
         if (pathname === "/" || !pathname.includes(instrument)) {
           router.push(`/${instrument}`);
         }
@@ -75,18 +88,43 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     }
   }, [applicationState, dispatch, instrument, router, pathname]);
 
+  // Add a direct initialization bypass for debugging
   useEffect(() => {
-    if (!isHydrated) return;
-    
-    const savedScale = localStorage.getItem("current-scale");
-    if (savedScale) {
-      try {
-        dispatch(setScale(JSON.parse(savedScale)));
-      } catch (e) {
-        console.error("Failed to load saved scale:", e);
-      }
+    console.log("Application state check:", applicationState);
+    if (isHydrated && applicationState === "started") {
+      console.log("Forcing initialization");
+      dispatch(initializeApplication());
+      // Force immediate transition to initialized
+      setTimeout(() => {
+        dispatch(applicationInitialized());
+      }, 100);
     }
-  }, [router, dispatch, isHydrated]);
+  }, [isHydrated, applicationState, dispatch]);
+
+  useEffect(() => {
+    const initAudio = async () => {
+      dispatch(setAudioStatus('initializing'));
+      const success = await initializeAudio();
+      dispatch(setAudioStatus(success ? 'initialized' : 'failed'));
+    };
+    initAudio();
+  }, [dispatch]);
+
+  // Add a timeout to prevent infinite loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (applicationState !== "initialized") {
+        console.error("Application failed to initialize within 5 seconds");
+        console.log("Current application state:", applicationState);
+        console.log("isHydrated:", isHydrated);
+        setLoadingTimeout(true);
+        // Force initialization
+        dispatch(applicationInitialized());
+      }
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [applicationState, dispatch, isHydrated]);
 
   useEffect(() => {
     if (!isHydrated) return;
@@ -99,13 +137,17 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   }, [isDarkMode, isHydrated]);
 
   useEffect(() => {
-    const initAudio = async () => {
-      dispatch(setAudioStatus('initializing'));
-      const success = await initializeAudio();
-      dispatch(setAudioStatus(success ? 'initialized' : 'failed'));
-    };
-    initAudio();
-  }, [dispatch]);
+    if (!isHydrated) return;
+
+    const savedScale = localStorage.getItem("current-scale");
+    if (savedScale) {
+      try {
+        dispatch(setScale(JSON.parse(savedScale)));
+      } catch (e) {
+        console.error("Failed to load saved scale:", e);
+      }
+    }
+  }, [router, dispatch, isHydrated]);
 
   // Always render the same structure to avoid hydration mismatch
   const showContent = isHydrated && applicationState === "initialized";
@@ -139,7 +181,16 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
           <Details />
         </div>
       ) : (
-        <div className="text-slate-600">Loading...</div>
+        <div className="text-slate-600">
+          {loadingTimeout ? (
+            <div className="text-center">
+              <p className="text-red-500 mb-2">Loading timeout</p>
+              <p>Please refresh the page</p>
+            </div>
+          ) : (
+            "Loading..."
+          )}
+        </div>
       )}
       {showContent && <Footer isDarkMode={isDarkMode} />}
     </main>

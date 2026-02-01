@@ -45,13 +45,18 @@ const loadState = (): GlobalConfig | undefined => {
   if (typeof window === "undefined") return undefined;
 
   try {
+    console.log("Attempting to load state from localStorage");
     const serializedState = localStorage.getItem("state");
+    console.log("Raw localStorage state:", serializedState);
     if (serializedState === null) {
+      console.log("No saved state found in localStorage");
       return undefined;
     }
-    return JSON.parse(serializedState)?.globalConfig;
-  } catch {
-    console.error("Failed to load state from localStorage");
+    const parsed = JSON.parse(serializedState);
+    console.log("Parsed state:", parsed);
+    return parsed?.globalConfig;
+  } catch (error) {
+    console.error("Failed to load state from localStorage:", error);
     return undefined;
   }
 };
@@ -104,7 +109,13 @@ export const globalConfigSlice = createSlice({
       if (action.type !== "applicationState/initializeApplication") {
         return;
       }
-      updateState(loadState(), state);
+      try {
+        const savedState = loadState();
+        console.log("Loaded saved state:", savedState);
+        updateState(savedState, state);
+      } catch (error) {
+        console.error("Error loading state during initialization:", error);
+      }
     });
   },
 });
