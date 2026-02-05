@@ -49,13 +49,13 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
   const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
 
   // Memoize circle radius and font size calculations
-  const circleRadius = useMemo(() => 
-    Math.min(stringSpacing / 3.5, stringSpacing / 3.5), 
+  const circleRadius = useMemo(() =>
+    Math.min(stringSpacing / 3.5, stringSpacing / 3.5) * 1.25,
     [stringSpacing]
   );
 
-  const fontSize = useMemo(() => 
-    Math.min(stringSpacing / 3, stringSpacing / 3), 
+  const fontSize = useMemo(() =>
+    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.25,
     [stringSpacing]
   );
 
@@ -72,7 +72,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
       {/* Zero fret note */}
       {isNoteInScale(openNote, scale) && (
         <g
-          transform={`translate(${zeroFretPosition}, ${
+          transform={`translate(${zeroFretPosition + circleRadius}, ${
             (stringIndex + 1) * stringSpacing
           })`}
           onClick={() =>
