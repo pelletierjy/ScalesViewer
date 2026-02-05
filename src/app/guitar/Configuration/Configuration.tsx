@@ -74,10 +74,10 @@ export const Configuration: React.FC = () => {
   return (
     <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
       <div className="flex flex-col gap-4 w-full">
-        <div className="flex flex-wrap justify-between items-start">
+        <div className="flex flex-wrap justify-between items-start gap-4">
           {/* Left side inputs */}
-          <div className="flex flex-col gap-4 md:flex-row md:flex-wrap md:items-start">
-            <div className="flex flex-col gap-2 min-w-[200px]">
+          <div className="flex flex-col gap-2 sm:gap-3 md:flex-row md:flex-wrap md:items-start">
+            <div className="flex flex-col gap-2 min-w-[160px]">
               <div className="flex flex-col gap-1">
                 <label
                   htmlFor="scaleRoot"
@@ -104,7 +104,7 @@ export const Configuration: React.FC = () => {
                       }
                     }
                   }}
-                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-full min-w-[120px] ${
+                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-full ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-gray-200"
                       : "bg-white border-slate-400 text-slate-800"
@@ -176,7 +176,7 @@ export const Configuration: React.FC = () => {
               )}
             </div>
 
-            <div className="flex flex-col min-w-[180px]">
+            <div className="flex flex-col min-w-[70px]">
               <div className="flex flex-col gap-1">
                 <label
                   htmlFor="base-scaleRoot"
@@ -190,7 +190,7 @@ export const Configuration: React.FC = () => {
                   id="base-scaleRoot"
                   value={baseTuning}
                   onChange={(e) => setBaseTuning(e.target.value as Note)}
-                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-full min-w-[80px] ${
+                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-full ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-gray-200"
                       : "bg-slate-300 border-slate-500 text-slate-800"
@@ -205,7 +205,7 @@ export const Configuration: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-col min-w-[200px]">
+            <div className="flex flex-col min-w-[90px]">
               <div className="flex flex-col gap-1">
                 <label
                   htmlFor="fret-count"
@@ -219,7 +219,7 @@ export const Configuration: React.FC = () => {
                   id="fret-count"
                   value={fretCount}
                   onChange={(e) => setFretCount(Number(e.target.value))}
-                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-full min-w-[100px] ${
+                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-full ${
                     isDarkMode
                       ? "bg-gray-700 border-gray-600 text-gray-200"
                       : "bg-slate-300 border-slate-500 text-slate-800"
@@ -234,7 +234,7 @@ export const Configuration: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-col min-w-[150px]">
+            <div className="flex flex-col min-w-[110px]">
               <div className="flex flex-col gap-1">
                 <label
                   htmlFor="fretboard-texture"
@@ -264,7 +264,7 @@ export const Configuration: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-col min-w-[150px]">
+            <div className="flex flex-col min-w-[100px]">
               <div className="flex flex-col gap-1">
                 <label
                   htmlFor="string-spacing"
@@ -356,7 +356,7 @@ export const Configuration: React.FC = () => {
               
               {/* Custom scale length inputs when no preset matches */}
               {MULTISCALE_PRESETS.filter(preset => preset.strings === scaleRoot.strings.length).length === 0 && (
-                <div className="flex gap-4">
+                <div className="flex gap-2 sm:gap-4">
                   <div className="flex flex-col gap-2">
                     <label
                       htmlFor="treble-length"
@@ -377,7 +377,7 @@ export const Configuration: React.FC = () => {
                       step="0.25"
                       min="20"
                       max="35"
-                      className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-20 ${
+                      className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-16 ${
                         isDarkMode
                           ? "bg-gray-700 border-gray-600 text-gray-200"
                           : "bg-slate-300 border-slate-500 text-slate-800"
@@ -404,7 +404,7 @@ export const Configuration: React.FC = () => {
                       step="0.25"
                       min="20"
                       max="35"
-                      className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-20 ${
+                      className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-16 ${
                         isDarkMode
                           ? "bg-gray-700 border-gray-600 text-gray-200"
                           : "bg-slate-300 border-slate-500 text-slate-800"
