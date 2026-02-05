@@ -72,7 +72,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
       {/* Zero fret note */}
       {isNoteInScale(openNote, scale) && (
         <g
-          transform={`translate(${zeroFretPosition}, ${
+          transform={`translate(${zeroFretPosition + circleRadius}, ${
             (stringIndex + 1) * stringSpacing
           })`}
           onClick={() =>
