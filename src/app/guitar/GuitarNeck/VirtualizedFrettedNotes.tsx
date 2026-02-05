@@ -56,13 +56,13 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
   );
 
   // Memoize circle radius and font size calculations
-  const circleRadius = useMemo(() => 
-    Math.min(stringSpacing / 3.5, stringSpacing / 3.5), 
+  const circleRadius = useMemo(() =>
+    Math.min(stringSpacing / 3.5, stringSpacing / 3.5) * 1.15,
     [stringSpacing]
   );
 
-  const fontSize = useMemo(() => 
-    Math.min(stringSpacing / 3, stringSpacing / 3), 
+  const fontSize = useMemo(() =>
+    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.15,
     [stringSpacing]
   );
 

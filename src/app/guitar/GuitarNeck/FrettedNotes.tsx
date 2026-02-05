@@ -51,14 +51,14 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
   );
 
   // Memoize circle radius calculation
-  const circleRadius = useMemo(() => 
-    Math.min(stringSpacing / 3.5, stringSpacing / 3.5), 
+  const circleRadius = useMemo(() =>
+    Math.min(stringSpacing / 3.5, stringSpacing / 3.5) * 1.15,
     [stringSpacing]
   );
 
   // Memoize font size calculation
-  const fontSize = useMemo(() => 
-    Math.min(stringSpacing / 3, stringSpacing / 3), 
+  const fontSize = useMemo(() =>
+    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.15,
     [stringSpacing]
   );
 
