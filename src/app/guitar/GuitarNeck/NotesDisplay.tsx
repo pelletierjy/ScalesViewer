@@ -9,6 +9,8 @@ import { FrettedNotes } from './FrettedNotes';
 import { VirtualizedFrettedNotes } from './VirtualizedFrettedNotes';
 import { useSelector } from 'react-redux';
 import { selectAudioStatus } from '@/features/audio/audioSlice';
+import { selectNote } from '@/features/selectedNote/selectedNoteSlice';
+import { useDispatch } from 'react-redux';
 import { RootState } from '@/app/store';
 
 interface NotesDisplayProps {
@@ -47,6 +49,8 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
   openNote: openNoteProp,
 }) => {
   const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
+  const selectedNote = useSelector((state: RootState) => state.selectedNote.selectedNote);
+  const dispatch = useDispatch();
 
   // Memoize circle radius and font size calculations
   const circleRadius = useMemo(() =>
@@ -58,6 +62,21 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
     Math.min(stringSpacing / 3, stringSpacing / 3) * 1.25,
     [stringSpacing]
   );
+
+  // Handle note click - toggle selection if same note, otherwise select new note
+  const handleNoteClick = (note: Note, noteWithOctave: NoteWithOctave) => {
+    playNote(noteWithOctave, audioStatus);
+    if (selectedNote === note) {
+      dispatch(selectNote(null));
+    } else {
+      dispatch(selectNote(note));
+    }
+  };
+
+  // Check if a note should be highlighted
+  const isNoteHighlighted = (note: Note) => {
+    return selectedNote === note;
+  };
 
   // Get the open note for this specific string
   const openNote = openNoteProp || [...adjustedTuning.strings].reverse()[stringIndex];
@@ -76,23 +95,26 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
             (stringIndex + 1) * stringSpacing
           })`}
           onClick={() =>
-            playNote(
-              calculateNoteWithOctave(openNote, stringIndex, 0),
-              audioStatus
+            handleNoteClick(
+              openNote,
+              calculateNoteWithOctave(openNote, stringIndex, 0)
             )
           }
           className="cursor-pointer"
         >
           <title>{calculateNoteWithOctave(openNote, stringIndex, 0)}</title>
           <circle
-            r={circleRadius}
+            r={isNoteHighlighted(openNote) ? circleRadius * 1.15 : circleRadius}
             fill={getNoteColor(
               openNote,
               scale,
               isDarkMode,
               highlightRoots
             )}
-            className="transition-colors duration-200"
+            className="transition-all duration-200"
+            style={{
+              filter: isNoteHighlighted(openNote) ? 'drop-shadow(0 0 4px rgba(255,255,255,0.8))' : 'none'
+            }}
           />
           <text
             fill={
