@@ -25,6 +25,7 @@ export const persistentStateMiddleware: Middleware =
     const isReduxAction = (action: unknown): action is Action<string> => {
       return typeof (action as Action<string>).type === "string";
     };
+
     const result = next(action);
     if ((action as Action<string>).type === 'applicationState/applicationInitialized') {
       initialized = true;

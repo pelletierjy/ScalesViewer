@@ -13,7 +13,13 @@ export const store = configureStore({
     selectedNote: selectedNoteReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(persistentStateMiddleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these action types
+        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+      },
+    }).concat(persistentStateMiddleware),
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 export type RootState = ReturnType<typeof store.getState>;
