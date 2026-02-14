@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import globalConfigReducer from "@/features/globalConfig/globalConfigSlice";
 import applicationStateReducer from "@/features/application/applicationSlice";
 import audioReducer from "@/features/audio/audioSlice";
+import selectedNoteReducer from "@/features/selectedNote/selectedNoteSlice";
 import { persistentStateMiddleware } from "./persistentStateMiddleware";
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     globalConfig: globalConfigReducer,
     applicationState: applicationStateReducer,
     audio: audioReducer,
+    selectedNote: selectedNoteReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

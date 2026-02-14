@@ -6,7 +6,7 @@ import {
   SHARP_TO_FLAT,
 } from "@/lib/utils/scaleUtils";
 import { playNote } from "@/lib/utils/audioUtils";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectIsDarkMode,
   selectScale,
@@ -17,6 +17,8 @@ import {
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
 import { selectAudioStatus } from "@/features/audio/audioSlice";
+import { selectNote } from "@/features/selectedNote/selectedNoteSlice";
+import { RootState } from "@/app/store";
 
 // Define piano keys for one octave
 const OCTAVE_NOTES: { note: Note; isBlack: boolean }[] = [
@@ -92,6 +94,9 @@ const getNoteColor = (
 };
 
 export default function Piano() {
+  const dispatch = useDispatch();
+  const selectedNote = useSelector((state: RootState) => state.selectedNote.selectedNote);
+
   const getOctaveCount = (): number => {
     let _oct = 3;
     const savedOctaveCount = localStorage.getItem("octave-count");
@@ -128,6 +133,11 @@ export default function Piano() {
   const handleNoteClick = (note: Note, octave: number): void => {
     const noteWithOctave = `${note}${octave}` as NoteWithOctave;
     playNote(noteWithOctave, audioStatus);
+    if (selectedNote === note) {
+      dispatch(selectNote(null));
+    } else {
+      dispatch(selectNote(note));
+    }
   };
 
   return (
@@ -184,14 +194,21 @@ export default function Piano() {
                       <circle
                         cx={i * whiteKeyWidth + whiteKeyWidth / 2}
                         cy={whiteKeyHeight - 25}
-                        r={15}
+                        r={selectedNote === key.note ? 22 : 15}
                         fill={getNoteColor(
                           key.note,
                           scale,
                           isDarkMode,
                           highlightRoots
                         )}
-                        className="transition-colors duration-200"
+                        className="transition-all duration-200"
+                        style={{
+                          filter: selectedNote === key.note
+                            ? `drop-shadow(0 0 10px rgba(255,255,255,1)) drop-shadow(0 0 6px rgba(255,255,255,0.9)) drop-shadow(0 0 3px rgba(255,255,255,0.7))`
+                            : 'none',
+                          stroke: selectedNote === key.note ? '#ffffff' : 'none',
+                          strokeWidth: selectedNote === key.note ? 2.5 : 0
+                        }}
                       />
                       <text
                         x={i * whiteKeyWidth + whiteKeyWidth / 2}
@@ -266,14 +283,21 @@ export default function Piano() {
                       <circle
                         cx={x + blackKeyWidth / 2}
                         cy={blackKeyHeight - 25}
-                        r={12}
+                        r={selectedNote === key.note ? 17 : 12}
                         fill={getNoteColor(
                           key.note,
                           scale,
                           isDarkMode,
                           highlightRoots
                         )}
-                        className="transition-colors duration-200"
+                        className="transition-all duration-200"
+                        style={{
+                          filter: selectedNote === key.note
+                            ? `drop-shadow(0 0 10px rgba(255,255,255,1)) drop-shadow(0 0 6px rgba(255,255,255,0.9)) drop-shadow(0 0 3px rgba(255,255,255,0.7))`
+                            : 'none',
+                          stroke: selectedNote === key.note ? '#ffffff' : 'none',
+                          strokeWidth: selectedNote === key.note ? 2.5 : 0
+                        }}
                       />
                       <text
                         x={x + blackKeyWidth / 2}
