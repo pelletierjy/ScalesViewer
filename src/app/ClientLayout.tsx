@@ -46,10 +46,12 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   useEffect(() => {
     if (applicationState === "started") {
       dispatch(initializeApplication());
-      if (pathname !== "/") {
+      if (pathname != null && pathname !== "/") {
         //Init state from route.
         const pathParts = pathname.split("/")[1];
-        dispatch(setInstrument(pathParts));
+        if (pathParts) {
+          dispatch(setInstrument(pathParts));
+        }
       }
     }
   }, [applicationState, dispatch, router, pathname]);
@@ -69,8 +71,8 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         return;
 
       case "initialized":
-        // Handle routing after initialization
-        if (pathname === "/" || !pathname.includes(instrument)) {
+        // Handle routing after initialization (pathname can be null before router is ready)
+        if (pathname == null || pathname === "/" || !pathname.includes(instrument)) {
           router.push(`/${instrument}`);
         }
         return;
