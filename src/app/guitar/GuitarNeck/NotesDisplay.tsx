@@ -54,12 +54,12 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
 
   // Memoize circle radius and font size calculations
   const circleRadius = useMemo(() =>
-    Math.min(stringSpacing / 3.5, stringSpacing / 3.5) * 1.25,
+    Math.min(stringSpacing / 3.5, stringSpacing / 3.5) * 1.41,
     [stringSpacing]
   );
 
   const fontSize = useMemo(() =>
-    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.25,
+    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.41,
     [stringSpacing]
   );
 
