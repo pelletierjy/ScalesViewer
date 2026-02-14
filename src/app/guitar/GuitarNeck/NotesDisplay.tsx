@@ -104,7 +104,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
         >
           <title>{calculateNoteWithOctave(openNote, stringIndex, 0)}</title>
           <circle
-            r={isNoteHighlighted(openNote) ? circleRadius * 1.15 : circleRadius}
+            r={isNoteHighlighted(openNote) ? circleRadius * 1.4 : circleRadius}
             fill={getNoteColor(
               openNote,
               scale,
@@ -113,7 +113,11 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
             )}
             className="transition-all duration-200"
             style={{
-              filter: isNoteHighlighted(openNote) ? 'drop-shadow(0 0 4px rgba(255,255,255,0.8))' : 'none'
+              filter: isNoteHighlighted(openNote)
+                ? `drop-shadow(0 0 8px rgba(255,255,255,1)) drop-shadow(0 0 4px rgba(255,255,255,0.9)) drop-shadow(0 0 2px rgba(255,255,255,0.7))`
+                : 'none',
+              stroke: isNoteHighlighted(openNote) ? '#ffffff' : 'none',
+              strokeWidth: isNoteHighlighted(openNote) ? 2 : 0
             }}
           />
           <text

@@ -194,7 +194,7 @@ export default function Piano() {
                       <circle
                         cx={i * whiteKeyWidth + whiteKeyWidth / 2}
                         cy={whiteKeyHeight - 25}
-                        r={selectedNote === key.note ? 17.25 : 15}
+                        r={selectedNote === key.note ? 22 : 15}
                         fill={getNoteColor(
                           key.note,
                           scale,
@@ -203,7 +203,11 @@ export default function Piano() {
                         )}
                         className="transition-all duration-200"
                         style={{
-                          filter: selectedNote === key.note ? 'drop-shadow(0 0 6px rgba(255,255,255,0.9))' : 'none'
+                          filter: selectedNote === key.note
+                            ? `drop-shadow(0 0 10px rgba(255,255,255,1)) drop-shadow(0 0 6px rgba(255,255,255,0.9)) drop-shadow(0 0 3px rgba(255,255,255,0.7))`
+                            : 'none',
+                          stroke: selectedNote === key.note ? '#ffffff' : 'none',
+                          strokeWidth: selectedNote === key.note ? 2.5 : 0
                         }}
                       />
                       <text
@@ -279,7 +283,7 @@ export default function Piano() {
                       <circle
                         cx={x + blackKeyWidth / 2}
                         cy={blackKeyHeight - 25}
-                        r={selectedNote === key.note ? 13.8 : 12}
+                        r={selectedNote === key.note ? 17 : 12}
                         fill={getNoteColor(
                           key.note,
                           scale,
@@ -288,7 +292,11 @@ export default function Piano() {
                         )}
                         className="transition-all duration-200"
                         style={{
-                          filter: selectedNote === key.note ? 'drop-shadow(0 0 6px rgba(255,255,255,0.9))' : 'none'
+                          filter: selectedNote === key.note
+                            ? `drop-shadow(0 0 10px rgba(255,255,255,1)) drop-shadow(0 0 6px rgba(255,255,255,0.9)) drop-shadow(0 0 3px rgba(255,255,255,0.7))`
+                            : 'none',
+                          stroke: selectedNote === key.note ? '#ffffff' : 'none',
+                          strokeWidth: selectedNote === key.note ? 2.5 : 0
                         }}
                       />
                       <text

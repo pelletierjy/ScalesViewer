@@ -16,12 +16,9 @@ export const selectedNoteSlice = createSlice({
     selectNote: (state, action: PayloadAction<Note | null>) => {
       state.selectedNote = action.payload;
     },
-    clearSelectedNote: (state) => {
-      state.selectedNote = null;
-    },
   },
 });
 
-export const { selectNote, clearSelectedNote } = selectedNoteSlice.actions;
+export const { selectNote } = selectedNoteSlice.actions;
 
 export default selectedNoteSlice.reducer;
