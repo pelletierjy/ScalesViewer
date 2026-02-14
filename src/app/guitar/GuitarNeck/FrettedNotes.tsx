@@ -4,9 +4,11 @@ import { Scale } from "@/lib/utils/scaleType";
 import { calculateFretNote, isNoteInScale, getScaleDegree, sharpToFlat } from "@/lib/utils/scaleUtils";
 import { playNote } from "@/lib/utils/audioUtils";
 import { getNoteColor } from "./getNoteColor";
+import { useDispatch } from 'react-redux';
 import { getFretPositions } from './getFretPositions';
 import { useSelector } from 'react-redux';
 import { selectAudioStatus } from '@/features/audio/audioSlice';
+import { selectNote } from '@/features/selectedNote/selectedNoteSlice';
 import { RootState } from '@/app/store';
 
 interface FrettedNotesProps {
@@ -42,7 +44,9 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
   calculateNoteWithOctave,
   fretPositions = [],
 }) => {
+  const dispatch = useDispatch();
   const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
+  const selectedNote = useSelector((state: RootState) => state.selectedNote.selectedNote);
 
   // Memoize fret positions calculation
   const defaultFretPositions = useMemo(() => 
@@ -61,6 +65,21 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
     Math.min(stringSpacing / 3, stringSpacing / 3) * 1.41,
     [stringSpacing]
   );
+
+  // Handle note click - toggle selection if same note, otherwise select new note
+  const handleNoteClick = (note: Note, noteWithOctave: NoteWithOctave) => {
+    playNote(noteWithOctave, audioStatus);
+    if (selectedNote === note) {
+      dispatch(selectNote(null));
+    } else {
+      dispatch(selectNote(note));
+    }
+  };
+
+  // Check if a note should be highlighted
+  const isNoteHighlighted = (note: Note) => {
+    return selectedNote === note;
+  };
 
   return (
     <>
@@ -87,14 +106,21 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
               transform={`translate(${
                 fretPosition - stringSpacing / 4
               }, ${(stringIndex + 1) * stringSpacing})`}
-              onClick={() => playNote(noteWithOctave, audioStatus)}
+              onClick={() => handleNoteClick(note, noteWithOctave)}
               className="cursor-pointer"
             >
               <title>{noteWithOctave}</title>
               <circle
-                r={circleRadius}
+                r={isNoteHighlighted(note) ? circleRadius * 1.4 : circleRadius}
                 fill={getNoteColor(note, scale, isDarkMode, highlightRoots)}
-                className="transition-colors duration-200"
+                className="transition-all duration-200"
+                style={{
+                  filter: isNoteHighlighted(note)
+                    ? `drop-shadow(0 0 8px rgba(255,255,255,1)) drop-shadow(0 0 4px rgba(255,255,255,0.9)) drop-shadow(0 0 2px rgba(255,255,255,0.7))`
+                    : 'none',
+                  stroke: isNoteHighlighted(note) ? '#ffffff' : 'none',
+                  strokeWidth: isNoteHighlighted(note) ? 2 : 0
+                }}
               />
               <text
                 fill={

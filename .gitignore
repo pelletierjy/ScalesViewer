@@ -58,3 +58,5 @@ next-env.d.ts
 /android/local.properties
 *.keystore
 .env*
+/playwright-report/**
+/test-results/**
