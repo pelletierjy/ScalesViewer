@@ -264,7 +264,6 @@ export const Configuration: React.FC = () => {
               </div>
             </div>
 
-<<<<<<< HEAD
             <div className="flex flex-col min-w-[150px]">
               <div className="flex flex-col gap-1">
                 <label

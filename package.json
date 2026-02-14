@@ -37,6 +37,7 @@
   "dependencies": {
     "@capacitor/android": "^7.4.4",
     "@capacitor/core": "^7.4.4",
+    "immer": "^11.1.4",
     "next": "^16.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
