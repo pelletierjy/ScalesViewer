@@ -264,7 +264,7 @@ export const Configuration: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-col min-w-[150px]">
+            <div className="flex flex-col min-w-[100px]">
               <div className="flex flex-col gap-1">
                 <label
                   htmlFor="string-spacing"
