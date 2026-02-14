@@ -36,7 +36,6 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   const applicationState = useSelector(selectApplicationState);
   const instrument = useSelector(selectInstrument);
   const [isHydrated, setIsHydrated] = useState(false);
-  const [loadingTimeout, setLoadingTimeout] = useState(false);
 
   // Handle hydration
   useEffect(() => {
@@ -62,10 +61,9 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         return;
 
       case "initializing":
-        // The state is being loaded from localStorage in the globalConfigSlice
-        // Since the extraReducer runs synchronously, we can immediately mark as initialized
+        // Complete initialization and save state
         dispatch(applicationInitialized());
-        // Don't save state here - it will be saved by the middleware after initialization
+        dispatch(saveState());
         return;
 
       case "initialized":
@@ -78,26 +76,17 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   }, [applicationState, dispatch, instrument, router, pathname]);
 
   useEffect(() => {
-    const initAudio = async () => {
-      dispatch(setAudioStatus('initializing'));
-      const success = await initializeAudio();
-      dispatch(setAudioStatus(success ? 'initialized' : 'failed'));
-    };
-    initAudio();
-  }, [dispatch]);
-
-  // Add a timeout to prevent infinite loading
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (applicationState !== "initialized") {
-        setLoadingTimeout(true);
-        // Force initialization to prevent infinite loading state
-        dispatch(applicationInitialized());
+    if (!isHydrated) return;
+    
+    const savedScale = localStorage.getItem("current-scale");
+    if (savedScale) {
+      try {
+        dispatch(setScale(JSON.parse(savedScale)));
+      } catch (e) {
+        console.error("Failed to load saved scale:", e);
       }
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [applicationState, dispatch, isHydrated]);
+    }
+  }, [router, dispatch, isHydrated]);
 
   useEffect(() => {
     if (!isHydrated) return;
@@ -110,17 +99,13 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   }, [isDarkMode, isHydrated]);
 
   useEffect(() => {
-    if (!isHydrated) return;
-
-    const savedScale = localStorage.getItem("current-scale");
-    if (savedScale) {
-      try {
-        dispatch(setScale(JSON.parse(savedScale)));
-      } catch (e) {
-        // Failed to load saved scale, ignore and use default
-      }
-    }
-  }, [router, dispatch, isHydrated]);
+    const initAudio = async () => {
+      dispatch(setAudioStatus('initializing'));
+      const success = await initializeAudio();
+      dispatch(setAudioStatus(success ? 'initialized' : 'failed'));
+    };
+    initAudio();
+  }, [dispatch]);
 
   // Always render the same structure to avoid hydration mismatch
   const showContent = isHydrated && applicationState === "initialized";
@@ -154,16 +139,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
           <Details />
         </div>
       ) : (
-        <div className="text-slate-600">
-          {loadingTimeout ? (
-            <div className="text-center">
-              <p className="text-red-500 mb-2">Loading timeout</p>
-              <p>Please refresh the page</p>
-            </div>
-          ) : (
-            "Loading..."
-          )}
-        </div>
+        <div className="text-slate-600">Loading...</div>
       )}
       {showContent && <Footer isDarkMode={isDarkMode} />}
     </main>

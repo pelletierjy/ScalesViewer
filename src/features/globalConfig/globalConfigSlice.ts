@@ -49,9 +49,9 @@ const loadState = (): GlobalConfig | undefined => {
     if (serializedState === null) {
       return undefined;
     }
-    const parsed = JSON.parse(serializedState);
-    return parsed?.globalConfig;
-  } catch (error) {
+    return JSON.parse(serializedState)?.globalConfig;
+  } catch {
+    console.error("Failed to load state from localStorage");
     return undefined;
   }
 };
@@ -104,12 +104,7 @@ export const globalConfigSlice = createSlice({
       if (action.type !== "applicationState/initializeApplication") {
         return;
       }
-      try {
-        const savedState = loadState();
-        updateState(savedState, state);
-      } catch (error) {
-        // Failed to load state, will use defaults
-      }
+      updateState(loadState(), state);
     });
   },
 });

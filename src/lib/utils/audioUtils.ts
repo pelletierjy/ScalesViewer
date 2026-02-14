@@ -34,7 +34,7 @@ const getOctave = (note: NoteWithOctave): number => {
   return match ? parseInt(match[0], 10) : 4; // Default to octave 4 if not specified
 };
 
-export const calculateFrequency = (note: NoteWithOctave): number => {
+const calculateFrequency = (note: NoteWithOctave): number => {
   const baseNote = getBaseNote(note);
   const octave = getOctave(note);
 
@@ -60,14 +60,7 @@ export const calculateFrequency = (note: NoteWithOctave): number => {
     "A#",
     "B",
   ];
-
-  // Fix enharmonic conversion bug
-  const enharmonicMap: Record<string, string> = {
-    'Bb': 'A#', 'Db': 'C#', 'Eb': 'D#',
-    'Gb': 'F#', 'Ab': 'G#'
-  };
-  const normalizedNote = enharmonicMap[baseNote] || baseNote;
-  const baseNoteIndex = noteOrder.indexOf(normalizedNote);
+  const baseNoteIndex = noteOrder.indexOf(baseNote.replace(/b/, "#"));
   const octaveOffset = octave - 4; // Distance from octave 4
 
   // Calculate semitones from A4
