@@ -45,7 +45,6 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
   useEffect(() => {
     if (applicationState === "started") {
-      console.log("Starting application initialization");
       dispatch(initializeApplication());
       if (pathname !== "/") {
         //Init state from route.
@@ -55,16 +54,8 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     }
   }, [applicationState, dispatch, router, pathname]);
 
-  // Debug: Log when hydration completes
-  useEffect(() => {
-    if (isHydrated) {
-      console.log("Hydration completed");
-    }
-  }, [isHydrated]);
-
   useEffect(() => {
     // Handle application state transitions
-    console.log("Application state:", applicationState);
     switch (applicationState) {
       case "started":
         // Nothing to do here, handled by the first useEffect
@@ -73,33 +64,18 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       case "initializing":
         // The state is being loaded from localStorage in the globalConfigSlice
         // Since the extraReducer runs synchronously, we can immediately mark as initialized
-        console.log("Dispatching applicationInitialized");
         dispatch(applicationInitialized());
         // Don't save state here - it will be saved by the middleware after initialization
         return;
 
       case "initialized":
         // Handle routing after initialization
-        console.log("Application initialized, checking route");
         if (pathname === "/" || !pathname.includes(instrument)) {
           router.push(`/${instrument}`);
         }
         return;
     }
   }, [applicationState, dispatch, instrument, router, pathname]);
-
-  // Add a direct initialization bypass for debugging
-  useEffect(() => {
-    console.log("Application state check:", applicationState);
-    if (isHydrated && applicationState === "started") {
-      console.log("Forcing initialization");
-      dispatch(initializeApplication());
-      // Force immediate transition to initialized
-      setTimeout(() => {
-        dispatch(applicationInitialized());
-      }, 100);
-    }
-  }, [isHydrated, applicationState, dispatch]);
 
   useEffect(() => {
     const initAudio = async () => {
@@ -114,11 +90,8 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (applicationState !== "initialized") {
-        console.error("Application failed to initialize within 5 seconds");
-        console.log("Current application state:", applicationState);
-        console.log("isHydrated:", isHydrated);
         setLoadingTimeout(true);
-        // Force initialization
+        // Force initialization to prevent infinite loading state
         dispatch(applicationInitialized());
       }
     }, 5000);
@@ -144,7 +117,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       try {
         dispatch(setScale(JSON.parse(savedScale)));
       } catch (e) {
-        console.error("Failed to load saved scale:", e);
+        // Failed to load saved scale, ignore and use default
       }
     }
   }, [router, dispatch, isHydrated]);

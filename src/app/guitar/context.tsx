@@ -38,7 +38,6 @@ function useMigratedTexture(): [string, (value: string) => void] {
         
         // Clean up old key
         localStorage.removeItem("fretboard-color");
-        console.log(`Migrated fretboard color ${oldColor} to texture: ${mappedTexture}`);
       }
       
       setHasMigrated(true);

@@ -26,16 +26,12 @@ export const persistentStateMiddleware: Middleware =
       return typeof (action as Action<string>).type === "string";
     };
 
-    console.log("Middleware processing action:", (action as Action<string>).type);
-
     const result = next(action);
     if ((action as Action<string>).type === 'applicationState/applicationInitialized') {
-      console.log("Application initialized detected in middleware");
       initialized = true;
     };
 
     if (initialized && isReduxAction(action)) {
-      console.log("Saving state to localStorage");
       saveState(store.getState());
     }
 
