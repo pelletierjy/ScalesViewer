@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { DataContext, DataContextType } from '../context';
 
 interface GuitarHeadstockProps {
   fretboardLeft: number;
   stringSpacing: number;
-  stringCount: number;
   isDarkMode: boolean;
 }
 
 export const GuitarHeadstock: React.FC<GuitarHeadstockProps> = ({
   fretboardLeft,
   stringSpacing,
-  stringCount,
   isDarkMode,
 }) => {
+  const { scaleRoot } = useContext(DataContext) as DataContextType;
+  const stringCount = scaleRoot.strings.length;
   // Calculate headstock dimensions based on fretboard
   const headstockWidth = stringSpacing * 10; // Make the headstock wider than the neck
   const headstockStartX = fretboardLeft - headstockWidth;

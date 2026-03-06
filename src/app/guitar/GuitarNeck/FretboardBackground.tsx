@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FretboardTexture } from './FretboardTexture';
 import { GuitarBody } from './GuitarBody';
 import { GuitarHeadstock } from './GuitarHeadstock';
+import { DataContext, DataContextType } from '../context';
 
 interface FretboardBackgroundProps {
   isMultiscale: boolean;
   fretPositions: number[][] | number[];
   fretCount: number;
   stringSpacing: number;
-  stringCount: number;
   fretboardTexture: string;
   isDarkMode: boolean;
   dimensions: { width: number; height: number };
@@ -19,11 +19,12 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
   fretPositions,
   fretCount,
   stringSpacing,
-  stringCount,
   fretboardTexture,
   isDarkMode,
   dimensions,
 }) => {
+  const { scaleRoot } = useContext(DataContext) as DataContextType;
+  const stringCount = scaleRoot.strings.length;
   if (isMultiscale) {
     // For multiscale, create a path that follows the fanned frets
     const topStringPositions = Array.isArray(fretPositions[0]) 
@@ -58,23 +59,21 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
         
         {/* Guitar Body (behind fretboard) */}
         <GuitarBody
-          fretboardRight={Array.isArray(fretPositions[0]) 
+          fretboardRight={Array.isArray(fretPositions[0])
             ? (fretPositions[0] as number[])[fretCount]
             : (fretPositions as number[])[fretCount]
           }
           stringSpacing={stringSpacing}
-          stringCount={stringCount}
           isDarkMode={isDarkMode}
         />
-        
+
         {/* Guitar Headstock (behind fretboard) */}
         <GuitarHeadstock
-          fretboardLeft={Array.isArray(fretPositions[0]) 
+          fretboardLeft={Array.isArray(fretPositions[0])
             ? (fretPositions[0] as number[])[0]
             : (fretPositions as number[])[0]
           }
           stringSpacing={stringSpacing}
-          stringCount={stringCount}
           isDarkMode={isDarkMode}
         />
         
@@ -125,15 +124,13 @@ export const FretboardBackground: React.FC<FretboardBackgroundProps> = ({
         <GuitarBody
           fretboardRight={validRight}
           stringSpacing={stringSpacing}
-          stringCount={stringCount}
           isDarkMode={isDarkMode}
         />
-        
+
         {/* Guitar Headstock (behind fretboard) */}
         <GuitarHeadstock
           fretboardLeft={validLeft}
           stringSpacing={stringSpacing}
-          stringCount={stringCount}
           isDarkMode={isDarkMode}
         />
         

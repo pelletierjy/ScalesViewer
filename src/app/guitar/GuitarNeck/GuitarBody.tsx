@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { DataContext, DataContextType } from '../context';
 
 interface GuitarBodyProps {
   fretboardRight: number;
   stringSpacing: number;
-  stringCount: number;
   isDarkMode: boolean;
 }
 
 export const GuitarBody: React.FC<GuitarBodyProps> = ({
   fretboardRight,
   stringSpacing,
-  stringCount,
   isDarkMode,
 }) => {
+  const { scaleRoot } = useContext(DataContext) as DataContextType;
+  const stringCount = scaleRoot.strings.length;
   // Calculate body dimensions based on fretboard
   const bodyStartX = fretboardRight;
   const bodyWidth = stringSpacing * 8; // Make the body wider than the neck

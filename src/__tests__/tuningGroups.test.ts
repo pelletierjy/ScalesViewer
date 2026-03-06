@@ -11,7 +11,6 @@ describe("tuningGroups", () => {
       name: "My Custom Tuning",
       strings: ["E", "A", "D", "G", "B", "E"],
       description: "A custom tuning for testing",
-      stringCount: 6,
       category: "Custom",
     };
 

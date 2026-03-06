@@ -161,12 +161,11 @@ export const GuitarNeck: React.FC = React.memo(() => {
           }}
         >
           {/* Fretboard Background with Texture */}
-          <FretboardBackground 
+          <FretboardBackground
             isMultiscale={isMultiscale}
             fretPositions={fretPositions}
             fretCount={fretCount}
             stringSpacing={calculatedStringSpacing}
-            stringCount={scaleRoot.strings.length}
             fretboardTexture={fretboardTexture}
             isDarkMode={isDarkMode}
             dimensions={dimensions}
@@ -236,7 +235,6 @@ export const GuitarNeck: React.FC = React.memo(() => {
             stringSpacing={calculatedStringSpacing}
             isDarkMode={isDarkMode}
             isMultiscale={isMultiscale}
-            stringCount={scaleRoot.strings.length}
           />
 
           {/* String Group */}
@@ -266,7 +264,6 @@ export const GuitarNeck: React.FC = React.memo(() => {
             flipY={flipY}
             isMultiscale={isMultiscale}
             fretPositions={isMultiscale ? fretPositions : standardFretPositions}
-            stringCount={scaleRoot.strings.length}
           />
         </svg>
       </div>

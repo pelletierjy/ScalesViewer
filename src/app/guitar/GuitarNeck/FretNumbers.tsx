@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { getFretPositions } from './getFretPositions';
+import { DataContext, DataContextType } from '../context';
 
 interface FretNumbersProps {
   fretCount: number;
@@ -10,7 +11,6 @@ interface FretNumbersProps {
   flipY: boolean;
   isMultiscale?: boolean;
   fretPositions?: number[][] | number[];
-  stringCount?: number;
 }
 
 export const FretNumbers: React.FC<FretNumbersProps> = ({
@@ -22,8 +22,9 @@ export const FretNumbers: React.FC<FretNumbersProps> = ({
   flipY,
   isMultiscale = false,
   fretPositions = [],
-  stringCount = 6,
 }) => {
+  const { scaleRoot } = useContext(DataContext) as DataContextType;
+  const stringCount = scaleRoot.strings.length;
   return (
     <>
       {Array.from({ length: fretCount + 1 }).map((_, i) => {
