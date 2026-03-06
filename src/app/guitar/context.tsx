@@ -160,7 +160,6 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     const customTuning: TuningPresetWithMetadata = {
       ...newTuning,
       description: `Custom ${newTuning.strings.length}-string tuning`,
-      stringCount: newTuning.strings.length,
       category: "Special",
     };
 

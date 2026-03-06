@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { DataContext, DataContextType } from '../context';
 
 interface FretMarkersProps {
   fretMarkers: number[];
@@ -7,7 +8,6 @@ interface FretMarkersProps {
   stringSpacing: number;
   isDarkMode: boolean;
   isMultiscale?: boolean;
-  stringCount?: number;
 }
 
 export const FretMarkers: React.FC<FretMarkersProps> = ({
@@ -17,13 +17,15 @@ export const FretMarkers: React.FC<FretMarkersProps> = ({
   stringSpacing,
   isDarkMode,
   isMultiscale = false,
-  stringCount = 6,
 }) => {
+  const { scaleRoot } = useContext(DataContext) as DataContextType;
+  const stringCount = scaleRoot.strings.length;
+
   return (
     <>
       {fretMarkers.map((fret) => {
         let markerPosition;
-        
+
         if (isMultiscale && Array.isArray(fretPositions[0])) {
           // For multiscale, use the middle string position for better visual alignment
           const positions = fretPositions as number[][];
