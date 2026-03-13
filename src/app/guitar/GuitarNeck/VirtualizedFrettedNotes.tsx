@@ -26,6 +26,8 @@ interface VirtualizedFrettedNotesProps {
   fretPositions?: number[];
   viewportStart?: number;
   viewportEnd?: number;
+  isStringEnabled?: boolean;
+  fretPositionEnabled?: boolean[];
 }
 
 // Only render notes within the visible viewport for large fretboards
@@ -46,6 +48,8 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
   fretPositions = [],
   viewportStart = 0,
   viewportEnd = fretCount,
+  isStringEnabled = true,
+  fretPositionEnabled = [],
 }) => {
   const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
 
@@ -98,22 +102,32 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
 
   return (
     <>
-      {visibleNotes.map(({ fretIndex, note, noteWithOctave, isRoot, fretPosition }) => (
+      {visibleNotes.map(({ fretIndex, note, noteWithOctave, isRoot, fretPosition }) => {
+        const isFretPositionEnabled = fretPositionEnabled[fretIndex] ?? true;
+        const isNoteEnabled = isStringEnabled && isFretPositionEnabled;
+        return (
         <g
           key={`note-${stringIndex}-${fretIndex}`}
           transform={`translate(${fretPosition - stringSpacing / 4}, ${(stringIndex + 1) * stringSpacing})`}
           onClick={() => playNote(noteWithOctave, audioStatus)}
           className="cursor-pointer"
+          style={!isNoteEnabled ? { opacity: 0.5 } : undefined}
         >
           <title>{noteWithOctave}</title>
           <circle
             r={circleRadius}
-            fill={getNoteColor(note, scale, isDarkMode, highlightRoots)}
+            fill={
+              isNoteEnabled
+                ? getNoteColor(note, scale, isDarkMode, highlightRoots)
+                : "#9ca3af"
+            }
             className="transition-colors duration-200"
           />
           <text
             fill={
-              isDarkMode
+              !isNoteEnabled
+                ? "#6b7280"
+                : isDarkMode
                 ? "#1f2937"
                 : isRoot
                 ? "#ffffff"
@@ -139,7 +153,7 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
               : note}
           </text>
         </g>
-      ))}
+      );})}
     </>
   );
 });

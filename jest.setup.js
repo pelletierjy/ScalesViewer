@@ -36,3 +36,10 @@ const localStorageMock = (function () {
 Object.defineProperty(window, "localStorage", {
   value: localStorageMock,
 });
+
+// Mock ResizeObserver for components that measure container size (e.g. GuitarNeck)
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));

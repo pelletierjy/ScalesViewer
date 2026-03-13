@@ -26,6 +26,8 @@ interface FrettedNotesProps {
   flipY: boolean;
   calculateNoteWithOctave: (openNote: Note, stringIndex: number, fret: number) => NoteWithOctave;
   fretPositions?: number[];
+  isStringEnabled?: boolean;
+  fretPositionEnabled?: boolean[];
 }
 
 export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
@@ -43,6 +45,8 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
   flipY,
   calculateNoteWithOctave,
   fretPositions = [],
+  isStringEnabled = true,
+  fretPositionEnabled = [],
 }) => {
   const dispatch = useDispatch();
   const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
@@ -85,6 +89,8 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
     <>
       {Array.from({ length: fretCount }, (_, index) => {
         const fretIndex = index + 1; // Start from fret 1, not 0
+        const isFretPositionEnabled = fretPositionEnabled[fretIndex] ?? true;
+        const isNoteEnabled = isStringEnabled && isFretPositionEnabled;
         const note = calculateFretNote(openNote, fretIndex);
         const noteWithOctave = calculateNoteWithOctave(
           openNote,
@@ -108,11 +114,16 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
               }, ${(stringIndex + 1) * stringSpacing})`}
               onClick={() => handleNoteClick(note, noteWithOctave)}
               className="cursor-pointer"
+              style={!isNoteEnabled ? { opacity: 0.5 } : undefined}
             >
               <title>{noteWithOctave}</title>
               <circle
                 r={isNoteHighlighted(note) ? circleRadius * 1.4 : circleRadius}
-                fill={getNoteColor(note, scale, isDarkMode, highlightRoots)}
+                fill={
+                  isNoteEnabled
+                    ? getNoteColor(note, scale, isDarkMode, highlightRoots)
+                    : "#9ca3af"
+                }
                 className="transition-all duration-200"
                 style={{
                   filter: isNoteHighlighted(note)
@@ -124,7 +135,9 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
               />
               <text
                 fill={
-                  isDarkMode
+                  !isNoteEnabled
+                    ? "#6b7280"
+                    : isDarkMode
                     ? "#1f2937"
                     : isRoot
                     ? "#ffffff"

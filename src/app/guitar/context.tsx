@@ -5,6 +5,8 @@ import {
   ReactNode,
   useState,
   useEffect,
+  useMemo,
+  useCallback,
 } from "react";
 import { useLocalStorage, useLocalStorageBoolean, useLocalStorageNumber } from "./hooks/useLocalStorage";
 import { getCustomTunings, getTuning } from "@/app/guitar/tunings";
@@ -71,6 +73,10 @@ export interface DataContextType {
   setFretboardTexture: (texture: string) => void;
   stringSpacing: 'normal' | 'enlarged';
   setStringSpacing: (spacing: 'normal' | 'enlarged') => void;
+  stringEnabled: boolean[];
+  setStringEnabled: (value: boolean[] | ((prev: boolean[]) => boolean[])) => void;
+  fretPositionEnabled: boolean[];
+  setFretPositionEnabled: (value: boolean[] | ((prev: boolean[]) => boolean[])) => void;
 
   // Tuning management
   scaleRoot: TuningPreset;
@@ -105,6 +111,10 @@ const defaultContextValue: DataContextType = {
   setFretboardTexture: () => {},
   stringSpacing: "normal",
   setStringSpacing: () => {},
+  stringEnabled: [],
+  setStringEnabled: () => {},
+  fretPositionEnabled: [],
+  setFretPositionEnabled: () => {},
 
   // Tuning management
   scaleRoot: { name: "Standard E", strings: ["E", "B", "G", "D", "A", "E"] },
@@ -138,10 +148,65 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
   // String spacing setting
   const [stringSpacing, setStringSpacing] = useLocalStorage<'normal' | 'enlarged'>("string-spacing", "normal");
-  
-  // Tuning management state
+
+  // Tuning management state (scaleRoot must be declared before per-string state that uses it)
   const [scaleRoot, setScaleRoot] = useLocalStorage<TuningPreset>("current-scaleRoot", getTuning());
   const [customTunings, setCustomTunings] = useLocalStorage<TuningPresetWithMetadata[]>("custom-tunings", getCustomTunings());
+
+  // Per-string enabled state (checkbox on the left of each string). Persisted.
+  const [stringEnabledStored, setStringEnabledStored] = useLocalStorage<boolean[]>("guitar-string-enabled", []);
+  const stringCount = scaleRoot.strings.length;
+  const stringEnabled = useMemo(() => {
+    const stored = stringEnabledStored ?? [];
+    if (stored.length === stringCount) return stored;
+    if (stored.length > stringCount) return stored.slice(0, stringCount);
+    return [...stored, ...Array(stringCount - stored.length).fill(true)];
+  }, [stringEnabledStored, stringCount]);
+  const setStringEnabled = useCallback(
+    (value: boolean[] | ((prev: boolean[]) => boolean[])) => {
+      setStringEnabledStored((prev) => {
+        const effective = prev.length === stringCount ? prev : prev.length > stringCount
+          ? prev.slice(0, stringCount)
+          : [...prev, ...Array(stringCount - prev.length).fill(true)];
+        const next = typeof value === "function" ? value(effective) : value;
+        return next.length === stringCount ? next : next.length > stringCount ? next.slice(0, stringCount) : [...next, ...Array(stringCount - next.length).fill(true)];
+      });
+    },
+    [stringCount, setStringEnabledStored]
+  );
+
+  // Per-fret-position enabled state (checkboxes below fretboard). Index 0 = open string, 1..fretCount = frets 1..fretCount. Persisted.
+  const fretPositionCount = fretCount + 1;
+  const [fretPositionEnabledStored, setFretPositionEnabledStored] = useLocalStorage<boolean[]>("guitar-fret-enabled", []);
+  const fretPositionEnabled = useMemo(() => {
+    const stored = fretPositionEnabledStored ?? [];
+    if (stored.length === fretPositionCount) return stored;
+    if (stored.length > fretPositionCount) return stored.slice(0, fretPositionCount);
+    // Migrate from old length (fretCount only): prepend true for open string, then existing values for frets 1..fretCount
+    if (stored.length === fretCount) return [true, ...stored];
+    return [...stored, ...Array(fretPositionCount - stored.length).fill(true)];
+  }, [fretPositionEnabledStored, fretPositionCount, fretCount]);
+  const setFretPositionEnabled = useCallback(
+    (value: boolean[] | ((prev: boolean[]) => boolean[])) => {
+      setFretPositionEnabledStored((prev) => {
+        let effective: boolean[];
+        if (prev.length === fretPositionCount) {
+          effective = prev;
+        } else if (prev.length === fretCount) {
+          effective = [true, ...prev];
+        } else if (prev.length > fretPositionCount) {
+          effective = prev.slice(0, fretPositionCount);
+        } else {
+          effective = [...prev, ...Array(fretPositionCount - prev.length).fill(true)];
+        }
+        const next = typeof value === "function" ? value(effective) : value;
+        return next.length === fretPositionCount ? next : next.length > fretPositionCount ? next.slice(0, fretPositionCount) : [...next, ...Array(fretPositionCount - next.length).fill(true)];
+      });
+    },
+    [fretPositionCount, fretCount, setFretPositionEnabledStored]
+  );
+
+  // Rest of tuning management state
   const [editingTuning, setEditingTuning] = useState<TuningPresetWithMetadata | null>(null);
   const [showCustomTuning, setShowCustomTuning] = useState(false);
   
@@ -200,6 +265,10 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         setFretboardTexture,
         stringSpacing,
         setStringSpacing,
+        stringEnabled,
+        setStringEnabled,
+        fretPositionEnabled,
+        setFretPositionEnabled,
 
         // Tuning management
         scaleRoot,
