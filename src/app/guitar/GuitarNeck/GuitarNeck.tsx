@@ -30,6 +30,8 @@ export const GuitarNeck: React.FC = React.memo(() => {
     fretboardTexture,
     stringSpacing,
     scaleRoot,
+    stringEnabled,
+    setStringEnabled,
   } = useContext(DataContext) as DataContextType;
   const showFlats = useSelector(selectShowFlats);
   const scale = useSelector(selectScale);

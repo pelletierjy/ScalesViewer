@@ -5,6 +5,8 @@ import {
   ReactNode,
   useState,
   useEffect,
+  useMemo,
+  useCallback,
 } from "react";
 import { useLocalStorage, useLocalStorageBoolean, useLocalStorageNumber } from "./hooks/useLocalStorage";
 import { getCustomTunings, getTuning } from "@/app/guitar/tunings";
@@ -71,6 +73,8 @@ export interface DataContextType {
   setFretboardTexture: (texture: string) => void;
   stringSpacing: 'normal' | 'enlarged';
   setStringSpacing: (spacing: 'normal' | 'enlarged') => void;
+  stringEnabled: boolean[];
+  setStringEnabled: (value: boolean[] | ((prev: boolean[]) => boolean[])) => void;
 
   // Tuning management
   scaleRoot: TuningPreset;
@@ -105,6 +109,8 @@ const defaultContextValue: DataContextType = {
   setFretboardTexture: () => {},
   stringSpacing: "normal",
   setStringSpacing: () => {},
+  stringEnabled: [],
+  setStringEnabled: () => {},
 
   // Tuning management
   scaleRoot: { name: "Standard E", strings: ["E", "B", "G", "D", "A", "E"] },
@@ -138,6 +144,28 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
   // String spacing setting
   const [stringSpacing, setStringSpacing] = useLocalStorage<'normal' | 'enlarged'>("string-spacing", "normal");
+
+  // Per-string enabled state (checkbox on the left of each string). Persisted.
+  const [stringEnabledStored, setStringEnabledStored] = useLocalStorage<boolean[]>("guitar-string-enabled", []);
+  const stringCount = scaleRoot.strings.length;
+  const stringEnabled = useMemo(() => {
+    const stored = stringEnabledStored ?? [];
+    if (stored.length === stringCount) return stored;
+    if (stored.length > stringCount) return stored.slice(0, stringCount);
+    return [...stored, ...Array(stringCount - stored.length).fill(true)];
+  }, [stringEnabledStored, stringCount]);
+  const setStringEnabled = useCallback(
+    (value: boolean[] | ((prev: boolean[]) => boolean[])) => {
+      setStringEnabledStored((prev) => {
+        const effective = prev.length === stringCount ? prev : prev.length > stringCount
+          ? prev.slice(0, stringCount)
+          : [...prev, ...Array(stringCount - prev.length).fill(true)];
+        const next = typeof value === "function" ? value(effective) : value;
+        return next.length === stringCount ? next : next.length > stringCount ? next.slice(0, stringCount) : [...next, ...Array(stringCount - next.length).fill(true)];
+      });
+    },
+    [stringCount, setStringEnabledStored]
+  );
   
   // Tuning management state
   const [scaleRoot, setScaleRoot] = useLocalStorage<TuningPreset>("current-scaleRoot", getTuning());
@@ -200,6 +228,8 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         setFretboardTexture,
         stringSpacing,
         setStringSpacing,
+        stringEnabled,
+        setStringEnabled,
 
         // Tuning management
         scaleRoot,
