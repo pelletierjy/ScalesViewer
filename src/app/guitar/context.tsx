@@ -75,6 +75,8 @@ export interface DataContextType {
   setStringSpacing: (spacing: 'normal' | 'enlarged') => void;
   stringEnabled: boolean[];
   setStringEnabled: (value: boolean[] | ((prev: boolean[]) => boolean[])) => void;
+  fretPositionEnabled: boolean[];
+  setFretPositionEnabled: (value: boolean[] | ((prev: boolean[]) => boolean[])) => void;
 
   // Tuning management
   scaleRoot: TuningPreset;
@@ -111,6 +113,8 @@ const defaultContextValue: DataContextType = {
   setStringSpacing: () => {},
   stringEnabled: [],
   setStringEnabled: () => {},
+  fretPositionEnabled: [],
+  setFretPositionEnabled: () => {},
 
   // Tuning management
   scaleRoot: { name: "Standard E", strings: ["E", "B", "G", "D", "A", "E"] },
@@ -170,6 +174,28 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     },
     [stringCount, setStringEnabledStored]
   );
+
+  // Per-fret-position enabled state (checkboxes below fretboard). Persisted.
+  const [fretPositionEnabledStored, setFretPositionEnabledStored] = useLocalStorage<boolean[]>("guitar-fret-enabled", []);
+  const fretPositionEnabled = useMemo(() => {
+    const stored = fretPositionEnabledStored ?? [];
+    if (stored.length === fretCount) return stored;
+    if (stored.length > fretCount) return stored.slice(0, fretCount);
+    return [...stored, ...Array(fretCount - stored.length).fill(true)];
+  }, [fretPositionEnabledStored, fretCount]);
+  const setFretPositionEnabled = useCallback(
+    (value: boolean[] | ((prev: boolean[]) => boolean[])) => {
+      setFretPositionEnabledStored((prev) => {
+        const effective = prev.length === fretCount ? prev : prev.length > fretCount
+          ? prev.slice(0, fretCount)
+          : [...prev, ...Array(fretCount - prev.length).fill(true)];
+        const next = typeof value === "function" ? value(effective) : value;
+        return next.length === fretCount ? next : next.length > fretCount ? next.slice(0, fretCount) : [...next, ...Array(fretCount - next.length).fill(true)];
+      });
+    },
+    [fretCount, setFretPositionEnabledStored]
+  );
+
   // Rest of tuning management state
   const [editingTuning, setEditingTuning] = useState<TuningPresetWithMetadata | null>(null);
   const [showCustomTuning, setShowCustomTuning] = useState(false);
@@ -231,6 +257,8 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         setStringSpacing,
         stringEnabled,
         setStringEnabled,
+        fretPositionEnabled,
+        setFretPositionEnabled,
 
         // Tuning management
         scaleRoot,

@@ -20,6 +20,7 @@ interface StringGroupProps {
   calculateNoteWithOctave: (openNote: Note, stringIndex: number, fret: number) => NoteWithOctave;
   fretPositions?: number[][];
   stringEnabled?: boolean[];
+  fretPositionEnabled?: boolean[];
 }
 
 export const StringGroup: React.FC<StringGroupProps> = React.memo(({
@@ -37,6 +38,7 @@ export const StringGroup: React.FC<StringGroupProps> = React.memo(({
   calculateNoteWithOctave,
   fretPositions = [],
   stringEnabled = [],
+  fretPositionEnabled = [],
 }) => {
   return (
     <>
@@ -92,6 +94,7 @@ export const StringGroup: React.FC<StringGroupProps> = React.memo(({
               stringIndex={stringIndex}
               openNote={openNote}
               isStringEnabled={stringEnabled[stringIndex] ?? true}
+              fretPositionEnabled={fretPositionEnabled}
             />
           </g>
         ))}

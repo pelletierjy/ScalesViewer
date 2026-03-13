@@ -32,6 +32,8 @@ export const GuitarNeck: React.FC = React.memo(() => {
     scaleRoot,
     stringEnabled,
     setStringEnabled,
+    fretPositionEnabled,
+    setFretPositionEnabled,
   } = useContext(DataContext) as DataContextType;
   const showFlats = useSelector(selectShowFlats);
   const scale = useSelector(selectScale);
@@ -153,9 +155,21 @@ export const GuitarNeck: React.FC = React.memo(() => {
     [scaleRoot.strings.length, flipY]
   );
 
+  // Fret checkbox positions: center of each fret zone (for alignment below neck)
+  const fretCheckboxPositions = useMemo(() => {
+    const positions = standardFretPositions as number[];
+    const width = dimensions.width || 1000;
+    return Array.from({ length: fretCount }, (_, i) => {
+      const left = positions[i];
+      const right = positions[i + 1];
+      return ((left + right) / 2 / width) * 100;
+    });
+  }, [standardFretPositions, fretCount, dimensions.width]);
+
   return (
     <div ref={containerRef} className="w-full">
-      <div className="flex items-start gap-2 w-full">
+      <div className="flex flex-col gap-1 w-full">
+        <div className="flex items-start gap-2 w-full">
         {/* Checkbox column: one per string, aligned with string rows */}
         <div
           className="relative shrink-0 flex flex-col"
@@ -192,7 +206,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
             </label>
           ))}
         </div>
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 flex flex-col gap-1">
         <svg
           width="100%"
           height={dimensions.height || 200}
@@ -303,6 +317,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
             calculateNoteWithOctave={calculateNoteWithOctave}
             fretPositions={fretPositions}
             stringEnabled={stringEnabled}
+            fretPositionEnabled={fretPositionEnabled}
           />
 
           {/* Fret numbers */}
@@ -317,7 +332,47 @@ export const GuitarNeck: React.FC = React.memo(() => {
             fretPositions={isMultiscale ? fretPositions : standardFretPositions}
           />
         </svg>
+        {/* Fret position checkboxes: one per fret, below the neck */}
+        <div
+          className="relative w-full py-1"
+          style={{
+            height: 28,
+            transform: flipX ? "scaleX(-1)" : undefined,
+          }}
+          aria-label="Fret position enable toggles"
+        >
+          {Array.from({ length: fretCount }, (_, i) => (
+            <label
+              key={i}
+              className="absolute flex items-center justify-center cursor-pointer"
+              style={{
+                left: `${fretCheckboxPositions[i]}%`,
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={fretPositionEnabled[i] ?? true}
+                onChange={() =>
+                  setFretPositionEnabled((prev) => {
+                    const next = [...prev];
+                    next[i] = !(next[i] ?? true);
+                    return next;
+                  })
+                }
+                className={`h-3 w-3 rounded border focus:ring-2 focus:ring-offset-1 ${
+                  isDarkMode
+                    ? "border-gray-500 bg-gray-700 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-800"
+                    : "border-gray-400 bg-white text-blue-600 focus:ring-blue-500 focus:ring-offset-white"
+                }`}
+                aria-label={`Fret ${i + 1} ${fretPositionEnabled[i] ?? true ? "enabled" : "disabled"}`}
+              />
+            </label>
+          ))}
         </div>
+        </div>
+      </div>
       </div>
     </div>
   );

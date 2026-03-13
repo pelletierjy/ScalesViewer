@@ -30,6 +30,7 @@ interface NotesDisplayProps {
   stringIndex?: number;
   openNote?: Note;
   isStringEnabled?: boolean;
+  fretPositionEnabled?: boolean[];
 }
 
 export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
@@ -49,6 +50,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
   stringIndex = 0,
   openNote: openNoteProp,
   isStringEnabled = true,
+  fretPositionEnabled = [],
 }) => {
   const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
   const selectedNote = useSelector((state: RootState) => state.selectedNote.selectedNote);
@@ -172,6 +174,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
           calculateNoteWithOctave={calculateNoteWithOctave}
           fretPositions={fretPositions[stringIndex] || []}
           isStringEnabled={isStringEnabled}
+          fretPositionEnabled={fretPositionEnabled}
         />
       ) : (
         <FrettedNotes
@@ -190,6 +193,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
           calculateNoteWithOctave={calculateNoteWithOctave}
           fretPositions={fretPositions[stringIndex] || []}
           isStringEnabled={isStringEnabled}
+          fretPositionEnabled={fretPositionEnabled}
         />
       )}
     </>
