@@ -109,14 +109,14 @@ describe("Guitar string and fret position enable", () => {
       expect(values.split(",").every((v) => v === "true")).toBe(true);
     });
 
-    it("provides fretPositionEnabled with length matching fretCount and default true", () => {
+    it("provides fretPositionEnabled with length fretCount+1 (open + frets) and default true", () => {
       renderWithGuitarProviders(<ContextConsumer />);
       const fretCount = parseInt(
         screen.getByTestId("fret-count").textContent ?? "0",
         10
       );
       expect(screen.getByTestId("fret-enabled-length")).toHaveTextContent(
-        String(fretCount)
+        String(fretCount + 1)
       );
       const values = screen.getByTestId("fret-enabled-values").textContent ?? "";
       expect(values.split(",").every((v) => v === "true")).toBe(true);
@@ -182,7 +182,7 @@ describe("Guitar string and fret position enable", () => {
           <FrettedNotes
             {...defaultProps}
             isStringEnabled={true}
-            fretPositionEnabled={Array(12).fill(true)}
+            fretPositionEnabled={Array(13).fill(true)}
           />
         </svg>
       );
@@ -201,7 +201,7 @@ describe("Guitar string and fret position enable", () => {
           <FrettedNotes
             {...defaultProps}
             isStringEnabled={false}
-            fretPositionEnabled={Array(12).fill(true)}
+            fretPositionEnabled={Array(13).fill(true)}
           />
         </svg>
       );
@@ -218,8 +218,8 @@ describe("Guitar string and fret position enable", () => {
     });
 
     it("applies disabled style for notes at a disabled fret position", () => {
-      const fretPositionEnabled = Array(12).fill(true) as boolean[];
-      fretPositionEnabled[2] = false; // disable fret 3 (index 2)
+      const fretPositionEnabled = Array(13).fill(true) as boolean[]; // index 0 = open, 1..12 = frets
+      fretPositionEnabled[3] = false; // disable fret 3 (index 3; index 0 = open, 1 = fret 1, 2 = fret 2, 3 = fret 3)
       const { container } = renderWithGuitarProviders(
         <svg>
           <FrettedNotes
@@ -246,7 +246,7 @@ describe("Guitar string and fret position enable", () => {
           <FrettedNotes
             {...defaultProps}
             isStringEnabled={false}
-            fretPositionEnabled={Array(12).fill(true)}
+            fretPositionEnabled={Array(13).fill(true)}
           />
         </svg>
       );

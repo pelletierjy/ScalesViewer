@@ -175,25 +175,35 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     [stringCount, setStringEnabledStored]
   );
 
-  // Per-fret-position enabled state (checkboxes below fretboard). Persisted.
+  // Per-fret-position enabled state (checkboxes below fretboard). Index 0 = open string, 1..fretCount = frets 1..fretCount. Persisted.
+  const fretPositionCount = fretCount + 1;
   const [fretPositionEnabledStored, setFretPositionEnabledStored] = useLocalStorage<boolean[]>("guitar-fret-enabled", []);
   const fretPositionEnabled = useMemo(() => {
     const stored = fretPositionEnabledStored ?? [];
-    if (stored.length === fretCount) return stored;
-    if (stored.length > fretCount) return stored.slice(0, fretCount);
-    return [...stored, ...Array(fretCount - stored.length).fill(true)];
-  }, [fretPositionEnabledStored, fretCount]);
+    if (stored.length === fretPositionCount) return stored;
+    if (stored.length > fretPositionCount) return stored.slice(0, fretPositionCount);
+    // Migrate from old length (fretCount only): prepend true for open string, then existing values for frets 1..fretCount
+    if (stored.length === fretCount) return [true, ...stored];
+    return [...stored, ...Array(fretPositionCount - stored.length).fill(true)];
+  }, [fretPositionEnabledStored, fretPositionCount, fretCount]);
   const setFretPositionEnabled = useCallback(
     (value: boolean[] | ((prev: boolean[]) => boolean[])) => {
       setFretPositionEnabledStored((prev) => {
-        const effective = prev.length === fretCount ? prev : prev.length > fretCount
-          ? prev.slice(0, fretCount)
-          : [...prev, ...Array(fretCount - prev.length).fill(true)];
+        let effective: boolean[];
+        if (prev.length === fretPositionCount) {
+          effective = prev;
+        } else if (prev.length === fretCount) {
+          effective = [true, ...prev];
+        } else if (prev.length > fretPositionCount) {
+          effective = prev.slice(0, fretPositionCount);
+        } else {
+          effective = [...prev, ...Array(fretPositionCount - prev.length).fill(true)];
+        }
         const next = typeof value === "function" ? value(effective) : value;
-        return next.length === fretCount ? next : next.length > fretCount ? next.slice(0, fretCount) : [...next, ...Array(fretCount - next.length).fill(true)];
+        return next.length === fretPositionCount ? next : next.length > fretPositionCount ? next.slice(0, fretPositionCount) : [...next, ...Array(fretPositionCount - next.length).fill(true)];
       });
     },
-    [fretCount, setFretPositionEnabledStored]
+    [fretPositionCount, fretCount, setFretPositionEnabledStored]
   );
 
   // Rest of tuning management state

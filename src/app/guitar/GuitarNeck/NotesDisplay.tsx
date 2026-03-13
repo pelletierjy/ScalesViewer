@@ -89,7 +89,10 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
   const zeroFretPosition = fretPositions.length > 0 && fretPositions[stringIndex] && fretPositions[stringIndex].length > 0
     ? fretPositions[stringIndex][0]
     : 0;
-    
+
+  const isOpenStringPositionEnabled = fretPositionEnabled[0] ?? true;
+  const isZeroFretNoteEnabled = isStringEnabled && isOpenStringPositionEnabled;
+
   return (
     <>
       {/* Zero fret note */}
@@ -105,13 +108,13 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
             )
           }
           className="cursor-pointer"
-          style={!isStringEnabled ? { opacity: 0.5 } : undefined}
+          style={!isZeroFretNoteEnabled ? { opacity: 0.5 } : undefined}
         >
           <title>{calculateNoteWithOctave(openNote, stringIndex, 0)}</title>
           <circle
             r={isNoteHighlighted(openNote) ? circleRadius * 1.4 : circleRadius}
             fill={
-              isStringEnabled
+              isZeroFretNoteEnabled
                 ? getNoteColor(openNote, scale, isDarkMode, highlightRoots)
                 : "#9ca3af"
             }
@@ -126,7 +129,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
           />
           <text
             fill={
-              !isStringEnabled
+              !isZeroFretNoteEnabled
                 ? "#6b7280"
                 : isDarkMode
                 ? "#1f2937"

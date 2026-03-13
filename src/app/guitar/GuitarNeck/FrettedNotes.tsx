@@ -89,7 +89,7 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
     <>
       {Array.from({ length: fretCount }, (_, index) => {
         const fretIndex = index + 1; // Start from fret 1, not 0
-        const isFretPositionEnabled = fretPositionEnabled[fretIndex - 1] ?? true;
+        const isFretPositionEnabled = fretPositionEnabled[fretIndex] ?? true;
         const isNoteEnabled = isStringEnabled && isFretPositionEnabled;
         const note = calculateFretNote(openNote, fretIndex);
         const noteWithOctave = calculateNoteWithOctave(

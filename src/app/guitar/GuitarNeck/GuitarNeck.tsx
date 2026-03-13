@@ -155,16 +155,19 @@ export const GuitarNeck: React.FC = React.memo(() => {
     [scaleRoot.strings.length, flipY]
   );
 
-  // Fret checkbox positions: center of each fret zone (for alignment below neck)
+  // Fret checkbox positions: aligned under note positions (open string note at nut+circleRadius, fretted notes at fret line - stringSpacing/4)
   const fretCheckboxPositions = useMemo(() => {
     const positions = standardFretPositions as number[];
     const width = dimensions.width || 1000;
-    return Array.from({ length: fretCount }, (_, i) => {
-      const left = positions[i];
-      const right = positions[i + 1];
-      return ((left + right) / 2 / width) * 100;
-    });
-  }, [standardFretPositions, fretCount, dimensions.width]);
+    const circleRadius = (calculatedStringSpacing / 3.5) * 1.41;
+    const noteOffset = calculatedStringSpacing / 4;
+    const result: number[] = [];
+    result[0] = ((positions[0] + circleRadius) / width) * 100;
+    for (let i = 1; i <= fretCount; i++) {
+      result[i] = ((positions[i] - noteOffset) / width) * 100;
+    }
+    return result;
+  }, [standardFretPositions, fretCount, dimensions.width, calculatedStringSpacing]);
 
   return (
     <div ref={containerRef} className="w-full">
@@ -182,7 +185,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
               className="absolute flex items-center cursor-pointer"
               style={{
                 left: 0,
-                top: (i + 1) * calculatedStringSpacing - 10,
+                top: (i + 1) * calculatedStringSpacing - 4,
                 transform: "translateY(-50%)",
               }}
             >
@@ -332,7 +335,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
             fretPositions={isMultiscale ? fretPositions : standardFretPositions}
           />
         </svg>
-        {/* Fret position checkboxes: one per fret, below the neck */}
+        {/* Fret position checkboxes: open string + one per fret, below the neck, aligned under note positions */}
         <div
           className="relative w-full py-1"
           style={{
@@ -341,7 +344,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
           }}
           aria-label="Fret position enable toggles"
         >
-          {Array.from({ length: fretCount }, (_, i) => (
+          {Array.from({ length: fretCount + 1 }, (_, i) => (
             <label
               key={i}
               className="absolute flex items-center justify-center cursor-pointer"
@@ -366,7 +369,11 @@ export const GuitarNeck: React.FC = React.memo(() => {
                     ? "border-gray-500 bg-gray-700 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-800"
                     : "border-gray-400 bg-white text-blue-600 focus:ring-blue-500 focus:ring-offset-white"
                 }`}
-                aria-label={`Fret ${i + 1} ${fretPositionEnabled[i] ?? true ? "enabled" : "disabled"}`}
+                aria-label={
+                  i === 0
+                    ? `Open string ${fretPositionEnabled[i] ?? true ? "enabled" : "disabled"}`
+                    : `Fret ${i} ${fretPositionEnabled[i] ?? true ? "enabled" : "disabled"}`
+                }
               />
             </label>
           ))}

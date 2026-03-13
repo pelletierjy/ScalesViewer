@@ -103,7 +103,7 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
   return (
     <>
       {visibleNotes.map(({ fretIndex, note, noteWithOctave, isRoot, fretPosition }) => {
-        const isFretPositionEnabled = fretPositionEnabled[fretIndex - 1] ?? true;
+        const isFretPositionEnabled = fretPositionEnabled[fretIndex] ?? true;
         const isNoteEnabled = isStringEnabled && isFretPositionEnabled;
         return (
         <g
