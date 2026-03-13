@@ -145,8 +145,9 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
   // String spacing setting
   const [stringSpacing, setStringSpacing] = useLocalStorage<'normal' | 'enlarged'>("string-spacing", "normal");
 
-  // Tuning management state
+  // Tuning management state (scaleRoot must be declared before per-string state that uses it)
   const [scaleRoot, setScaleRoot] = useLocalStorage<TuningPreset>("current-scaleRoot", getTuning());
+  const [customTunings, setCustomTunings] = useLocalStorage<TuningPresetWithMetadata[]>("custom-tunings", getCustomTunings());
 
   // Per-string enabled state (checkbox on the left of each string). Persisted.
   const [stringEnabledStored, setStringEnabledStored] = useLocalStorage<boolean[]>("guitar-string-enabled", []);
@@ -169,7 +170,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     },
     [stringCount, setStringEnabledStored]
   );
-  const [customTunings, setCustomTunings] = useLocalStorage<TuningPresetWithMetadata[]>("custom-tunings", getCustomTunings());
+  // Rest of tuning management state
   const [editingTuning, setEditingTuning] = useState<TuningPresetWithMetadata | null>(null);
   const [showCustomTuning, setShowCustomTuning] = useState(false);
   

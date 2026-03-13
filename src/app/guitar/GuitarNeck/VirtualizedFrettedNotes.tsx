@@ -26,6 +26,7 @@ interface VirtualizedFrettedNotesProps {
   fretPositions?: number[];
   viewportStart?: number;
   viewportEnd?: number;
+  isStringEnabled?: boolean;
 }
 
 // Only render notes within the visible viewport for large fretboards
@@ -46,6 +47,7 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
   fretPositions = [],
   viewportStart = 0,
   viewportEnd = fretCount,
+  isStringEnabled = true,
 }) => {
   const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
 
@@ -104,16 +106,23 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
           transform={`translate(${fretPosition - stringSpacing / 4}, ${(stringIndex + 1) * stringSpacing})`}
           onClick={() => playNote(noteWithOctave, audioStatus)}
           className="cursor-pointer"
+          style={!isStringEnabled ? { opacity: 0.5 } : undefined}
         >
           <title>{noteWithOctave}</title>
           <circle
             r={circleRadius}
-            fill={getNoteColor(note, scale, isDarkMode, highlightRoots)}
+            fill={
+              isStringEnabled
+                ? getNoteColor(note, scale, isDarkMode, highlightRoots)
+                : "#9ca3af"
+            }
             className="transition-colors duration-200"
           />
           <text
             fill={
-              isDarkMode
+              !isStringEnabled
+                ? "#6b7280"
+                : isDarkMode
                 ? "#1f2937"
                 : isRoot
                 ? "#ffffff"

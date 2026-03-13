@@ -47,7 +47,9 @@ export const GuitarNeck: React.FC = React.memo(() => {
     if (!container) return;
 
     const updateDimensions = () => {
-      const containerWidth = container.clientWidth || 1000; // fallback width
+      const fullWidth = container.clientWidth || 1000; // fallback width
+      const checkboxColumnWidth = 28 + 8; // column + gap
+      const containerWidth = Math.max(100, fullWidth - checkboxColumnWidth);
       const baseHeight = Math.max(containerWidth * 0.2, 150);
       // Use string spacing setting to determine the divider (8 for normal, 6 for enlarged)
       const spacingDivider = stringSpacing === 'normal' ? 8 : 6;
@@ -142,9 +144,55 @@ export const GuitarNeck: React.FC = React.memo(() => {
     };
   }, [isMultiscale, dimensions.width, fretCount, scaleRoot.strings.length, scaleLength.treble, scaleLength.bass, perpendicular]);
 
+  // Order of checkboxes matches visual order (when flipY, top string is last in array)
+  const stringOrder = useMemo(
+    () =>
+      flipY
+        ? Array.from({ length: scaleRoot.strings.length }, (_, i) => scaleRoot.strings.length - 1 - i)
+        : Array.from({ length: scaleRoot.strings.length }, (_, i) => i),
+    [scaleRoot.strings.length, flipY]
+  );
+
   return (
     <div ref={containerRef} className="w-full">
-      <div className="w-full">
+      <div className="flex items-start gap-2 w-full">
+        {/* Checkbox column: one per string, aligned with string rows */}
+        <div
+          className="relative shrink-0 flex flex-col"
+          style={{ width: 28, height: dimensions.height }}
+          aria-label="String enable toggles"
+        >
+          {stringOrder.map((stringIdx, i) => (
+            <label
+              key={stringIdx}
+              className="absolute flex items-center cursor-pointer"
+              style={{
+                left: 0,
+                top: (i + 1) * calculatedStringSpacing - 10,
+                transform: "translateY(-50%)",
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={stringEnabled[stringIdx] ?? true}
+                onChange={() =>
+                  setStringEnabled((prev) => {
+                    const next = [...prev];
+                    next[stringIdx] = !(next[stringIdx] ?? true);
+                    return next;
+                  })
+                }
+                className={`h-4 w-4 rounded border focus:ring-2 focus:ring-offset-1 ${
+                  isDarkMode
+                    ? "border-gray-500 bg-gray-700 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-800"
+                    : "border-gray-400 bg-white text-blue-600 focus:ring-blue-500 focus:ring-offset-white"
+                }`}
+                aria-label={`String ${stringIdx + 1} ${stringEnabled[stringIdx] ?? true ? "enabled" : "disabled"}`}
+              />
+            </label>
+          ))}
+        </div>
+        <div className="flex-1 min-w-0">
         <svg
           width="100%"
           height={dimensions.height || 200}
@@ -254,6 +302,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
             flipY={flipY}
             calculateNoteWithOctave={calculateNoteWithOctave}
             fretPositions={fretPositions}
+            stringEnabled={stringEnabled}
           />
 
           {/* Fret numbers */}
@@ -268,6 +317,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
             fretPositions={isMultiscale ? fretPositions : standardFretPositions}
           />
         </svg>
+        </div>
       </div>
     </div>
   );

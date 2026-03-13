@@ -29,6 +29,7 @@ interface NotesDisplayProps {
   fretPositions?: number[][];
   stringIndex?: number;
   openNote?: Note;
+  isStringEnabled?: boolean;
 }
 
 export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
@@ -47,6 +48,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
   fretPositions = [],
   stringIndex = 0,
   openNote: openNoteProp,
+  isStringEnabled = true,
 }) => {
   const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
   const selectedNote = useSelector((state: RootState) => state.selectedNote.selectedNote);
@@ -101,16 +103,16 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
             )
           }
           className="cursor-pointer"
+          style={!isStringEnabled ? { opacity: 0.5 } : undefined}
         >
           <title>{calculateNoteWithOctave(openNote, stringIndex, 0)}</title>
           <circle
             r={isNoteHighlighted(openNote) ? circleRadius * 1.4 : circleRadius}
-            fill={getNoteColor(
-              openNote,
-              scale,
-              isDarkMode,
-              highlightRoots
-            )}
+            fill={
+              isStringEnabled
+                ? getNoteColor(openNote, scale, isDarkMode, highlightRoots)
+                : "#9ca3af"
+            }
             className="transition-all duration-200"
             style={{
               filter: isNoteHighlighted(openNote)
@@ -122,7 +124,9 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
           />
           <text
             fill={
-              isDarkMode
+              !isStringEnabled
+                ? "#6b7280"
+                : isDarkMode
                 ? "#1f2937"
                 : openNote === scale.root
                 ? "#ffffff"
@@ -167,6 +171,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
           flipY={flipY}
           calculateNoteWithOctave={calculateNoteWithOctave}
           fretPositions={fretPositions[stringIndex] || []}
+          isStringEnabled={isStringEnabled}
         />
       ) : (
         <FrettedNotes
@@ -184,6 +189,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
           flipY={flipY}
           calculateNoteWithOctave={calculateNoteWithOctave}
           fretPositions={fretPositions[stringIndex] || []}
+          isStringEnabled={isStringEnabled}
         />
       )}
     </>
