@@ -255,7 +255,7 @@ export const Configuration: React.FC = () => {
                     }`}
                   >
                     <option value="rosewood">Rosewood</option>
-                    <option value="ebony">Ebony</option>
+                    <option value="ebony">Pale moon ebony</option>
                     <option value="maple">Maple</option>
                     <option value="pau-ferro">Pau Ferro</option>
                     <option value="richlite">Richlite</option>
