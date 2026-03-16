@@ -15,7 +15,7 @@ export const TUNING_PRESETS: TuningPresetWithMetadata[] = [
     category: "Standard",
   },
   {
-    name: "Flat 4 Interval (6)",
+    name: "Perfect 4 Interval (6)",
     strings: ["E", "A", "D", "G", "C", "F"],
     description:
       "Tuning in perfect fourth intervals, great for jazz and fusion",
@@ -57,7 +57,7 @@ export const TUNING_PRESETS: TuningPresetWithMetadata[] = [
     category: "Standard",
   },
   {
-    name: "Flat 4 Interval (7)",
+    name: "Perfect 4 Interval (7)",
     strings: ["B", "E", "A", "D", "G", "C", "F"],
     description: "Seven string scaleRoot in perfect fourth intervals",
     category: "Special",
@@ -84,7 +84,7 @@ export const TUNING_PRESETS: TuningPresetWithMetadata[] = [
     category: "Standard",
   },
   {
-    name: "Flat 4 Interval (8)",
+    name: "Perfect 4 Interval (8)",
     strings: ["F#", "B", "E", "A", "D", "G", "C", "F"],
     description: "Eight string scaleRoot in perfect fourth intervals",
     category: "Special",
@@ -104,7 +104,7 @@ export const TUNING_PRESETS: TuningPresetWithMetadata[] = [
 
   // 9-String Tunings
   {
-    name: "Flat 4 Interval (9)",
+    name: "Perfect 4 Interval (9)",
     strings: ["C#", "F#", "B", "E", "A", "D", "G", "C", "F"],
     description: "Nine string scaleRoot in perfect fourth intervals",
     category: "Special",
@@ -112,7 +112,7 @@ export const TUNING_PRESETS: TuningPresetWithMetadata[] = [
 
   // 10-String Tunings
   {
-    name: "Flat 4 Interval (10)",
+    name: "Perfect 4 Interval (10)",
     strings: ["G#", "C#", "F#", "B", "E", "A", "D", "G", "C", "F"],
     description: "JY's favorite",
     category: "Special",
