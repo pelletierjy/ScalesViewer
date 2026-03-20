@@ -1,0 +1,27 @@
+{
+  "commands": [
+    {
+      "name": "build-verify",
+      "description": "Build the project, run unit tests, integration tests, verify server startup, and fix any errors"
+    },
+    {
+      "name": "speckit.mas.flow",
+      "description": "Run Spec-Kit workflow step-by-step in a feature worktree (start, next, status, reset)"
+    },
+    {
+      "name": "code-review",
+      "description": "Execute a comprehensive code review using specialized agents to analyze quality, security, performance, and standards compliance with detailed findings and recommendations"
+    },
+    {
+      "name": "pr-description",
+      "description": "Post a description to a PR explaining the changes in the current branch"
+    },
+    {
+      "name": "jira-status",
+      "description": "Post status update to a Jira ticket and check off completed checklist items from changes"
+    }
+  ],
+  "version": "1.0.0",
+  "project": "MediaAssetSearch",
+  "description": "Custom commands for MediaAssetSearch development workflow"
+}
