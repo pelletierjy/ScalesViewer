@@ -1,6 +1,7 @@
 "use client";
 import { useSelector } from "react-redux";
 import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
+import { Analytics } from "@vercel/analytics/next"
 
 /**
  * Home page not used.
