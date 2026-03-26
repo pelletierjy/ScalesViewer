@@ -16,7 +16,8 @@
       "KillShell",
       "TodoWrite",
       "ExitPlanMode",
-      "SlashCommand"
+      "SlashCommand",
+      "Skill(commit-commands:commit-push-pr)"
     ],
     "deny": []
   }
