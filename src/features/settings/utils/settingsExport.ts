@@ -20,6 +20,7 @@ import {
   DEFAULT_EXPORT_FILENAME,
 } from "@/features/settings/utils/settingsDefaults";
 import { formatError } from "@/features/settings/utils/settingsErrors";
+import { CustomScaleDefinition } from "@/lib/utils/customScaleTypes";
 
 /**
  * Gather all application settings from localStorage
@@ -36,6 +37,7 @@ export function gatherSettings(): SettingsExport {
 
   // Get guitar-specific settings
   const customTunings = getSetting(LOCAL_STORAGE_KEYS.CUSTOM_TUNINGS);
+  const customScales = getSetting(LOCAL_STORAGE_KEYS.CUSTOM_SCALES);
   const currentTuning = getSetting(LOCAL_STORAGE_KEYS.CURRENT_SCALE_ROOT);
   const fretCountRaw = getSettingRaw(LOCAL_STORAGE_KEYS.FRET_COUNT);
   const flipXRaw = getSettingRaw(LOCAL_STORAGE_KEYS.FLIP_X);
@@ -48,6 +50,9 @@ export function gatherSettings(): SettingsExport {
   if (customTunings !== null) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     guitarSettings.customTunings = customTunings as any;
+  }
+  if (customScales !== null) {
+    guitarSettings.customScales = customScales as CustomScaleDefinition[];
   }
   if (currentTuning !== null) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -23,6 +23,7 @@ import {
 } from "@/features/application/applicationSlice";
 import { setAudioStatus } from "@/features/audio/audioSlice";
 import { initializeAudio } from "@/lib/utils/audioUtils";
+import { SCALE_TYPES, SCALE_PATTERNS } from "@/lib/utils/scaleConstants";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -61,6 +62,9 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         return;
 
       case "initializing":
+        // Back up hardcoded scales to localStorage
+        localStorage.setItem("builtin-scale-types", JSON.stringify(SCALE_TYPES));
+        localStorage.setItem("builtin-scale-patterns", JSON.stringify(SCALE_PATTERNS));
         // Complete initialization and save state
         dispatch(applicationInitialized());
         dispatch(saveState());

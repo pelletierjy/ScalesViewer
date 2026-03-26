@@ -20,9 +20,16 @@ import {
 import { Instrument } from "@/lib/utils/instrument";
 import { Note } from "@/lib/utils/note";
 import { ScaleType } from "@/lib/utils/scaleType";
-import React, { useRef } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { HelpModal } from "./HelpModal";
 import { SettingsPanel } from "@/features/settings/components/SettingsPanel";
+import { useLocalStorage } from "@/app/guitar/hooks/useLocalStorage";
+import {
+  getCustomScales,
+  registerCustomScales,
+  CustomScaleDefinition,
+} from "@/lib/utils/customScaleTypes";
+import { LOCAL_STORAGE_KEYS } from "@/features/settings/types/settings.types";
 
 export const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -35,6 +42,27 @@ export const Header: React.FC = () => {
   const [showHelp, setShowHelp] = React.useState(false);
   const [showSettings, setShowSettings] = React.useState(false);
   const settingsButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Load custom scales from localStorage
+  const [customScales] = useLocalStorage<CustomScaleDefinition[]>(
+    LOCAL_STORAGE_KEYS.CUSTOM_SCALES,
+    getCustomScales()
+  );
+
+  // Register custom scales in the runtime registry
+  useEffect(() => {
+    registerCustomScales(customScales);
+  }, [customScales]);
+
+  // Merge hardcoded and custom scale types for dropdown
+  const allScaleTypes = useMemo(() => {
+    const customEntries = customScales.map((cs) => ({
+      value: cs.id,
+      label: cs.label,
+      group: cs.group,
+    }));
+    return [...SCALE_TYPES, ...customEntries];
+  }, [customScales]);
   
   const handleInstrumentChange = (newInstrument: Instrument) => {
     dispatch(setInstrument(newInstrument));
@@ -106,19 +134,19 @@ export const Header: React.FC = () => {
               }
             >
               {Object.entries(
-                SCALE_TYPES.reduce((groups, scale) => {
-                  const group = scale.group || "Other";
+                allScaleTypes.reduce((groups, scaleEntry) => {
+                  const group = scaleEntry.group || "Other";
                   if (!groups[group]) {
                     groups[group] = [];
                   }
-                  groups[group].push(scale);
+                  groups[group].push(scaleEntry);
                   return groups;
-                }, {} as Record<string, (typeof SCALE_TYPES)[number][]>)
+                }, {} as Record<string, { value: string; label: string; group: string }[]>)
               ).map(([group, scales]) => (
                 <optgroup key={group} label={group}>
-                  {scales.map((scale) => (
-                    <option key={scale.value} value={scale.value}>
-                      {scale.label}
+                  {scales.map((s) => (
+                    <option key={s.value} value={s.value}>
+                      {s.label}
                     </option>
                   ))}
                 </optgroup>

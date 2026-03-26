@@ -7,6 +7,7 @@
 import { TuningPreset } from "@/app/guitar/types/tuningPreset";
 import { Instrument } from "@/lib/utils/instrument";
 import { Scale } from "@/lib/utils/scaleType";
+import { CustomScaleDefinition } from "@/lib/utils/customScaleTypes";
 
 // ============================================================================
 // Core Settings Types
@@ -37,6 +38,7 @@ export type SettingsImport = Partial<SettingsExport>;
  */
 export interface GuitarSettings {
   customTunings?: TuningPresetWithMetadata[];
+  customScales?: CustomScaleDefinition[];
   currentTuning?: TuningPresetWithMetadata;
   fretCount?: number;
   flipX?: boolean;
@@ -178,6 +180,7 @@ export const LOCAL_STORAGE_KEYS = {
 
   // Guitar-specific keys
   CUSTOM_TUNINGS: "custom-tunings",
+  CUSTOM_SCALES: "custom-scales",
   CURRENT_SCALE_ROOT: "current-scaleRoot",
   FRET_COUNT: "fretCount",
   FLIP_X: "flipX",

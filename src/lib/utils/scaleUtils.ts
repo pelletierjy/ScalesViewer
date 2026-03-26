@@ -2,6 +2,7 @@
 import { Note } from "./note";
 import { SCALE_PATTERNS } from "./scaleConstants";
 import { ScaleMode, Scale } from "./scaleType";
+import { getCustomPatterns } from "./customScaleTypes";
 
 const NOTES: Note[] = [
   "A",
@@ -88,9 +89,15 @@ export const getNoteAtInterval = (root: Note, interval: number): Note => {
   return resultNote;
 };
 
-export const getScaleNotes = (scale: Scale): Note[] => {
+export const getScaleNotes = (
+  scale: Scale,
+  customPatterns: Readonly<Record<string, number[]>> = getCustomPatterns()
+): Note[] => {
   const { root, type, mode } = scale;
-  const basePatternForScale = [...SCALE_PATTERNS[type]];
+  const allPatterns: Record<string, number[]> = customPatterns && Object.keys(customPatterns).length > 0
+    ? { ...SCALE_PATTERNS, ...customPatterns }
+    : SCALE_PATTERNS;
+  const basePatternForScale = [...(allPatterns[type as string] || [])];
   
   // Apply mode rotation if specified and it's a major scale
   if (mode && type === "major") {

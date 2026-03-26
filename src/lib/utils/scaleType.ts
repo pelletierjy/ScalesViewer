@@ -1,6 +1,7 @@
 import { Note } from "./note";
 
-export type ScaleType =
+// Hardcoded scale types built into the application
+type HardcodedScaleType =
   // Common Scales
   | "major"
   | "minor"
@@ -45,6 +46,9 @@ export type ScaleType =
   | "egyptian"
   | "chinese"
   | "japanese-pentatonic";
+
+// Widened to accept custom scale IDs from localStorage
+export type ScaleType = HardcodedScaleType | (string & Record<never, never>);
 
   
 export type ScaleMode =
