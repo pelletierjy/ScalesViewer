@@ -169,13 +169,21 @@ export const GuitarNeck: React.FC = React.memo(() => {
     return result;
   }, [standardFretPositions, fretCount, dimensions.width, calculatedStringSpacing]);
 
+  const allEnabled = useMemo(() => {
+    const stringsAll = Array.from({ length: scaleRoot.strings.length }, (_, i) => stringEnabled[i] ?? true).every(Boolean);
+    const fretsAll = Array.from({ length: fretCount + 1 }, (_, i) => fretPositionEnabled[i] ?? true).every(Boolean);
+    return stringsAll && fretsAll;
+  }, [stringEnabled, fretPositionEnabled, scaleRoot.strings.length, fretCount]);
+
   return (
     <div ref={containerRef} className="w-full">
       <div className="flex flex-col gap-1 w-full">
         <div className="flex items-start gap-2 w-full">
+        {/* Left column: string checkboxes + corner toggle button */}
+        <div className="flex flex-col gap-1 shrink-0" style={{ width: 28 }}>
         {/* Checkbox column: one per string, aligned with string rows */}
         <div
-          className="relative shrink-0 flex flex-col"
+          className="relative flex flex-col"
           style={{ width: 28, height: dimensions.height }}
           aria-label="String enable toggles"
         >
@@ -208,6 +216,25 @@ export const GuitarNeck: React.FC = React.memo(() => {
               />
             </label>
           ))}
+        </div>
+        {/* Corner button at junction of string and fret axes */}
+        <div style={{ height: 28 }} className="flex items-center justify-center">
+          <button
+            onClick={() => {
+              const target = !allEnabled;
+              setStringEnabled(Array(scaleRoot.strings.length).fill(target));
+              setFretPositionEnabled(Array(fretCount + 1).fill(target));
+            }}
+            className={`text-[9px] leading-tight px-1 py-0.5 rounded transition-colors duration-200 w-full text-center ${
+              isDarkMode
+                ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                : "bg-slate-200 text-slate-700 hover:bg-slate-300"
+            }`}
+            title={allEnabled ? "Disable all strings and frets" : "Enable all strings and frets"}
+          >
+            {allEnabled ? "Disable all" : "Enable all"}
+          </button>
+        </div>
         </div>
         <div className="flex-1 min-w-0 flex flex-col gap-1">
         <svg
