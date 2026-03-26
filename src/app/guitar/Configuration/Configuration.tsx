@@ -6,7 +6,6 @@ import { useDataContext } from "@/app/guitar/context";
 import { tuningGroups } from "@/app/guitar/tunings";
 import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
 import { MULTISCALE_PRESETS, PERPENDICULAR_FRET_OPTIONS } from "../multiscaleConstants";
-
 import { CustomTuningEditor } from "../CustomTuningEditor/CustomTuningEditor";
 
 export const Configuration: React.FC = () => {
@@ -458,6 +457,7 @@ export const Configuration: React.FC = () => {
             />
           </div>
         )}
+
       </div>
     </div>
   );
