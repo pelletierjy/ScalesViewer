@@ -13,6 +13,7 @@ import {
 import { TUNING_PRESETS } from "@/app/guitar/tuningConstants";
 import { Instrument } from "@/lib/utils/instrument";
 import { Scale } from "@/lib/utils/scaleType";
+import { CustomScaleDefinition } from "@/lib/utils/customScaleTypes";
 
 /**
  * Valid instrument values
@@ -211,7 +212,7 @@ function validateGlobalConfig(globalConfig: unknown): string[] {
 
       if ("type" in scale && !isValidScaleType(scale.type)) {
         errors.push(
-          `Invalid scale type: "${scale.type}". Valid values: ${VALID_SCALE_TYPES.join(", ")}`
+          `Invalid scale type: "${scale.type}". Expected a non-empty string`
         );
       }
 
@@ -249,6 +250,21 @@ function validateGlobalConfig(globalConfig: unknown): string[] {
 }
 
 /**
+ * Validate a custom scale definition
+ */
+function isValidCustomScaleDefinition(value: unknown): value is CustomScaleDefinition {
+  if (typeof value !== "object" || value === null) return false;
+  const cs = value as Record<string, unknown>;
+  return (
+    typeof cs.id === "string" && cs.id.length > 0 &&
+    typeof cs.label === "string" && cs.label.length > 0 &&
+    typeof cs.group === "string" && cs.group.length > 0 &&
+    Array.isArray(cs.intervals) &&
+    (cs.intervals as unknown[]).every((i) => typeof i === "number" && i >= 0 && i <= 11)
+  );
+}
+
+/**
  * Validate guitarSettings portion of import
  */
 function validateGuitarSettings(
@@ -272,6 +288,19 @@ function validateGuitarSettings(
       gs.customTunings.forEach((tuning, index) => {
         if (!isValidTuningPreset(tuning)) {
           errors.push(`Invalid customTuning at index ${index}`);
+        }
+      });
+    }
+  }
+
+  // Validate customScales
+  if ("customScales" in gs && gs.customScales !== undefined) {
+    if (!Array.isArray(gs.customScales)) {
+      errors.push("Invalid customScales: expected an array");
+    } else {
+      gs.customScales.forEach((cs, index) => {
+        if (!isValidCustomScaleDefinition(cs)) {
+          errors.push(`Invalid customScale at index ${index}`);
         }
       });
     }
@@ -331,9 +360,10 @@ export function isValidNote(value: unknown): boolean {
 
 /**
  * Check if value is a valid scale type
+ * Accepts both hardcoded scale types and custom scale IDs from localStorage
  */
 export function isValidScaleType(value: unknown): boolean {
-  return typeof value === "string" && VALID_SCALE_TYPES.includes(value);
+  return typeof value === "string" && value.length > 0;
 }
 
 /**

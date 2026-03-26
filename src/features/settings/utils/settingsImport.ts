@@ -17,6 +17,7 @@ import {
 import {
   setSetting,
   setSettingRaw,
+  getSetting,
 } from "@/lib/utils/localStorageManager";
 import { MAX_IMPORT_FILE_SIZE } from "@/features/settings/utils/settingsDefaults";
 import {
@@ -111,12 +112,30 @@ export function applySettings(settings: SettingsImport): string[] {
     const gs = settings.guitarSettings;
 
     if (gs.customTunings !== undefined) {
-      const success = setSetting(
-        LOCAL_STORAGE_KEYS.CUSTOM_TUNINGS,
-        gs.customTunings
-      );
-      if (success) {
-        applied.push(LOCAL_STORAGE_KEYS.CUSTOM_TUNINGS);
+      // Only save if collection doesn't already exist
+      const existingTunings = getSetting(LOCAL_STORAGE_KEYS.CUSTOM_TUNINGS);
+      if (existingTunings === null) {
+        const success = setSetting(
+          LOCAL_STORAGE_KEYS.CUSTOM_TUNINGS,
+          gs.customTunings
+        );
+        if (success) {
+          applied.push(LOCAL_STORAGE_KEYS.CUSTOM_TUNINGS);
+        }
+      }
+    }
+
+    if (gs.customScales !== undefined) {
+      // Only save if collection doesn't already exist
+      const existingScales = getSetting(LOCAL_STORAGE_KEYS.CUSTOM_SCALES);
+      if (existingScales === null) {
+        const success = setSetting(
+          LOCAL_STORAGE_KEYS.CUSTOM_SCALES,
+          gs.customScales
+        );
+        if (success) {
+          applied.push(LOCAL_STORAGE_KEYS.CUSTOM_SCALES);
+        }
       }
     }
 

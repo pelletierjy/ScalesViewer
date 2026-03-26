@@ -20,9 +20,17 @@ import {
 import { Instrument } from "@/lib/utils/instrument";
 import { Note } from "@/lib/utils/note";
 import { ScaleType } from "@/lib/utils/scaleType";
-import React, { useRef } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { HelpModal } from "./HelpModal";
 import { SettingsPanel } from "@/features/settings/components/SettingsPanel";
+import { useLocalStorage } from "@/app/guitar/hooks/useLocalStorage";
+import {
+  getCustomScales,
+  registerCustomScales,
+  CustomScaleDefinition,
+} from "@/lib/utils/customScaleTypes";
+import { LOCAL_STORAGE_KEYS } from "@/features/settings/types/settings.types";
+import { CustomScaleEditor } from "@/app/guitar/CustomScaleEditor/CustomScaleEditor";
 
 export const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,11 +42,67 @@ export const Header: React.FC = () => {
   const highlightRoots = useSelector(selectIsMonochrome);
   const [showHelp, setShowHelp] = React.useState(false);
   const [showSettings, setShowSettings] = React.useState(false);
+  const [showScaleEditor, setShowScaleEditor] = React.useState(false);
+  const [editingScale, setEditingScale] = React.useState<CustomScaleDefinition | null>(null);
   const settingsButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Load custom scales from localStorage
+  const [customScales, setCustomScalesStorage] = useLocalStorage<CustomScaleDefinition[]>(
+    LOCAL_STORAGE_KEYS.CUSTOM_SCALES,
+    getCustomScales()
+  );
+
+  // Register custom scales in the runtime registry
+  useEffect(() => {
+    registerCustomScales(customScales);
+  }, [customScales]);
+
+  // Merge hardcoded and custom scale types for dropdown
+  const allScaleTypes = useMemo(() => {
+    const customEntries = customScales.map((cs) => ({
+      value: cs.id,
+      label: cs.label,
+      group: cs.group,
+    }));
+    return [...SCALE_TYPES, ...customEntries];
+  }, [customScales]);
   
   const handleInstrumentChange = (newInstrument: Instrument) => {
     dispatch(setInstrument(newInstrument));
   };
+
+  const handleSaveCustomScale = (scale: CustomScaleDefinition) => {
+    if (editingScale) {
+      // Update existing scale
+      setCustomScalesStorage((prevScales) =>
+        prevScales.map((s) => (s.id === editingScale.id ? scale : s))
+      );
+    } else {
+      // Add new scale
+      setCustomScalesStorage((prevScales) => [...prevScales, scale]);
+    }
+    setShowScaleEditor(false);
+    setEditingScale(null);
+  };
+
+  const handleEditScale = (scale: CustomScaleDefinition) => {
+    setEditingScale(scale);
+    setShowScaleEditor(true);
+  };
+
+  const handleDeleteCustomScale = (scaleId: string) => {
+    if (confirm("Are you sure you want to delete this custom scale?")) {
+      setCustomScalesStorage((prevScales) =>
+        prevScales.filter((s) => s.id !== scaleId)
+      );
+      // If the deleted scale was selected, revert to major
+      if (scale.type === scaleId) {
+        dispatch(setScale({ ...scale, type: "major" as ScaleType }));
+      }
+    }
+  };
+
+  const selectedCustomScale = customScales.find((cs) => cs.id === scale.type);
 
   return (
     <>
@@ -88,42 +152,69 @@ export const Header: React.FC = () => {
             >
               Scale
             </label>
-            <select
-              id="scale-type"
-              className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
-                isDarkMode
-                  ? "bg-gray-700 border-gray-600 text-gray-200"
-                  : "bg-white border-slate-400 text-slate-800"
-              }`}
-              value={scale.type}
-              onChange={(e) =>
-                dispatch(
-                  setScale({
-                    ...scale,
-                    type: e.target.value as ScaleType,
-                  })
-                )
-              }
-            >
-              {Object.entries(
-                SCALE_TYPES.reduce((groups, scale) => {
-                  const group = scale.group || "Other";
-                  if (!groups[group]) {
-                    groups[group] = [];
+            <div className="flex flex-col gap-1">
+              <select
+                id="scale-type"
+                className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+                  isDarkMode
+                    ? "bg-gray-700 border-gray-600 text-gray-200"
+                    : "bg-white border-slate-400 text-slate-800"
+                }`}
+                value={scale.type}
+                onChange={(e) => {
+                  if (e.target.value === "__new__") {
+                    setEditingScale(null);
+                    setShowScaleEditor(true);
+                  } else {
+                    dispatch(setScale({ ...scale, type: e.target.value as ScaleType }));
                   }
-                  groups[group].push(scale);
-                  return groups;
-                }, {} as Record<string, (typeof SCALE_TYPES)[number][]>)
-              ).map(([group, scales]) => (
-                <optgroup key={group} label={group}>
-                  {scales.map((scale) => (
-                    <option key={scale.value} value={scale.value}>
-                      {scale.label}
-                    </option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
+                }}
+              >
+                {Object.entries(
+                  allScaleTypes.reduce((groups, scaleEntry) => {
+                    const group = scaleEntry.group || "Other";
+                    if (!groups[group]) {
+                      groups[group] = [];
+                    }
+                    groups[group].push(scaleEntry);
+                    return groups;
+                  }, {} as Record<string, { value: string; label: string; group: string }[]>)
+                ).map(([group, scales]) => (
+                  <optgroup key={group} label={group}>
+                    {scales.map((s) => (
+                      <option key={s.value} value={s.value}>
+                        {s.label}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+                <option value="__new__">+ Custom Scale</option>
+              </select>
+              {selectedCustomScale && (
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleEditScale(selectedCustomScale)}
+                    className={`px-2 py-1 text-xs rounded-md ${
+                      isDarkMode
+                        ? "bg-gray-700 text-gray-200 hover:bg-gray-600 border border-gray-600"
+                        : "bg-slate-300 text-slate-800 hover:bg-slate-400 border border-slate-500"
+                    }`}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteCustomScale(selectedCustomScale.id)}
+                    className={`px-2 py-1 text-xs rounded-md text-red-600 hover:text-red-700 ${
+                      isDarkMode
+                        ? "bg-gray-700 hover:bg-gray-600 border border-gray-600"
+                        : "bg-slate-300 hover:bg-slate-400 border border-slate-500"
+                    }`}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-col gap-1">
@@ -258,6 +349,36 @@ export const Header: React.FC = () => {
         onClose={() => setShowSettings(false)}
         triggerRef={settingsButtonRef}
       />
+
+      {showScaleEditor && (
+        <div
+          className={`fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm ${
+            isDarkMode ? "bg-black/50" : "bg-white/50"
+          }`}
+          onClick={() => {
+            setShowScaleEditor(false);
+            setEditingScale(null);
+          }}
+          role="presentation"
+        >
+          <div
+            className={`rounded-lg shadow-xl max-w-md w-full p-6 ${
+              isDarkMode ? "bg-gray-800" : "bg-white"
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <CustomScaleEditor
+              initialScale={editingScale}
+              onSaveScale={handleSaveCustomScale}
+              onCancel={() => {
+                setShowScaleEditor(false);
+                setEditingScale(null);
+              }}
+              customScales={customScales}
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 };
