@@ -32,6 +32,15 @@ export default function Guitar() {
     );
   }, [setCustomTuningsStorage]);
 
+  const handleDeleteCustomTuning = (tuningName: string) => {
+    console.log("[Guitar Page] Deleting custom tuning:", tuningName);
+    setCustomTuningsStorage((prevTunings) => {
+      const filtered = prevTunings.filter((t) => t.name !== tuningName);
+      console.log("[Guitar Page] Filtered tunings:", filtered);
+      return filtered;
+    });
+  };
+
   const handleSaveCustomTuning = (tuning: TuningPreset) => {
     const customTuning: TuningPresetWithMetadata = {
       ...tuning,
@@ -67,7 +76,7 @@ export default function Guitar() {
         openTuningEditor={openTuningEditor}
       >
         <GuitarNeck />
-        <Configuration />
+        <Configuration onDeleteCustomTuning={handleDeleteCustomTuning} />
       </DataProvider>
 
       {showTuningEditor && (

@@ -83,6 +83,8 @@ export interface DataContextType {
   setScaleRoot: (tuning: TuningPreset) => void;
   customTunings: TuningPresetWithMetadata[];
   setCustomTunings: (tunings: TuningPresetWithMetadata[] | ((prev: TuningPresetWithMetadata[]) => TuningPresetWithMetadata[])) => void;
+  saveCustomTuningsImmediately: (tunings: TuningPresetWithMetadata[]) => void;
+  saveScaleRootImmediately: (tuning: TuningPreset) => void;
   editingTuning: TuningPresetWithMetadata | null;
   setEditingTuning: (tuning: TuningPresetWithMetadata | null) => void;
   showCustomTuning: boolean;
@@ -122,6 +124,8 @@ const defaultContextValue: DataContextType = {
   setScaleRoot: () => {},
   customTunings: [],
   setCustomTunings: () => {},
+  saveCustomTuningsImmediately: () => {},
+  saveScaleRootImmediately: () => {},
   editingTuning: null,
   setEditingTuning: () => {},
   showCustomTuning: false,
@@ -158,8 +162,8 @@ export const DataProvider = ({ children, customTunings: propCustomTunings, openT
   const [stringSpacing, setStringSpacing] = useLocalStorage<'normal' | 'enlarged'>("string-spacing", "normal");
 
   // Tuning management state (scaleRoot must be declared before per-string state that uses it)
-  const [scaleRoot, setScaleRoot] = useLocalStorage<TuningPreset>("current-scaleRoot", getTuning());
-  const [customTunings, setCustomTunings] = useLocalStorage<TuningPresetWithMetadata[]>("custom-tunings", getCustomTunings());
+  const [scaleRoot, setScaleRoot, saveScaleRootImmediately] = useLocalStorage<TuningPreset>("current-scaleRoot", getTuning());
+  const [customTunings, setCustomTunings, saveCustomTuningsImmediately] = useLocalStorage<TuningPresetWithMetadata[]>("custom-tunings", getCustomTunings());
 
   // Use prop custom tunings if provided (for popup mode)
   const effectiveCustomTunings = propCustomTunings || customTunings;
@@ -294,6 +298,8 @@ export const DataProvider = ({ children, customTunings: propCustomTunings, openT
         setScaleRoot,
         customTunings: effectiveCustomTunings,
         setCustomTunings: setEffectiveCustomTunings,
+        saveCustomTuningsImmediately,
+        saveScaleRootImmediately,
         editingTuning,
         setEditingTuning,
         showCustomTuning,
