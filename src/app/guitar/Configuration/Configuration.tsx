@@ -7,7 +7,11 @@ import { tuningGroups } from "@/app/guitar/tunings";
 import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
 import { MULTISCALE_PRESETS, PERPENDICULAR_FRET_OPTIONS } from "../multiscaleConstants";
 
-export const Configuration: React.FC = () => {
+interface ConfigurationProps {
+  onDeleteCustomTuning?: (tuningName: string) => void;
+}
+
+export const Configuration: React.FC<ConfigurationProps> = ({ onDeleteCustomTuning }) => {
   const {
     // Display settings
     flipX,
@@ -34,6 +38,8 @@ export const Configuration: React.FC = () => {
     customTunings,
     setEditingTuning,
     setCustomTunings,
+    saveCustomTuningsImmediately,
+    saveScaleRootImmediately,
     setScaleRoot,
     editingTuning,
     showCustomTuning,
@@ -57,15 +63,44 @@ export const Configuration: React.FC = () => {
   };
   
   const handleDeleteTuning = (tuningName: string) => {
+    console.log("[DELETE] Attempting to delete tuning:", tuningName);
+    console.log("[DELETE] Current custom tunings:", customTunings);
+
     if (confirm("Are you sure you want to delete this custom tuning?")) {
-      setCustomTunings((prevTunings) =>
-        prevTunings.filter((t) => t.name !== tuningName)
-      );
+      console.log("[DELETE] User confirmed deletion");
+
+      // Filter out the deleted tuning
+      const filteredTunings = customTunings.filter((t) => t.name !== tuningName);
+      console.log("[DELETE] Filtered tunings:", filteredTunings);
+
+      // If parent provided a callback, use it (for prop-based management)
+      if (onDeleteCustomTuning) {
+        console.log("[DELETE] Using parent callback");
+        onDeleteCustomTuning(tuningName);
+      } else {
+        // Otherwise, use the context-based approach
+        console.log("[DELETE] Using context-based approach");
+
+        // Update state
+        setCustomTunings(filteredTunings);
+        console.log("[DELETE] State updated");
+
+        // Immediately save to localStorage (don't wait for debounce)
+        saveCustomTuningsImmediately(filteredTunings);
+        console.log("[DELETE] Saved to localStorage immediately");
+      }
 
       // If the deleted tuning was selected, switch to standard tuning
       if (scaleRoot.name === tuningName) {
-        setScaleRoot(TUNING_PRESETS[0]);
+        console.log("[DELETE] Deleted tuning was selected, switching to standard");
+        const standardTuning = TUNING_PRESETS[0];
+        setScaleRoot(standardTuning);
+        // Immediately save the new current tuning
+        saveScaleRootImmediately(standardTuning);
+        console.log("[DELETE] Switched to standard tuning:", standardTuning.name);
       }
+    } else {
+      console.log("[DELETE] User cancelled deletion");
     }
   };
 

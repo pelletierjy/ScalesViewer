@@ -4,7 +4,7 @@ export function useLocalStorage<T>(
   key: string,
   defaultValue: T,
   debounceMs: number = 300
-): [T, (value: T | ((prev: T) => T)) => void] {
+): [T, (value: T | ((prev: T) => T)) => void, (value: T) => void] {
   // Initialize state with default value to prevent hydration mismatch
   const [storedValue, setStoredValue] = useState<T>(defaultValue);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -65,6 +65,22 @@ export function useLocalStorage<T>(
     });
   }, [debouncedSave]);
 
+  // Immediate save without debounce
+  const saveImmediately = useCallback((value: T) => {
+    if (typeof window === 'undefined' || !isHydrated) return;
+
+    // Clear any pending debounced save
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.warn(`Failed to immediately save ${key} to localStorage:`, error);
+    }
+  }, [key, isHydrated]);
+
   // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
@@ -74,7 +90,7 @@ export function useLocalStorage<T>(
     };
   }, []);
 
-  return [storedValue, setValue];
+  return [storedValue, setValue, saveImmediately];
 }
 
 // Specialized hook for boolean values with string storage
