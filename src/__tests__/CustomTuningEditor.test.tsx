@@ -12,6 +12,7 @@ describe("CustomTuningEditor", () => {
         onSaveTuning={onSaveMock}
         onCancel={onCancelMock}
         initialTuning={null}
+        customTunings={[]}
       />
     );
 
@@ -32,6 +33,7 @@ describe("CustomTuningEditor", () => {
         onSaveTuning={onSaveMock}
         onCancel={onCancelMock}
         initialTuning={null}
+        customTunings={[]}
       />
     );
 

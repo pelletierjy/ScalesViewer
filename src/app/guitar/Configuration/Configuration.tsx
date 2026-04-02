@@ -6,7 +6,6 @@ import { useDataContext } from "@/app/guitar/context";
 import { tuningGroups } from "@/app/guitar/tunings";
 import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
 import { MULTISCALE_PRESETS, PERPENDICULAR_FRET_OPTIONS } from "../multiscaleConstants";
-import { CustomTuningEditor } from "../CustomTuningEditor/CustomTuningEditor";
 
 export const Configuration: React.FC = () => {
   const {
@@ -40,13 +39,13 @@ export const Configuration: React.FC = () => {
     showCustomTuning,
     setShowCustomTuning,
     handleSaveCustomTuning,
+    openTuningEditor,
   } = useDataContext();
 
   const isDarkMode = useSelector(selectIsDarkMode);
 
   const handleEditTuning = (tuning: TuningPresetWithMetadata): void => {
-    setEditingTuning(tuning);
-    setShowCustomTuning(true);
+    openTuningEditor(tuning);
   };
   
   const handleDuplicateTuning = (tuning: TuningPresetWithMetadata) => {
@@ -91,8 +90,7 @@ export const Configuration: React.FC = () => {
                   value={scaleRoot.name}
                   onChange={(e) => {
                     if (e.target.value === "custom") {
-                      setShowCustomTuning(true);
-                      setEditingTuning(null);
+                      openTuningEditor(null);
                     } else {
                       const selectedTuning = [
                         ...TUNING_PRESETS,
@@ -442,22 +440,6 @@ export const Configuration: React.FC = () => {
             </>
           )}
         </div>
-        
-        {/* Custom Tuning Editor */}
-        {showCustomTuning && (
-          <div className="mt-4">
-            <CustomTuningEditor
-              initialTuning={editingTuning}
-              onSaveTuning={handleSaveCustomTuning}
-              onCancel={() => {
-                setShowCustomTuning(false);
-                setEditingTuning(null);
-              }}
-              customTunings={customTunings}
-            />
-          </div>
-        )}
-
       </div>
     </div>
   );
