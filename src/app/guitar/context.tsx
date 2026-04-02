@@ -88,6 +88,7 @@ export interface DataContextType {
   showCustomTuning: boolean;
   setShowCustomTuning: (show: boolean) => void;
   handleSaveCustomTuning: (tuning: TuningPreset) => void;
+  openTuningEditor: (tuning?: TuningPresetWithMetadata | null) => void;
 }
 
 // Create context with proper default values to avoid runtime errors
@@ -126,11 +127,18 @@ const defaultContextValue: DataContextType = {
   showCustomTuning: false,
   setShowCustomTuning: () => {},
   handleSaveCustomTuning: () => {},
+  openTuningEditor: () => {},
 };
 
 export const DataContext = createContext<DataContextType>(defaultContextValue);
 
-export const DataProvider = ({ children }: { children: ReactNode }) => {
+interface DataProviderProps {
+  children: ReactNode;
+  customTunings?: TuningPresetWithMetadata[];
+  openTuningEditor?: (tuning?: TuningPresetWithMetadata | null) => void;
+}
+
+export const DataProvider = ({ children, customTunings: propCustomTunings, openTuningEditor: propOpenTuningEditor }: DataProviderProps) => {
   // Display settings with localStorage persistence
   const [flipX, setFlipX] = useLocalStorageBoolean("flip-x", false);
   const [flipY, setFlipY] = useLocalStorageBoolean("flip-y", false);
@@ -152,6 +160,10 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
   // Tuning management state (scaleRoot must be declared before per-string state that uses it)
   const [scaleRoot, setScaleRoot] = useLocalStorage<TuningPreset>("current-scaleRoot", getTuning());
   const [customTunings, setCustomTunings] = useLocalStorage<TuningPresetWithMetadata[]>("custom-tunings", getCustomTunings());
+
+  // Use prop custom tunings if provided (for popup mode)
+  const effectiveCustomTunings = propCustomTunings || customTunings;
+  const setEffectiveCustomTunings = propCustomTunings ? () => {} : setCustomTunings;
 
   // Per-string enabled state (checkbox on the left of each string). Persisted.
   const [stringEnabledStored, setStringEnabledStored] = useLocalStorage<boolean[]>("guitar-string-enabled", []);
@@ -209,6 +221,13 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
   // Rest of tuning management state
   const [editingTuning, setEditingTuning] = useState<TuningPresetWithMetadata | null>(null);
   const [showCustomTuning, setShowCustomTuning] = useState(false);
+
+  // Use prop openTuningEditor if provided (for popup mode)
+  const openTuningEditor = propOpenTuningEditor || ((tuning?: TuningPresetWithMetadata | null) => {
+    // Default behavior when not in popup mode
+    setEditingTuning(tuning || null);
+    setShowCustomTuning(true);
+  });
   
   // Update scale length when tuning changes if multiscale is enabled
   useEffect(() => {
@@ -225,17 +244,17 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     const customTuning: TuningPresetWithMetadata = {
       ...newTuning,
       description: `Custom ${newTuning.strings.length}-string tuning`,
-      category: "Special",
+      category: "Custom",
     };
 
     if (editingTuning) {
-      setCustomTunings((prevTunings) =>
+      setEffectiveCustomTunings((prevTunings) =>
         prevTunings.map((t) =>
           t.name === editingTuning.name ? customTuning : t
         )
       );
     } else {
-      setCustomTunings((prevTunings) => [...prevTunings, customTuning]);
+      setEffectiveCustomTunings((prevTunings) => [...prevTunings, customTuning]);
     }
 
     setScaleRoot(customTuning);
@@ -273,13 +292,14 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         // Tuning management
         scaleRoot,
         setScaleRoot,
-        customTunings,
-        setCustomTunings,
+        customTunings: effectiveCustomTunings,
+        setCustomTunings: setEffectiveCustomTunings,
         editingTuning,
         setEditingTuning,
         showCustomTuning,
         setShowCustomTuning,
         handleSaveCustomTuning,
+        openTuningEditor,
       }}
     >
       {children}
