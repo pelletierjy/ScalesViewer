@@ -3,13 +3,15 @@
 A modern desktop application built with Next.js that helps musicians visualize scales across multiple instruments.
 The application provides interactive visualizations for guitar, piano, flute, and kalimba.
 
+**🌐 Try it live:** https://scales-viewer.vercel.app/guitar
+
 The application is just a platform I'm using to experiment with different AI providers.  It isn't meant to become anything serious but useful it is as one of the best scales viewer available :-)
 
 Jean-Yves Pelletier
 
 ## Technical notes
 
-- The app is designed mainly as a learning React/NextJS platform which explain some inconsistency where I used different technics or over architectures parts for experimentation and documentation purposes.
+- The app is designed mainly as a learning React/NextJS platform which explain some inconsistency where I used different technics or over architectures parts for experimentation and documentation [...]
 - Redux is used to manage the state
   - The root store handles persisting the state to the local storage on changes after initialization phase has completed
   - The guitar page uses a local states and local persistency (not using store on purpose).
