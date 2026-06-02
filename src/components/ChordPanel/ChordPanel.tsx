@@ -6,9 +6,10 @@ import { AppDispatch, RootState } from "@/app/store";
 import {
   toggleChordScaleMode,
   setSelectedChord,
+  selectShowFlats,
 } from "@/features/globalConfig/globalConfigSlice";
-import { getDiatonicTriads, isToneShared, Triad } from "@/lib/utils/chordUtils";
-import { getScaleNotes, getNoteAtInterval } from "@/lib/utils/scaleUtils";
+import { getDiatonicTriads, isToneShared, getTriadDisplayLabel, Triad } from "@/lib/utils/chordUtils";
+import { getScaleNotes, getNoteAtInterval, SHARP_TO_FLAT } from "@/lib/utils/scaleUtils";
 import { Scale } from "@/lib/utils/scaleType";
 
 export default function ChordPanel({ scale }: { scale: Scale }) {
@@ -16,6 +17,7 @@ export default function ChordPanel({ scale }: { scale: Scale }) {
   const isDark = useSelector((state: RootState) => state.globalConfig.isDarkMode);
   const chordScaleMode = useSelector((state: RootState) => state.globalConfig.chordScaleMode);
   const selectedChord = useSelector((state: RootState) => state.globalConfig.selectedChord);
+  const showFlats = useSelector(selectShowFlats);
 
   const scaleNotes = getScaleNotes(scale);
   const triads: Triad[] = chordScaleMode ? getDiatonicTriads(scaleNotes) : [];
@@ -89,10 +91,7 @@ export default function ChordPanel({ scale }: { scale: Scale }) {
                     : "border-gray-300 hover:border-gray-400 bg-white text-gray-800"
               }`}
             >
-              {triad.root}
-              {triad.quality === "minor" && "m"}
-              {triad.quality === "diminished" && "dim"}
-              {triad.quality === "augmented" && "aug"}
+              {getTriadDisplayLabel(triad, showFlats)}
             </button>
           );
         })}
@@ -136,7 +135,7 @@ export default function ChordPanel({ scale }: { scale: Scale }) {
                             : "bg-gray-100 text-gray-700 border border-gray-300"
                     }`}
                   >
-                    {tone}
+                    {showFlats ? (SHARP_TO_FLAT[tone] ?? tone) : tone}
                   </span>
                 );
               });

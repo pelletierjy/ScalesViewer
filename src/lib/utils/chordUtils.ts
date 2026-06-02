@@ -27,10 +27,10 @@ function qualityFromIntervals(root: NoteType, intervals: number[]): ChordQuality
   if (intervals.length === 2) {
     const thirdInterval = intervals[0];
     const fifthInterval = intervals[1];
+    if (thirdInterval === 4 && fifthInterval === 8) return "augmented";
     if (thirdInterval === 4) return "major";
     if (thirdInterval === 3 && fifthInterval === 6) return "diminished";
     if (thirdInterval === 3) return "minor";
-    if (thirdInterval === 8) return "augmented";
   }
   return "major";
 }
