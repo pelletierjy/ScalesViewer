@@ -7,7 +7,7 @@ ScalesViewer currently shows note positions for a selected scale, but offers no 
 Add a **Chord-Scale Intersection** mode that:
 1. Generates diatonic triads (and optional seventh chords) from the current scale + root
 2. Visualizes chord tones on the active instrument (guitar/piano)
-3. Distinguishes shared chord tones (present in all diatonic chords) from unique tones
+3. Distinguishes shared chord tones (present in multiple diatonic chords) from unique tones
 4. Allows reverse lookup: select a chord quality to see where it lives in the scale
 
 ## Users
