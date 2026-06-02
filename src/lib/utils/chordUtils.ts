@@ -36,7 +36,7 @@ function qualityFromIntervals(root: NoteType, intervals: number[]): ChordQuality
 }
 
 export function getDiatonicTriads(scaleNotes: NoteType[]): Triad[] {
-  if (scaleNotes.length === 0) return [];
+  if (scaleNotes.length !== 7) return [];
 
   const triads: Triad[] = [];
   const len = scaleNotes.length;
