@@ -91,6 +91,7 @@ export const globalConfigSlice = createSlice({
     },
     setScale: (state, action) => {
       state.scale = action.payload;
+      state.selectedChord = null;
     },
     setCurrentTuning: (state, action) => {
       state.scaleRoot = action.payload;

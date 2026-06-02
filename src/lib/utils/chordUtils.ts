@@ -24,12 +24,13 @@ function normalize(n: NoteType): NoteType {
 }
 
 function qualityFromIntervals(root: NoteType, intervals: number[]): ChordQuality {
-  if (intervals.length === 3) {
-    const lower = Math.min(intervals[1], intervals[2]);
-    if (lower === 4) return "major";
-    if (lower === 3) return "minor";
-    if (lower === 6) return "diminished";
-    if (lower === 8) return "augmented";
+  if (intervals.length === 2) {
+    const thirdInterval = intervals[0];
+    const fifthInterval = intervals[1];
+    if (thirdInterval === 4) return "major";
+    if (thirdInterval === 3 && fifthInterval === 6) return "diminished";
+    if (thirdInterval === 3) return "minor";
+    if (thirdInterval === 8) return "augmented";
   }
   return "major";
 }
@@ -42,12 +43,12 @@ export function getDiatonicTriads(scaleNotes: NoteType[]): Triad[] {
 
   for (let i = 0; i < len; i++) {
     const root = scaleNotes[i];
-    const second = scaleNotes[(i + 1) % len];
     const third = scaleNotes[(i + 2) % len];
+    const fifth = scaleNotes[(i + 4) % len];
 
     const intervals = [
-      getNoteIndex(second) - getNoteIndex(root),
       getNoteIndex(third) - getNoteIndex(root),
+      getNoteIndex(fifth) - getNoteIndex(root),
     ];
 
     const normalizedIntervals = intervals.map((iv) => (iv + 12) % 12);
@@ -82,7 +83,7 @@ export function getToneOccurrences(tone: NoteType, triads: Triad[]): number {
 }
 
 export function isToneShared(tone: NoteType, triads: Triad[]): boolean {
-  return triads.length > 0 && getToneOccurrences(tone, triads) === triads.length;
+  return triads.length > 0 && getToneOccurrences(tone, triads) > 1;
 }
 
 export function getTriadDisplayLabel(triad: Triad, showFlats: boolean): string {
