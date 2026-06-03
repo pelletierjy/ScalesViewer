@@ -125,7 +125,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     >
       {showContent ? (
         <div className="max-w-[1400px] mx-auto space-y-6 sm:space-y-8">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-wrap justify-between items-center gap-4">
             <Header />
           </div>
 

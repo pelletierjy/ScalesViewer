@@ -106,15 +106,15 @@ export const Header: React.FC = () => {
 
   return (
     <>
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <h1
-          className={`text-3xl sm:text-4xl font-bold ${
+          className={`text-2xl sm:text-3xl md:text-4xl font-bold ${
             isDarkMode ? "text-white" : "text-gray-900"
           }`}
         >
           Scales Viewer
         </h1>
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center gap-4 sm:gap-6">
           <div className="flex flex-col gap-1">
             <label
               htmlFor="instrument"
@@ -252,7 +252,7 @@ export const Header: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <button
           onClick={() => dispatch(toggleShowDegrees())}
           className={`p-2 rounded-lg transition-colors duration-200 ${
