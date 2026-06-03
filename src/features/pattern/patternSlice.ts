@@ -42,6 +42,9 @@ export const patternSlice = createSlice({
       state.isPlaying = false;
     },
     setTempo: (state, action: PayloadAction<number>) => {
+      if (Number.isNaN(action.payload)) {
+        return;
+      }
       state.tempo = Math.max(40, Math.min(300, action.payload));
     },
     toggleLoop: (state) => {

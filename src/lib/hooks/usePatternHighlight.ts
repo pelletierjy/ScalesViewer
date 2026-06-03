@@ -11,6 +11,7 @@ import {
 import { PRESET_PATTERNS, getScaleNoteByDegree } from "@/lib/utils/patternUtils";
 import { Scale } from "@/lib/utils/scaleType";
 import { Note } from "@/lib/utils/note";
+import { getNoteIndex } from "@/lib/utils/scaleUtils";
 
 export function usePatternHighlight(scale: Scale) {
   const isPatternModeEnabled = useSelector(selectIsPatternModeEnabled);
@@ -32,7 +33,7 @@ export function usePatternHighlight(scale: Scale) {
 
   const getPatternNoteColor = (note: Note, fallback: string): string => {
     if (!isPatternModeEnabled || !currentDegreeNote) return fallback;
-    if (note === currentDegreeNote) {
+    if (getNoteIndex(note) === getNoteIndex(currentDegreeNote)) {
       return "#ffffff";
     }
     return fallback;
@@ -40,7 +41,7 @@ export function usePatternHighlight(scale: Scale) {
 
   const isPatternNote = (note: Note): boolean => {
     if (!isPatternModeEnabled || !currentDegreeNote) return false;
-    return note === currentDegreeNote;
+    return getNoteIndex(note) === getNoteIndex(currentDegreeNote);
   };
 
   return {

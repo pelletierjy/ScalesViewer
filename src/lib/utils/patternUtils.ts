@@ -20,29 +20,38 @@ export const PRESET_PATTERNS: MelodicPattern[] = [
 
 /**
  * Get the note at a given scale degree (1-indexed).
- * Degree 1 = root, degree 7 = 7th.
- * Clamps to valid range [1, 7].
+ * Degree 1 = root, degree 7 = 7th (if scale has 7 notes).
+ * Clamps to valid range [1, scaleLength].
+ * Returns null if degree exceeds scale length after clamping.
  */
-export const getScaleNoteByDegree = (scale: Scale, degree: number): Note => {
+export const getScaleNoteByDegree = (scale: Scale, degree: number): Note | null => {
   const scaleNotes = getScaleNotes(scale);
-  const clampedDegree = Math.max(1, Math.min(7, degree));
+  const scaleLength = scaleNotes.length;
+  if (degree > scaleLength) {
+    return null;
+  }
+  const clampedDegree = Math.max(1, Math.min(scaleLength, degree));
   return scaleNotes[clampedDegree - 1];
 };
 
 /**
  * Map a melodic pattern's steps to actual notes within a scale.
+ * Filters out steps that exceed the scale length.
  */
-export const getPatternNotes = (pattern: MelodicPattern, scale: Scale): Note[] => {
+export const getPatternNotes = (pattern: MelodicPattern, scale: Scale): (Note | null)[] => {
   return pattern.steps.map((step) => getScaleNoteByDegree(scale, step));
 };
 
 /**
  * Convert pattern notes to NoteWithOctave by appending a default octave.
+ * Filters out null notes (degrees that exceed scale length).
  */
 export const getPatternNotesWithOctave = (
   pattern: MelodicPattern,
   scale: Scale,
   octave: number = 4
-): NoteWithOctave[] => {
-  return getPatternNotes(pattern, scale).map((note) => `${note}${octave}` as NoteWithOctave);
+): (NoteWithOctave | null)[] => {
+  return getPatternNotes(pattern, scale).map((note) => 
+    note !== null ? `${note}${octave}` as NoteWithOctave : null
+  );
 };

@@ -44,11 +44,19 @@ describe("patternUtils", () => {
       expect(getScaleNoteByDegree(aMinor, 7)).toBe("G");
     });
 
-    it("should clamp degree to valid range 1-7", () => {
+    it("should clamp degree to minimum 1 and return null for degrees exceeding scale length", () => {
       const cMajor = createScale("C", "ionian");
       expect(getScaleNoteByDegree(cMajor, 0)).toBe("C"); // clamps to 1
-      expect(getScaleNoteByDegree(cMajor, 8)).toBe("B"); // clamps to 7
+      expect(getScaleNoteByDegree(cMajor, 8)).toBeNull(); // exceeds 7-note scale
       expect(getScaleNoteByDegree(cMajor, -1)).toBe("C"); // clamps to 1
+    });
+
+    it("should return null for degrees that exceed shorter scales", () => {
+      // C major pentatonic: C, D, E, G, A (5 notes)
+      const cPentatonic = { root: "C" as const, type: "pentatonic" as const };
+      expect(getScaleNoteByDegree(cPentatonic, 5)).toBe("A"); // last note of pentatonic
+      expect(getScaleNoteByDegree(cPentatonic, 6)).toBeNull(); // exceeds 5-note scale
+      expect(getScaleNoteByDegree(cPentatonic, 7)).toBeNull(); // exceeds 5-note scale
     });
   });
 
