@@ -28,6 +28,7 @@ interface VirtualizedFrettedNotesProps {
   viewportEnd?: number;
   isStringEnabled?: boolean;
   fretPositionEnabled?: boolean[];
+  getChordNoteColor?: (note: Note, fallback: string) => string;
 }
 
 // Only render notes within the visible viewport for large fretboards
@@ -50,6 +51,7 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
   viewportEnd = fretCount,
   isStringEnabled = true,
   fretPositionEnabled = [],
+  getChordNoteColor,
 }) => {
   const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
 
@@ -118,7 +120,9 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
             r={circleRadius}
             fill={
               isNoteEnabled
-                ? getNoteColor(note, scale, isDarkMode, highlightRoots)
+                ? (getChordNoteColor
+                    ? getChordNoteColor(note, getNoteColor(note, scale, isDarkMode, highlightRoots))
+                    : getNoteColor(note, scale, isDarkMode, highlightRoots))
                 : "#9ca3af"
             }
             className="transition-colors duration-200"

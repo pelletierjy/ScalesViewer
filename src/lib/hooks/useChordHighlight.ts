@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import { isToneShared, getChordTones, getDiatonicTriads, Triad } from "@/lib/utils/chordUtils";
-import { getScaleNotes } from "@/lib/utils/scaleUtils";
+import { getScaleNotes, getNoteIndex } from "@/lib/utils/scaleUtils";
 import { Scale } from "@/lib/utils/scaleType";
 import { Note } from "@/lib/utils/note";
 
@@ -26,18 +26,19 @@ export function useChordHighlight(scale: Scale) {
     if (!selectedTriad) {
       return (_note: Note): ChordToneType => "none";
     }
-    const toneTypes = new Map<string, ChordToneType>();
+    const toneTypes = new Map<number, ChordToneType>();
     const tones = getChordTones(selectedTriad);
     const allTriads = getDiatonicTriads(getScaleNotes(scale));
     tones.forEach((tone) => {
-      if (tone === selectedTriad.root) toneTypes.set(tone, "root");
-      else if (isToneShared(tone, allTriads)) toneTypes.set(tone, "shared");
-      else toneTypes.set(tone, "unique");
+      const noteIndex = getNoteIndex(tone);
+      if (tone === selectedTriad.root) toneTypes.set(noteIndex, "root");
+      else if (isToneShared(tone, allTriads)) toneTypes.set(noteIndex, "shared");
+      else toneTypes.set(noteIndex, "unique");
     });
-    return (note: Note) => toneTypes.get(note) ?? "none";
+    return (note: Note) => toneTypes.get(getNoteIndex(note)) ?? "none";
   }, [selectedTriad, scale]);
 
-  const getNoteColor = (note: Note, fallback: string): string => {
+  const getChordNoteColor = (note: Note, fallback: string): string => {
     const type = getToneType(note);
     if (type === "none") return fallback;
     if (type === "root") return isDark ? "#4ade80" : "#15803d";
@@ -47,7 +48,7 @@ export function useChordHighlight(scale: Scale) {
 
   return {
     getToneType,
-    getNoteColor,
+    getChordNoteColor,
     chordScaleMode,
     selectedChord,
     isDark,

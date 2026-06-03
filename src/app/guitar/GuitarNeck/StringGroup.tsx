@@ -21,6 +21,7 @@ interface StringGroupProps {
   fretPositions?: number[][];
   stringEnabled?: boolean[];
   fretPositionEnabled?: boolean[];
+  getChordNoteColor?: (note: Note, fallback: string) => string;
 }
 
 export const StringGroup: React.FC<StringGroupProps> = React.memo(({
@@ -39,6 +40,7 @@ export const StringGroup: React.FC<StringGroupProps> = React.memo(({
   fretPositions = [],
   stringEnabled = [],
   fretPositionEnabled = [],
+  getChordNoteColor,
 }) => {
   return (
     <>
@@ -95,6 +97,7 @@ export const StringGroup: React.FC<StringGroupProps> = React.memo(({
               openNote={openNote}
               isStringEnabled={stringEnabled[stringIndex] ?? true}
               fretPositionEnabled={fretPositionEnabled}
+              getChordNoteColor={getChordNoteColor}
             />
           </g>
         ))}
