@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import {
@@ -11,6 +11,15 @@ import {
 import { getDiatonicTriads, isToneShared, getTriadDisplayLabel, Triad } from "@/lib/utils/chordUtils";
 import { getScaleNotes, getNoteAtInterval, SHARP_TO_FLAT } from "@/lib/utils/scaleUtils";
 import { Scale } from "@/lib/utils/scaleType";
+import { ChordQuality } from "@/lib/utils/chordTypes";
+
+const QUALITY_OPTIONS: { value: ChordQuality | "all"; label: string }[] = [
+  { value: "all", label: "All Qualities" },
+  { value: "major", label: "Major" },
+  { value: "minor", label: "Minor" },
+  { value: "diminished", label: "Diminished" },
+  { value: "augmented", label: "Augmented" },
+];
 
 export default function ChordPanel({ scale }: { scale: Scale }) {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,9 +27,11 @@ export default function ChordPanel({ scale }: { scale: Scale }) {
   const chordScaleMode = useSelector((state: RootState) => state.globalConfig.chordScaleMode);
   const selectedChord = useSelector((state: RootState) => state.globalConfig.selectedChord);
   const showFlats = useSelector(selectShowFlats);
+  const [qualityFilter, setQualityFilter] = useState<ChordQuality | "all">("all");
 
   const scaleNotes = getScaleNotes(scale);
   const triads: Triad[] = chordScaleMode ? getDiatonicTriads(scaleNotes) : [];
+  const filteredTriads = qualityFilter === "all" ? triads : triads.filter((t) => t.quality === qualityFilter);
 
   if (!chordScaleMode) {
     return (
@@ -72,8 +83,36 @@ export default function ChordPanel({ scale }: { scale: Scale }) {
         </button>
       </div>
 
+      <div className="mb-3">
+        <label
+          htmlFor="quality-filter"
+          className={`block text-xs font-semibold uppercase tracking-wider mb-1 ${isDark ? "text-gray-400" : "text-gray-500"}`}
+        >
+          Filter by Quality
+        </label>
+        <select
+          id="quality-filter"
+          value={qualityFilter}
+          onChange={(e) => {
+            setQualityFilter(e.target.value as ChordQuality | "all");
+            dispatch(setSelectedChord(null));
+          }}
+          className={`w-full sm:w-auto rounded-md px-2 py-1.5 text-sm border focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            isDark
+              ? "bg-gray-700 border-gray-600 text-gray-200"
+              : "bg-white border-gray-300 text-gray-800"
+          }`}
+        >
+          {QUALITY_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="flex flex-wrap gap-2">
-        {triads.map((triad) => {
+        {filteredTriads.map((triad) => {
           const isSelected = selectedChord === triad.symbol;
           return (
             <button

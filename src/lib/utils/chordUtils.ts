@@ -4,25 +4,6 @@ import { Triad, ChordQuality } from "./chordTypes";
 
 export type { Triad } from "./chordTypes";
 
-const INTERVAL_TO_QUALITY: Record<number, ChordQuality> = {
-  4: "major",
-  3: "minor",
-  6: "diminished",
-  8: "augmented",
-};
-
-function normalize(n: NoteType): NoteType {
-  return (
-    {
-      Bb: "A#",
-      Db: "C#",
-      Eb: "D#",
-      Gb: "F#",
-      Ab: "G#",
-    } as Partial<Record<NoteType, NoteType>>
-  )[n] || n;
-}
-
 function qualityFromIntervals(root: NoteType, intervals: number[]): ChordQuality {
   if (intervals.length === 2) {
     const thirdInterval = intervals[0];
