@@ -2,13 +2,12 @@ import React, { useMemo } from 'react';
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
 import { isNoteInScale, getScaleDegree, sharpToFlat } from "@/lib/utils/scaleUtils";
-import { playNote } from "@/lib/utils/audioUtils";
+import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { getNoteColor } from "./getNoteColor";
 import { TuningPreset } from "../types/tuningPreset";
 import { FrettedNotes } from './FrettedNotes';
 import { VirtualizedFrettedNotes } from './VirtualizedFrettedNotes';
 import { useSelector } from 'react-redux';
-import { selectAudioStatus } from '@/features/audio/audioSlice';
 import { selectNote } from '@/features/selectedNote/selectedNoteSlice';
 import { useDispatch } from 'react-redux';
 import { RootState } from '@/app/store';
@@ -54,7 +53,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
   fretPositionEnabled = [],
   getChordNoteColor,
 }) => {
-  const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
+  const playNoteSound = usePlayNote();
   const selectedNote = useSelector((state: RootState) => state.selectedNote.selectedNote);
   const dispatch = useDispatch();
 
@@ -71,7 +70,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
 
   // Handle note click - toggle selection if same note, otherwise select new note
   const handleNoteClick = (note: Note, noteWithOctave: NoteWithOctave) => {
-    playNote(noteWithOctave, audioStatus);
+    playNoteSound(noteWithOctave);
     if (selectedNote === note) {
       dispatch(selectNote(null));
     } else {

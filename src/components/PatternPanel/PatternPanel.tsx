@@ -19,7 +19,7 @@ import {
   selectCurrentStepIndex,
 } from "@/features/pattern/patternSlice";
 import { PRESET_PATTERNS } from "@/lib/utils/patternUtils";
-import { playNote } from "@/lib/utils/audioUtils";
+import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { getPatternNotesWithOctave } from "@/lib/utils/patternUtils";
 import { Scale } from "@/lib/utils/scaleType";
 
@@ -32,7 +32,7 @@ export default function PatternPanel({ scale }: { scale: Scale }) {
   const tempo = useSelector(selectTempo);
   const loop = useSelector(selectLoop);
   const currentStepIndex = useSelector(selectCurrentStepIndex);
-  const audioStatus = useSelector((state: RootState) => state.audio.status);
+  const playNoteSound = usePlayNote();
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -60,10 +60,10 @@ export default function PatternPanel({ scale }: { scale: Scale }) {
       const notes = getPatternNotesWithOctave(currentPattern, scale, 4);
       const note = notes[currentStepIndex];
       if (note) {
-        playNote(note, audioStatus, 0.4);
+        playNoteSound(note, 0.4);
       }
     }
-  }, [currentStepIndex, isPlaying, currentPattern, scale, audioStatus]);
+  }, [currentStepIndex, isPlaying, currentPattern, scale, playNoteSound]);
 
   const handleTogglePlayback = () => {
     if (isPlaying) {

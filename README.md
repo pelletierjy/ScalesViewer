@@ -45,6 +45,7 @@ Jean-Yves Pelletier
     - Kalimba: Traditional 17-key layout with center-outward note arrangement
 - Responsive design that works on all screen sizes
 - Native desktop application for Windows
+- **Instrument-aware audio**: short samples per instrument (guitar, piano, kalimba, harmonica), optional pluck synth, or classic sine — configurable under Settings → Sound (see `specs/instrument-audio/spec.md`)
 
 ## Tech Stack
 
