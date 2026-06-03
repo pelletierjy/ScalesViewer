@@ -5,12 +5,15 @@ import audioReducer from "@/features/audio/audioSlice";
 import selectedNoteReducer from "@/features/selectedNote/selectedNoteSlice";
 import { persistentStateMiddleware } from "./persistentStateMiddleware";
 
+import patternReducer from "@/features/pattern/patternSlice";
+
 export const store = configureStore({
   reducer: {
     globalConfig: globalConfigReducer,
     applicationState: applicationStateReducer,
     audio: audioReducer,
     selectedNote: selectedNoteReducer,
+    pattern: patternReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(persistentStateMiddleware),

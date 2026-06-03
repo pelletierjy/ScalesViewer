@@ -20,7 +20,9 @@ import { selectAudioStatus } from "@/features/audio/audioSlice";
 import { selectNote } from "@/features/selectedNote/selectedNoteSlice";
 import { RootState } from "@/app/store";
 import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import PatternPanel from "@/components/PatternPanel/PatternPanel";
 import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
+import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
 
 // Define piano keys for one octave
 const OCTAVE_NOTES: { note: Note; isBlack: boolean }[] = [
@@ -119,6 +121,19 @@ export default function Piano() {
   const highlightRoots = useSelector(selectIsMonochrome);
   const audioStatus = useSelector(selectAudioStatus);
   const { getChordNoteColor, chordScaleMode, selectedChord } = useChordHighlight(scale);
+  const { getPatternNoteColor, isPatternModeEnabled } = usePatternHighlight(scale);
+
+  const getFinalNoteColor = (note: Note, fallback: string): string => {
+    if (isPatternModeEnabled) {
+      const patternColor = getPatternNoteColor(note, fallback);
+      if (patternColor !== fallback) return patternColor;
+    }
+    if (chordScaleMode && selectedChord) {
+      return getChordNoteColor(note, fallback);
+    }
+    return fallback;
+  };
+
   const whiteKeyWidth = 40;
   const blackKeyWidth = 24;
   const whiteKeyHeight = 150;
@@ -200,8 +215,8 @@ export default function Piano() {
                         r={selectedNote === key.note ? 22 : 15}
                         fill={
                           chordScaleMode && selectedChord
-                            ? getChordNoteColor(key.note, getNoteColor(key.note, scale, isDarkMode, highlightRoots))
-                            : getNoteColor(key.note, scale, isDarkMode, highlightRoots)
+                            ? getFinalNoteColor(key.note, getNoteColor(key.note, scale, isDarkMode, highlightRoots))
+                            : getFinalNoteColor(key.note, getNoteColor(key.note, scale, isDarkMode, highlightRoots))
                         }
                         className="transition-all duration-200"
                         style={{
@@ -288,8 +303,8 @@ export default function Piano() {
                         r={selectedNote === key.note ? 17 : 12}
                         fill={
                           chordScaleMode && selectedChord
-                            ? getChordNoteColor(key.note, getNoteColor(key.note, scale, isDarkMode, highlightRoots))
-                            : getNoteColor(key.note, scale, isDarkMode, highlightRoots)
+                            ? getFinalNoteColor(key.note, getNoteColor(key.note, scale, isDarkMode, highlightRoots))
+                            : getFinalNoteColor(key.note, getNoteColor(key.note, scale, isDarkMode, highlightRoots))
                         }
                         className="transition-all duration-200"
                         style={{
@@ -331,6 +346,7 @@ export default function Piano() {
       </div>
 
       <ChordPanel scale={scale} />
+      <PatternPanel scale={scale} />
 
       {setOctaveCount && (
         <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
