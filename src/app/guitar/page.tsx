@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { selectIsDarkMode, selectScale } from "@/features/globalConfig/globalConfigSlice";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import PatternPanel from "@/components/PatternPanel/PatternPanel";
 
 export default function Guitar() {
   const isDarkMode = useSelector(selectIsDarkMode);
@@ -82,6 +83,7 @@ export default function Guitar() {
       </DataProvider>
 
       <ChordPanel scale={scale} />
+      <PatternPanel scale={scale} />
 
       {showTuningEditor && (
         <div

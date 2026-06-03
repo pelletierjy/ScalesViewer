@@ -4,6 +4,9 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import globalConfigReducer from "@/features/globalConfig/globalConfigSlice";
 import applicationStateReducer from "@/features/application/applicationSlice";
+import audioReducer from "@/features/audio/audioSlice";
+import selectedNoteReducer from "@/features/selectedNote/selectedNoteSlice";
+import patternReducer from "@/features/pattern/patternSlice";
 
 // Create a test store with the same reducers as the real store
 export function createTestStore() {
@@ -11,6 +14,9 @@ export function createTestStore() {
     reducer: {
       globalConfig: globalConfigReducer,
       applicationState: applicationStateReducer,
+      audio: audioReducer,
+      selectedNote: selectedNoteReducer,
+      pattern: patternReducer,
     },
     // No middleware for tests to keep things simple
   });

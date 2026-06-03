@@ -6,6 +6,7 @@ import globalConfigReducer from "@/features/globalConfig/globalConfigSlice";
 import applicationStateReducer from "@/features/application/applicationSlice";
 import audioReducer from "@/features/audio/audioSlice";
 import selectedNoteReducer from "@/features/selectedNote/selectedNoteSlice";
+import patternReducer from "@/features/pattern/patternSlice";
 import { DataProvider, useDataContext } from "@/app/guitar/context";
 import { FrettedNotes } from "@/app/guitar/GuitarNeck/FrettedNotes";
 import { GuitarNeck } from "@/app/guitar/GuitarNeck/GuitarNeck";
@@ -20,6 +21,7 @@ function createGuitarTestStore() {
       applicationState: applicationStateReducer,
       audio: audioReducer,
       selectedNote: selectedNoteReducer,
+      pattern: patternReducer,
     },
   });
 }
