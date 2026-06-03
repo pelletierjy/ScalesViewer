@@ -5,6 +5,7 @@ import { initializeApplication } from "../application/applicationSlice";
 import { Instrument } from "@/lib/utils/instrument";
 import { Scale } from "@/lib/utils/scaleType";
 import { TUNING_PRESETS } from "@/app/guitar/tuningConstants";
+import { SoundEngine } from "@/lib/audio/instrumentSampleConfig";
 
 /**
  * GlobalConfig
@@ -21,6 +22,7 @@ export interface GlobalConfig {
   showDegrees: boolean;
   chordScaleMode: boolean;
   selectedChord: string | null;
+  soundEngine: SoundEngine;
 }
 
 const updateState = (
@@ -41,6 +43,7 @@ const updateState = (
     state.showDegrees = savedState?.showDegrees ?? false;
     state.chordScaleMode = savedState?.chordScaleMode ?? false;
     state.selectedChord = savedState?.selectedChord ?? null;
+    state.soundEngine = savedState?.soundEngine ?? "sample";
   }
 };
 
@@ -74,6 +77,7 @@ export const initialState: GlobalConfig = {
   showDegrees: false,
   chordScaleMode: false,
   selectedChord: null,
+  soundEngine: "sample",
 };
 
 export const globalConfigSlice = createSlice({
@@ -112,6 +116,9 @@ export const globalConfigSlice = createSlice({
     setSelectedChord: (state, action) => {
       state.selectedChord = action.payload;
     },
+    setSoundEngine: (state, action) => {
+      state.soundEngine = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(initializeApplication, (state, action) => {
@@ -134,6 +141,7 @@ export const {
   toggleShowDegrees,
   toggleChordScaleMode,
   setSelectedChord,
+  setSoundEngine,
 } = globalConfigSlice.actions;
 
 export default globalConfigSlice.reducer;
@@ -159,3 +167,5 @@ export const selectChordScaleMode = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).chordScaleMode;
 export const selectSelectedChord = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).selectedChord;
+export const selectSoundEngine = (state: { globalConfig: GlobalConfig }) =>
+  selectGlobalConfig(state).soundEngine;

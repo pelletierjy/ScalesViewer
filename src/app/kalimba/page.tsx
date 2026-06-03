@@ -5,7 +5,7 @@ import {
   getScaleDegree,
   SHARP_TO_FLAT,
 } from "@/lib/utils/scaleUtils";
-import { playNote } from "@/lib/utils/audioUtils";
+import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { useSelector } from "react-redux";
 import {
   selectIsDarkMode,
@@ -15,8 +15,6 @@ import {
   selectShowDegrees,
 } from "../../features/globalConfig/globalConfigSlice";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
-import { selectAudioStatus } from "@/features/audio/audioSlice";
-import { RootState } from "@/app/store";
 
 // Standard 17-key kalimba scaleRoot (from center outward)
 const KALIMBA_NOTES: Note[] = [
@@ -49,7 +47,7 @@ export default function Kalimba() {
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
   const highlightRoots = useSelector(selectIsMonochrome);
-  const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
+  const playNoteSound = usePlayNote();
 
   const getNoteColor = (note: Note, isRoot: boolean): string => {
     if (isRoot) {
@@ -95,7 +93,7 @@ export default function Kalimba() {
     const octaveOffset = Math.floor((index - 8) / 7);
     const octave = baseOctave + octaveOffset;
     const noteWithOctave = `${note}${octave}` as NoteWithOctave;
-    playNote(noteWithOctave, audioStatus);
+    playNoteSound(noteWithOctave);
   };
 
   return (

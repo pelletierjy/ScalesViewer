@@ -2,12 +2,9 @@ import React, { useMemo } from 'react';
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
 import { calculateFretNote, isNoteInScale, getScaleDegree, sharpToFlat } from "@/lib/utils/scaleUtils";
-import { playNote } from "@/lib/utils/audioUtils";
+import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { getNoteColor } from "./getNoteColor";
 import { getFretPositions } from './getFretPositions';
-import { useSelector } from 'react-redux';
-import { selectAudioStatus } from '@/features/audio/audioSlice';
-import { RootState } from '@/app/store';
 
 interface VirtualizedFrettedNotesProps {
   openNote: Note;
@@ -53,7 +50,7 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
   fretPositionEnabled = [],
   getChordNoteColor,
 }) => {
-  const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
+  const playNoteSound = usePlayNote();
 
   // Memoize fret positions calculation
   const defaultFretPositions = useMemo(() => 
@@ -111,7 +108,7 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
         <g
           key={`note-${stringIndex}-${fretIndex}`}
           transform={`translate(${fretPosition - stringSpacing / 4}, ${(stringIndex + 1) * stringSpacing})`}
-          onClick={() => playNote(noteWithOctave, audioStatus)}
+          onClick={() => playNoteSound(noteWithOctave)}
           className="cursor-pointer"
           style={!isNoteEnabled ? { opacity: 0.5 } : undefined}
         >

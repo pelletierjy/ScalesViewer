@@ -72,7 +72,9 @@ The application uses a hybrid approach to state management for learning purposes
    - `scaleUtils.ts`: Core scale calculations, transposition, and note generation
    - `scaleConstants.ts`: Comprehensive scale definitions (60+ scales)
    - `note.ts`: Note naming, frequency calculations, enharmonic handling
-   - `audioUtils.ts`: Audio context and playback utilities
+   - `audioUtils.ts`: Audio context and playback routing
+   - `src/lib/audio/`: Sample config, sample player, pluck synth, `playbackStrategy.ts`
+   - `usePlayNote` hook: binds Redux `instrument` + `soundEngine` to `playNote`
 
 4. **Guitar-Specific Architecture**:
    - Custom tuning system with import/export functionality
@@ -119,7 +121,7 @@ The application uses a hybrid approach to state management for learning purposes
      - Dynamic height adjustment based on string count
      - Fret positions calculated using logarithmic scale (`getFretPositions`)
      - Note octave calculation considers string position and fret number
-     - Click-to-play functionality via `audioUtils`
+     - Click-to-play via `usePlayNote` (instrument samples / pluck synth / sine)
      - Flip orientation support (X and Y axis)
 
 3. **Note Rendering System**:

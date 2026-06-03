@@ -1,29 +1,43 @@
 import { Note, NoteWithOctave } from "./note";
 import { AudioStatus } from "@/features/audio/audioSlice";
+import { Instrument } from "./instrument";
+import { SoundEngine } from "@/lib/audio/instrumentSampleConfig";
+import { resolvePlaybackStrategy } from "@/lib/audio/playbackStrategy";
+import { INSTRUMENT_SAMPLES } from "@/lib/audio/instrumentSampleConfig";
+import {
+  loadInstrumentSample,
+  playSample,
+  applyGainEnvelope,
+} from "@/lib/audio/samplePlayer";
+import { playPluckSynth } from "@/lib/audio/pluckSynth";
 
 // Base frequencies for notes in octave 4 (A4 = 440Hz)
 const BASE_FREQUENCIES: Record<Note, number> = {
-  // Notes from C4 to B4
-  C: 261.63, // C4
-  "C#": 277.18, // C#4
-  Db: 277.18, // Db4
-  D: 293.66, // D4
-  "D#": 311.13, // D#4
-  Eb: 311.13, // Eb4
-  E: 329.63, // E4
-  F: 349.23, // F4
-  "F#": 369.99, // F#4
-  Gb: 369.99, // Gb4
-  G: 392.0, // G4
-  "G#": 415.3, // G#4
-  Ab: 415.3, // Ab4
-  A: 440.0, // A4
-  "A#": 466.16, // A#4
-  Bb: 466.16, // Bb4
-  B: 493.88, // B4
+  C: 261.63,
+  "C#": 277.18,
+  Db: 277.18,
+  D: 293.66,
+  "D#": 311.13,
+  Eb: 311.13,
+  E: 329.63,
+  F: 349.23,
+  "F#": 369.99,
+  Gb: 369.99,
+  G: 392.0,
+  "G#": 415.3,
+  Ab: 415.3,
+  A: 440.0,
+  "A#": 466.16,
+  Bb: 466.16,
+  B: 493.88,
 };
 
 let audioContext: AudioContext | null = null;
+
+export interface PlayNoteOptions {
+  instrument: Instrument;
+  soundEngine: SoundEngine;
+}
 
 const getBaseNote = (note: NoteWithOctave): Note => {
   return note.replace(/\d+$/, "") as Note;
@@ -31,21 +45,19 @@ const getBaseNote = (note: NoteWithOctave): Note => {
 
 const getOctave = (note: NoteWithOctave): number => {
   const match = note.match(/\d+$/);
-  return match ? parseInt(match[0], 10) : 4; // Default to octave 4 if not specified
+  return match ? parseInt(match[0], 10) : 4;
 };
 
-const calculateFrequency = (note: NoteWithOctave): number => {
+export const calculateFrequency = (note: NoteWithOctave): number => {
   const baseNote = getBaseNote(note);
   const octave = getOctave(note);
 
-  // Get the base frequency for the note
   const baseFreq = BASE_FREQUENCIES[baseNote];
   if (!baseFreq) {
     console.warn(`Unknown note: ${baseNote}`);
-    return 440; // Default to A4 if note is unknown
+    return 440;
   }
 
-  // Calculate the number of semitones from A4 (440Hz)
   const noteOrder = [
     "C",
     "C#",
@@ -61,90 +73,126 @@ const calculateFrequency = (note: NoteWithOctave): number => {
     "B",
   ];
   const baseNoteIndex = noteOrder.indexOf(baseNote.replace(/b/, "#"));
-  const octaveOffset = octave - 4; // Distance from octave 4
-
-  // Calculate semitones from A4
-  // A4 is at position 9 in our noteOrder array
+  const octaveOffset = octave - 4;
   const semitonesFromA4 = baseNoteIndex - 9 + octaveOffset * 12;
 
-  // Calculate frequency using the formula: f = 440 * 2^(n/12)
-  // where n is the number of semitones from A4
   return 440 * Math.pow(2, semitonesFromA4 / 12);
 };
 
-// Initialize audio context with error handling
+export const getAudioContext = (): AudioContext | null => audioContext;
+
+/** @internal Test-only reset for isolated playNote tests */
+export function resetAudioContextForTests(): void {
+  audioContext = null;
+}
+
 export const initializeAudio = async (): Promise<boolean> => {
   if (typeof window === "undefined") return false;
-  
+
   try {
     if (!audioContext) {
       audioContext = new AudioContext();
     }
-    
-    // Resume audio context if it's suspended (required for user gesture)
-    if (audioContext.state === 'suspended') {
+
+    if (audioContext.state === "suspended") {
       await audioContext.resume();
     }
-    
+
     return true;
   } catch (error) {
-    console.warn('Failed to initialize audio context:', error);
+    console.warn("Failed to initialize audio context:", error);
     return false;
   }
 };
 
-export const playNote = async (note: NoteWithOctave, audioStatus: AudioStatus, duration: number = 0.5) => {
-  // Skip during server-side rendering or when window is not available
-  if (typeof window === "undefined") return;
-
-  // Initialize audio context if it doesn't exist or if audio is not initialized
-  if (!audioContext || audioStatus !== 'initialized') {
+async function ensureAudioContext(
+  audioStatus: AudioStatus
+): Promise<AudioContext | null> {
+  if (!audioContext || audioStatus !== "initialized") {
     const initialized = await initializeAudio();
     if (!initialized || !audioContext) {
-      console.warn('Failed to initialize audio context');
-      return;
+      console.warn("Failed to initialize audio context");
+      return null;
     }
   }
+
+  if (audioContext.state === "suspended") {
+    await audioContext.resume();
+  }
+
+  return audioContext;
+}
+
+function playSineWave(
+  ctx: AudioContext,
+  frequency: number,
+  duration: number
+): void {
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
+
+  oscillator.type = "sine";
+  oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
+  applyGainEnvelope(ctx, gainNode, duration);
+
+  oscillator.connect(gainNode);
+  gainNode.connect(ctx.destination);
+
+  oscillator.start();
+  oscillator.stop(ctx.currentTime + duration);
+
+  oscillator.onended = () => {
+    oscillator.disconnect();
+    gainNode.disconnect();
+  };
+}
+
+async function playWithSample(
+  ctx: AudioContext,
+  instrument: Instrument,
+  frequency: number,
+  duration: number
+): Promise<boolean> {
+  const buffer = await loadInstrumentSample(ctx, instrument);
+  if (!buffer) return false;
+
+  const { rootNote } = INSTRUMENT_SAMPLES[instrument];
+  const rootHz = calculateFrequency(rootNote);
+  playSample(ctx, buffer, frequency, rootHz, duration);
+  return true;
+}
+
+export async function playNote(
+  note: NoteWithOctave,
+  audioStatus: AudioStatus,
+  duration: number = 0.5,
+  options: PlayNoteOptions
+): Promise<void> {
+  if (typeof window === "undefined") return;
+
+  const ctx = await ensureAudioContext(audioStatus);
+  if (!ctx) return;
+
+  const { instrument, soundEngine } = options;
+  const frequency = calculateFrequency(note);
+  const strategy = resolvePlaybackStrategy(instrument, soundEngine);
 
   try {
-    // Resume audio context if it's suspended (required for user gesture)
-    if (audioContext.state === 'suspended') {
-      await audioContext.resume();
+    if (strategy === "sine") {
+      playSineWave(ctx, frequency, duration);
+      return;
     }
 
-    // Play the note one octave higher by adding 1 to the octave number
-    const baseNote = getBaseNote(note);
-    const originalOctave = getOctave(note);
-    const higherOctaveNote = `${baseNote}${originalOctave + 1}` as NoteWithOctave;
-    const frequency = calculateFrequency(higherOctaveNote);
+    if (strategy === "pluck") {
+      playPluckSynth(ctx, frequency, duration);
+      return;
+    }
 
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+    const played = await playWithSample(ctx, instrument, frequency, duration);
+    if (played) return;
 
-    // Use a sine wave for a more pleasant sound
-    oscillator.type = "sine";
-    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-
-    // Apply envelope for smoother sound
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.05);
-    gainNode.gain.exponentialRampToValueAtTime(
-      0.001,
-      audioContext.currentTime + duration
-    );
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + duration);
-    
-    // Clean up oscillator after use
-    oscillator.onended = () => {
-      oscillator.disconnect();
-      gainNode.disconnect();
-    };
+    playSineWave(ctx, frequency, duration);
   } catch (error) {
-    console.warn('Failed to play note:', error);
+    console.warn("Failed to play note:", error);
   }
-};
+}

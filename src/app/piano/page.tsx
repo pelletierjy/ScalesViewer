@@ -5,7 +5,7 @@ import {
   getScaleDegree,
   SHARP_TO_FLAT,
 } from "@/lib/utils/scaleUtils";
-import { playNote } from "@/lib/utils/audioUtils";
+import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectIsDarkMode,
@@ -16,7 +16,6 @@ import {
 } from "../../features/globalConfig/globalConfigSlice";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
-import { selectAudioStatus } from "@/features/audio/audioSlice";
 import { selectNote } from "@/features/selectedNote/selectedNoteSlice";
 import { RootState } from "@/app/store";
 import ChordPanel from "@/components/ChordPanel/ChordPanel";
@@ -119,7 +118,7 @@ export default function Piano() {
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
   const highlightRoots = useSelector(selectIsMonochrome);
-  const audioStatus = useSelector(selectAudioStatus);
+  const playNoteSound = usePlayNote();
   const { getChordNoteColor, chordScaleMode, selectedChord } = useChordHighlight(scale);
   const { getPatternNoteColor, isPatternModeEnabled } = usePatternHighlight(scale);
 
@@ -150,7 +149,7 @@ export default function Piano() {
 
   const handleNoteClick = (note: Note, octave: number): void => {
     const noteWithOctave = `${note}${octave}` as NoteWithOctave;
-    playNote(noteWithOctave, audioStatus);
+    playNoteSound(noteWithOctave);
     if (selectedNote === note) {
       dispatch(selectNote(null));
     } else {

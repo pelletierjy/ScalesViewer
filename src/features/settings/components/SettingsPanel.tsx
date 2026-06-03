@@ -5,8 +5,14 @@
  */
 
 import React, { useEffect, useRef, useCallback } from "react";
-import { useSelector } from "react-redux";
-import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectIsDarkMode,
+  selectSoundEngine,
+  setSoundEngine,
+  saveState,
+} from "@/features/globalConfig/globalConfigSlice";
+import { SoundEngine } from "@/lib/audio/instrumentSampleConfig";
 import { useSettingsManager } from "@/features/settings/hooks/useSettingsManager";
 import { ExportButton } from "./ExportButton";
 import { ImportButton } from "./ImportButton";
@@ -28,7 +34,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
   onClose,
   triggerRef,
 }) => {
+  const dispatch = useDispatch();
   const isDarkMode = useSelector(selectIsDarkMode);
+  const soundEngine = useSelector(selectSoundEngine);
   const { error, clearError } = useSettingsManager();
   const panelRef = useRef<HTMLDivElement>(null);
   const firstFocusableRef = useRef<HTMLButtonElement>(null);
@@ -241,6 +249,54 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
           )}
 
           <SettingsError message={error} onDismiss={clearError} />
+
+          <section aria-labelledby="sound-settings-title">
+            <h3
+              id="sound-settings-title"
+              className="text-sm font-semibold mb-2"
+            >
+              Sound
+            </h3>
+            <label
+              htmlFor="sound-engine-select"
+              className={`block text-sm mb-1 ${
+                isDarkMode ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
+              Playback engine
+            </label>
+            <select
+              id="sound-engine-select"
+              value={soundEngine}
+              onChange={(e) => {
+                dispatch(setSoundEngine(e.target.value as SoundEngine));
+                dispatch(saveState());
+              }}
+              className={`w-full rounded-md border px-3 py-2 text-sm ${
+                isDarkMode
+                  ? "bg-gray-700 border-gray-600 text-gray-100"
+                  : "bg-white border-gray-300 text-gray-900"
+              }`}
+            >
+              <option value="sample">Instrument samples</option>
+              <option value="synth">Pluck synth</option>
+              <option value="sine">Classic sine</option>
+            </select>
+            <p
+              className={`text-xs mt-2 ${
+                isDarkMode ? "text-gray-500" : "text-gray-500"
+              }`}
+            >
+              {soundEngine === "sample" &&
+                "Short recorded tones per instrument, pitched to each note."}
+              {soundEngine === "synth" &&
+                "Synthesized pluck for guitar and kalimba; samples for piano and harmonica."}
+              {soundEngine === "sine" &&
+                "Simple sine tone (original behavior)."}
+            </p>
+          </section>
+
+          <hr className={dividerClasses} aria-hidden="true" />
 
           <div className="space-y-3">
             <ExportButton

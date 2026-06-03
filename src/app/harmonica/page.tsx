@@ -8,7 +8,7 @@ import {
   transposeNote,
   getInterval,
 } from "@/lib/utils/scaleUtils";
-import { playNote } from "@/lib/utils/audioUtils";
+import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { useSelector } from "react-redux";
 import {
   selectIsDarkMode,
@@ -18,8 +18,6 @@ import {
   selectShowDegrees,
 } from "../../features/globalConfig/globalConfigSlice";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
-import { selectAudioStatus } from "@/features/audio/audioSlice";
-import { RootState } from "@/app/store";
 
 // Common harmonica keys
 const HARMONICA_KEYS: Note[] = ["C", "G", "A", "D", "F", "Bb", "Eb"];
@@ -55,7 +53,7 @@ export default function Harmonica() {
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
   const highlightRoots = useSelector(selectIsMonochrome);
-  const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
+  const playNoteSound = usePlayNote();
   const [selectedKey, setSelectedKey] = useState<Note>("C");
   const harmonicaNotes = transposeHarmonicaNotes(selectedKey);
 
@@ -106,7 +104,7 @@ export default function Harmonica() {
     const octaveOffset = Math.floor((holeNumber - 1) / 3);
     const octave = baseOctave + octaveOffset;
     const noteWithOctave = `${note}${octave}` as NoteWithOctave;
-    playNote(noteWithOctave, audioStatus);
+    playNoteSound(noteWithOctave);
   };
 
   return (
