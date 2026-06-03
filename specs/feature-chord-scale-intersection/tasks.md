@@ -4,41 +4,41 @@
 - [x] Create branch `feat/chord-scale-intersection` from `main`
 
 ## T2 — Theory Utilities
-- [ ] File: `src/lib/utils/chordUtils.ts`
-  - [ ] `getDiatonicTriads(root, scaleNotes)`
-  - [ ] `getChordTones(triad)`
-  - [ ] `isChordToneShared(tone, triads)`
-- [ ] File: `src/lib/utils/chordTypes.ts`
-  - [ ] `ChordQuality` type + helpers
-- [ ] Unit tests: `src/__tests__/chordUtils.test.ts`
+- [x] File: `src/lib/utils/chordUtils.ts`
+  - [x] `getDiatonicTriads(root, scaleNotes)`
+  - [x] `getChordTones(triad)`
+  - [x] `isChordToneShared(tone, triads)`
+- [x] File: `src/lib/utils/chordTypes.ts`
+  - [x] `ChordQuality` type + helpers
+- [x] Unit tests: `src/__tests__/chordUtils.test.ts`
 
 ## T3 — Redux State
-- [ ] Update `globalConfigSlice.ts`
-  - [ ] `chordScaleMode`
-  - [ ] `selectedChord`
-- [ ] Verify persistence in localStorage
+- [x] Update `globalConfigSlice.ts`
+  - [x] `chordScaleMode`
+  - [x] `selectedChord`
+- [x] Verify persistence in localStorage
 
 ## T4 — Highlight Hooks
-- [ ] `useChordHighlight` for guitar
-- [ ] `useChordHighlight` for piano
-- [ ] Color tokens for root / unique / shared tones
+- [x] `useChordHighlight` for guitar
+- [x] `useChordHighlight` for piano
+- [x] Color tokens for root / unique / shared tones
 
 ## T5 — ChordPanel Component
-- [ ] `ChordPanel.tsx` + `ChordPanel.module.css` (or Tailwind)
-- [ ] Mobile slide-over behavior
-- [ ] Chord selection + active state
+- [x] `ChordPanel.tsx` + `ChordPanel.module.css` (or Tailwind)
+- [x] Mobile slide-over behavior
+- [x] Chord selection + active state
 
 ## T6 — Instrument Integration
-- [ ] Wire ChordPanel into guitar page (context trigger)
-- [ ] Wire ChordPanel into piano page
-- [ ] Toggle visibility via `chordScaleMode`
+- [x] Wire ChordPanel into guitar page (context trigger)
+- [x] Wire ChordPanel into piano page
+- [x] Toggle visibility via `chordScaleMode`
 
 ## T7 — Reverse Lookup (optional)
-- [ ] Quality filter dropdown
-- [ ] Filter logic on generated triads
+- [x] Quality filter dropdown
+- [x] Filter logic on generated triads
 
 ## T8 — Polish & CI
-- [ ] `npm run lint` green
-- [ ] `npm run build` green
+- [x] `npm run lint` green
+- [x] `npm run build` green
 - [ ] `npm test` green
 - [ ] Manual QA checklist
