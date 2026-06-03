@@ -19,6 +19,8 @@ export interface GlobalConfig {
   showFlats: boolean;
   highlightRoots: boolean;
   showDegrees: boolean;
+  chordScaleMode: boolean;
+  selectedChord: string | null;
 }
 
 const updateState = (
@@ -37,6 +39,8 @@ const updateState = (
     state.showFlats = savedState?.showFlats ?? false;
     state.highlightRoots = savedState?.highlightRoots ?? true;
     state.showDegrees = savedState?.showDegrees ?? false;
+    state.chordScaleMode = savedState?.chordScaleMode ?? false;
+    state.selectedChord = savedState?.selectedChord ?? null;
   }
 };
 
@@ -57,7 +61,7 @@ const loadState = (): GlobalConfig | undefined => {
 };
 
 export const initialState: GlobalConfig = {
-  isDarkMode: true, // Dark mode is default
+  isDarkMode: true,
   instrument: "piano",
   scale: {
     root: "A",
@@ -68,6 +72,8 @@ export const initialState: GlobalConfig = {
   showFlats: false,
   highlightRoots: true,
   showDegrees: false,
+  chordScaleMode: false,
+  selectedChord: null,
 };
 
 export const globalConfigSlice = createSlice({
@@ -85,6 +91,7 @@ export const globalConfigSlice = createSlice({
     },
     setScale: (state, action) => {
       state.scale = action.payload;
+      state.selectedChord = null;
     },
     setCurrentTuning: (state, action) => {
       state.scaleRoot = action.payload;
@@ -97,6 +104,13 @@ export const globalConfigSlice = createSlice({
     },
     toggleShowDegrees: (state) => {
       state.showDegrees = !state.showDegrees;
+    },
+    toggleChordScaleMode: (state) => {
+      state.chordScaleMode = !state.chordScaleMode;
+      if (!state.chordScaleMode) state.selectedChord = null;
+    },
+    setSelectedChord: (state, action) => {
+      state.selectedChord = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -118,6 +132,8 @@ export const {
   toggleShowFlats,
   toggleShowMonochrome,
   toggleShowDegrees,
+  toggleChordScaleMode,
+  setSelectedChord,
 } = globalConfigSlice.actions;
 
 export default globalConfigSlice.reducer;
@@ -139,3 +155,7 @@ export const selectIsMonochrome = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).highlightRoots;
 export const selectShowDegrees = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).showDegrees;
+export const selectChordScaleMode = (state: { globalConfig: GlobalConfig }) =>
+  selectGlobalConfig(state).chordScaleMode;
+export const selectSelectedChord = (state: { globalConfig: GlobalConfig }) =>
+  selectGlobalConfig(state).selectedChord;

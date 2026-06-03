@@ -17,6 +17,7 @@ import { StringGroup } from "./StringGroup";
 import { FretNumbers } from "./FretNumbers";
 import { calculateNoteWithOctaveMemoized } from "../utils/octaveCalculation";
 import { FretboardBackground } from "./FretboardBackground";
+import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
 
 export const GuitarNeck: React.FC = React.memo(() => {
   const {
@@ -40,6 +41,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
   const highlightRoots = useSelector(selectIsMonochrome);
+  const { getChordNoteColor, chordScaleMode, selectedChord } = useChordHighlight(scale);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 1000, height: 200 });
 
@@ -348,6 +350,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
             fretPositions={fretPositions}
             stringEnabled={stringEnabled}
             fretPositionEnabled={fretPositionEnabled}
+            getChordNoteColor={chordScaleMode && selectedChord ? getChordNoteColor : undefined}
           />
 
           {/* Fret numbers */}

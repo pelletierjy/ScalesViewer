@@ -7,11 +7,13 @@ import { CustomTuningEditor } from "./CustomTuningEditor/CustomTuningEditor";
 import { TuningPresetWithMetadata } from "./tuningConstants";
 import { TuningPreset } from "./types/tuningPreset";
 import { useSelector } from "react-redux";
-import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
+import { selectIsDarkMode, selectScale } from "@/features/globalConfig/globalConfigSlice";
 import { useLocalStorage } from "./hooks/useLocalStorage";
+import ChordPanel from "@/components/ChordPanel/ChordPanel";
 
 export default function Guitar() {
   const isDarkMode = useSelector(selectIsDarkMode);
+  const scale = useSelector(selectScale);
   const [showTuningEditor, setShowTuningEditor] = useState(false);
   const [editingTuning, setEditingTuning] = useState<TuningPresetWithMetadata | null>(null);
 
@@ -78,6 +80,8 @@ export default function Guitar() {
         <GuitarNeck />
         <Configuration onDeleteCustomTuning={handleDeleteCustomTuning} />
       </DataProvider>
+
+      <ChordPanel scale={scale} />
 
       {showTuningEditor && (
         <div

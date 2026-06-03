@@ -28,6 +28,7 @@ interface FrettedNotesProps {
   fretPositions?: number[];
   isStringEnabled?: boolean;
   fretPositionEnabled?: boolean[];
+  getChordNoteColor?: (note: Note, fallback: string) => string;
 }
 
 export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
@@ -47,6 +48,7 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
   fretPositions = [],
   isStringEnabled = true,
   fretPositionEnabled = [],
+  getChordNoteColor,
 }) => {
   const dispatch = useDispatch();
   const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
@@ -121,7 +123,9 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
                 r={isNoteHighlighted(note) ? circleRadius * 1.4 : circleRadius}
                 fill={
                   isNoteEnabled
-                    ? getNoteColor(note, scale, isDarkMode, highlightRoots)
+                    ? (getChordNoteColor
+                        ? getChordNoteColor(note, getNoteColor(note, scale, isDarkMode, highlightRoots))
+                        : getNoteColor(note, scale, isDarkMode, highlightRoots))
                     : "#9ca3af"
                 }
                 className="transition-all duration-200"

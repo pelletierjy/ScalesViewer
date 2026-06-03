@@ -31,6 +31,7 @@ interface NotesDisplayProps {
   openNote?: Note;
   isStringEnabled?: boolean;
   fretPositionEnabled?: boolean[];
+  getChordNoteColor?: (note: Note, fallback: string) => string;
 }
 
 export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
@@ -51,6 +52,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
   openNote: openNoteProp,
   isStringEnabled = true,
   fretPositionEnabled = [],
+  getChordNoteColor,
 }) => {
   const audioStatus = useSelector((state: RootState) => selectAudioStatus(state));
   const selectedNote = useSelector((state: RootState) => state.selectedNote.selectedNote);
@@ -115,7 +117,9 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
             r={isNoteHighlighted(openNote) ? circleRadius * 1.4 : circleRadius}
             fill={
               isZeroFretNoteEnabled
-                ? getNoteColor(openNote, scale, isDarkMode, highlightRoots)
+                ? (getChordNoteColor
+                    ? getChordNoteColor(openNote, getNoteColor(openNote, scale, isDarkMode, highlightRoots))
+                    : getNoteColor(openNote, scale, isDarkMode, highlightRoots))
                 : "#9ca3af"
             }
             className="transition-all duration-200"
@@ -178,6 +182,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
           fretPositions={fretPositions[stringIndex] || []}
           isStringEnabled={isStringEnabled}
           fretPositionEnabled={fretPositionEnabled}
+          getChordNoteColor={getChordNoteColor}
         />
       ) : (
         <FrettedNotes
@@ -197,6 +202,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
           fretPositions={fretPositions[stringIndex] || []}
           isStringEnabled={isStringEnabled}
           fretPositionEnabled={fretPositionEnabled}
+          getChordNoteColor={getChordNoteColor}
         />
       )}
     </>
