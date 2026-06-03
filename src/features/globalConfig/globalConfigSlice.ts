@@ -155,3 +155,7 @@ export const selectIsMonochrome = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).highlightRoots;
 export const selectShowDegrees = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).showDegrees;
+export const selectChordScaleMode = (state: { globalConfig: GlobalConfig }) =>
+  selectGlobalConfig(state).chordScaleMode;
+export const selectSelectedChord = (state: { globalConfig: GlobalConfig }) =>
+  selectGlobalConfig(state).selectedChord;

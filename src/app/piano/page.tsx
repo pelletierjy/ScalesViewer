@@ -19,6 +19,7 @@ import { Scale } from "@/lib/utils/scaleType";
 import { selectAudioStatus } from "@/features/audio/audioSlice";
 import { selectNote } from "@/features/selectedNote/selectedNoteSlice";
 import { RootState } from "@/app/store";
+import ChordPanel from "@/components/ChordPanel/ChordPanel";
 
 // Define piano keys for one octave
 const OCTAVE_NOTES: { note: Note; isBlack: boolean }[] = [
@@ -328,6 +329,8 @@ export default function Piano() {
           </g>
         </svg>
       </div>
+
+      <ChordPanel scale={scale} />
 
       {setOctaveCount && (
         <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
