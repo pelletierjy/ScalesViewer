@@ -150,3 +150,10 @@ The application uses a hybrid approach to state management for learning purposes
 - No `any` types unless absolutely necessary
 - Props interfaces at top of component files
 - SVG-based visualizations for instruments
+
+<!-- SPECKIT START -->
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan:
+- Plan: `specs/001-transverse-flute/plan.md`
+- Spec: `specs/001-transverse-flute/spec.md`
+<!-- SPECKIT END -->
