@@ -25,7 +25,7 @@ const slides: Slide[] = [
     title: "Start Exploring",
     intro: "GScale works for all skill levels. Here's how to get the most out of it.",
     steps: [
-      { title: "Pick an instrument", desc: "Use the instrument dropdown to navigate to Guitar, Piano, Kalimba, or Harmonica" },
+      { title: "Pick an instrument", desc: "Use the instrument dropdown to navigate to Guitar, Piano, Kalimba, Harmonica, or Flute" },
       { title: "Choose a scale and root", desc: "Select from 60+ built-in scales or create your own, then pick a root note" },
       { title: "Click notes to hear them", desc: "Every highlighted note on every instrument is clickable — use it for ear training" },
       { title: "Adjust your view", desc: "Toggle degrees/names, sharps/flats, color/mono, and dark/light to suit your preference" },
@@ -37,13 +37,13 @@ const slides: Slide[] = [
     title: "Welcome to GScale",
     subtitle: "Musical Scale Visualization Tool",
     intro: "An interactive app for visualizing and learning musical scales across multiple instruments. Click any note to hear it, customize your view, and explore 60+ scales.",
-    tags: ["Guitar", "Piano", "Kalimba", "Harmonica", "60+ Scales", "Audio Playback", "Custom Scales"],
+    tags: ["Guitar", "Piano", "Kalimba", "Harmonica", "Flute", "60+ Scales", "Audio Playback", "Custom Scales"],
   },
   {
     title: "Navigating the Interface",
     intro: "The header bar contains all global controls, accessible from any instrument page.",
     features: [
-      { icon: "🎸", title: "Instrument Selector", desc: "Switch between Guitar, Piano, Kalimba, and Harmonica using the instrument dropdown" },
+      { icon: "🎸", title: "Instrument Selector", desc: "Switch between Guitar, Piano, Kalimba, Harmonica, and Flute using the instrument dropdown" },
       { icon: "🎵", title: "Scale & Root Selectors", desc: "Choose from 60+ scale types and any root note (C through B, sharps and flats)" },
       { icon: "🔢", title: "Degrees / Note Names", desc: "Toggle between scale degree numbers (1–7) and note names (C, D, E…)" },
       { icon: "♭", title: "Flats / Sharps", desc: "Switch note display between flat (♭) and sharp (♯) notation" },

@@ -140,6 +140,7 @@ export const Header: React.FC = () => {
               <option value="piano">Piano</option>
               <option value="kalimba">Kalimba</option>
               <option value="harmonica">Harmonica</option>
+              <option value="flute">Flute</option>
             </select>
           </div>
 

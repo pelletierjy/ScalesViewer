@@ -7,7 +7,7 @@ import { Instrument } from "@/lib/utils/instrument";
 
 describe("resolvePlaybackStrategy", () => {
   describe("FR-009: classic sine", () => {
-    it.each<Instrument>(["guitar", "piano", "kalimba", "harmonica"])(
+    it.each<Instrument>(["guitar", "piano", "kalimba", "harmonica", "flute"])(
       "returns sine for %s when soundEngine is sine",
       (instrument) => {
         expect(resolvePlaybackStrategy(instrument, "sine")).toBe("sine");
@@ -25,7 +25,7 @@ describe("resolvePlaybackStrategy", () => {
     });
   });
 
-  describe("FR-008: sample for piano and harmonica when synth selected", () => {
+  describe("FR-008: sample for piano, harmonica, and flute when synth selected", () => {
     it("returns sample for piano with synth engine", () => {
       expect(resolvePlaybackStrategy("piano", "synth")).toBe("sample");
     });
@@ -33,10 +33,14 @@ describe("resolvePlaybackStrategy", () => {
     it("returns sample for harmonica with synth engine", () => {
       expect(resolvePlaybackStrategy("harmonica", "synth")).toBe("sample");
     });
+
+    it("returns sample for flute with synth engine", () => {
+      expect(resolvePlaybackStrategy("flute", "synth")).toBe("sample");
+    });
   });
 
   describe("FR-003: sample engine", () => {
-    it.each<Instrument>(["guitar", "piano", "kalimba", "harmonica"])(
+    it.each<Instrument>(["guitar", "piano", "kalimba", "harmonica", "flute"])(
       "returns sample for %s when soundEngine is sample",
       (instrument) => {
         expect(resolvePlaybackStrategy(instrument, "sample")).toBe("sample");

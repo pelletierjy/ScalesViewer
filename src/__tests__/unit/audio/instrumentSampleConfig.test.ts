@@ -20,10 +20,10 @@ describe("instrumentSampleConfig (FR-001, FR-002)", () => {
     }
   );
 
-  it("covers all four instruments", () => {
-    expect(ALL_INSTRUMENTS).toHaveLength(4);
+  it("covers all five instruments", () => {
+    expect(ALL_INSTRUMENTS).toHaveLength(5);
     expect(new Set(ALL_INSTRUMENTS)).toEqual(
-      new Set(["guitar", "piano", "kalimba", "harmonica"])
+      new Set(["guitar", "piano", "kalimba", "harmonica", "flute"])
     );
   });
 
