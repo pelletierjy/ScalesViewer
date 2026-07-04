@@ -17,9 +17,9 @@ import ChordPanel from "@/components/ChordPanel/ChordPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
 
 const NOTE_COUNT_OPTIONS = [1, 3, 5, 7, 12, 24];
-const DIAGRAM_WIDTH = 340;
-const GAP = 16;
-const PADDING = 24;
+const DIAGRAM_WIDTH = 344;
+const ROW_GAP = 18;
+const PADDING_X = 12;
 
 const getNoteCount = (): number => {
   const saved = localStorage.getItem("flute-note-count");
@@ -52,27 +52,23 @@ export default function Flute() {
 
   const displayMode = showDegrees ? "degree" : showFlats ? "flat" : "note";
 
-  const totalWidth = notes.length * DIAGRAM_WIDTH + (notes.length - 1) * GAP + PADDING * 2;
-  const viewBox = `0 0 ${totalWidth} 140`;
-
   return (
     <div className="w-full space-y-6">
-      <div className="w-full overflow-x-auto">
-        <svg
-          width="100%"
-          height="140"
-          viewBox={viewBox}
-          className={`border rounded-lg transition-colors duration-200 ${
-            isDarkMode
-              ? "border-gray-700 bg-gray-800"
-              : "border-slate-400 bg-slate-300"
-          }`}
-        >
-          {notes.map((note, i) => (
-            <g
-              key={`${note}-${i}`}
-              transform={`translate(${PADDING + i * (DIAGRAM_WIDTH + GAP)}, 12)`}
-            >
+      <div className="w-full flex flex-col gap-5">
+        {notes.map((note, i) => (
+          <svg
+            key={`${note}-${i}`}
+            width="100%"
+            height="130"
+            viewBox={`0 0 ${DIAGRAM_WIDTH + PADDING_X * 2} 130`}
+            preserveAspectRatio="xMidYMid meet"
+            className={`border rounded-lg transition-colors duration-200 ${
+              isDarkMode
+                ? "border-gray-700 bg-gray-800"
+                : "border-slate-400 bg-slate-300"
+            }`}
+          >
+            <g transform={`translate(${PADDING_X}, 10)`}>
               <FluteDiagram
                 note={note}
                 scale={scale}
@@ -82,8 +78,8 @@ export default function Flute() {
                 onPlay={playNoteSound}
               />
             </g>
-          ))}
-        </svg>
+          </svg>
+        ))}
       </div>
 
       <ChordPanel scale={scale} />
