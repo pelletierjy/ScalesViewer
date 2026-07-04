@@ -15,9 +15,9 @@ import { getConsecutiveScaleNotes } from "@/lib/utils/fluteUtils";
 import { FluteDiagram } from "./FluteDiagram";
 
 const NOTE_COUNT_OPTIONS = [1, 3, 5, 7, 12, 24];
-const DIAGRAM_WIDTH = 80;
-const GAP = 20;
-const PADDING = 20;
+const DIAGRAM_WIDTH = 340;
+const GAP = 16;
+const PADDING = 24;
 
 const getNoteCount = (): number => {
   const saved = localStorage.getItem("flute-note-count");
@@ -51,14 +51,14 @@ export default function Flute() {
   const displayMode = showDegrees ? "degree" : showFlats ? "flat" : "note";
 
   const totalWidth = notes.length * DIAGRAM_WIDTH + (notes.length - 1) * GAP + PADDING * 2;
-  const viewBox = `0 0 ${totalWidth} 400`;
+  const viewBox = `0 0 ${totalWidth} 140`;
 
   return (
     <div className="w-full space-y-6">
       <div className="w-full overflow-x-auto">
         <svg
           width="100%"
-          height="400"
+          height="140"
           viewBox={viewBox}
           className={`border rounded-lg transition-colors duration-200 ${
             isDarkMode
@@ -69,7 +69,7 @@ export default function Flute() {
           {notes.map((note, i) => (
             <g
               key={`${note}-${i}`}
-              transform={`translate(${PADDING + i * (DIAGRAM_WIDTH + GAP) + DIAGRAM_WIDTH / 2}, 20)`}
+              transform={`translate(${PADDING + i * (DIAGRAM_WIDTH + GAP)}, 12)`}
             >
               <FluteDiagram
                 note={note}
