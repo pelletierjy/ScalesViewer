@@ -13,6 +13,8 @@ import { NoteWithOctave } from "@/lib/utils/note";
 import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { getConsecutiveScaleNotes } from "@/lib/utils/fluteUtils";
 import { FluteDiagram } from "./FluteDiagram";
+import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import PatternPanel from "@/components/PatternPanel/PatternPanel";
 
 const NOTE_COUNT_OPTIONS = [1, 3, 5, 7, 12, 24];
 const DIAGRAM_WIDTH = 340;
@@ -83,6 +85,9 @@ export default function Flute() {
           ))}
         </svg>
       </div>
+
+      <ChordPanel scale={scale} />
+      <PatternPanel scale={scale} />
 
       <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
         <div className="flex flex-col gap-1">

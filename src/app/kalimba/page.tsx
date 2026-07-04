@@ -15,6 +15,8 @@ import {
   selectShowDegrees,
 } from "../../features/globalConfig/globalConfigSlice";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
+import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import PatternPanel from "@/components/PatternPanel/PatternPanel";
 
 // Standard 17-key kalimba scaleRoot (from center outward)
 const KALIMBA_NOTES: Note[] = [
@@ -200,6 +202,9 @@ export default function Kalimba() {
           );
         })}
       </svg>
+
+      <ChordPanel scale={scale} />
+      <PatternPanel scale={scale} />
     </div>
   );
 }

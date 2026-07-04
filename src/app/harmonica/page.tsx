@@ -18,6 +18,8 @@ import {
   selectShowDegrees,
 } from "../../features/globalConfig/globalConfigSlice";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
+import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import PatternPanel from "@/components/PatternPanel/PatternPanel";
 
 // Common harmonica keys
 const HARMONICA_KEYS: Note[] = ["C", "G", "A", "D", "F", "Bb", "Eb"];
@@ -267,6 +269,10 @@ export default function Harmonica() {
           })}
         </svg>
       </div>
+
+      <ChordPanel scale={scale} />
+      <PatternPanel scale={scale} />
+
       <div className="flex justify-end mt-2">
         <div className="flex flex-col gap-1">
           <label
