@@ -28,6 +28,29 @@ const TUBE_HEIGHT = 310;
 const EMBOUCHURE_Y = 56;
 const FIRST_KEY_Y = 78;
 const KEY_SPACING = 17;
+const LABEL_X = 24;
+
+// Lateral offset (tube-local x) per key so cups sit where they physically are
+// on a Boehm flute instead of all stacked on the centerline: the six main
+// finger holes stay near the center line (with the L3 "offset-G" nudge), while
+// the thumb key and the pinky/foot levers protrude out to alternating sides.
+const KEY_OFFSET_X: Record<string, number> = {
+  thumb: -12,
+  l1: 0,
+  l2: 0,
+  l3: -8,
+  r1: 0,
+  r2: 0,
+  r3: 0,
+  eb: 13,
+  gsharp: -13,
+  c: 12,
+  csharp: 14,
+  b: -13,
+  lowc: 12,
+  lowcsharp: -12,
+  lowd: 14,
+};
 
 export const FluteDiagram: React.FC<FluteDiagramProps> = ({
   note,
@@ -173,27 +196,47 @@ export const FluteDiagram: React.FC<FluteDiagramProps> = ({
       />
 
       {/* Key cups: filled = closed/pressed, hollow = open */}
-      {fingering?.keys.map((key, i) => (
-        <g key={key.keyId} transform={`translate(0, ${FIRST_KEY_Y + i * KEY_SPACING})`}>
-          {/* Key ring seat */}
-          <circle r={8.5} fill={openFill} stroke={ringStroke} strokeWidth={1.5} />
-          {/* Closed indicator fills the cup */}
-          {key.closed && (
-            <circle r={5.5} fill={closedFill} className="transition-colors duration-200" />
-          )}
-          {/* Key label */}
-          <text
-            x={20}
-            y={0}
-            dominantBaseline="middle"
-            fill={isDarkMode ? "#d1d5db" : "#374151"}
-            fontSize="9"
-            className="select-none"
-          >
-            {key.label}
-          </text>
-        </g>
-      ))}
+      {fingering?.keys.map((key, i) => {
+        const y = FIRST_KEY_Y + i * KEY_SPACING;
+        const dx = KEY_OFFSET_X[key.keyId] ?? 0;
+        return (
+          <g key={key.keyId} transform={`translate(0, ${y})`}>
+            {/* Post connecting an offset key back to the tube body */}
+            {dx !== 0 && (
+              <line
+                x1={0}
+                y1={0}
+                x2={dx}
+                y2={0}
+                stroke={ringStroke}
+                strokeWidth={2}
+              />
+            )}
+            {/* Key ring seat */}
+            <circle cx={dx} r={8.5} fill={openFill} stroke={ringStroke} strokeWidth={1.5} />
+            {/* Closed indicator fills the cup */}
+            {key.closed && (
+              <circle
+                cx={dx}
+                r={5.5}
+                fill={closedFill}
+                className="transition-colors duration-200"
+              />
+            )}
+            {/* Key label kept in a fixed gutter so labels stay aligned */}
+            <text
+              x={LABEL_X}
+              y={0}
+              dominantBaseline="middle"
+              fill={isDarkMode ? "#d1d5db" : "#374151"}
+              fontSize="9"
+              className="select-none"
+            >
+              {key.label}
+            </text>
+          </g>
+        );
+      })}
     </g>
   );
 };
