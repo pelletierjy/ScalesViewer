@@ -9,10 +9,14 @@ import {
   selectIsMonochrome,
   selectShowDegrees,
 } from "@/features/globalConfig/globalConfigSlice";
-import { NoteWithOctave } from "@/lib/utils/note";
+import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { getConsecutiveScaleNotes } from "@/lib/utils/fluteUtils";
 import { FluteDiagram } from "./FluteDiagram";
+import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import PatternPanel from "@/components/PatternPanel/PatternPanel";
+import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
+import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
 
 const NOTE_COUNT_OPTIONS = [1, 3, 5, 7, 12, 24];
 const DIAGRAM_WIDTH = 80;
@@ -37,6 +41,19 @@ export default function Flute() {
   const showDegrees = useSelector(selectShowDegrees);
   const highlightRoots = useSelector(selectIsMonochrome);
   const playNoteSound = usePlayNote();
+  const { getChordNoteColor, chordScaleMode, selectedChord } = useChordHighlight(scale);
+  const { getPatternNoteColor, isPatternModeEnabled } = usePatternHighlight(scale);
+
+  const getFinalNoteColor = (noteName: Note, fallback: string): string => {
+    if (isPatternModeEnabled) {
+      const patternColor = getPatternNoteColor(noteName, fallback);
+      if (patternColor !== fallback) return patternColor;
+    }
+    if (chordScaleMode && selectedChord) {
+      return getChordNoteColor(noteName, fallback);
+    }
+    return fallback;
+  };
 
   const [noteCount, setNoteCount] = useState<number>(getNoteCount);
 
@@ -78,11 +95,15 @@ export default function Flute() {
                 isDarkMode={isDarkMode}
                 highlightRoots={highlightRoots}
                 onPlay={playNoteSound}
+                getHighlightColor={getFinalNoteColor}
               />
             </g>
           ))}
         </svg>
       </div>
+
+      <ChordPanel scale={scale} />
+      <PatternPanel scale={scale} />
 
       <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
         <div className="flex flex-col gap-1">

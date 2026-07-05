@@ -14,6 +14,8 @@ export interface FluteDiagramProps {
   isDarkMode: boolean;
   highlightRoots: boolean;
   onPlay: (note: NoteWithOctave) => void;
+  /** Optional chord/pattern highlight override applied to the note label color. */
+  getHighlightColor?: (noteName: Note, fallback: string) => string;
 }
 
 const sharpToFlat = (note: Note): Note => {
@@ -59,6 +61,7 @@ export const FluteDiagram: React.FC<FluteDiagramProps> = ({
   isDarkMode,
   highlightRoots,
   onPlay,
+  getHighlightColor,
 }) => {
   const [isFocused, setIsFocused] = React.useState(false);
   const gradientId = React.useId();
@@ -100,7 +103,10 @@ export const FluteDiagram: React.FC<FluteDiagramProps> = ({
     return noteName;
   })();
 
-  const noteColor = getScaleNoteColor(noteName, scale, isDarkMode, highlightRoots);
+  const baseNoteColor = getScaleNoteColor(noteName, scale, isDarkMode, highlightRoots);
+  const noteColor = getHighlightColor
+    ? getHighlightColor(noteName, baseNoteColor)
+    : baseNoteColor;
 
   return (
     <g
