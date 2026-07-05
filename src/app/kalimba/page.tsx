@@ -15,6 +15,10 @@ import {
   selectShowDegrees,
 } from "../../features/globalConfig/globalConfigSlice";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
+import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import PatternPanel from "@/components/PatternPanel/PatternPanel";
+import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
+import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
 
 // Standard 17-key kalimba scaleRoot (from center outward)
 const KALIMBA_NOTES: Note[] = [
@@ -48,6 +52,19 @@ export default function Kalimba() {
   const showDegrees = useSelector(selectShowDegrees);
   const highlightRoots = useSelector(selectIsMonochrome);
   const playNoteSound = usePlayNote();
+  const { getChordNoteColor, chordScaleMode, selectedChord } = useChordHighlight(scale);
+  const { getPatternNoteColor, isPatternModeEnabled } = usePatternHighlight(scale);
+
+  const getFinalNoteColor = (note: Note, fallback: string): string => {
+    if (isPatternModeEnabled) {
+      const patternColor = getPatternNoteColor(note, fallback);
+      if (patternColor !== fallback) return patternColor;
+    }
+    if (chordScaleMode && selectedChord) {
+      return getChordNoteColor(note, fallback);
+    }
+    return fallback;
+  };
 
   const getNoteColor = (note: Note, isRoot: boolean): string => {
     if (isRoot) {
@@ -97,11 +114,12 @@ export default function Kalimba() {
   };
 
   return (
-    <div className="w-full overflow-x-auto">
-      <svg
-        width="100%"
-        height="400"
-        viewBox="0 0 800 400"
+    <div className="w-full space-y-6">
+      <div className="w-full overflow-x-auto">
+        <svg
+          width="100%"
+          height="400"
+          viewBox="0 0 800 400"
         className={`border rounded-lg transition-colors duration-200 ${
           isDarkMode
             ? "border-gray-700 bg-gray-800"
@@ -155,7 +173,7 @@ export default function Kalimba() {
                 >
                   <circle
                     r={15}
-                    fill={getNoteColor(note, isRoot)}
+                    fill={getFinalNoteColor(note, getNoteColor(note, isRoot))}
                     className="transition-colors duration-200 hover:fill-opacity-90"
                   />
                   <text
@@ -199,7 +217,11 @@ export default function Kalimba() {
             </g>
           );
         })}
-      </svg>
+        </svg>
+      </div>
+
+      <ChordPanel scale={scale} />
+      <PatternPanel scale={scale} />
     </div>
   );
 }

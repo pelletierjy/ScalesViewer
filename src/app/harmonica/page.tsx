@@ -18,6 +18,10 @@ import {
   selectShowDegrees,
 } from "../../features/globalConfig/globalConfigSlice";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
+import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import PatternPanel from "@/components/PatternPanel/PatternPanel";
+import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
+import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
 
 // Common harmonica keys
 const HARMONICA_KEYS: Note[] = ["C", "G", "A", "D", "F", "Bb", "Eb"];
@@ -56,6 +60,19 @@ export default function Harmonica() {
   const playNoteSound = usePlayNote();
   const [selectedKey, setSelectedKey] = useState<Note>("C");
   const harmonicaNotes = transposeHarmonicaNotes(selectedKey);
+  const { getChordNoteColor, chordScaleMode, selectedChord } = useChordHighlight(scale);
+  const { getPatternNoteColor, isPatternModeEnabled } = usePatternHighlight(scale);
+
+  const getFinalNoteColor = (note: Note, fallback: string): string => {
+    if (isPatternModeEnabled) {
+      const patternColor = getPatternNoteColor(note, fallback);
+      if (patternColor !== fallback) return patternColor;
+    }
+    if (chordScaleMode && selectedChord) {
+      return getChordNoteColor(note, fallback);
+    }
+    return fallback;
+  };
 
   const getNoteColor = (note: Note, isRoot: boolean): string => {
     if (isRoot) {
@@ -108,7 +125,7 @@ export default function Harmonica() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full space-y-6">
       <div className="w-full overflow-x-auto">
         <svg
           width="100%"
@@ -164,7 +181,7 @@ export default function Harmonica() {
                       cx={x}
                       cy="130"
                       r="22"
-                      fill={getNoteColor(blowNote, isBlowRoot)}
+                      fill={getFinalNoteColor(blowNote, getNoteColor(blowNote, isBlowRoot))}
                       className="transition-colors duration-200 hover:fill-opacity-90"
                     />
                     <text
@@ -212,7 +229,7 @@ export default function Harmonica() {
                       cx={x}
                       cy="270"
                       r="22"
-                      fill={getNoteColor(drawNote, isDrawRoot)}
+                      fill={getFinalNoteColor(drawNote, getNoteColor(drawNote, isDrawRoot))}
                       className="transition-colors duration-200 hover:fill-opacity-90"
                     />
                     <text
@@ -267,6 +284,10 @@ export default function Harmonica() {
           })}
         </svg>
       </div>
+
+      <ChordPanel scale={scale} />
+      <PatternPanel scale={scale} />
+
       <div className="flex justify-end mt-2">
         <div className="flex flex-col gap-1">
           <label
