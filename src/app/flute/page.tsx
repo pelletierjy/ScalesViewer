@@ -102,6 +102,9 @@ export default function Flute() {
         </svg>
       </div>
 
+      <ChordPanel scale={scale} />
+      <PatternPanel scale={scale} />
+
       <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
         <div className="flex flex-col gap-1">
           <label
