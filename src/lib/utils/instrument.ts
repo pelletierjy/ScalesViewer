@@ -1,1 +1,7 @@
-export type Instrument = "guitar" | "piano" | "kalimba" | "harmonica" | "flute";
+export type Instrument =
+  | "guitar"
+  | "piano"
+  | "kalimba"
+  | "harmonica"
+  | "flute"
+  | "recorder";

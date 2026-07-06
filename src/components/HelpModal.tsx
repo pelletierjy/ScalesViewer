@@ -25,7 +25,7 @@ const slides: Slide[] = [
     title: "Start Exploring",
     intro: "GScale works for all skill levels. Here's how to get the most out of it.",
     steps: [
-      { title: "Pick an instrument", desc: "Use the instrument dropdown to navigate to Guitar, Piano, Kalimba, Harmonica, or Flute" },
+      { title: "Pick an instrument", desc: "Use the instrument dropdown to navigate to Guitar, Piano, Kalimba, Harmonica, Flute, or Recorder" },
       { title: "Choose a scale and root", desc: "Select from 60+ built-in scales or create your own, then pick a root note" },
       { title: "Click notes to hear them", desc: "Every highlighted note on every instrument is clickable — use it for ear training" },
       { title: "Adjust your view", desc: "Toggle degrees/names, sharps/flats, color/mono, and dark/light to suit your preference" },
@@ -37,13 +37,13 @@ const slides: Slide[] = [
     title: "Welcome to GScale",
     subtitle: "Musical Scale Visualization Tool",
     intro: "An interactive app for visualizing and learning musical scales across multiple instruments. Click any note to hear it, customize your view, and explore 60+ scales.",
-    tags: ["Guitar", "Piano", "Kalimba", "Harmonica", "Flute", "60+ Scales", "Audio Playback", "Custom Scales"],
+    tags: ["Guitar", "Piano", "Kalimba", "Harmonica", "Flute", "Recorder", "60+ Scales", "Audio Playback", "Custom Scales"],
   },
   {
     title: "Navigating the Interface",
     intro: "The header bar contains all global controls, accessible from any instrument page.",
     features: [
-      { icon: "🎸", title: "Instrument Selector", desc: "Switch between Guitar, Piano, Kalimba, Harmonica, and Flute using the instrument dropdown" },
+      { icon: "🎸", title: "Instrument Selector", desc: "Switch between Guitar, Piano, Kalimba, Harmonica, Flute, and Recorder using the instrument dropdown" },
       { icon: "🎵", title: "Scale & Root Selectors", desc: "Choose from 60+ scale types and any root note (C through B, sharps and flats)" },
       { icon: "🔢", title: "Degrees / Note Names", desc: "Toggle between scale degree numbers (1–7) and note names (C, D, E…)" },
       { icon: "♭", title: "Flats / Sharps", desc: "Switch note display between flat (♭) and sharp (♯) notation" },
@@ -115,6 +115,17 @@ const slides: Slide[] = [
       { icon: "🖱️", title: "Click to Play", desc: "Click any blow or draw note to hear it. Only scale notes are active; others are grayed out" },
       { icon: "🔢", title: "Hole Numbers", desc: "Holes are numbered 1–10 as standard harmonica reference" },
     ],
+  },
+  {
+    title: "Flute & Recorder",
+    intro: "The Flute and Recorder pages show a fingering diagram for each note of the scale.",
+    features: [
+      { icon: "🎼", title: "Fingering Diagrams", desc: "Each scale note is drawn as a playable fingering — filled holes/keys are covered, hollow ones are open" },
+      { icon: "🎚️", title: "Recorder Type", desc: "Pick the recorder size — Sopranino, Soprano, Alto, Tenor, Bass, Great Bass, Contrabass, Sub-contrabass — grouped by key (in C / in F). Fingerings stay the same; the sounding pitch transposes." },
+      { icon: "🔢", title: "Notes to Display", desc: "Choose how many consecutive scale notes to lay out (1, 3, 5, 7, 12, or 24)" },
+      { icon: "🖱️", title: "Click to Play", desc: "Click any diagram to hear that note" },
+    ],
+    note: "Recorder fingerings use the Baroque (English) system, shared across all recorder sizes.",
   },
   {
     title: "Custom Tunings",
