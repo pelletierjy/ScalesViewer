@@ -18,7 +18,7 @@ import PatternPanel from "@/components/PatternPanel/PatternPanel";
 import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
 import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
 
-const NOTE_COUNT_OPTIONS = [1, 3, 5, 7, 12, 24];
+const NOTE_COUNT_OPTIONS = [1, 3, 5, 7, 12, 16];
 const DIAGRAM_WIDTH = 80;
 const GAP = 20;
 const PADDING = 20;
@@ -102,9 +102,6 @@ export default function Flute() {
         </svg>
       </div>
 
-      <ChordPanel scale={scale} />
-      <PatternPanel scale={scale} />
-
       <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
         <div className="flex flex-col gap-1">
           <label
@@ -134,6 +131,9 @@ export default function Flute() {
           </select>
         </div>
       </div>
+
+      <ChordPanel scale={scale} />
+      <PatternPanel scale={scale} />
     </div>
   );
 }
