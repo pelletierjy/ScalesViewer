@@ -24,6 +24,7 @@ import {
 import { setAudioStatus } from "@/features/audio/audioSlice";
 import { initializeAudio } from "@/lib/utils/audioUtils";
 import { SCALE_TYPES, SCALE_PATTERNS } from "@/lib/utils/scaleConstants";
+import { useUrlSyncedGlobalConfig } from "@/features/globalConfig/useUrlSyncedGlobalConfig";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -91,6 +92,11 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       }
     }
   }, [router, dispatch, isHydrated]);
+
+  // Keep the URL's query string and the shared scale display configuration
+  // in sync; must run after the localStorage restore above so that URL
+  // params take precedence (FR-007) within the same effect pass.
+  useUrlSyncedGlobalConfig();
 
   useEffect(() => {
     if (!isHydrated) return;
