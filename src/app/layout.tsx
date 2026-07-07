@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "./ClientLayout";
@@ -35,7 +36,9 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Providers>
-          <ClientLayout>{children}</ClientLayout>
+          <Suspense fallback={null}>
+            <ClientLayout>{children}</ClientLayout>
+          </Suspense>
         </Providers>
       </body>
     </html>

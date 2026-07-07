@@ -1,5 +1,5 @@
 import { TuningPreset } from "@/app/guitar/types/tuningPreset";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { WritableDraft } from "@reduxjs/toolkit";
 import { initializeApplication } from "../application/applicationSlice";
 import { Instrument } from "@/lib/utils/instrument";
@@ -103,11 +103,20 @@ export const globalConfigSlice = createSlice({
     toggleShowFlats: (state) => {
       state.showFlats = !state.showFlats;
     },
+    setShowFlats: (state, action: PayloadAction<boolean>) => {
+      state.showFlats = action.payload;
+    },
     toggleShowMonochrome: (state) => {
       state.highlightRoots = !state.highlightRoots;
     },
+    setHighlightRoots: (state, action: PayloadAction<boolean>) => {
+      state.highlightRoots = action.payload;
+    },
     toggleShowDegrees: (state) => {
       state.showDegrees = !state.showDegrees;
+    },
+    setShowDegrees: (state, action: PayloadAction<boolean>) => {
+      state.showDegrees = action.payload;
     },
     toggleChordScaleMode: (state) => {
       state.chordScaleMode = !state.chordScaleMode;
@@ -137,8 +146,11 @@ export const {
   setScale,
   setCurrentTuning,
   toggleShowFlats,
+  setShowFlats,
   toggleShowMonochrome,
+  setHighlightRoots,
   toggleShowDegrees,
+  setShowDegrees,
   toggleChordScaleMode,
   setSelectedChord,
   setSoundEngine,
