@@ -22,6 +22,7 @@ import ChordPanel from "@/components/ChordPanel/ChordPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
 import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
 import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
+import { Field, Select, Stage } from "@/components/ui";
 
 // Common harmonica keys
 const HARMONICA_KEYS: Note[] = ["C", "G", "A", "D", "F", "Bb", "Eb"];
@@ -125,18 +126,9 @@ export default function Harmonica() {
   };
 
   return (
-    <div className="w-full space-y-6">
-      <div className="w-full overflow-x-auto">
-        <svg
-          width="100%"
-          height="400"
-          viewBox="0 0 1200 400"
-          className={`border rounded-lg transition-colors duration-200 ${
-            isDarkMode
-              ? "border-gray-700 bg-gray-800"
-              : "border-slate-400 bg-slate-300"
-          }`}
-        >
+    <div className="w-full flex flex-col gap-3">
+      <Stage>
+        <svg width="100%" height="400" viewBox="0 0 1200 400">
           {/* Harmonica body - wider and taller */}
           <rect
             x="100"
@@ -283,38 +275,25 @@ export default function Harmonica() {
             );
           })}
         </svg>
-      </div>
+      </Stage>
 
       <ChordPanel scale={scale} />
       <PatternPanel scale={scale} />
 
-      <div className="flex justify-end mt-2">
-        <div className="flex flex-col gap-1">
-          <label
-            htmlFor="harmonicaKey"
-            className={`text-sm font-medium ${
-              isDarkMode ? "text-gray-200" : "text-gray-700"
-            }`}
-          >
-            Harmonica Key:
-          </label>
-          <select
+      <div className="flex justify-end">
+        <Field label="Harmonica Key" htmlFor="harmonicaKey">
+          <Select
             id="harmonicaKey"
             value={selectedKey}
             onChange={(e) => setSelectedKey(e.target.value as Note)}
-            className={`rounded-md border px-3 py-1.5 text-sm ${
-              isDarkMode
-                ? "bg-gray-700 border-gray-600 text-gray-200"
-                : "bg-slate-300 border-slate-500 text-slate-800"
-            }`}
           >
             {HARMONICA_KEYS.map((key) => (
               <option key={key} value={key}>
                 {showFlats ? sharpToFlat(key) : key}
               </option>
             ))}
-          </select>
-        </div>
+          </Select>
+        </Field>
       </div>
     </div>
   );

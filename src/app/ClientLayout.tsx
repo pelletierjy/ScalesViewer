@@ -119,39 +119,33 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
   // Always render the same structure to avoid hydration mismatch
   const showContent = isHydrated && applicationState === "initialized";
-  
-  return (
-    <main
-      className={`min-h-screen transition-colors duration-200 ${
-        showContent
-          ? `p-4 sm:p-8 ${isDarkMode ? "bg-gray-900" : "bg-slate-100"}`
-          : "bg-slate-100 flex items-center justify-center"
-      }`}
-      suppressHydrationWarning
-    >
-      {showContent ? (
-        <div className="max-w-[1400px] mx-auto space-y-6 sm:space-y-8">
-          <div className="flex flex-wrap justify-between items-center gap-4">
-            <Header />
-          </div>
 
-          <div
-            className={`p-4 sm:p-6 rounded-lg shadow-lg space-y-6 transition-colors duration-200 ${
-              isDarkMode
-                ? "bg-gray-800 border border-gray-700"
-                : "bg-white border border-slate-300"
-            }`}
-          >
-            <ErrorBoundary fallback={<div className="text-red-500"><p>Something went wrong.</p><p>Please try refreshing the page.</p></div>}>
-              <div className="max-w-full mx-auto">{children}</div>
+  return (
+    <main className="min-h-screen transition-colors duration-200" suppressHydrationWarning>
+      {showContent ? (
+        <div className="max-w-[1600px] mx-auto p-2 sm:p-3 flex flex-col gap-2 sm:gap-3">
+          <Header />
+
+          <div className="rack-panel">
+            <ErrorBoundary
+              fallback={
+                <div className="p-4 text-[var(--console-danger)]">
+                  <p>Something went wrong.</p>
+                  <p>Please try refreshing the page.</p>
+                </div>
+              }
+            >
+              <div className="p-2 sm:p-3">{children}</div>
             </ErrorBoundary>
           </div>
           <Details />
+          <Footer isDarkMode={isDarkMode} />
         </div>
       ) : (
-        <div className="text-slate-600">Loading...</div>
+        <div className="min-h-screen flex items-center justify-center rack-mono text-sm text-[var(--console-text-dim)]">
+          Loading...
+        </div>
       )}
-      {showContent && <Footer isDarkMode={isDarkMode} />}
     </main>
   );
 }

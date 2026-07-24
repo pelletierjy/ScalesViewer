@@ -22,6 +22,7 @@ import ChordPanel from "@/components/ChordPanel/ChordPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
 import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
 import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
+import { Field, Select, Stage } from "@/components/ui";
 
 const NOTE_COUNT_OPTIONS = [1, 3, 5, 7, 12, 16];
 const DIAGRAM_WIDTH = 80;
@@ -91,18 +92,9 @@ export default function Recorder() {
   const viewBox = `0 0 ${totalWidth} 400`;
 
   return (
-    <div className="w-full space-y-6">
-      <div className="w-full overflow-x-auto">
-        <svg
-          width="100%"
-          height="400"
-          viewBox={viewBox}
-          className={`border rounded-lg transition-colors duration-200 ${
-            isDarkMode
-              ? "border-gray-700 bg-gray-800"
-              : "border-slate-400 bg-slate-300"
-          }`}
-        >
+    <div className="w-full flex flex-col gap-3">
+      <Stage>
+        <svg width="100%" height="400" viewBox={viewBox}>
           {notes.map((note, i) => (
             <g
               key={`${note}-${i}`}
@@ -121,28 +113,15 @@ export default function Recorder() {
             </g>
           ))}
         </svg>
-      </div>
+      </Stage>
 
       <div className="flex flex-wrap justify-end gap-6">
-        <div className="flex flex-col gap-1">
-          <label
-            htmlFor="recorder-type"
-            className={`text-sm font-semibold ${
-              isDarkMode ? "text-gray-200" : "text-gray-900"
-            }`}
-          >
-            Recorder
-          </label>
-          <select
+        <Field label="Recorder" htmlFor="recorder-type">
+          <Select
             id="recorder-type"
             aria-label="Select recorder type"
             value={recorderTypeId}
             onChange={(e) => setRecorderTypeId(e.target.value)}
-            className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
-              isDarkMode
-                ? "bg-gray-700 border-gray-600 text-gray-200"
-                : "bg-slate-300 border-slate-500 text-slate-800"
-            }`}
           >
             <optgroup label="In C (en Do)">
               {RECORDER_TYPES.filter((t) => t.key === "C").map((t) => (
@@ -158,36 +137,23 @@ export default function Recorder() {
                 </option>
               ))}
             </optgroup>
-          </select>
-        </div>
+          </Select>
+        </Field>
 
-        <div className="flex flex-col gap-1">
-          <label
-            htmlFor="note-count"
-            className={`text-sm font-semibold ${
-              isDarkMode ? "text-gray-200" : "text-gray-900"
-            }`}
-          >
-            Display
-          </label>
-          <select
+        <Field label="Display" htmlFor="note-count">
+          <Select
             id="note-count"
             aria-label="Select number of notes to display"
             value={noteCount}
             onChange={(e) => setNoteCount(Number(e.target.value))}
-            className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
-              isDarkMode
-                ? "bg-gray-700 border-gray-600 text-gray-200"
-                : "bg-slate-300 border-slate-500 text-slate-800"
-            }`}
           >
             {NOTE_COUNT_OPTIONS.map((num) => (
               <option key={num} value={num}>
                 {num} note{num > 1 ? "s" : ""}
               </option>
             ))}
-          </select>
-        </div>
+          </Select>
+        </Field>
       </div>
 
       <ChordPanel scale={scale} />

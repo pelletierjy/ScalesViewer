@@ -5,10 +5,9 @@
  */
 
 import React from "react";
-import { useSelector } from "react-redux";
-import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
 import { useSettingsManager } from "@/features/settings/hooks/useSettingsManager";
 import { SuccessMessages } from "@/features/settings/utils/settingsErrors";
+import { Button } from "@/components/ui";
 
 interface ExportButtonProps {
   onSuccess?: (filename: string) => void;
@@ -24,7 +23,6 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
   onError,
   className = "",
 }) => {
-  const isDarkMode = useSelector(selectIsDarkMode);
   const { exportSettings, isExporting } = useSettingsManager();
 
   const handleExport = async (): Promise<void> => {
@@ -37,23 +35,12 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
     }
   };
 
-  const buttonClasses = `
-    w-full px-4 py-3 rounded-md font-medium transition-all duration-200
-    focus:outline-none focus:ring-2 focus:ring-offset-2
-    ${
-      isDarkMode
-        ? "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500"
-        : "bg-blue-500 hover:bg-blue-600 text-white focus:ring-blue-400"
-    }
-    disabled:opacity-50 disabled:cursor-not-allowed
-    ${className}
-  `;
-
   return (
-    <button
+    <Button
+      tone="accent2"
       onClick={handleExport}
       disabled={isExporting}
-      className={buttonClasses}
+      className={`w-full disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
       aria-label="Export all application settings to a JSON file"
       aria-busy={isExporting}
     >
@@ -102,6 +89,6 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
           Export Settings
         </span>
       )}
-    </button>
+    </Button>
   );
 };

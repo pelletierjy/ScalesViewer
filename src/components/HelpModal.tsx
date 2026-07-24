@@ -194,9 +194,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, isDarkMod
 
   const slide = slides[currentSlide];
 
-  const cardClass = isDarkMode
-    ? "bg-gray-800 border border-gray-700"
-    : "bg-gray-50 border border-gray-200";
+  const cardClass = "rack-panel";
 
   const headingClass = isDarkMode ? "text-white" : "text-gray-900";
   const subheadingClass = isDarkMode ? "text-gray-300" : "text-gray-700";
@@ -207,25 +205,19 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, isDarkMod
       <div className="fixed inset-0 bg-black bg-opacity-75 transition-opacity" onClick={onClose} />
 
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <div className={`relative w-full max-w-4xl h-[85vh] rounded-lg shadow-2xl overflow-hidden ${
-          isDarkMode ? "bg-gray-900 text-white" : "bg-slate-200 text-slate-800"
-        }`}>
+        <div className="relative w-full max-w-4xl h-[85vh] rack-panel shadow-2xl overflow-hidden">
 
           {/* Close button */}
           <button
             onClick={onClose}
-            className={`absolute top-4 right-4 z-10 p-2 rounded-full transition-colors ${
-              isDarkMode
-                ? "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white"
-                : "bg-slate-400 text-slate-700 hover:bg-slate-500 hover:text-slate-900"
-            }`}
+            className="rack-btn absolute top-4 right-4 z-10 p-2"
             title="Close help"
           >
             ✕
           </button>
 
           {/* Slide counter */}
-          <div className={`absolute top-4 left-4 text-sm ${bodyClass}`}>
+          <div className={`absolute top-4 left-4 text-sm rack-mono ${bodyClass}`}>
             {currentSlide + 1} / {slides.length}
           </div>
 
@@ -252,11 +244,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, isDarkMod
               {slide.tags && (
                 <div className="flex flex-wrap gap-2 justify-center mt-6">
                   {slide.tags.map((tag, i) => (
-                    <span key={i} className={`px-3 py-1 rounded-full text-sm ${
-                      isDarkMode
-                        ? "bg-gray-800 text-gray-300 border border-gray-700"
-                        : "bg-white text-gray-700 border border-gray-300"
-                    }`}>
+                    <span key={i} className="rack-chip px-3 py-1">
                       {tag}
                     </span>
                   ))}
@@ -267,7 +255,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, isDarkMod
               {slide.features && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
                   {slide.features.map((f, i) => (
-                    <div key={i} className={`p-4 rounded-lg ${cardClass}`}>
+                    <div key={i} className={`p-4 ${cardClass}`}>
                       <div className="flex items-center gap-3 mb-1">
                         <span className="text-xl">{f.icon}</span>
                         <h4 className={`font-semibold text-sm ${headingClass}`}>{f.title}</h4>
@@ -282,8 +270,11 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, isDarkMod
               {slide.steps && (
                 <div className="space-y-3 max-w-2xl mx-auto mt-2">
                   {slide.steps.map((s, i) => (
-                    <div key={i} className={`p-4 rounded-lg border-l-4 border-green-500 ${cardClass}`}>
-                      <h4 className={`font-semibold text-sm mb-1 ${isDarkMode ? "text-green-400" : "text-green-700"}`}>
+                    <div
+                      key={i}
+                      className={`p-4 border-l-4 !border-l-[var(--console-success)] ${cardClass}`}
+                    >
+                      <h4 className="font-semibold text-sm mb-1 text-[var(--console-success)]">
                         {i + 1}. {s.title}
                       </h4>
                       <p className={`text-sm ${bodyClass}`}>{s.desc}</p>
@@ -305,13 +296,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, isDarkMod
             <button
               onClick={() => setCurrentSlide(prev => Math.max(0, prev - 1))}
               disabled={currentSlide === 0}
-              className={`p-2 rounded-full transition-colors ${
-                currentSlide === 0
-                  ? "opacity-50 cursor-not-allowed"
-                  : isDarkMode
-                  ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
-                  : "bg-gray-300 text-gray-700 hover:bg-gray-400"
-              }`}
+              className={`rack-btn p-2 ${currentSlide === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
               title="Previous slide"
             >
               ←
@@ -322,11 +307,13 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, isDarkMod
                 <button
                   key={i}
                   onClick={() => setCurrentSlide(i)}
-                  className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                    i === currentSlide
-                      ? isDarkMode ? "bg-white" : "bg-gray-900"
-                      : isDarkMode ? "bg-gray-600" : "bg-gray-400"
-                  }`}
+                  className="w-2.5 h-2.5 transition-colors"
+                  style={{
+                    background:
+                      i === currentSlide
+                        ? "var(--console-accent)"
+                        : "var(--console-border-strong)",
+                  }}
                   title={`Slide ${i + 1}: ${slides[i].title}`}
                 />
               ))}
@@ -335,13 +322,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, isDarkMod
             <button
               onClick={() => setCurrentSlide(prev => Math.min(slides.length - 1, prev + 1))}
               disabled={currentSlide === slides.length - 1}
-              className={`p-2 rounded-full transition-colors ${
-                currentSlide === slides.length - 1
-                  ? "opacity-50 cursor-not-allowed"
-                  : isDarkMode
-                  ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
-                  : "bg-gray-300 text-gray-700 hover:bg-gray-400"
-              }`}
+              className={`rack-btn p-2 ${currentSlide === slides.length - 1 ? "opacity-50 cursor-not-allowed" : ""}`}
               title="Next slide"
             >
               →

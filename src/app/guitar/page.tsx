@@ -7,13 +7,12 @@ import { CustomTuningEditor } from "./CustomTuningEditor/CustomTuningEditor";
 import { TuningPresetWithMetadata } from "./tuningConstants";
 import { TuningPreset } from "./types/tuningPreset";
 import { useSelector } from "react-redux";
-import { selectIsDarkMode, selectScale } from "@/features/globalConfig/globalConfigSlice";
+import { selectScale } from "@/features/globalConfig/globalConfigSlice";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import ChordPanel from "@/components/ChordPanel/ChordPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
 
 export default function Guitar() {
-  const isDarkMode = useSelector(selectIsDarkMode);
   const scale = useSelector(selectScale);
   const [showTuningEditor, setShowTuningEditor] = useState(false);
   const [editingTuning, setEditingTuning] = useState<TuningPresetWithMetadata | null>(null);
@@ -73,7 +72,7 @@ export default function Guitar() {
   };
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full flex flex-col gap-3">
       <DataProvider
         customTunings={customTunings}
         openTuningEditor={openTuningEditor}
@@ -87,9 +86,7 @@ export default function Guitar() {
 
       {showTuningEditor && (
         <div
-          className={`fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm ${
-            isDarkMode ? "bg-black/50" : "bg-white/50"
-          }`}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-black/60"
           onClick={() => {
             setShowTuningEditor(false);
             setEditingTuning(null);
@@ -97,9 +94,7 @@ export default function Guitar() {
           role="presentation"
         >
           <div
-            className={`rounded-lg shadow-xl max-w-4xl w-full p-6 max-h-[90vh] overflow-y-auto ${
-              isDarkMode ? "bg-gray-800" : "bg-white"
-            }`}
+            className="rack-panel max-w-4xl w-full p-6 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <CustomTuningEditor
