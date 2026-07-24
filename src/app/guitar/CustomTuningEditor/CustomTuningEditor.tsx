@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Note } from "@/lib/utils/note";
 import { ROOTS } from "@/lib/utils/scaleConstants";
 import { TuningPreset } from "../types/tuningPreset";
-import { useSelector } from "react-redux";
-import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
 import { TuningPresetWithMetadata } from "../tuningConstants";
 import { validateTuningName, sanitizeString } from "@/lib/utils/inputSanitization";
+import { Field, Select, TextInput, Button } from "@/components/ui";
 
 interface CustomTuningEditorProps {
   onSaveTuning: (scaleRoot: TuningPreset) => void;
@@ -24,7 +23,6 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
   initialTuning,
   customTunings,
 }) => {
-  const isDarkMode = useSelector(selectIsDarkMode);
   const [tuningName, setTuningName] = useState(
     initialTuning?.name || "Custom Tuning"
   );
@@ -96,129 +94,72 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
     setNameError("");
   };
 
-  const inputClassName = `block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200 ${
-    isDarkMode
-      ? "bg-gray-700 border-gray-600 text-gray-200"
-      : "bg-slate-300 border-slate-500 text-slate-800"
-  }`;
-
-  const selectClassName = `block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200 ${
-    isDarkMode
-      ? "bg-gray-700 border-gray-600 text-gray-200"
-      : "bg-slate-300 border-slate-500 text-slate-800"
-  }`;
-
-  const labelClassName = `block text-sm font-semibold ${
-    isDarkMode ? "text-gray-200" : "text-gray-900"
-  }`;
-
   return (
-    <div
-      className={`space-y-6 ${isDarkMode ? "text-gray-200" : "text-gray-900"}`}
-    >
-      <h3 className="text-lg font-semibold">
+    <div className="space-y-6">
+      <h3 className="rack-label text-sm">
         {initialTuning ? "Edit Tuning" : "Create Custom Tuning"}
       </h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="scaleRoot-name" className={labelClassName}>
-            Tuning Name
-          </label>
-          <input
-            type="text"
-            id="scaleRoot-name"
-            value={tuningName}
-            onChange={handleNameChange}
-            className={`mt-1 ${inputClassName} ${
-              nameError ? "border-red-500" : ""
-            }`}
-          />
+          <Field label="Tuning Name" htmlFor="scaleRoot-name">
+            <TextInput
+              type="text"
+              id="scaleRoot-name"
+              value={tuningName}
+              onChange={handleNameChange}
+              className={`mt-1 w-full ${nameError ? "!border-[var(--console-danger)]" : ""}`}
+            />
+          </Field>
           {nameError && (
-            <p className="mt-1 text-sm text-red-600 font-medium">{nameError}</p>
+            <p className="mt-1 text-sm text-[var(--console-danger)] font-medium">{nameError}</p>
           )}
         </div>
-        <div>
-          <label htmlFor="string-count" className={labelClassName}>
-            Number of Strings
-          </label>
-          <select
+        <Field label="Number of Strings" htmlFor="string-count">
+          <Select
             id="string-count"
             value={stringCount}
             onChange={handleStringCountChange}
-            className={`mt-1 ${selectClassName}`}
+            className="mt-1 w-full"
           >
             {Array.from(
               { length: MAX_STRINGS - MIN_STRINGS + 1 },
               (_, i) => i + MIN_STRINGS
             ).map((num) => (
-              <option
-                key={num}
-                value={num}
-                className={
-                  isDarkMode ? "text-gray-200 bg-gray-700" : "text-gray-900"
-                }
-              >
+              <option key={num} value={num}>
                 {num} strings
               </option>
             ))}
-          </select>
-        </div>
+          </Select>
+        </Field>
       </div>
 
-      <div className="space-y-4">
-        <h3 className={`${labelClassName} mb-2`}>String Notes (High to Low)</h3>
+      <div className="space-y-3">
+        <h3 className="rack-label">String Notes (High to Low)</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {strings.map((note, index) => (
-            <div key={index} className="space-y-1">
-              <label
-                className={`block text-xs font-medium ${
-                  isDarkMode ? "text-gray-300" : "text-gray-700"
-                }`}
-              >
-                String {strings.length - index}
-              </label>
-              <select
+            <Field key={index} label={`String ${strings.length - index}`}>
+              <Select
                 value={note}
-                onChange={(e) =>
-                  handleStringChange(index, e.target.value as Note)
-                }
-                className={`${selectClassName} text-sm`}
+                onChange={(e) => handleStringChange(index, e.target.value as Note)}
+                className="text-sm"
               >
                 {ROOTS.map((n) => (
-                  <option
-                    key={n}
-                    value={n}
-                    className={
-                      isDarkMode ? "text-gray-200 bg-gray-700" : "text-gray-900"
-                    }
-                  >
+                  <option key={n} value={n}>
                     {n}
                   </option>
                 ))}
-              </select>
-            </div>
+              </Select>
+            </Field>
           ))}
         </div>
       </div>
 
-      <div className="flex justify-end space-x-4 pt-4 border-t border-gray-200">
-        <button
-          onClick={onCancel}
-          className={`px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
-            isDarkMode
-              ? "bg-gray-700 text-gray-200 hover:bg-gray-600 border border-gray-600"
-              : "bg-slate-400 text-slate-900 hover:bg-slate-500 border border-slate-600"
-          }`}
-        >
-          Cancel
-        </button>
-        <button
-          onClick={validateAndSave}
-          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
+      <div className="flex justify-end gap-3 pt-4 border-t border-[var(--console-border)]">
+        <Button onClick={onCancel}>Cancel</Button>
+        <Button tone="accent" onClick={validateAndSave}>
           {initialTuning ? "Update Tuning" : "Save Tuning"}
-        </button>
+        </Button>
       </div>
     </div>
   );

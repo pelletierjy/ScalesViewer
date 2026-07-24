@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
 import { CustomScaleDefinition } from "@/lib/utils/customScaleTypes";
 import { validateTuningName, sanitizeString } from "@/lib/utils/inputSanitization";
+import { Field, Select, TextInput, Button } from "@/components/ui";
 
 interface CustomScaleEditorProps {
   onSaveScale: (scale: CustomScaleDefinition) => void;
@@ -38,7 +37,6 @@ export const CustomScaleEditor: React.FC<CustomScaleEditorProps> = ({
   initialScale,
   customScales,
 }) => {
-  const isDarkMode = useSelector(selectIsDarkMode);
   const [label, setLabel] = useState(initialScale?.label ?? "Custom Scale");
   const [group, setGroup] = useState(initialScale?.group ?? "Custom");
   // Keep intervals in editing order (unsorted) so user controls the arrangement
@@ -117,22 +115,6 @@ export const CustomScaleEditor: React.FC<CustomScaleEditorProps> = ({
     });
   };
 
-  const selectClassName = `block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200 ${
-    isDarkMode
-      ? "bg-gray-700 border-gray-600 text-gray-200"
-      : "bg-slate-300 border-slate-500 text-slate-800"
-  }`;
-
-  const inputClassName = `block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200 ${
-    isDarkMode
-      ? "bg-gray-700 border-gray-600 text-gray-200"
-      : "bg-slate-300 border-slate-500 text-slate-800"
-  }`;
-
-  const labelClassName = `block text-sm font-semibold ${
-    isDarkMode ? "text-gray-200" : "text-gray-900"
-  }`;
-
   // Build sorted preview of note names in C
   const sortedForPreview = [...new Set(intervals)].sort((a, b) => a - b);
   const previewNotes = sortedForPreview.map((i) => C_NOTES[i]).join("  –  ");
@@ -143,150 +125,96 @@ export const CustomScaleEditor: React.FC<CustomScaleEditorProps> = ({
   );
 
   return (
-    <div className={`space-y-6 ${isDarkMode ? "text-gray-200" : "text-gray-900"}`}>
-      <h3 className="text-lg font-semibold">
+    <div className="space-y-6">
+      <h3 className="rack-label text-sm">
         {initialScale ? "Edit Scale" : "Create Custom Scale"}
       </h3>
 
       {/* Name & Group */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="scale-label" className={labelClassName}>
-            Scale Name
-          </label>
-          <input
-            type="text"
-            id="scale-label"
-            value={label}
-            onChange={handleLabelChange}
-            className={`mt-1 ${inputClassName} ${nameError ? "border-red-500" : ""}`}
-          />
+          <Field label="Scale Name" htmlFor="scale-label">
+            <TextInput
+              type="text"
+              id="scale-label"
+              value={label}
+              onChange={handleLabelChange}
+              className={`mt-1 w-full ${nameError ? "!border-[var(--console-danger)]" : ""}`}
+            />
+          </Field>
           {nameError && (
-            <p className="mt-1 text-sm text-red-600 font-medium">{nameError}</p>
+            <p className="mt-1 text-sm text-[var(--console-danger)] font-medium">{nameError}</p>
           )}
         </div>
-        <div>
-          <label htmlFor="scale-group" className={labelClassName}>
-            Group (Category)
-          </label>
-          <input
+        <Field label="Group (Category)" htmlFor="scale-group">
+          <TextInput
             type="text"
             id="scale-group"
             value={group}
             onChange={handleGroupChange}
             placeholder="e.g. Custom, Jazz, Exotic…"
-            className={`mt-1 ${inputClassName}`}
+            className="mt-1 w-full"
           />
-        </div>
+        </Field>
       </div>
 
       {/* Interval pickers */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <span className={labelClassName}>Notes</span>
-          <button
-            onClick={handleAddInterval}
-            disabled={intervals.length >= MAX_NOTES}
-            className={`px-3 py-1 text-xs rounded-md transition-colors duration-200 ${
-              intervals.length >= MAX_NOTES
-                ? "opacity-50 cursor-not-allowed"
-                : ""
-            } ${
-              isDarkMode
-                ? "bg-blue-700 text-blue-100 hover:bg-blue-600"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
-          >
+          <span className="rack-label">Notes</span>
+          <Button size="sm" tone="accent2" onClick={handleAddInterval} disabled={intervals.length >= MAX_NOTES}>
             + Add Note
-          </button>
+          </Button>
         </div>
 
         {intervalError && (
-          <p className="mb-2 text-sm text-red-600 font-medium">{intervalError}</p>
+          <p className="mb-2 text-sm text-[var(--console-danger)] font-medium">{intervalError}</p>
         )}
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {intervals.map((interval, index) => {
             const isDuplicate = duplicatedValues.includes(interval);
             return (
-              <div key={index} className="space-y-1">
-                <label
-                  className={`block text-xs font-medium ${
-                    isDarkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
-                >
-                  Note {index + 1}
-                </label>
-                <select
+              <Field key={index} label={`Note ${index + 1}`}>
+                <Select
                   value={interval}
                   onChange={(e) => handleIntervalChange(index, e.target.value)}
-                  className={`${selectClassName} text-sm ${
-                    isDuplicate ? "border-red-500" : ""
-                  }`}
+                  className={`text-sm ${isDuplicate ? "!border-[var(--console-danger)]" : ""}`}
                 >
                   {INTERVAL_OPTIONS.map((opt) => (
-                    <option
-                      key={opt.value}
-                      value={opt.value}
-                      className={isDarkMode ? "text-gray-200 bg-gray-700" : "text-gray-900"}
-                    >
+                    <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>
                   ))}
-                </select>
-                <button
+                </Select>
+                <Button
+                  size="sm"
+                  className="w-full !text-[var(--console-danger)]"
                   onClick={() => handleRemoveInterval(index)}
                   disabled={intervals.length <= MIN_NOTES}
-                  className={`w-full px-2 py-0.5 text-xs rounded transition-colors duration-200 ${
-                    intervals.length <= MIN_NOTES
-                      ? "opacity-50 cursor-not-allowed"
-                      : ""
-                  } text-red-600 hover:text-red-700 ${
-                    isDarkMode
-                      ? "bg-gray-700 hover:bg-gray-600"
-                      : "bg-slate-300 hover:bg-slate-400"
-                  } border border-gray-300 dark:border-gray-600`}
                 >
                   Remove
-                </button>
-              </div>
+                </Button>
+              </Field>
             );
           })}
         </div>
       </div>
 
       {/* Live preview */}
-      <div
-        className={`p-3 rounded-md text-sm ${
-          isDarkMode
-            ? "bg-blue-900/30 border border-blue-700 text-blue-200"
-            : "bg-blue-50 border border-blue-200 text-blue-800"
-        }`}
-      >
+      <div className="rack-stage p-3 text-sm">
         <p className="font-medium mb-1">
           Preview in C — {label || "Unnamed"} ({sortedForPreview.length} notes)
         </p>
-        <p className="text-xs font-mono">{previewNotes || "—"}</p>
+        <p className="text-xs rack-mono">{previewNotes || "—"}</p>
       </div>
 
       {/* Actions */}
-      <div className="flex justify-end space-x-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-        <button
-          onClick={onCancel}
-          className={`px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
-            isDarkMode
-              ? "bg-gray-700 text-gray-200 hover:bg-gray-600 border border-gray-600"
-              : "bg-slate-400 text-slate-900 hover:bg-slate-500 border border-slate-600"
-          }`}
-        >
-          Cancel
-        </button>
-        <button
-          onClick={validateAndSave}
-          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
+      <div className="flex justify-end gap-3 pt-4 border-t border-[var(--console-border)]">
+        <Button onClick={onCancel}>Cancel</Button>
+        <Button tone="accent" onClick={validateAndSave}>
           {initialScale ? "Update Scale" : "Save Scale"}
-        </button>
+        </Button>
       </div>
     </div>
   );
