@@ -22,6 +22,7 @@ import ChordPanel from "@/components/ChordPanel/ChordPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
 import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
 import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
+import { Field, Select, Stage } from "@/components/ui";
 
 // Define piano keys for one octave
 const OCTAVE_NOTES: { note: Note; isBlack: boolean }[] = [
@@ -158,19 +159,14 @@ export default function Piano() {
   };
 
   return (
-    <div className="w-full space-y-6">
-      <div className="w-full overflow-x-auto">
+    <div className="w-full flex flex-col gap-3">
+      <Stage>
         <svg
           width="100%"
           height="200"
           viewBox={`0 0 ${
             whiteKeyWidth * PIANO_NOTES.filter((k) => !k.isBlack).length
           } 200`}
-          className={`border rounded-lg transition-colors duration-200 ${
-            isDarkMode
-              ? "border-gray-700 bg-gray-800"
-              : "border-slate-400 bg-slate-300"
-          }`}
         >
           <g transform="translate(0, 25)">
             {/* White keys */}
@@ -342,40 +338,27 @@ export default function Piano() {
             })}
           </g>
         </svg>
-      </div>
+      </Stage>
 
       <ChordPanel scale={scale} />
       <PatternPanel scale={scale} />
 
       {setOctaveCount && (
-        <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex flex-col gap-1">
-            <label
-              htmlFor="octave-count"
-              className={`text-sm font-semibold ${
-                isDarkMode ? "text-gray-200" : "text-gray-900"
-              }`}
-            >
-              Display
-            </label>
-            <select
+        <div className="flex justify-end">
+          <Field label="Display" htmlFor="octave-count">
+            <Select
               id="octave-count"
               aria-label="Select number of octaves to display"
               value={octaveCount}
               onChange={(e) => setOctaveCount(Number(e.target.value))}
-              className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
-                isDarkMode
-                  ? "bg-gray-700 border-gray-600 text-gray-200"
-                  : "bg-slate-300 border-slate-500 text-slate-800"
-              }`}
             >
               {[1, 2, 3, 4].map((num) => (
                 <option key={num} value={num}>
                   {num} octave{num > 1 ? "s" : ""}
                 </option>
               ))}
-            </select>
-          </div>
+            </Select>
+          </Field>
         </div>
       )}
     </div>

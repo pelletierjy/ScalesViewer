@@ -19,6 +19,7 @@ import ChordPanel from "@/components/ChordPanel/ChordPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
 import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
 import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
+import { Stage } from "@/components/ui";
 
 // Standard 17-key kalimba scaleRoot (from center outward)
 const KALIMBA_NOTES: Note[] = [
@@ -114,18 +115,9 @@ export default function Kalimba() {
   };
 
   return (
-    <div className="w-full space-y-6">
-      <div className="w-full overflow-x-auto">
-        <svg
-          width="100%"
-          height="400"
-          viewBox="0 0 800 400"
-        className={`border rounded-lg transition-colors duration-200 ${
-          isDarkMode
-            ? "border-gray-700 bg-gray-800"
-            : "border-slate-400 bg-slate-300"
-        }`}
-      >
+    <div className="w-full flex flex-col gap-3">
+      <Stage>
+        <svg width="100%" height="400" viewBox="0 0 800 400">
         {/* Kalimba body */}
         <path
           d="M200,350 L600,350 Q650,350 650,300 L650,150 Q650,100 600,100 L200,100 Q150,100 150,150 L150,300 Q150,350 200,350 Z"
@@ -218,7 +210,7 @@ export default function Kalimba() {
           );
         })}
         </svg>
-      </div>
+      </Stage>
 
       <ChordPanel scale={scale} />
       <PatternPanel scale={scale} />
