@@ -1,17 +1,212 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   Scales Viewer — "Pro Console" design tokens
+   A studio-rack / mixing-console visual language: dense, functional,
+   sharp-edged panels with technical (monospace) labels. Dark is the native
+   mode; light is a fully-supported daylight console variant.
+   ========================================================================== */
+
 :root {
-  --background: #f8fafc;
-  --foreground: #334155;
+  --background: #e7e9ee;
+  --foreground: #1b1f27;
+
+  /* Surfaces */
+  --console-bg: #e7e9ee;
+  --console-surface: #f2f3f6;
+  --console-surface-raised: #ffffff;
+  --console-well: #d8dbe1;
+
+  /* Borders */
+  --console-border: #c3c8d1;
+  --console-border-strong: #9aa1ad;
+
+  /* Text */
+  --console-text: #1b1f27;
+  --console-text-dim: #565e6c;
+  --console-text-faint: #838a97;
+
+  /* Accents (LED-style indicator colors) */
+  --console-accent: #b5680a;
+  --console-accent-strong: #8f5108;
+  --console-accent-contrast: #fff7ec;
+  --console-accent-2: #0f7d91;
+  --console-danger: #d33a2c;
+  --console-success: #167a4d;
+
+  /* Shape / rhythm */
+  --console-radius: 3px;
+  --console-shadow: 0 1px 2px rgba(15, 18, 24, 0.08);
 }
 
 .dark {
-  --background: #0f172a;
-  --foreground: #f1f5f9;
+  --background: #0a0c10;
+  --foreground: #e4e7ec;
+
+  --console-bg: #0a0c10;
+  --console-surface: #14171d;
+  --console-surface-raised: #1b1f27;
+  --console-well: #06070a;
+
+  --console-border: #272c36;
+  --console-border-strong: #3c4351;
+
+  --console-text: #e4e7ec;
+  --console-text-dim: #929aab;
+  --console-text-faint: #626a7a;
+
+  --console-accent: #f2a93c;
+  --console-accent-strong: #ffc568;
+  --console-accent-contrast: #201404;
+  --console-accent-2: #35c7e0;
+  --console-danger: #f0574a;
+  --console-success: #3ddc97;
+
+  --console-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--console-bg);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  background-image:
+    linear-gradient(var(--console-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--console-border) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+  background-attachment: fixed;
+  opacity: 1;
+}
+
+.dark body {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+::selection {
+  background: var(--console-accent);
+  color: var(--console-accent-contrast);
+}
+
+/* Thin, technical scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--console-border-strong) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--console-border-strong);
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ==========================================================================
+   Rack primitives — shared low-level classes consumed by src/components/ui
+   ========================================================================== */
+
+.rack-mono {
+  font-family: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+.rack-label {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--console-text-dim);
+}
+
+.rack-panel {
+  background: var(--console-surface);
+  border: 1px solid var(--console-border);
+  border-radius: var(--console-radius);
+  box-shadow: var(--console-shadow);
+}
+
+.rack-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--console-border);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--console-surface-raised) 60%, transparent),
+    transparent
+  );
+}
+
+.rack-stage {
+  background: var(--console-well);
+  border: 1px solid var(--console-border);
+  border-radius: var(--console-radius);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.rack-control {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  background: var(--console-surface-raised);
+  color: var(--console-text);
+  border: 1px solid var(--console-border-strong);
+  border-radius: 2px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.rack-control:focus-visible,
+.rack-control:focus {
+  outline: none;
+  border-color: var(--console-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--console-accent) 35%, transparent);
+}
+
+.rack-btn {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  background: var(--console-surface-raised);
+  color: var(--console-text);
+  border: 1px solid var(--console-border-strong);
+  border-radius: 2px;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.rack-btn:hover {
+  border-color: var(--console-accent);
+}
+
+.rack-btn[data-active="true"] {
+  background: var(--console-accent);
+  color: var(--console-accent-contrast);
+  border-color: var(--console-accent);
+}
+
+.rack-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--console-accent) 45%, transparent);
+}
+
+.rack-chip {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 2px;
+  border: 1px solid var(--console-border-strong);
+  background: var(--console-surface-raised);
+  color: var(--console-text);
+}
+
+.rack-chip[data-active="true"] {
+  border-color: var(--console-accent);
+  background: color-mix(in srgb, var(--console-accent) 16%, var(--console-surface-raised));
+  color: var(--console-accent-strong);
 }
