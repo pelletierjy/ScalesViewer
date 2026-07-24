@@ -22,10 +22,10 @@ import { PRESET_PATTERNS } from "@/lib/utils/patternUtils";
 import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { getPatternNotesWithOctave } from "@/lib/utils/patternUtils";
 import { Scale } from "@/lib/utils/scaleType";
+import { Panel, Field, Select, TextInput, Button } from "@/components/ui";
 
 export default function PatternPanel({ scale }: { scale: Scale }) {
   const dispatch = useDispatch<AppDispatch>();
-  const isDark = useSelector((state: RootState) => state.globalConfig.isDarkMode);
   const isPatternModeEnabled = useSelector(selectIsPatternModeEnabled);
   const selectedPatternId = useSelector(selectSelectedPatternId);
   const isPlaying = useSelector(selectIsPlaying);
@@ -78,112 +78,47 @@ export default function PatternPanel({ scale }: { scale: Scale }) {
 
   if (!isPatternModeEnabled) {
     return (
-      <div
-        className={`rounded-lg border p-4 ${
-          isDark ? "border-gray-700 bg-gray-800" : "border-slate-300 bg-white"
-        }`}
-      >
-        <div className="flex items-center justify-between">
-          <div>
-            <h3
-              className={`text-lg font-semibold ${
-                isDark ? "text-gray-100" : "text-gray-900"
-              }`}
-            >
-              Pattern Sequencer
-            </h3>
-            <p
-              className={`text-sm mt-1 ${
-                isDark ? "text-gray-400" : "text-gray-600"
-              }`}
-            >
-              Practice melodic patterns locked to the scale.
-            </p>
-          </div>
-          <button
-            onClick={() => dispatch(togglePatternMode())}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              isDark
-                ? "bg-purple-600 hover:bg-purple-500 text-white"
-                : "bg-purple-600 hover:bg-purple-700 text-white"
-            }`}
-          >
+      <Panel title="Pattern Sequencer">
+        <div className="flex items-center justify-between gap-4">
+          <p className="text-sm text-[var(--console-text-dim)]">
+            Practice melodic patterns locked to the scale.
+          </p>
+          <Button tone="accent2" onClick={() => dispatch(togglePatternMode())}>
             Enable
-          </button>
+          </Button>
         </div>
-      </div>
+      </Panel>
     );
   }
 
   return (
-    <div
-      className={`rounded-lg border p-4 ${
-        isDark ? "border-gray-700 bg-gray-800" : "border-slate-300 bg-white"
-      }`}
-    >
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-        <div>
-          <h3
-            className={`text-lg font-semibold ${
-              isDark ? "text-gray-100" : "text-gray-900"
-            }`}
-          >
-            Pattern Sequencer
-          </h3>
-          <p
-            className={`text-sm ${
-              isDark ? "text-gray-400" : "text-gray-600"
-            }`}
-          >
-            {scale.root} {scale.type} — {currentPattern?.name ?? "No pattern selected"}
-          </p>
-        </div>
-        <button
-          onClick={() => dispatch(togglePatternMode())}
-          className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-            isDark
-              ? "bg-gray-700 hover:bg-gray-600 text-gray-200"
-              : "bg-slate-200 hover:bg-slate-300 text-slate-800"
-          }`}
-        >
+    <Panel
+      title="Pattern Sequencer"
+      headerRight={
+        <Button size="sm" onClick={() => dispatch(togglePatternMode())}>
           Disable
-        </button>
-      </div>
+        </Button>
+      }
+    >
+      <p className="text-sm text-[var(--console-text-dim)] mb-3">
+        {scale.root} {scale.type} — {currentPattern?.name ?? "No pattern selected"}
+      </p>
 
-      <div className="flex flex-wrap items-center gap-4 mb-4">
-        <div className="flex flex-col gap-1">
-          <label
-            className={`text-xs font-semibold ${
-              isDark ? "text-gray-300" : "text-gray-700"
-            }`}
-          >
-            Pattern
-          </label>
-          <select
+      <div className="flex flex-wrap items-end gap-4 mb-4">
+        <Field label="Pattern">
+          <Select
             value={selectedPatternId ?? ""}
             onChange={(e) => dispatch(selectPattern(e.target.value))}
-            className={`rounded-md shadow-sm focus:border-purple-500 focus:ring-purple-500 text-sm ${
-              isDark
-                ? "bg-gray-700 border-gray-600 text-gray-200"
-                : "bg-white border-slate-400 text-slate-800"
-            }`}
           >
             {PRESET_PATTERNS.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.name}
               </option>
             ))}
-          </select>
-        </div>
+          </Select>
+        </Field>
 
-        <div className="flex flex-col gap-1">
-          <label
-            className={`text-xs font-semibold ${
-              isDark ? "text-gray-300" : "text-gray-700"
-            }`}
-          >
-            Tempo (BPM)
-          </label>
+        <Field label="Tempo (BPM)">
           <div className="flex items-center gap-2">
             <input
               type="range"
@@ -191,33 +126,25 @@ export default function PatternPanel({ scale }: { scale: Scale }) {
               max={300}
               value={tempo}
               onChange={(e) => dispatch(setTempo(Number(e.target.value)))}
-              className="w-24 accent-purple-600"
+              className="w-24 accent-[var(--console-accent)]"
             />
-            <input
+            <TextInput
               type="number"
               min={40}
               max={300}
               value={tempo}
               onChange={(e) => dispatch(setTempo(Number(e.target.value)))}
-              className={`w-16 rounded-md shadow-sm text-sm text-center ${
-                isDark
-                  ? "bg-gray-700 border-gray-600 text-gray-200"
-                  : "bg-white border-slate-400 text-slate-800"
-              }`}
+              className="w-16 text-center"
             />
           </div>
-        </div>
+        </Field>
 
-        <label
-          className={`flex items-center gap-2 text-sm cursor-pointer ${
-            isDark ? "text-gray-300" : "text-gray-700"
-          }`}
-        >
+        <label className="flex items-center gap-2 text-sm cursor-pointer text-[var(--console-text-dim)] rack-label normal-case font-normal">
           <input
             type="checkbox"
             checked={loop}
             onChange={() => dispatch(toggleLoop())}
-            className="rounded accent-purple-600"
+            className="rounded-none accent-[var(--console-accent)]"
           />
           Loop
         </label>
@@ -225,34 +152,16 @@ export default function PatternPanel({ scale }: { scale: Scale }) {
 
       {currentPattern && (
         <div className="flex flex-wrap items-center gap-2 mb-4">
-          <button
-            onClick={handleTogglePlayback}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              isPlaying
-                ? isDark
-                  ? "bg-red-600 hover:bg-red-500 text-white"
-                  : "bg-red-600 hover:bg-red-700 text-white"
-                : isDark
-                ? "bg-green-600 hover:bg-green-500 text-white"
-                : "bg-green-600 hover:bg-green-700 text-white"
-            }`}
-          >
+          <Button tone={isPlaying ? "danger" : "success"} onClick={handleTogglePlayback}>
             {isPlaying ? "Stop" : "Play"}
-          </button>
+          </Button>
 
           <div className="flex items-center gap-1">
             {currentPattern.steps.map((step, idx) => (
               <div
                 key={idx}
-                className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-bold transition-all ${
-                  idx === currentStepIndex && isPlaying
-                    ? isDark
-                      ? "bg-purple-500 text-white ring-2 ring-purple-300"
-                      : "bg-purple-600 text-white ring-2 ring-purple-400"
-                    : isDark
-                    ? "bg-gray-700 text-gray-300"
-                    : "bg-slate-200 text-slate-700"
-                }`}
+                data-active={(idx === currentStepIndex && isPlaying) || undefined}
+                className="rack-chip w-8 h-8 flex items-center justify-center"
               >
                 {step}
               </div>
@@ -260,6 +169,6 @@ export default function PatternPanel({ scale }: { scale: Scale }) {
           </div>
         </div>
       )}
-    </div>
+    </Panel>
   );
 }
