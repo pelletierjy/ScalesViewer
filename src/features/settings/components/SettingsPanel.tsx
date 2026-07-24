@@ -7,7 +7,6 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  selectIsDarkMode,
   selectSoundEngine,
   setSoundEngine,
   saveState,
@@ -19,6 +18,7 @@ import { ImportButton } from "./ImportButton";
 import { ResetButton } from "./ResetButton";
 import { SettingsError } from "./SettingsError";
 import { SuccessMessages } from "@/features/settings/utils/settingsErrors";
+import { Select } from "@/components/ui";
 
 interface SettingsPanelProps {
   isOpen: boolean;
@@ -35,7 +35,6 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
   triggerRef,
 }) => {
   const dispatch = useDispatch();
-  const isDarkMode = useSelector(selectIsDarkMode);
   const soundEngine = useSelector(selectSoundEngine);
   const { error, clearError } = useSettingsManager();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -138,47 +137,17 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
   if (!isOpen) return null;
 
-  const overlayClasses = `
-    fixed inset-0 z-50 flex items-center justify-center p-4
-    bg-black/50 backdrop-blur-sm
-    transition-opacity duration-200
-  `;
+  const overlayClasses = "fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity duration-200";
 
-  const panelClasses = `
-    w-full max-w-md rounded-lg shadow-xl
-    ${isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"}
-    transform transition-all duration-200
-  `;
+  const contentClasses = "p-4 space-y-4";
 
-  const headerClasses = `
-    flex items-center justify-between px-6 py-4 border-b
-    ${isDarkMode ? "border-gray-700" : "border-gray-200"}
-  `;
+  const dividerClasses = "my-4 border-t border-[var(--console-border)]";
 
-  const contentClasses = "p-6 space-y-4";
+  const successClasses =
+    "p-3 mb-4 border border-[var(--console-success)] bg-[color-mix(in_srgb,var(--console-success)_12%,transparent)] text-[var(--console-success)]";
 
-  const dividerClasses = `
-    my-4 border-t
-    ${isDarkMode ? "border-gray-700" : "border-gray-200"}
-  `;
-
-  const successClasses = `
-    p-4 rounded-md mb-4
-    ${
-      isDarkMode
-        ? "bg-green-900/30 border border-green-700 text-green-200"
-        : "bg-green-50 border border-green-200 text-green-800"
-    }
-  `;
-
-  const warningClasses = `
-    p-4 rounded-md mb-4
-    ${
-      isDarkMode
-        ? "bg-yellow-900/30 border border-yellow-700 text-yellow-200"
-        : "bg-yellow-50 border border-yellow-200 text-yellow-800"
-    }
-  `;
+  const warningClasses =
+    "p-3 mb-4 border border-[var(--console-accent)] bg-[color-mix(in_srgb,var(--console-accent)_12%,transparent)] text-[var(--console-accent-strong)]";
 
   return (
     <div
@@ -190,26 +159,22 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
     >
       <div
         ref={panelRef}
-        className={panelClasses}
+        className="rack-panel w-full max-w-md"
         role="dialog"
         aria-modal="true"
         aria-labelledby="settings-panel-title"
       >
-        <div className={headerClasses}>
+        <div className="rack-panel-header">
           <h2
             id="settings-panel-title"
-            className="text-xl font-semibold"
+            className="rack-label text-sm"
           >
             Settings
           </h2>
           <button
             ref={firstFocusableRef}
             onClick={onClose}
-            className={`p-2 rounded-full transition-colors ${
-              isDarkMode
-                ? "hover:bg-gray-700 text-gray-400 hover:text-white"
-                : "hover:bg-gray-100 text-gray-500 hover:text-gray-700"
-            }`}
+            className="p-1 hover:text-[var(--console-accent)] transition-colors"
             aria-label="Close settings panel"
           >
             <svg
@@ -253,40 +218,30 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
           <section aria-labelledby="sound-settings-title">
             <h3
               id="sound-settings-title"
-              className="text-sm font-semibold mb-2"
+              className="rack-label mb-2"
             >
               Sound
             </h3>
             <label
               htmlFor="sound-engine-select"
-              className={`block text-sm mb-1 ${
-                isDarkMode ? "text-gray-400" : "text-gray-600"
-              }`}
+              className="block text-sm mb-1 text-[var(--console-text-dim)]"
             >
               Playback engine
             </label>
-            <select
+            <Select
               id="sound-engine-select"
               value={soundEngine}
               onChange={(e) => {
                 dispatch(setSoundEngine(e.target.value as SoundEngine));
                 dispatch(saveState());
               }}
-              className={`w-full rounded-md border px-3 py-2 text-sm ${
-                isDarkMode
-                  ? "bg-gray-700 border-gray-600 text-gray-100"
-                  : "bg-white border-gray-300 text-gray-900"
-              }`}
+              className="w-full"
             >
               <option value="sample">Instrument samples</option>
               <option value="synth">Pluck synth</option>
               <option value="sine">Classic sine</option>
-            </select>
-            <p
-              className={`text-xs mt-2 ${
-                isDarkMode ? "text-gray-500" : "text-gray-500"
-              }`}
-            >
+            </Select>
+            <p className="text-xs mt-2 text-[var(--console-text-faint)]">
               {soundEngine === "sample" &&
                 "Short recorded tones per instrument, pitched to each note."}
               {soundEngine === "synth" &&
@@ -314,11 +269,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
           <hr className={dividerClasses} aria-hidden="true" />
 
           <div className="pt-2">
-            <p
-              className={`text-sm mb-3 ${
-                isDarkMode ? "text-gray-400" : "text-gray-500"
-              }`}
-            >
+            <p className="text-sm mb-3 text-[var(--console-text-dim)]">
               Reset all settings to their original defaults. This action cannot
               be undone.
             </p>
