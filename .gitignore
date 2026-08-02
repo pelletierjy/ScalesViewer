@@ -48,6 +48,8 @@ next-env.d.ts
 /dist
 /.next
 /out/
+/release
+electron/dist/
 
 # Android
 /android
