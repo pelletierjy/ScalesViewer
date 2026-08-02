@@ -1,5 +1,7 @@
 # GScale - Musical Scale Visualization Tool
 
+<img width="1988" height="1152" alt="Capture d’écran 2026-08-02 002223" src="https://github.com/user-attachments/assets/ffde986f-f772-499a-9074-47f5103e82f9" />
+
 A modern desktop application built with Next.js that helps musicians visualize scales across multiple instruments.
 The application provides interactive visualizations for guitar, piano, flute, and kalimba.
 
