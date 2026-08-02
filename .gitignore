@@ -40,6 +40,9 @@ next-env.d.ts
 !.vscode/settings.json
 !.vscode/extensions.json
 
+# Claude worktrees
+.claude/
+
 # Tauri build
 /src-tauri/target
 
@@ -48,6 +51,8 @@ next-env.d.ts
 /dist
 /.next
 /out/
+/release
+electron/dist/
 
 # Android
 /android
