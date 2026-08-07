@@ -18,71 +18,71 @@ export const ROOTS: Note[] = [
 
 export const SCALE_TYPES = [
   // Common Scales
-  { value: "major", label: "Major (Ionian)", group: "Common" },
-  { value: "minor", label: "Minor (Natural)", group: "Common" },
-  { value: "pentatonic", label: "Major Pentatonic", group: "Common" },
-  { value: "minor-pentatonic", label: "Minor Pentatonic", group: "Common" },
-  { value: "blues", label: "Blues", group: "Common" },
+  { value: "major", labelKey: "scale.major", groupKey: "scaleGroup.common" },
+  { value: "minor", labelKey: "scale.minor", groupKey: "scaleGroup.common" },
+  { value: "pentatonic", labelKey: "scale.pentatonic", groupKey: "scaleGroup.common" },
+  { value: "minor-pentatonic", labelKey: "scale.minor-pentatonic", groupKey: "scaleGroup.common" },
+  { value: "blues", labelKey: "scale.blues", groupKey: "scaleGroup.common" },
 
   // Jazz Scales
-  { value: "bebop", label: "Bebop", group: "Jazz" },
-  { value: "bebop-dominant", label: "Bebop Dominant", group: "Jazz" },
-  { value: "bebop-major", label: "Bebop Major", group: "Jazz" },
-  { value: "bebop-minor", label: "Bebop Minor", group: "Jazz" },
-  { value: "diminished", label: "Diminished", group: "Jazz" },
-  { value: "whole-tone", label: "Whole Tone", group: "Jazz" },
-  { value: "altered", label: "Altered", group: "Jazz" },
+  { value: "bebop", labelKey: "scale.bebop", groupKey: "scaleGroup.jazz" },
+  { value: "bebop-dominant", labelKey: "scale.bebop-dominant", groupKey: "scaleGroup.jazz" },
+  { value: "bebop-major", labelKey: "scale.bebop-major", groupKey: "scaleGroup.jazz" },
+  { value: "bebop-minor", labelKey: "scale.bebop-minor", groupKey: "scaleGroup.jazz" },
+  { value: "diminished", labelKey: "scale.diminished", groupKey: "scaleGroup.jazz" },
+  { value: "whole-tone", labelKey: "scale.whole-tone", groupKey: "scaleGroup.jazz" },
+  { value: "altered", labelKey: "scale.altered", groupKey: "scaleGroup.jazz" },
 
   // Modes
-  { value: "dorian", label: "Dorian", group: "Modes" },
-  { value: "phrygian", label: "Phrygian", group: "Modes" },
-  { value: "lydian", label: "Lydian", group: "Modes" },
-  { value: "mixolydian", label: "Mixolydian", group: "Modes" },
-  { value: "aeolian", label: "Aeolian", group: "Modes" },
-  { value: "locrian", label: "Locrian", group: "Modes" },
+  { value: "dorian", labelKey: "scale.dorian", groupKey: "scaleGroup.modes" },
+  { value: "phrygian", labelKey: "scale.phrygian", groupKey: "scaleGroup.modes" },
+  { value: "lydian", labelKey: "scale.lydian", groupKey: "scaleGroup.modes" },
+  { value: "mixolydian", labelKey: "scale.mixolydian", groupKey: "scaleGroup.modes" },
+  { value: "aeolian", labelKey: "scale.aeolian", groupKey: "scaleGroup.modes" },
+  { value: "locrian", labelKey: "scale.locrian", groupKey: "scaleGroup.modes" },
 
   // Modal Variants
   {
     value: "lydian-dominant",
-    label: "Lydian Dominant",
-    group: "Modal Variants",
+    labelKey: "scale.lydian-dominant",
+    groupKey: "scaleGroup.modalVariants",
   },
-  { value: "super-locrian", label: "Super Locrian", group: "Modal Variants" },
-  { value: "melodic-minor", label: "Melodic Minor", group: "Modal Variants" },
-  { value: "harmonic-minor", label: "Harmonic Minor", group: "Modal Variants" },
+  { value: "super-locrian", labelKey: "scale.super-locrian", groupKey: "scaleGroup.modalVariants" },
+  { value: "melodic-minor", labelKey: "scale.melodic-minor", groupKey: "scaleGroup.modalVariants" },
+  { value: "harmonic-minor", labelKey: "scale.harmonic-minor", groupKey: "scaleGroup.modalVariants" },
 
   // Exotic Scales
-  { value: "hungarian-minor", label: "Hungarian Minor", group: "Exotic" },
-  { value: "ukrainian-dorian", label: "Ukrainian Dorian", group: "Exotic" },
-  { value: "persian", label: "Persian", group: "Exotic" },
-  { value: "byzantine", label: "Byzantine", group: "Exotic" },
-  { value: "japanese", label: "Japanese", group: "Exotic" },
-  { value: "hirajoshi", label: "Hirajoshi", group: "Exotic" },
-  { value: "in-sen", label: "In-Sen", group: "Exotic" },
-  { value: "iwato", label: "Iwato", group: "Exotic" },
+  { value: "hungarian-minor", labelKey: "scale.hungarian-minor", groupKey: "scaleGroup.exotic" },
+  { value: "ukrainian-dorian", labelKey: "scale.ukrainian-dorian", groupKey: "scaleGroup.exotic" },
+  { value: "persian", labelKey: "scale.persian", groupKey: "scaleGroup.exotic" },
+  { value: "byzantine", labelKey: "scale.byzantine", groupKey: "scaleGroup.exotic" },
+  { value: "japanese", labelKey: "scale.japanese", groupKey: "scaleGroup.exotic" },
+  { value: "hirajoshi", labelKey: "scale.hirajoshi", groupKey: "scaleGroup.exotic" },
+  { value: "in-sen", labelKey: "scale.in-sen", groupKey: "scaleGroup.exotic" },
+  { value: "iwato", labelKey: "scale.iwato", groupKey: "scaleGroup.exotic" },
 
   // Symmetric Scales
-  { value: "chromatic", label: "Chromatic", group: "Symmetric" },
+  { value: "chromatic", labelKey: "scale.chromatic", groupKey: "scaleGroup.symmetric" },
   {
     value: "diminished-whole-half",
-    label: "Diminished (W-H)",
-    group: "Symmetric",
+    labelKey: "scale.diminished-whole-half",
+    groupKey: "scaleGroup.symmetric",
   },
   {
     value: "diminished-half-whole",
-    label: "Diminished (H-W)",
-    group: "Symmetric",
+    labelKey: "scale.diminished-half-whole",
+    groupKey: "scaleGroup.symmetric",
   },
 
   // Pentatonic Variants
-  { value: "egyptian", label: "Egyptian", group: "Pentatonic Variants" },
-  { value: "chinese", label: "Chinese", group: "Pentatonic Variants" },
+  { value: "egyptian", labelKey: "scale.egyptian", groupKey: "scaleGroup.pentatonicVariants" },
+  { value: "chinese", labelKey: "scale.chinese", groupKey: "scaleGroup.pentatonicVariants" },
   {
     value: "japanese-pentatonic",
-    label: "Japanese Pentatonic",
-    group: "Pentatonic Variants",
+    labelKey: "scale.japanese-pentatonic",
+    groupKey: "scaleGroup.pentatonicVariants",
   },
-] as const;
+];
 
 // Scale patterns (intervals from root)
 export const SCALE_PATTERNS = {

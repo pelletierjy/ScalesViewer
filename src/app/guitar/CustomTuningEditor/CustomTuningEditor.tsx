@@ -5,6 +5,7 @@ import { TuningPreset } from "../types/tuningPreset";
 import { TuningPresetWithMetadata } from "../tuningConstants";
 import { validateTuningName, sanitizeString } from "@/lib/utils/inputSanitization";
 import { Field, Select, TextInput, Button } from "@/components/ui";
+import { useTranslations } from "next-intl";
 
 interface CustomTuningEditorProps {
   onSaveTuning: (scaleRoot: TuningPreset) => void;
@@ -23,8 +24,9 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
   initialTuning,
   customTunings,
 }) => {
+  const t = useTranslations();
   const [tuningName, setTuningName] = useState(
-    initialTuning?.name || "Custom Tuning"
+    initialTuning?.name || t("customTuningEditor.createTuning")
   );
   const [stringCount, setStringCount] = useState(
     initialTuning?.strings.length || 6
@@ -68,7 +70,7 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
   const validateAndSave = (): void => {
     const sanitizedName = sanitizeString(tuningName);
     const validation = validateTuningName(sanitizedName);
-    
+
     if (!validation.isValid) {
       setNameError(validation.error);
       return;
@@ -79,7 +81,7 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
     );
 
     if (isDuplicate) {
-      setNameError("A tuning with this name already exists");
+      setNameError(t("customTuningEditor.tuningNameExists"));
       return;
     }
 
@@ -97,12 +99,12 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
   return (
     <div className="space-y-6">
       <h3 className="rack-label text-sm">
-        {initialTuning ? "Edit Tuning" : "Create Custom Tuning"}
+        {initialTuning ? t("customTuningEditor.editTuning") : t("customTuningEditor.createTuning")}
       </h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
-          <Field label="Tuning Name" htmlFor="scaleRoot-name">
+          <Field label={t("customTuningEditor.tuningName")} htmlFor="scaleRoot-name">
             <TextInput
               type="text"
               id="scaleRoot-name"
@@ -115,7 +117,7 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
             <p className="mt-1 text-sm text-[var(--console-danger)] font-medium">{nameError}</p>
           )}
         </div>
-        <Field label="Number of Strings" htmlFor="string-count">
+        <Field label={t("customTuningEditor.numberOfStrings")} htmlFor="string-count">
           <Select
             id="string-count"
             value={stringCount}
@@ -127,7 +129,7 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
               (_, i) => i + MIN_STRINGS
             ).map((num) => (
               <option key={num} value={num}>
-                {num} strings
+                {t("customTuningEditor.stringsCount", { n: num })}
               </option>
             ))}
           </Select>
@@ -135,10 +137,10 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
       </div>
 
       <div className="space-y-3">
-        <h3 className="rack-label">String Notes (High to Low)</h3>
+        <h3 className="rack-label">{t("customTuningEditor.stringNotesHighToLow")}</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {strings.map((note, index) => (
-            <Field key={index} label={`String ${strings.length - index}`}>
+            <Field key={index} label={t("customTuningEditor.stringN", { n: strings.length - index })} >
               <Select
                 value={note}
                 onChange={(e) => handleStringChange(index, e.target.value as Note)}
@@ -156,9 +158,9 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
       </div>
 
       <div className="flex justify-end gap-3 pt-4 border-t border-[var(--console-border)]">
-        <Button onClick={onCancel}>Cancel</Button>
+        <Button onClick={onCancel}>{t("ui.cancel")}</Button>
         <Button tone="accent" onClick={validateAndSave}>
-          {initialTuning ? "Update Tuning" : "Save Tuning"}
+          {initialTuning ? t("customTuningEditor.updateTuning") : t("customTuningEditor.saveTuning")}
         </Button>
       </div>
     </div>

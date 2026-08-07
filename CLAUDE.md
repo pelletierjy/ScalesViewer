@@ -154,6 +154,6 @@ The application uses a hybrid approach to state management for learning purposes
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
-- Plan: `specs/002-url-params/plan.md`
-- Spec: `specs/002-url-params/spec.md`
+- Plan: `specs/003-french-spanish-translations/plan.md`
+- Spec: `specs/003-french-spanish-translations/spec.md`
 <!-- SPECKIT END -->

@@ -17,6 +17,7 @@ describe("encodeGlobalConfigToParams", () => {
       highlightRoots: true,
       showFlats: false,
       showDegrees: true,
+      language: "en",
     });
 
     expect(params.get(URL_PARAM_KEYS.root)).toBe("D");
@@ -34,6 +35,7 @@ describe("encodeGlobalConfigToParams", () => {
       highlightRoots: false,
       showFlats: false,
       showDegrees: false,
+      language: "en",
     });
 
     expect(params.get(URL_PARAM_KEYS.mode)).toBe("dorian");
@@ -52,6 +54,7 @@ describe("decodeParamsToGlobalConfigPatch", () => {
       highlightRoots: true,
       showFlats: true,
       showDegrees: false,
+      language: "en",
     });
 
     const patch = decodeParamsToGlobalConfigPatch(encoded);

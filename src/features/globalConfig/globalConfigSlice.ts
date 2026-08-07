@@ -12,6 +12,8 @@ import { SoundEngine } from "@/lib/audio/instrumentSampleConfig";
  *
  * @description Hold the global configuration settings.
  */
+import { Locale, defaultLocale } from "@/lib/i18n/types";
+
 export interface GlobalConfig {
   isDarkMode: boolean;
   instrument: Instrument;
@@ -23,6 +25,7 @@ export interface GlobalConfig {
   chordScaleMode: boolean;
   selectedChord: string | null;
   soundEngine: SoundEngine;
+  language: Locale;
 }
 
 const updateState = (
@@ -44,6 +47,7 @@ const updateState = (
     state.chordScaleMode = savedState?.chordScaleMode ?? false;
     state.selectedChord = savedState?.selectedChord ?? null;
     state.soundEngine = savedState?.soundEngine ?? "sample";
+    state.language = savedState?.language ?? defaultLocale;
   }
 };
 
@@ -78,6 +82,7 @@ export const initialState: GlobalConfig = {
   chordScaleMode: false,
   selectedChord: null,
   soundEngine: "sample",
+  language: defaultLocale,
 };
 
 export const globalConfigSlice = createSlice({
@@ -128,6 +133,9 @@ export const globalConfigSlice = createSlice({
     setSoundEngine: (state, action) => {
       state.soundEngine = action.payload;
     },
+    setLanguage: (state, action) => {
+      state.language = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(initializeApplication, (state, action) => {
@@ -154,6 +162,7 @@ export const {
   toggleChordScaleMode,
   setSelectedChord,
   setSoundEngine,
+  setLanguage,
 } = globalConfigSlice.actions;
 
 export default globalConfigSlice.reducer;
@@ -181,3 +190,5 @@ export const selectSelectedChord = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).selectedChord;
 export const selectSoundEngine = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).soundEngine;
+export const selectLanguage = (state: { globalConfig: GlobalConfig }) =>
+  selectGlobalConfig(state).language;

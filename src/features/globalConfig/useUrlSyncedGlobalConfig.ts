@@ -8,10 +8,12 @@ import {
   selectIsMonochrome,
   selectShowFlats,
   selectShowDegrees,
+  selectLanguage,
   setScale,
   setHighlightRoots,
   setShowFlats,
   setShowDegrees,
+  setLanguage,
 } from "./globalConfigSlice";
 import {
   decodeParamsToGlobalConfigPatch,
@@ -41,6 +43,7 @@ export function useUrlSyncedGlobalConfig(): void {
   const highlightRoots = useSelector(selectIsMonochrome);
   const showFlats = useSelector(selectShowFlats);
   const showDegrees = useSelector(selectShowDegrees);
+  const language = useSelector(selectLanguage);
 
   // Read fresh, current store values from the URL -> store effect without
   // making them reactive dependencies of that effect (see below).
@@ -49,8 +52,9 @@ export function useUrlSyncedGlobalConfig(): void {
     highlightRoots,
     showFlats,
     showDegrees,
+    language,
   });
-  currentConfigRef.current = { scale, highlightRoots, showFlats, showDegrees };
+  currentConfigRef.current = { scale, highlightRoots, showFlats, showDegrees, language };
 
   // The store -> URL effect intentionally skips its very first invocation:
   // on mount, the URL -> store effect below may dispatch changes that have
@@ -101,6 +105,9 @@ export function useUrlSyncedGlobalConfig(): void {
     ) {
       dispatch(setShowDegrees(patch.showDegrees));
     }
+    if (patch.language !== undefined && patch.language !== current.language) {
+      dispatch(setLanguage(patch.language));
+    }
   }, [searchParams, dispatch]);
 
   // store -> URL: reacts only to the five settings changing.
@@ -115,10 +122,11 @@ export function useUrlSyncedGlobalConfig(): void {
       highlightRoots,
       showFlats,
       showDegrees,
+      language,
     }).toString();
 
     if (nextQuery !== searchParams.toString()) {
       router.replace(`${pathname}?${nextQuery}`, { scroll: false });
     }
-  }, [scale, highlightRoots, showFlats, showDegrees, pathname, router, searchParams]);
+  }, [scale, highlightRoots, showFlats, showDegrees, language, pathname, router, searchParams]);
 }

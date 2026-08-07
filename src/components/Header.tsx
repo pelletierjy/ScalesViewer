@@ -32,8 +32,11 @@ import {
 import { LOCAL_STORAGE_KEYS } from "@/features/settings/types/settings.types";
 import { CustomScaleEditor } from "@/app/guitar/CustomScaleEditor/CustomScaleEditor";
 import { Field, Button, IconButton, Select } from "@/components/ui";
+import { useTranslations } from "next-intl";
+import { LanguageSelector } from "./LanguageSelector";
 
 export const Header: React.FC = () => {
+  const t = useTranslations();
   const dispatch = useDispatch();
   const showFlats = useSelector(selectShowFlats);
   const scale = useSelector(selectScale);
@@ -65,8 +68,13 @@ export const Header: React.FC = () => {
       label: cs.label,
       group: cs.group,
     }));
-    return [...SCALE_TYPES, ...customEntries];
-  }, [customScales]);
+    const builtInEntries = SCALE_TYPES.map((s) => ({
+      value: s.value,
+      label: s.labelKey ? t(s.labelKey) : s.value,
+      group: s.groupKey ? t(s.groupKey) : "Other",
+    }));
+    return [...builtInEntries, ...customEntries];
+  }, [customScales, t]);
 
   const handleInstrumentChange = (newInstrument: Instrument) => {
     dispatch(setInstrument(newInstrument));
@@ -92,7 +100,7 @@ export const Header: React.FC = () => {
   };
 
   const handleDeleteCustomScale = (scaleId: string) => {
-    if (confirm("Are you sure you want to delete this custom scale?")) {
+    if (confirm(t("confirm.deleteCustomScale"))) {
       setCustomScalesStorage((prevScales) =>
         prevScales.filter((s) => s.id !== scaleId)
       );
@@ -116,36 +124,36 @@ export const Header: React.FC = () => {
               aria-hidden="true"
             />
             <h1 className="rack-mono text-sm sm:text-base font-bold tracking-widest uppercase">
-              Scales Viewer
+              {t("app.title")}
             </h1>
           </div>
           <div className="flex flex-wrap gap-1.5">
             <IconButton
               onClick={() => dispatch(toggleShowDegrees())}
-              title={showDegrees ? "Show note names" : "Show scale degrees"}
+              title={showDegrees ? t("ui.showNoteNames") : t("ui.showScaleDegrees")}
             >
               {showDegrees ? "ABC" : "123"}
             </IconButton>
             <IconButton
               onClick={() => dispatch(toggleShowFlats())}
-              title={showFlats ? "Show sharp notes" : "Show flat notes"}
+              title={showFlats ? t("ui.showSharpNotes") : t("ui.showFlatNotes")}
             >
               {showFlats ? "♯" : "♭"}
             </IconButton>
             <IconButton
               onClick={() => dispatch(toggleShowMonochrome())}
-              title={highlightRoots ? "Highlight intervals" : "Highlight root notes"}
+              title={highlightRoots ? t("ui.highlightIntervals") : t("ui.highlightRootNotes")}
             >
               {highlightRoots ? "🎨" : "⚫"}
             </IconButton>
-            <IconButton onClick={() => setShowHelp(true)} title="Show help slideshow">
+            <IconButton onClick={() => setShowHelp(true)} title={t("ui.showHelp")}>
               ❓
             </IconButton>
             <IconButton
               ref={settingsButtonRef}
               onClick={() => setShowSettings(true)}
-              title="Open settings"
-              aria-label="Open settings panel"
+              title={t("ui.openSettings")}
+              aria-label={t("ui.openSettings")}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -171,7 +179,7 @@ export const Header: React.FC = () => {
             <IconButton
               active={isDarkMode}
               onClick={() => dispatch(toggleDarkMode())}
-              title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+              title={isDarkMode ? t("ui.switchToLightMode") : t("ui.switchToDarkMode")}
             >
               {isDarkMode ? "☀️" : "🌙"}
             </IconButton>
@@ -179,22 +187,22 @@ export const Header: React.FC = () => {
         </div>
 
         <div className="p-2 sm:p-3 flex flex-wrap items-end gap-3 sm:gap-4">
-          <Field label="Instrument" htmlFor="instrument">
+          <Field label={t("ui.instrument")} htmlFor="instrument">
             <Select
               id="instrument"
               value={instrument}
               onChange={(e) => handleInstrumentChange(e.target.value as Instrument)}
             >
-              <option value="guitar">Guitar</option>
-              <option value="piano">Piano</option>
-              <option value="kalimba">Kalimba</option>
-              <option value="harmonica">Harmonica</option>
-              <option value="flute">Flute</option>
-              <option value="recorder">Recorder</option>
+              <option value="guitar">{t("instrument.guitar")}</option>
+              <option value="piano">{t("instrument.piano")}</option>
+              <option value="kalimba">{t("instrument.kalimba")}</option>
+              <option value="harmonica">{t("instrument.harmonica")}</option>
+              <option value="flute">{t("instrument.flute")}</option>
+              <option value="recorder">{t("instrument.recorder")}</option>
             </Select>
           </Field>
 
-          <Field label="Scale" htmlFor="scale-type">
+          <Field label={t("ui.scale")} htmlFor="scale-type">
             <div className="flex flex-col gap-1">
               <Select
                 id="scale-type"
@@ -210,7 +218,7 @@ export const Header: React.FC = () => {
               >
                 {Object.entries(
                   allScaleTypes.reduce((groups, scaleEntry) => {
-                    const group = scaleEntry.group || "Other";
+                    const group = scaleEntry.group || t("scaleGroup.other");
                     if (!groups[group]) {
                       groups[group] = [];
                     }
@@ -226,26 +234,26 @@ export const Header: React.FC = () => {
                     ))}
                   </optgroup>
                 ))}
-                <option value="__new__">+ Custom Scale</option>
+                <option value="__new__">{t("ui.customScale")}</option>
               </Select>
               {selectedCustomScale && (
                 <div className="flex gap-2">
                   <Button size="sm" onClick={() => handleEditScale(selectedCustomScale)}>
-                    Edit
+                    {t("ui.edit")}
                   </Button>
                   <Button
                     size="sm"
                     className="!text-[var(--console-danger)]"
                     onClick={() => handleDeleteCustomScale(selectedCustomScale.id)}
                   >
-                    Delete
+                    {t("ui.delete")}
                   </Button>
                 </div>
               )}
             </div>
           </Field>
 
-          <Field label="Root" htmlFor="root-note">
+          <Field label={t("ui.root")} htmlFor="root-note">
             <Select
               id="root-note"
               value={scale.root}
@@ -257,6 +265,10 @@ export const Header: React.FC = () => {
                 </option>
               ))}
             </Select>
+          </Field>
+
+          <Field label={t("ui.language")} htmlFor="language">
+            <LanguageSelector />
           </Field>
         </div>
       </div>

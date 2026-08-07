@@ -9,13 +9,15 @@ import { useSelector } from "react-redux";
 import {
   saveState,
   setInstrument,
+  setLanguage,
   setScale,
 } from "../features/globalConfig/globalConfigSlice";
 import {
   selectIsDarkMode,
   selectInstrument,
+  selectLanguage,
 } from "../features/globalConfig/globalConfigSlice";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import {
   applicationInitialized,
   initializeApplication,
@@ -25,24 +27,67 @@ import { setAudioStatus } from "@/features/audio/audioSlice";
 import { initializeAudio } from "@/lib/utils/audioUtils";
 import { SCALE_TYPES, SCALE_PATTERNS } from "@/lib/utils/scaleConstants";
 import { useUrlSyncedGlobalConfig } from "@/features/globalConfig/useUrlSyncedGlobalConfig";
+import { NextIntlClientProvider } from "next-intl";
+import { isLocale } from "@/lib/i18n/types";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
+  locale: string;
 }
 
-export default function ClientLayout({ children }: ClientLayoutProps) {
+export default function ClientLayout({ children, locale }: ClientLayoutProps) {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const isDarkMode = useSelector(selectIsDarkMode);
   const applicationState = useSelector(selectApplicationState);
   const instrument = useSelector(selectInstrument);
+  const language = useSelector(selectLanguage);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [messages, setMessages] = useState<Record<string, string> | null>(null);
+
+  // Derive the effective locale from the URL param, Redux state, or the server prop.
+  // This is necessary because the app uses static export (output: "export"), so
+  // layout.tsx always renders with locale="en" at build time. We must read the
+  // actual user preference from the URL or localStorage on the client.
+  const urlLang = searchParams.get("lang");
+  const effectiveLocale =
+    urlLang && isLocale(urlLang) ? urlLang : language;
+
+  // Load messages for the current locale
+  useEffect(() => {
+    async function loadMessages() {
+      const msgs = (await import(`@/lib/i18n/messages/${effectiveLocale}.json`)).default;
+      setMessages(msgs);
+    }
+    loadMessages();
+  }, [effectiveLocale]);
 
   // Handle hydration
   useEffect(() => {
     setIsHydrated(true);
   }, []);
+
+  // Browser language detection on first visit (no URL param, no saved preference)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const savedState = localStorage.getItem("state");
+    if (savedState) {
+      try {
+        const parsed = JSON.parse(savedState);
+        if (parsed.globalConfig?.language) return; // User has a saved preference
+      } catch {
+        // ignore
+      }
+    }
+    // No saved preference — detect from browser
+    const browserLang = navigator.language.split("-")[0].toLowerCase();
+    if (isLocale(browserLang) && browserLang !== effectiveLocale) {
+      dispatch(setLanguage(browserLang));
+      dispatch(saveState());
+    }
+  }, [dispatch, effectiveLocale]);
 
   useEffect(() => {
     if (applicationState === "started") {
@@ -82,7 +127,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
   useEffect(() => {
     if (!isHydrated) return;
-    
+
     const savedScale = localStorage.getItem("current-scale");
     if (savedScale) {
       try {
@@ -99,8 +144,14 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   useUrlSyncedGlobalConfig();
 
   useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = effectiveLocale;
+    }
+  }, [effectiveLocale]);
+
+  useEffect(() => {
     if (!isHydrated) return;
-    
+
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
     } else {
@@ -120,32 +171,42 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
   // Always render the same structure to avoid hydration mismatch
   const showContent = isHydrated && applicationState === "initialized";
 
-  return (
-    <main className="min-h-screen transition-colors duration-200" suppressHydrationWarning>
-      {showContent ? (
-        <div className="max-w-[1600px] mx-auto p-2 sm:p-3 flex flex-col gap-2 sm:gap-3">
-          <Header />
+  if (!messages) {
+    return (
+      <div className="min-h-screen flex items-center justify-center rack-mono text-sm text-[var(--console-text-dim)]">
+        Loading...
+      </div>
+    );
+  }
 
-          <div className="rack-panel">
-            <ErrorBoundary
-              fallback={
-                <div className="p-4 text-[var(--console-danger)]">
-                  <p>Something went wrong.</p>
-                  <p>Please try refreshing the page.</p>
-                </div>
-              }
-            >
-              <div className="p-2 sm:p-3">{children}</div>
-            </ErrorBoundary>
+  return (
+    <NextIntlClientProvider locale={effectiveLocale} messages={messages}>
+      <main className="min-h-screen transition-colors duration-200" suppressHydrationWarning>
+        {showContent ? (
+          <div className="max-w-[1600px] mx-auto p-2 sm:p-3 flex flex-col gap-2 sm:gap-3">
+            <Header />
+
+            <div className="rack-panel">
+              <ErrorBoundary
+                fallback={
+                  <div className="p-4 text-[var(--console-danger)]">
+                    <p>Something went wrong.</p>
+                    <p>Please try refreshing the page.</p>
+                  </div>
+                }
+              >
+                <div className="p-2 sm:p-3">{children}</div>
+              </ErrorBoundary>
+            </div>
+            <Details />
+            <Footer isDarkMode={isDarkMode} />
           </div>
-          <Details />
-          <Footer isDarkMode={isDarkMode} />
-        </div>
-      ) : (
-        <div className="min-h-screen flex items-center justify-center rack-mono text-sm text-[var(--console-text-dim)]">
-          Loading...
-        </div>
-      )}
-    </main>
+        ) : (
+          <div className="min-h-screen flex items-center justify-center rack-mono text-sm text-[var(--console-text-dim)]">
+            Loading...
+          </div>
+        )}
+      </main>
+    </NextIntlClientProvider>
   );
 }
