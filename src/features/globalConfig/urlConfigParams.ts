@@ -10,6 +10,7 @@ import { Note } from "@/lib/utils/note";
 import { Scale, ScaleMode, ScaleType } from "@/lib/utils/scaleType";
 import { ROOTS, SCALE_TYPES } from "@/lib/utils/scaleConstants";
 import { getCustomScales } from "@/lib/utils/customScaleTypes";
+import { Locale, isLocale } from "@/lib/i18n/types";
 
 export const URL_PARAM_KEYS = {
   root: "root",
@@ -18,6 +19,7 @@ export const URL_PARAM_KEYS = {
   highlightRoots: "color",
   showFlats: "flats",
   showDegrees: "numbers",
+  lang: "lang",
 } as const;
 
 // The app's root-note picker (src/components/Header.tsx) only ever offers
@@ -51,11 +53,14 @@ const isValidScaleType = (value: string): value is ScaleType => {
 const isBooleanFlag = (value: string): value is "1" | "0" =>
   value === "1" || value === "0";
 
+const isValidLocale = (value: string): value is Locale => isLocale(value);
+
 export interface GlobalConfigUrlSlice {
   scale: Scale;
   highlightRoots: boolean;
   showFlats: boolean;
   showDegrees: boolean;
+  language: Locale;
 }
 
 export interface GlobalConfigUrlPatch {
@@ -65,6 +70,7 @@ export interface GlobalConfigUrlPatch {
   highlightRoots?: boolean;
   showFlats?: boolean;
   showDegrees?: boolean;
+  language?: Locale;
 }
 
 /**
@@ -82,6 +88,9 @@ export function encodeGlobalConfigToParams(
   params.set(URL_PARAM_KEYS.highlightRoots, config.highlightRoots ? "1" : "0");
   params.set(URL_PARAM_KEYS.showFlats, config.showFlats ? "1" : "0");
   params.set(URL_PARAM_KEYS.showDegrees, config.showDegrees ? "1" : "0");
+  if (config.language && config.language !== "en") {
+    params.set(URL_PARAM_KEYS.lang, config.language);
+  }
   return params;
 }
 
@@ -123,6 +132,11 @@ export function decodeParamsToGlobalConfigPatch(
   const showDegrees = params.get(URL_PARAM_KEYS.showDegrees);
   if (showDegrees !== null && isBooleanFlag(showDegrees)) {
     patch.showDegrees = showDegrees === "1";
+  }
+
+  const language = params.get(URL_PARAM_KEYS.lang);
+  if (language !== null && isValidLocale(language)) {
+    patch.language = language;
   }
 
   return patch;

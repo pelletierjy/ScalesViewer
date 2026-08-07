@@ -1,0 +1,398 @@
+{
+  "app": {
+    "title": "Visionneuse de Gammes",
+    "tagline": "Outil de visualisation des gammes musicales"
+  },
+  "instrument": {
+    "guitar": "Guitare",
+    "piano": "Piano",
+    "kalimba": "Kalimba",
+    "harmonica": "Harmonica",
+    "flute": "Flûte",
+    "recorder": "Flûte à bec"
+  },
+  "scale": {
+    "major": "Majeure (Ionien)",
+    "minor": "Mineure (Naturelle)",
+    "pentatonic": "Pentatonique Majeure",
+    "minor-pentatonic": "Pentatonique Mineure",
+    "blues": "Blues",
+    "bebop": "Bebop",
+    "bebop-dominant": "Bebop Dominant",
+    "bebop-major": "Bebop Majeure",
+    "bebop-minor": "Bebop Mineure",
+    "diminished": "Diminuée",
+    "whole-tone": "Par tons entiers",
+    "altered": "Altérée",
+    "dorian": "Dorien",
+    "phrygian": "Phrygien",
+    "lydian": "Lydien",
+    "mixolydian": "Mixolydien",
+    "aeolian": "Éolien",
+    "locrian": "Locrien",
+    "lydian-dominant": "Lydien Dominant",
+    "super-locrian": "Super Locrien",
+    "melodic-minor": "Mineure Mélodique",
+    "harmonic-minor": "Mineure Harmonique",
+    "hungarian-minor": "Mineure Hongroise",
+    "ukrainian-dorian": "Dorien Ukrainien",
+    "persian": "Perse",
+    "byzantine": "Byzantine",
+    "japanese": "Japonaise",
+    "hirajoshi": "Hirajoshi",
+    "in-sen": "In-Sen",
+    "iwato": "Iwato",
+    "chromatic": "Chromatique",
+    "diminished-whole-half": "Diminuée (T-1/2)",
+    "diminished-half-whole": "Diminuée (1/2-T)",
+    "egyptian": "Égyptienne",
+    "chinese": "Chinoise",
+    "japanese-pentatonic": "Pentatonique Japonaise"
+  },
+  "scaleGroup": {
+    "common": "Communes",
+    "jazz": "Jazz",
+    "modes": "Modes",
+    "modalVariants": "Variantes Modales",
+    "exotic": "Exotiques",
+    "symmetric": "Symétriques",
+    "pentatonicVariants": "Variantes Pentatoniques",
+    "other": "Autres",
+    "custom": "Personnalisées"
+  },
+  "tuning": {
+    "standard6": "Standard (6)",
+    "perfect4Interval6": "Quarte juste (6)",
+    "dropD6": "Drop D (6)",
+    "openD6": "Open D (6)",
+    "openG6": "Open G (6)",
+    "dadgad6": "DADGAD (6)",
+    "standard7": "Standard (7)",
+    "perfect4Interval7": "Quarte juste (7)",
+    "dropA7": "Drop A (7)",
+    "russian7": "Russe (7)",
+    "standard8": "Standard (8)",
+    "perfect4Interval8": "Quarte juste (8)",
+    "dropE8": "Drop E (8)",
+    "progressive8": "Progressive (8)",
+    "perfect4Interval9": "Quarte juste (9)",
+    "perfect4Interval10": "Quarte juste (10)",
+    "halfStepDown6": "Un demi-ton en dessous (6)",
+    "fullStepDown6": "Un ton en dessous (6)",
+    "openE6": "Open E (6)",
+    "openA6": "Open A (6)",
+    "openC6": "Open C (6)",
+    "nashville6": "Nashville (6)",
+    "base4": "Basse (4)",
+    "base5": "Basse (5)",
+    "mandolin": "Mandoline"
+  },
+  "tuningCategory": {
+    "standard": "Standard",
+    "drop": "Drop",
+    "open": "Open",
+    "special": "Spéciale",
+    "bass": "Basse",
+    "mandolin": "Mandoline",
+    "custom": "Personnalisée"
+  },
+  "texture": {
+    "rosewood": "Palissandre",
+    "ebony": "Ébène clair de lune",
+    "maple": "Érable",
+    "pauFerro": "Pau Ferro",
+    "richlite": "Richlite"
+  },
+  "soundEngine": {
+    "sample": "Échantillons d'instruments",
+    "synth": "Synthétiseur pizzicato",
+    "sine": "Sinusoïde classique",
+    "sampleDescription": "Courts enregistrements par instrument, transposés à chaque note.",
+    "synthDescription": "Pizzicato synthétisé pour guitare et kalimba ; échantillons pour piano et harmonica.",
+    "sineDescription": "Ton sinusoïde simple (comportement original)."
+  },
+  "settings": {
+    "title": "Paramètres",
+    "close": "Fermer le panneau de paramètres",
+    "sound": "Son",
+    "playbackEngine": "Moteur de lecture",
+    "export": "Exporter les paramètres",
+    "import": "Importer les paramètres",
+    "reset": "Rétablir les paramètres par défaut",
+    "resetDescription": "Réinitialiser tous les paramètres à leurs valeurs d'origine. Cette action ne peut pas être annulée.",
+    "versionWarning": "Attention : ce fichier de paramètres a été exporté depuis la version {importVersion} (actuelle : {currentVersion}). Certains paramètres peuvent ne pas être compatibles."
+  },
+  "help": {
+    "previous": "Diapositive précédente",
+    "next": "Diapositive suivante",
+    "close": "Fermer l'aide",
+    "slideCounter": "{current} / {total}",
+    "slides": [
+      {
+        "title": "Commencez à explorer",
+        "intro": "GScale s'adresse à tous les niveaux. Voici comment en tirer le meilleur parti.",
+        "steps": [
+          { "title": "Choisissez un instrument", "desc": "Utilisez le menu déroulant pour naviguer vers Guitare, Piano, Kalimba, Harmonica, Flûte ou Flûte à bec" },
+          { "title": "Choisissez une gamme et une fondamentale", "desc": "Sélectionnez parmi plus de 60 gammes intégrées ou créez la vôtre, puis choisissez une note fondamentale" },
+          { "title": "Cliquez sur les notes pour les entendre", "desc": "Chaque note mise en évidence sur chaque instrument est cliquable — utilisez-la pour l'entraînement auditif" },
+          { "title": "Ajustez votre vue", "desc": "Basculez entre degrés/noms, dièses/bémols, couleur/mono et foncé/clair selon vos préférences" },
+          { "title": "Personnalisez davantage", "desc": "Pour la guitare : ajustez l'accordage, le nombre de frettes, la texture, l'orientation et activez/désactivez des cordes ou frettes spécifiques" },
+          { "title": "Sauvegardez et partagez", "desc": "Exportez vos gammes et accordages personnalisés pour les sauvegarder ou les partager" }
+        ]
+      },
+      {
+        "title": "Bienvenue sur GScale",
+        "subtitle": "Outil de visualisation des gammes musicales",
+        "intro": "Une application interactive pour visualiser et apprendre les gammes musicales sur plusieurs instruments. Cliquez sur n'importe quelle note pour l'entendre, personnalisez votre vue et explorez plus de 60 gammes.",
+        "tags": ["Guitare", "Piano", "Kalimba", "Harmonica", "Flûte", "Flûte à bec", "60+ Gammes", "Lecture Audio", "Gammes personnalisées"]
+      },
+      {
+        "title": "Naviguer dans l'interface",
+        "intro": "La barre d'en-tête contient tous les contrôles globaux, accessibles depuis n'importe quelle page d'instrument.",
+        "features": [
+          { "icon": "🎸", "title": "Sélecteur d'instrument", "desc": "Basculez entre Guitare, Piano, Kalimba, Harmonica, Flûte et Flûte à bec à l'aide du menu déroulant" },
+          { "icon": "🎵", "title": "Sélecteurs de gamme et de fondamentale", "desc": "Choisissez parmi plus de 60 types de gammes et n'importe quelle note fondamentale (Do à Si, dièses et bémols)" },
+          { "icon": "🔢", "title": "Degrés / Noms de notes", "desc": "Basculez entre les numéros de degré (1–7) et les noms de notes (Do, Ré, Mi…)" },
+          { "icon": "♭", "title": "Bémols / Dièses", "desc": "Changez l'affichage entre les bémols (♭) et les dièses (♯)" },
+          { "icon": "🎨", "title": "Couleur / Monochrome", "desc": "Le mode couleur met en évidence chaque intervalle ; le mode monochrome n'affiche que les notes fondamentales" },
+          { "icon": "🌓", "title": "Thème sombre / clair", "desc": "Basculez entre les modes sombre et clair — la préférence est sauvegardée automatiquement" }
+        ]
+      },
+      {
+        "title": "Bibliothèque de gammes et gammes personnalisées",
+        "intro": "GScale propose plus de 60 gammes intégrées. Vous pouvez aussi créer les vôtres.",
+        "features": [
+          { "icon": "📚", "title": "60+ Gammes intégrées", "desc": "Couvre les gammes Majeure, Mineure, Pentatonique, Blues, Jazz Bebop, Modes (Dorien, Phrygien, Lydien…) et Exotiques (Mineure hongroise, Byzantine, Perse…)" },
+          { "icon": "✏️", "title": "Éditeur de gammes personnalisées", "desc": "Ouvrez le menu déroulant des gammes et sélectionnez '+ Créer une gamme personnalisée' pour construire une gamme à partir d'intervalles" },
+          { "icon": "🎹", "title": "Sélecteur d'intervalles", "desc": "Sélectionnez n'importe quelle combinaison des 12 demi-tons pour définir votre gamme — un aperçu en Do se met à jour en temps réel" },
+          { "icon": "📝", "title": "Nommer et catégoriser", "desc": "Donnez un nom et une catégorie à votre gamme pour qu'elle apparaisse groupée avec des gammes similaires dans le menu déroulant" },
+          { "icon": "🔁", "title": "Modifier ou supprimer", "desc": "Les gammes personnalisées peuvent être modifiées ou supprimées à tout moment depuis l'éditeur" }
+        ]
+      },
+      {
+        "title": "Guitare — Configuration du manche",
+        "intro": "La page Guitare offre le plus d'options de configuration. Tous les réglages sont sauvegardés automatiquement.",
+        "features": [
+          { "icon": "🎸", "title": "Préréglages d'accordage", "desc": "Choisissez parmi des dizaines d'accordages prédéfinis (Standard, Drop D, Open G, DADGAD et bien d'autres) organisés par catégorie" },
+          { "icon": "🎚️", "title": "Transposition de l'accordage", "desc": "Décalez l'accordage entier vers le haut ou le bas par demi-tons à l'aide du sélecteur d'accordage de base" },
+          { "icon": "📏", "title": "Nombre de frettes", "desc": "Affichez 12, 20, 21, 22, 23 ou 24 frettes pour correspondre à votre instrument" },
+          { "icon": "🪵", "title": "Texture du manche", "desc": "Choisissez une texture visuelle : Palissandre, Ébène clair de lune, Érable, Pau Ferro ou Richlite" },
+          { "icon": "↔️", "title": "Retourner horizontalement", "desc": "Miroitez le manche de gauche à droite — utile pour les gauchers" },
+          { "icon": "↕️", "title": "Retourner verticalement", "desc": "Miroitez le manche de haut en bas pour correspondre à l'ordre de cordes préféré" },
+          { "icon": "📐", "title": "Espacement des cordes", "desc": "Basculez entre Normal et Élargi pour une meilleure lisibilité" }
+        ]
+      },
+      {
+        "title": "Guitare — Contrôle des cordes et frettes",
+        "intro": "Concentrez-vous sur n'importe quelle partie du manche en activant ou désactivant des cordes et positions de frettes individuelles.",
+        "features": [
+          { "icon": "☑️", "title": "Cases à cocher des cordes", "desc": "Chaque corde a une case à cocher sur le côté gauche — décochez pour masquer cette corde de la visualisation" },
+          { "icon": "☑️", "title": "Cases à cocher des frettes", "desc": "Chaque colonne de frette a une case à cocher en bas — décochez pour masquer cette position" },
+          { "icon": "⊟", "title": "Tout activer / désactiver", "desc": "Le bouton à l'intersection des axes active/désactive toutes les cordes ET toutes les frettes en même temps — idéal pour isoler une région puis tout réactiver" },
+          { "icon": "🎸", "title": "Accordages personnalisés", "desc": "Créez votre propre accordage : définissez le nombre de cordes (4–18), nommez chaque note de corde et sauvegardez-le avec les préréglages" },
+          { "icon": "📐", "title": "Multi-échelle / Frettes en éventail", "desc": "Activez le mode multi-échelle pour définir des longueurs d'échelle indépendantes pour les aigus et les graves, avec une frette perpendiculaire configurable" }
+        ]
+      },
+      {
+        "title": "Piano",
+        "intro": "La page Piano affiche un clavier interactif avec les notes de la gamme mises en évidence.",
+        "features": [
+          { "icon": "🎹", "title": "Nombre d'octaves", "desc": "Sélectionnez 1, 2, 3 ou 4 octaves à afficher — votre choix est sauvegardé automatiquement" },
+          { "icon": "🖱️", "title": "Cliquer pour jouer", "desc": "Cliquez sur n'importe quelle touche mise en évidence pour entendre la note via l'API Web Audio" },
+          { "icon": "🎨", "title": "Intervalles codés par couleur", "desc": "Les notes de la gamme sont colorées par degré (degrés pairs en vert, impairs en orange, fondamentale en contraste élevé). Les notes hors gamme sont grisées." },
+          { "icon": "⌨️", "title": "Accessible au clavier", "desc": "Naviguez avec Tab vers une touche et appuyez sur Entrée ou Espace pour la jouer" }
+        ]
+      },
+      {
+        "title": "Kalimba",
+        "intro": "La page Kalimba affiche une disposition traditionnelle de 17 lames de piano à pouce.",
+        "features": [
+          { "icon": "🎵", "title": "Disposition 17 lames", "desc": "Les lames sont disposées du centre vers l'extérieur en alternance gauche/droite, comme sur une vraie kalimba" },
+          { "icon": "🖱️", "title": "Cliquer pour jouer", "desc": "Cliquez sur n'importe quelle lame pour l'entendre. Les notes de la gamme sont colorées ; les notes hors gamme sont visibles mais grisées" },
+          { "icon": "🎨", "title": "Couleurs d'intervalles", "desc": "Même schéma de couleurs que les autres instruments — couleur ou monochrome selon votre réglage d'affichage global" },
+          { "icon": "🔢", "title": "Étiquettes de notes", "desc": "Chaque lame affiche le nom de la note, le bémol/dièse ou le degré de la gamme selon votre bascule d'affichage" }
+        ]
+      },
+      {
+        "title": "Harmonica",
+        "intro": "La page Harmonica affiche une disposition standard d'harmonica diatonique à 10 trous.",
+        "features": [
+          { "icon": "🎷", "title": "Notes de souffle et d'aspiration", "desc": "Chaque trou affiche à la fois la note de souffle (↑) et la note d'aspiration (↓) côte à côte" },
+          { "icon": "🎼", "title": "Sélecteur de tonalité d'harmonica", "desc": "Choisissez la tonalité de votre harmonica (Do, Sol, La, Ré, Fa, Si♭, Mi♭) — toutes les notes se transposent automatiquement" },
+          { "icon": "🖱️", "title": "Cliquer pour jouer", "desc": "Cliquez sur n'importe quelle note de souffle ou d'aspiration pour l'entendre. Seules les notes de la gamme sont actives ; les autres sont grisées" },
+          { "icon": "🔢", "title": "Numéros de trous", "desc": "Les trous sont numérotés de 1 à 10 comme référence standard de l'harmonica" }
+        ]
+      },
+      {
+        "title": "Flûte et Flûte à bec",
+        "intro": "Les pages Flûte et Flûte à bec affichent un diagramme de doigté pour chaque note de la gamme.",
+        "features": [
+          { "icon": "🎼", "title": "Diagrammes de doigtés", "desc": "Chaque note de la gamme est dessinée comme un doigté jouable — les trous/clés remplis sont couverts, les vides sont ouverts" },
+          { "icon": "🎚️", "title": "Type de flûte à bec", "desc": "Choisissez la taille de la flûte à bec — Sopranino, Soprano, Alto, Ténor, Basse, Grande Basse, Contrebasse, Sub-contrebasse — groupées par tonalité (en Do / en Fa). Les doigtés restent les mêmes ; la hauteur sonore se transpose." },
+          { "icon": "🔢", "title": "Notes à afficher", "desc": "Choisissez combien de notes consécutives de la gamme à afficher (1, 3, 5, 7, 12 ou 24)" },
+          { "icon": "🖱️", "title": "Cliquer pour jouer", "desc": "Cliquez sur n'importe quel diagramme pour entendre cette note" }
+        ],
+        "note": "Les doigtés de flûte à bec utilisent le système baroque (anglais), commun à toutes les tailles de flûte à bec."
+      },
+      {
+        "title": "Accordages personnalisés",
+        "intro": "Créez, modifiez et gérez les accordages de guitare directement dans l'application.",
+        "features": [
+          { "icon": "➕", "title": "Créer un accordage", "desc": "Sélectionnez '+ Accordage personnalisé' dans le menu déroulant des accordages pour ouvrir l'éditeur" },
+          { "icon": "🔢", "title": "Nombre de cordes", "desc": "Définissez de 4 à 18 cordes — chacune a son propre sélecteur de note" },
+          { "icon": "📋", "title": "Dupliquer un accordage", "desc": "Utilisez le bouton de duplication pour copier un accordage existant comme point de départ d'une variation" },
+          { "icon": "✏️", "title": "Modifier ou supprimer", "desc": "Les accordages personnalisés peuvent être renommés, modifiés ou supprimés à tout moment" },
+          { "icon": "💾", "title": "Stockage persistant", "desc": "Tous les accordages personnalisés sont sauvegardés dans le stockage local et survivent aux rafraîchissements de page" }
+        ]
+      },
+      {
+        "title": "Paramètres, Export et Import",
+        "intro": "Accédez au panneau des paramètres via l'icône d'engrenage dans l'en-tête pour gérer votre configuration.",
+        "features": [
+          { "icon": "📤", "title": "Exporter les paramètres", "desc": "Téléchargez tous vos paramètres (gammes personnalisées, accordages personnalisés, préférences d'affichage) sous forme de fichier JSON avec un nom horodaté" },
+          { "icon": "📥", "title": "Importer les paramètres", "desc": "Chargez un fichier de paramètres précédemment exporté pour restaurer votre configuration — sur n'importe quel appareil" },
+          { "icon": "✅", "title": "Validation d'import", "desc": "L'importateur vérifie la compatibilité des versions et indique quels paramètres ont été appliqués et lesquels ont été ignorés" },
+          { "icon": "🔄", "title": "Rétablir les paramètres par défaut", "desc": "Le bouton de réinitialisation restaure tous les paramètres aux valeurs d'usine après une confirmation" },
+          { "icon": "💾", "title": "Sauvegarde automatique", "desc": "Chaque changement de paramètre est sauvegardé automatiquement dans le localStorage — aucune sauvegarde manuelle n'est nécessaire" }
+        ],
+        "note": "Utilisez Export/Import pour sauvegarder vos gammes et accordages personnalisés ou les partager."
+      }
+    ]
+  },
+  "ui": {
+    "instrument": "Instrument",
+    "scale": "Gamme",
+    "root": "Fondamentale",
+    "tuning": "Accordage",
+    "baseTuning": "Accordage de base",
+    "numberOfFrets": "Nombre de frettes",
+    "fretboardTexture": "Texture du manche",
+    "stringSpacing": "Espacement des cordes",
+    "stringSpacingNormal": "Normal",
+    "stringSpacingEnlarged": "Élargi",
+    "orientation": "Orientation",
+    "flipHorizontally": "Retourner horizontalement",
+    "flipVertically": "Retourner verticalement",
+    "multiscale": "Multi-échelle/Frettes en éventail",
+    "trebleScaleLength": "Longueur d'échelle aiguë",
+    "bassScaleLength": "Longueur d'échelle grave",
+    "perpendicularFret": "Frette perpendiculaire",
+    "showNoteNames": "Afficher les noms de notes",
+    "showScaleDegrees": "Afficher les degrés de gamme",
+    "showSharpNotes": "Afficher les notes dièses",
+    "showFlatNotes": "Afficher les notes bémols",
+    "highlightIntervals": "Mettre en évidence les intervalles",
+    "highlightRootNotes": "Mettre en évidence les notes fondamentales",
+    "showHelp": "Afficher le diaporama d'aide",
+    "openSettings": "Ouvrir les paramètres",
+    "switchToLightMode": "Passer en mode clair",
+    "switchToDarkMode": "Passer en mode sombre",
+    "customScale": "+ Gamme personnalisée",
+    "customTuning": "+ Accordage personnalisé",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "save": "Sauvegarder",
+    "update": "Mettre à jour",
+    "duplicate": "Dupliquer",
+    "close": "Fermer",
+    "loading": "Chargement...",
+    "somethingWentWrong": "Une erreur s'est produite.",
+    "pleaseRefresh": "Veuillez essayer de rafraîchir la page.",
+    "rigSetup": "Configuration",
+    "language": "Langue",
+    "custom": "(Personnalisé)"
+  },
+  "error": {
+    "exportNoData": "Aucun paramètre à exporter.",
+    "exportSerialize": "Échec de la sérialisation des données.",
+    "exportBrowserBlock": "Le téléchargement a été bloqué par le navigateur. Veuillez vérifier vos paramètres de fenêtres contextuelles.",
+    "exportStorageFull": "Impossible d'exporter : le localStorage n'est pas accessible.",
+    "importFileTooLarge": "Le fichier est trop volumineux. La taille maximale est de 10 Mo.",
+    "importInvalidJson": "Le fichier sélectionné n'est pas un JSON valide. Veuillez vérifier le fichier et réessayer.",
+    "importInvalidFormat": "Format de paramètres non reconnu. Fichier de paramètres ScalesViewer attendu.",
+    "importReadError": "Échec de la lecture du fichier. Veuillez réessayer.",
+    "importValidationFailed": "Le fichier contient des données de paramètres invalides.",
+    "importStorageFull": "Le stockage est plein. Essayez d'effacer des données du navigateur d'abord.",
+    "importVersionMismatch": "Attention : ce fichier de paramètres provient d'une version différente de l'application.",
+    "importPartialFailure": "Certains paramètres n'ont pas pu être importés. Voir les détails pour plus d'informations.",
+    "resetCancelled": "Réinitialisation annulée par l'utilisateur.",
+    "resetClearFailed": "Échec de la suppression de certains paramètres. Veuillez effacer les données du navigateur manuellement.",
+    "unknownError": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+    "localStorageUnavailable": "Le stockage du navigateur n'est pas disponible. Veuillez vérifier les paramètres de votre navigateur.",
+    "operationInProgress": "Une autre opération est déjà en cours. Veuillez patienter."
+  },
+  "success": {
+    "exportSuccess": "Paramètres exportés avec succès vers {filename}",
+    "importSuccess": "{count} paramètres importés avec succès.",
+    "resetSuccess": "Paramètres rétablis aux valeurs par défaut. La page va se recharger."
+  },
+  "customScaleEditor": {
+    "editScale": "Modifier la gamme",
+    "createScale": "Créer une gamme personnalisée",
+    "scaleName": "Nom de la gamme",
+    "group": "Groupe (Catégorie)",
+    "groupPlaceholder": "ex. Personnalisée, Jazz, Exotique…",
+    "notes": "Notes",
+    "addNote": "+ Ajouter une note",
+    "previewInC": "Aperçu en Do — {name} ({count} notes)",
+    "scaleMustIncludeRoot": "La gamme doit inclure la note fondamentale (0 – Tonique)",
+    "duplicateInterval": "Chaque intervalle ne peut apparaître qu'une seule fois",
+    "interval0": "0 – Tonique",
+    "interval1": "1 – m2",
+    "interval2": "2 – M2",
+    "interval3": "3 – m3",
+    "interval4": "4 – M3",
+    "interval5": "5 – 4 juste",
+    "interval6": "6 – TT",
+    "interval7": "7 – 5 juste",
+    "interval8": "8 – m6",
+    "interval9": "9 – M6",
+    "interval10": "10 – m7",
+    "interval11": "11 – M7",
+    "remove": "Supprimer",
+    "scaleNameExists": "Une gamme avec ce nom existe déjà",
+    "unnamed": "Sans nom",
+    "noteN": "Note {n}"
+  },
+  "customTuningEditor": {
+    "editTuning": "Modifier l'accordage",
+    "createTuning": "Créer un accordage personnalisé",
+    "tuningName": "Nom de l'accordage",
+    "numberOfStrings": "Nombre de cordes",
+    "stringNotesHighToLow": "Notes des cordes (Aigu à Grave)",
+    "stringN": "Corde {n}",
+    "stringsCount": "{n} cordes",
+    "tuningNameExists": "Un accordage avec ce nom existe déjà",
+    "saveTuning": "Sauvegarder l'accordage",
+    "updateTuning": "Mettre à jour l'accordage"
+  },
+  "confirm": {
+    "deleteCustomScale": "Voulez-vous vraiment supprimer cette gamme personnalisée ?",
+    "deleteCustomTuning": "Voulez-vous vraiment supprimer cet accordage personnalisé ?"
+  },
+  "pattern": {
+    "patternSequencer": "Séquenceur de motifs",
+    "practicePatterns": "Pratiquez des motifs mélodiques verrouillés sur la gamme.",
+    "enable": "Activer",
+    "disable": "Désactiver",
+    "pattern": "Motif",
+    "noPatternSelected": "Aucun motif sélectionné",
+    "tempoBpm": "Tempo (BPM)",
+    "loop": "Boucle",
+    "play": "Lecture",
+    "stop": "Arrêt"
+  },
+  "multiscale": {
+    "nut0thFret": "Sillet (0e frette)",
+    "7thFret": "7e frette",
+    "9thFret": "9e frette",
+    "12thFret": "12e frette"
+  },
+  "footer": {
+    "allRightsReserved": "Tous droits réservés."
+  },
+  "aria": {
+    "languageSelector": "Sélectionner la langue"
+  }
+}

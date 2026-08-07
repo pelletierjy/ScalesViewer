@@ -49,6 +49,24 @@ Jean-Yves Pelletier
 - Native desktop application for Windows
 - **Instrument-aware audio**: short samples per instrument (guitar, piano, kalimba, harmonica), optional pluck synth, or classic sine — configurable under Settings → Sound (see `specs/instrument-audio/spec.md`)
 
+## Internationalization
+
+GScale supports multiple languages. The interface, scale names, help content, and settings are fully localized.
+
+**Supported languages:**
+- 🇬🇧 English (default)
+- 🇫🇷 French
+- 🇪🇸 Spanish
+
+The app automatically detects your browser language on first visit. You can also switch languages manually using the language selector in the header. Your preference is saved and synced to the URL so shared links preserve the chosen language.
+
+**Contributing translations:**
+Translation files are located in `src/lib/i18n/messages/`. To add or improve a translation:
+1. Copy `en.json` to a new locale file (e.g., `de.json` for German)
+2. Translate all the values while keeping the keys unchanged
+3. Add the new locale to `src/lib/i18n/types.ts` and `src/lib/i18n/config.ts`
+4. Open a pull request
+
 ## Tech Stack
 
 - **Framework**: Next.js 15

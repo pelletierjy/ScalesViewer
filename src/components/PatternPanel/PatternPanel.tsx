@@ -23,8 +23,10 @@ import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { getPatternNotesWithOctave } from "@/lib/utils/patternUtils";
 import { Scale } from "@/lib/utils/scaleType";
 import { Panel, Field, Select, TextInput, Button } from "@/components/ui";
+import { useTranslations } from "next-intl";
 
 export default function PatternPanel({ scale }: { scale: Scale }) {
+  const t = useTranslations();
   const dispatch = useDispatch<AppDispatch>();
   const isPatternModeEnabled = useSelector(selectIsPatternModeEnabled);
   const selectedPatternId = useSelector(selectSelectedPatternId);
@@ -78,13 +80,13 @@ export default function PatternPanel({ scale }: { scale: Scale }) {
 
   if (!isPatternModeEnabled) {
     return (
-      <Panel title="Pattern Sequencer">
+      <Panel title={t("pattern.patternSequencer")}>
         <div className="flex items-center justify-between gap-4">
           <p className="text-sm text-[var(--console-text-dim)]">
-            Practice melodic patterns locked to the scale.
+            {t("pattern.practicePatterns")}
           </p>
           <Button tone="accent2" onClick={() => dispatch(togglePatternMode())}>
-            Enable
+            {t("pattern.enable")}
           </Button>
         </div>
       </Panel>
@@ -93,19 +95,19 @@ export default function PatternPanel({ scale }: { scale: Scale }) {
 
   return (
     <Panel
-      title="Pattern Sequencer"
+      title={t("pattern.patternSequencer")}
       headerRight={
         <Button size="sm" onClick={() => dispatch(togglePatternMode())}>
-          Disable
+          {t("pattern.disable")}
         </Button>
       }
     >
       <p className="text-sm text-[var(--console-text-dim)] mb-3">
-        {scale.root} {scale.type} — {currentPattern?.name ?? "No pattern selected"}
+        {scale.root} {scale.type} — {currentPattern?.name ?? t("pattern.noPatternSelected", { defaultMessage: "No pattern selected" })}
       </p>
 
       <div className="flex flex-wrap items-end gap-4 mb-4">
-        <Field label="Pattern">
+        <Field label={t("pattern.pattern")} >
           <Select
             value={selectedPatternId ?? ""}
             onChange={(e) => dispatch(selectPattern(e.target.value))}
@@ -118,7 +120,7 @@ export default function PatternPanel({ scale }: { scale: Scale }) {
           </Select>
         </Field>
 
-        <Field label="Tempo (BPM)">
+        <Field label={t("pattern.tempoBpm")}>
           <div className="flex items-center gap-2">
             <input
               type="range"
@@ -146,14 +148,14 @@ export default function PatternPanel({ scale }: { scale: Scale }) {
             onChange={() => dispatch(toggleLoop())}
             className="rounded-none accent-[var(--console-accent)]"
           />
-          Loop
+          {t("pattern.loop")}
         </label>
       </div>
 
       {currentPattern && (
         <div className="flex flex-wrap items-center gap-2 mb-4">
           <Button tone={isPlaying ? "danger" : "success"} onClick={handleTogglePlayback}>
-            {isPlaying ? "Stop" : "Play"}
+            {isPlaying ? t("pattern.stop") : t("pattern.play")}
           </Button>
 
           <div className="flex items-center gap-1">

@@ -19,6 +19,7 @@ import { ResetButton } from "./ResetButton";
 import { SettingsError } from "./SettingsError";
 import { SuccessMessages } from "@/features/settings/utils/settingsErrors";
 import { Select } from "@/components/ui";
+import { useTranslations } from "next-intl";
 
 interface SettingsPanelProps {
   isOpen: boolean;
@@ -34,6 +35,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
   onClose,
   triggerRef,
 }) => {
+  const t = useTranslations();
   const dispatch = useDispatch();
   const soundEngine = useSelector(selectSoundEngine);
   const { error, clearError } = useSettingsManager();
@@ -92,7 +94,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
   const handleVersionMismatch = (currentVersion: string, importVersion: string) => {
     setVersionWarning(
-      `Warning: This settings file was exported from version ${importVersion} (current: ${currentVersion}). Some settings may not be compatible.`
+      t("settings.versionWarning", { importVersion, currentVersion })
     );
   };
 
@@ -169,13 +171,13 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
             id="settings-panel-title"
             className="rack-label text-sm"
           >
-            Settings
+            {t("settings.title")}
           </h2>
           <button
             ref={firstFocusableRef}
             onClick={onClose}
             className="p-1 hover:text-[var(--console-accent)] transition-colors"
-            aria-label="Close settings panel"
+            aria-label={t("settings.close")}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -220,13 +222,13 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
               id="sound-settings-title"
               className="rack-label mb-2"
             >
-              Sound
+              {t("settings.sound")}
             </h3>
             <label
               htmlFor="sound-engine-select"
               className="block text-sm mb-1 text-[var(--console-text-dim)]"
             >
-              Playback engine
+              {t("settings.playbackEngine")}
             </label>
             <Select
               id="sound-engine-select"
@@ -237,17 +239,14 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
               }}
               className="w-full"
             >
-              <option value="sample">Instrument samples</option>
-              <option value="synth">Pluck synth</option>
-              <option value="sine">Classic sine</option>
+              <option value="sample">{t("soundEngine.sample")}</option>
+              <option value="synth">{t("soundEngine.synth")}</option>
+              <option value="sine">{t("soundEngine.sine")}</option>
             </Select>
             <p className="text-xs mt-2 text-[var(--console-text-faint)]">
-              {soundEngine === "sample" &&
-                "Short recorded tones per instrument, pitched to each note."}
-              {soundEngine === "synth" &&
-                "Synthesized pluck for guitar and kalimba; samples for piano and harmonica."}
-              {soundEngine === "sine" &&
-                "Simple sine tone (original behavior)."}
+              {soundEngine === "sample" && t("soundEngine.sampleDescription")}
+              {soundEngine === "synth" && t("soundEngine.synthDescription")}
+              {soundEngine === "sine" && t("soundEngine.sineDescription")}
             </p>
           </section>
 
@@ -270,8 +269,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
           <div className="pt-2">
             <p className="text-sm mb-3 text-[var(--console-text-dim)]">
-              Reset all settings to their original defaults. This action cannot
-              be undone.
+              {t("settings.resetDescription")}
             </p>
             <ResetButton
               onSuccess={handleResetSuccess}
