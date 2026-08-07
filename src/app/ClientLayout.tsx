@@ -15,8 +15,9 @@ import {
 import {
   selectIsDarkMode,
   selectInstrument,
+  selectLanguage,
 } from "../features/globalConfig/globalConfigSlice";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import {
   applicationInitialized,
   initializeApplication,
@@ -38,20 +39,30 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const isDarkMode = useSelector(selectIsDarkMode);
   const applicationState = useSelector(selectApplicationState);
   const instrument = useSelector(selectInstrument);
+  const language = useSelector(selectLanguage);
   const [isHydrated, setIsHydrated] = useState(false);
   const [messages, setMessages] = useState<Record<string, string> | null>(null);
+
+  // Derive the effective locale from the URL param, Redux state, or the server prop.
+  // This is necessary because the app uses static export (output: "export"), so
+  // layout.tsx always renders with locale="en" at build time. We must read the
+  // actual user preference from the URL or localStorage on the client.
+  const urlLang = searchParams.get("lang");
+  const effectiveLocale =
+    urlLang && isLocale(urlLang) ? urlLang : language;
 
   // Load messages for the current locale
   useEffect(() => {
     async function loadMessages() {
-      const msgs = (await import(`@/lib/i18n/messages/${locale}.json`)).default;
+      const msgs = (await import(`@/lib/i18n/messages/${effectiveLocale}.json`)).default;
       setMessages(msgs);
     }
     loadMessages();
-  }, [locale]);
+  }, [effectiveLocale]);
 
   // Handle hydration
   useEffect(() => {
@@ -72,11 +83,11 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
     }
     // No saved preference — detect from browser
     const browserLang = navigator.language.split("-")[0].toLowerCase();
-    if (isLocale(browserLang) && browserLang !== locale) {
+    if (isLocale(browserLang) && browserLang !== effectiveLocale) {
       dispatch(setLanguage(browserLang));
       dispatch(saveState());
     }
-  }, [dispatch, locale]);
+  }, [dispatch, effectiveLocale]);
 
   useEffect(() => {
     if (applicationState === "started") {
@@ -134,9 +145,9 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
 
   useEffect(() => {
     if (typeof document !== "undefined") {
-      document.documentElement.lang = locale;
+      document.documentElement.lang = effectiveLocale;
     }
-  }, [locale]);
+  }, [effectiveLocale]);
 
   useEffect(() => {
     if (!isHydrated) return;
@@ -169,7 +180,7 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
   }
 
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
+    <NextIntlClientProvider locale={effectiveLocale} messages={messages}>
       <main className="min-h-screen transition-colors duration-200" suppressHydrationWarning>
         {showContent ? (
           <div className="max-w-[1600px] mx-auto p-2 sm:p-3 flex flex-col gap-2 sm:gap-3">
