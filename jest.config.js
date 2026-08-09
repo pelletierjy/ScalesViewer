@@ -22,6 +22,11 @@ const customJestConfig = {
     "<rootDir>/node_modules/"
   ],
   collectCoverage: true,
+  coverageReporters: [
+    "lcov",
+    "text",
+    "text-summary"
+  ],
   collectCoverageFrom: [
     "src/**/*.{js,jsx,ts,tsx}",
     "!src/**/*.d.ts",

@@ -1,0 +1,33 @@
+# Codecov configuration for ScaleViewer (gscale)
+# https://docs.codecov.com/docs/codecov-yaml
+
+codecov:
+  require_ci_to_pass: yes
+
+coverage:
+  status:
+    project:
+      default:
+        # Require 70% coverage on project
+        target: 70%
+        threshold: 5%
+    patch:
+      default:
+        # Require 50% coverage on new code
+        target: 50%
+        threshold: 2%
+
+ignore:
+  # Ignore test files
+  - "**/*.test.{js,jsx,ts,tsx}"
+  - "**/*.spec.{js,jsx,ts,tsx}"
+  # Ignore config files
+  - "jest.config.js"
+  - "next.config.ts"
+  - "tailwind.config.ts"
+  - "postcss.config.mjs"
+  - "cucumber.js"
+  # Ignore capacitor config
+  - "capacitor.config.*"
+
+comment: false
