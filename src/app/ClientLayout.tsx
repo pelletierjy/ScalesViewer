@@ -29,6 +29,7 @@ import { SCALE_TYPES, SCALE_PATTERNS } from "@/lib/utils/scaleConstants";
 import { useUrlSyncedGlobalConfig } from "@/features/globalConfig/useUrlSyncedGlobalConfig";
 import { NextIntlClientProvider } from "next-intl";
 import { isLocale } from "@/lib/i18n/types";
+import { isInstrument } from "@/lib/utils/instrument";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -95,7 +96,9 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
       if (pathname !== "/") {
         //Init state from route.
         const pathParts = pathname.split("/")[1];
-        dispatch(setInstrument(pathParts));
+        if (isInstrument(pathParts)) {
+          dispatch(setInstrument(pathParts));
+        }
       }
     }
   }, [applicationState, dispatch, router, pathname]);
@@ -119,7 +122,7 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
       case "initialized":
         // Handle routing after initialization
         if (pathname === "/" || !pathname.includes(instrument)) {
-          router.push(`/${instrument}`);
+          router.push(`/${instrument}/`);
         }
         return;
     }

@@ -2,7 +2,7 @@ import { TuningPreset } from "@/app/guitar/types/tuningPreset";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { WritableDraft } from "@reduxjs/toolkit";
 import { initializeApplication } from "../application/applicationSlice";
-import { Instrument } from "@/lib/utils/instrument";
+import { Instrument, defaultInstrument, isInstrument } from "@/lib/utils/instrument";
 import { Scale } from "@/lib/utils/scaleType";
 import { TUNING_PRESETS } from "@/app/guitar/tuningConstants";
 import { SoundEngine } from "@/lib/audio/instrumentSampleConfig";
@@ -34,7 +34,10 @@ const updateState = (
 ) => {
   if (savedState) {
     state.isDarkMode = savedState?.isDarkMode ?? true; // Dark mode is default
-    state.instrument = savedState?.instrument ?? "piano";
+    state.instrument =
+      savedState?.instrument && isInstrument(savedState.instrument)
+        ? savedState.instrument
+        : defaultInstrument;
     state.scale = savedState?.scale ?? {
       root: "A",
       type: "major",
@@ -69,7 +72,7 @@ const loadState = (): GlobalConfig | undefined => {
 
 export const initialState: GlobalConfig = {
   isDarkMode: true,
-  instrument: "piano",
+  instrument: defaultInstrument,
   scale: {
     root: "A",
     type: "major",
