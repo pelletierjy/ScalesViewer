@@ -2,6 +2,7 @@
   "name": "gscale",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@12.4.2",
   "description": "A musical scale visualization tool",
   "author": {
     "name": "Jean-Yves",
@@ -35,13 +36,13 @@
     "cap-add-android": "cap add android",
     "cap-sync": "cap sync",
     "android": "cap open android",
-    "android-build": "npm run build-mobile && cap sync && cap open android",
+    "android-build": "pnpm run build-mobile && cap sync && cap open android",
     "build:electron": "next build",
     "electron:compile": "tsc -p electron/tsconfig.json",
-    "electron:dev": "npm run build:electron && npm run electron:compile && electron electron/dist/main.js",
-    "electron:pack": "npm run build:electron && npm run electron:compile && electron-builder --dir",
-    "electron:dist": "npm run build:electron && npm run electron:compile && electron-builder",
-    "electron:dist:win": "npm run build:electron && npm run electron:compile && electron-builder --win"
+    "electron:dev": "pnpm run build:electron && pnpm run electron:compile && electron electron/dist/main.js",
+    "electron:pack": "pnpm run build:electron && pnpm run electron:compile && electron-builder --dir",
+    "electron:dist": "pnpm run build:electron && pnpm run electron:compile && electron-builder",
+    "electron:dist:win": "pnpm run build:electron && pnpm run electron:compile && electron-builder --win"
   },
   "dependencies": {
     "@capacitor/android": "^8.3.4",
