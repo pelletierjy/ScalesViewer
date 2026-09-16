@@ -7,6 +7,7 @@
     "name": "Jean-Yves",
     "email": "your.email@example.com"
   },
+  "license": "MIT",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -34,13 +35,20 @@
     "cap-add-android": "cap add android",
     "cap-sync": "cap sync",
     "android": "cap open android",
-    "android-build": "npm run build-mobile && cap sync && cap open android"
+    "android-build": "npm run build-mobile && cap sync && cap open android",
+    "build:electron": "next build",
+    "electron:compile": "tsc -p electron/tsconfig.json",
+    "electron:dev": "npm run build:electron && npm run electron:compile && electron electron/dist/main.js",
+    "electron:pack": "npm run build:electron && npm run electron:compile && electron-builder --dir",
+    "electron:dist": "npm run build:electron && npm run electron:compile && electron-builder",
+    "electron:dist:win": "npm run build:electron && npm run electron:compile && electron-builder --win"
   },
   "dependencies": {
     "@capacitor/android": "^8.3.4",
     "@capacitor/core": "^8.3.4",
     "@vercel/analytics": "^2.0.1",
     "next": "^16.2.6",
+    "next-intl": "^4.13.4",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-redux": "^9.3.0",
@@ -63,6 +71,8 @@
     "@types/react-dom": "^19",
     "babel-jest": "^30.4.1",
     "cucumber-html-reporter": "^5.0.2",
+    "electron": "^35.0.0",
+    "electron-builder": "^26.0.0",
     "eslint": "^10.4.0",
     "eslint-config-next": "^16.2.6",
     "jest": "^30.4.2",
@@ -75,5 +85,39 @@
   },
   "overrides": {
     "postcss": "^8.5.15"
+  },
+  "build": {
+    "appId": "com.jeanyves.scalesviewer",
+    "productName": "ScalesViewer",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "build/**/*",
+      "electron/dist/**/*"
+    ],
+    "extraMetadata": {
+      "main": "electron/dist/main.js"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }

@@ -14,6 +14,7 @@ export const INSTRUMENT_SAMPLES: Record<Instrument, InstrumentSampleDef> = {
   kalimba: { url: "/sounds/kalimba.wav", rootNote: "C4" },
   harmonica: { url: "/sounds/harmonica.wav", rootNote: "C4" },
   flute: { url: "/sounds/flute.wav", rootNote: "C4" },
+  recorder: { url: "/sounds/recorder.wav", rootNote: "C5" },
 };
 
 export const ALL_INSTRUMENTS: Instrument[] = [
@@ -22,6 +23,7 @@ export const ALL_INSTRUMENTS: Instrument[] = [
   "kalimba",
   "harmonica",
   "flute",
+  "recorder",
 ];
 
 export const PLUCK_SYNTH_INSTRUMENTS: Instrument[] = ["guitar", "kalimba"];

@@ -1,0 +1,398 @@
+{
+  "app": {
+    "title": "Visualizador de Escalas",
+    "tagline": "Herramienta de visualización de escalas musicales"
+  },
+  "instrument": {
+    "guitar": "Guitarra",
+    "piano": "Piano",
+    "kalimba": "Kalimba",
+    "harmonica": "Armónica",
+    "flute": "Flauta",
+    "recorder": "Flauta dulce"
+  },
+  "scale": {
+    "major": "Mayor (Jónico)",
+    "minor": "Menor (Natural)",
+    "pentatonic": "Pentatónica Mayor",
+    "minor-pentatonic": "Pentatónica Menor",
+    "blues": "Blues",
+    "bebop": "Bebop",
+    "bebop-dominant": "Bebop Dominante",
+    "bebop-major": "Bebop Mayor",
+    "bebop-minor": "Bebop Menor",
+    "diminished": "Disminuida",
+    "whole-tone": "Por tonos enteros",
+    "altered": "Alterada",
+    "dorian": "Dórico",
+    "phrygian": "Frigio",
+    "lydian": "Lidio",
+    "mixolydian": "Mixolidio",
+    "aeolian": "Eolio",
+    "locrian": "Locrio",
+    "lydian-dominant": "Lidio Dominante",
+    "super-locrian": "Super Locrio",
+    "melodic-minor": "Menor Melódica",
+    "harmonic-minor": "Menor Armónica",
+    "hungarian-minor": "Menor Húngara",
+    "ukrainian-dorian": "Dórico Ucraniano",
+    "persian": "Persa",
+    "byzantine": "Bizantina",
+    "japanese": "Japonesa",
+    "hirajoshi": "Hirajoshi",
+    "in-sen": "In-Sen",
+    "iwato": "Iwato",
+    "chromatic": "Cromática",
+    "diminished-whole-half": "Disminuida (T-1/2)",
+    "diminished-half-whole": "Disminuida (1/2-T)",
+    "egyptian": "Egipcia",
+    "chinese": "China",
+    "japanese-pentatonic": "Pentatónica Japonesa"
+  },
+  "scaleGroup": {
+    "common": "Comunes",
+    "jazz": "Jazz",
+    "modes": "Modos",
+    "modalVariants": "Variantes Modales",
+    "exotic": "Exóticas",
+    "symmetric": "Simétricas",
+    "pentatonicVariants": "Variantes Pentatónicas",
+    "other": "Otras",
+    "custom": "Personalizadas"
+  },
+  "tuning": {
+    "standard6": "Standard (6)",
+    "perfect4Interval6": "4ª justa (6)",
+    "dropD6": "Drop D (6)",
+    "openD6": "Open D (6)",
+    "openG6": "Open G (6)",
+    "dadgad6": "DADGAD (6)",
+    "standard7": "Standard (7)",
+    "perfect4Interval7": "4ª justa (7)",
+    "dropA7": "Drop A (7)",
+    "russian7": "Rusa (7)",
+    "standard8": "Standard (8)",
+    "perfect4Interval8": "4ª justa (8)",
+    "dropE8": "Drop E (8)",
+    "progressive8": "Progresiva (8)",
+    "perfect4Interval9": "4ª justa (9)",
+    "perfect4Interval10": "4ª justa (10)",
+    "halfStepDown6": "Medio tono abajo (6)",
+    "fullStepDown6": "Tono abajo (6)",
+    "openE6": "Open E (6)",
+    "openA6": "Open A (6)",
+    "openC6": "Open C (6)",
+    "nashville6": "Nashville (6)",
+    "base4": "Bajo (4)",
+    "base5": "Bajo (5)",
+    "mandolin": "Mandolina"
+  },
+  "tuningCategory": {
+    "standard": "Standard",
+    "drop": "Drop",
+    "open": "Open",
+    "special": "Especial",
+    "bass": "Bajo",
+    "mandolin": "Mandolina",
+    "custom": "Personalizada"
+  },
+  "texture": {
+    "rosewood": "Palisandro",
+    "ebony": "Ébano claro de luna",
+    "maple": "Arce",
+    "pauFerro": "Pau Ferro",
+    "richlite": "Richlite"
+  },
+  "soundEngine": {
+    "sample": "Muestras de instrumentos",
+    "synth": "Sintetizador pizzicato",
+    "sine": "Sinusoide clásica",
+    "sampleDescription": "Grabaciones cortas por instrumento, transpuestas a cada nota.",
+    "synthDescription": "Pizzicato sintetizado para guitarra y kalimba; muestras para piano y armónica.",
+    "sineDescription": "Tono sinusoide simple (comportamiento original)."
+  },
+  "settings": {
+    "title": "Configuración",
+    "close": "Cerrar panel de configuración",
+    "sound": "Sonido",
+    "playbackEngine": "Motor de reproducción",
+    "export": "Exportar configuración",
+    "import": "Importar configuración",
+    "reset": "Restablecer valores predeterminados",
+    "resetDescription": "Restablecer todos los ajustes a sus valores originales. Esta acción no se puede deshacer.",
+    "versionWarning": "Advertencia: este archivo de configuración se exportó desde la versión {importVersion} (actual: {currentVersion}). Es posible que algunos ajustes no sean compatibles."
+  },
+  "help": {
+    "previous": "Diapositiva anterior",
+    "next": "Diapositiva siguiente",
+    "close": "Cerrar ayuda",
+    "slideCounter": "{current} / {total}",
+    "slides": [
+      {
+        "title": "Empieza a explorar",
+        "intro": "GScale funciona para todos los niveles. Así es como sacarle el máximo provecho.",
+        "steps": [
+          { "title": "Elige un instrumento", "desc": "Usa el menú desplegable para navegar a Guitarra, Piano, Kalimba, Armónica, Flauta o Flauta dulce" },
+          { "title": "Elige una escala y una tónica", "desc": "Selecciona entre más de 60 escalas integradas o crea la tuya, luego elige una nota tónica" },
+          { "title": "Haz clic en las notas para escucharlas", "desc": "Cada nota resaltada en cada instrumento es clickeable — úsala para el entrenamiento auditivo" },
+          { "title": "Ajusta tu vista", "desc": "Alterna entre grados/nombres, sostenidos/bemoles, color/mono y oscuro/claro según tu preferencia" },
+          { "title": "Personaliza más", "desc": "Para guitarra: ajusta la afinación, el número de trastes, la textura, la orientación y activa/desactiva cuerdas o trastes específicos" },
+          { "title": "Guarda y comparte", "desc": "Exporta tus escalas y afinaciones personalizadas para hacer copias de seguridad o compartirlas" }
+        ]
+      },
+      {
+        "title": "Bienvenido a GScale",
+        "subtitle": "Herramienta de visualización de escalas musicales",
+        "intro": "Una aplicación interactiva para visualizar y aprender escalas musicales en varios instrumentos. Haz clic en cualquier nota para escucharla, personaliza tu vista y explora más de 60 escalas.",
+        "tags": ["Guitarra", "Piano", "Kalimba", "Armónica", "Flauta", "Flauta dulce", "60+ Escalas", "Reproducción de audio", "Escalas personalizadas"]
+      },
+      {
+        "title": "Navegando por la interfaz",
+        "intro": "La barra de encabezado contiene todos los controles globales, accesibles desde cualquier página de instrumento.",
+        "features": [
+          { "icon": "🎸", "title": "Selector de instrumento", "desc": "Cambia entre Guitarra, Piano, Kalimba, Armónica, Flauta y Flauta dulce usando el menú desplegable" },
+          { "icon": "🎵", "title": "Selectores de escala y tónica", "desc": "Elige entre más de 60 tipos de escalas y cualquier nota tónica (Do a Si, sostenidos y bemoles)" },
+          { "icon": "🔢", "title": "Grados / Nombres de notas", "desc": "Alterna entre números de grado (1–7) y nombres de notas (Do, Re, Mi…)" },
+          { "icon": "♭", "title": "Bemoles / Sostenidos", "desc": "Cambia la visualización de notas entre bemoles (♭) y sostenidos (♯)" },
+          { "icon": "🎨", "title": "Color / Monocromo", "desc": "El modo color resalta cada intervalo; el modo monocromo muestra solo las notas tónicas" },
+          { "icon": "🌓", "title": "Tema oscuro / claro", "desc": "Alterna entre modos oscuro y claro — la preferencia se guarda automáticamente" }
+        ]
+      },
+      {
+        "title": "Biblioteca de escalas y escalas personalizadas",
+        "intro": "GScale incluye más de 60 escalas integradas. También puedes crear las tuyas.",
+        "features": [
+          { "icon": "📚", "title": "60+ Escalas integradas", "desc": "Cubre Mayor, Menor, Pentatónica, Blues, Jazz Bebop, Modos (Dórico, Frigio, Lidio…) y Exóticas (Menor húngara, Bizantina, Persa…)" },
+          { "icon": "✏️", "title": "Editor de escalas personalizadas", "desc": "Abre el menú desplegable de escalas y selecciona '+ Crear escala personalizada' para construir una escala desde cero eligiendo intervalos" },
+          { "icon": "🎹", "title": "Selector de intervalos", "desc": "Selecciona cualquier combinación de los 12 semitonos para definir tu escala — una vista previa en Do se actualiza en tiempo real" },
+          { "icon": "📝", "title": "Nombrar y categorizar", "desc": "Dale un nombre y una categoría a tu escala para que aparezca agrupada con escalas similares en el menú desplegable" },
+          { "icon": "🔁", "title": "Editar o eliminar", "desc": "Las escalas personalizadas pueden editarse o eliminarse en cualquier momento desde el editor" }
+        ]
+      },
+      {
+        "title": "Guitarra — Configuración del diapasón",
+        "intro": "La página Guitarra ofrece la mayor cantidad de opciones de configuración. Todos los ajustes se guardan automáticamente.",
+        "features": [
+          { "icon": "🎸", "title": "Preajustes de afinación", "desc": "Elige entre docenas de afinaciones predefinidas (Standard, Drop D, Open G, DADGAD y muchas más) organizadas por categoría" },
+          { "icon": "🎚️", "title": "Transposición de afinación base", "desc": "Desplaza toda la afinación hacia arriba o abajo por semitonos usando el selector de afinación base" },
+          { "icon": "📏", "title": "Número de trastes", "desc": "Muestra 12, 20, 21, 22, 23 o 24 trastes para que coincidan con tu instrumento" },
+          { "icon": "🪵", "title": "Textura del diapasón", "desc": "Elige una textura visual: Palisandro, Ébano claro de luna, Arce, Pau Ferro o Richlite" },
+          { "icon": "↔️", "title": "Voltear horizontalmente", "desc": "Espeja el diapasón de izquierda a derecha — útil para zurdos" },
+          { "icon": "↕️", "title": "Voltear verticalmente", "desc": "Espeja el diapasón de arriba abajo para que coincida con el orden de cuerdas preferido" },
+          { "icon": "📐", "title": "Espaciado de cuerdas", "desc": "Alterna entre Normal y Ampliado para una mejor legibilidad" }
+        ]
+      },
+      {
+        "title": "Guitarra — Control de cuerdas y trastes",
+        "intro": "Concéntrate en cualquier parte del mástil activando o desactivando cuerdas y posiciones de trastes individuales.",
+        "features": [
+          { "icon": "☑️", "title": "Casillas de cuerdas", "desc": "Cada cuerda tiene una casilla a la izquierda — desmárcala para ocultar esa cuerda de la visualización" },
+          { "icon": "☑️", "title": "Casillas de trastes", "desc": "Cada columna de traste tiene una casilla en la parte inferior — desmárcala para ocultar esa posición" },
+          { "icon": "⊟", "title": "Activar / desactivar todo", "desc": "El botón en la intersección de los ejes activa/desactiva todas las cuerdas Y todos los trastes a la vez — ideal para aislar una región y luego reactivar todo" },
+          { "icon": "🎸", "title": "Afinaciones personalizadas", "desc": "Crea tu propia afinación: define el número de cuerdas (4–18), nombra cada nota de cuerda y guárdala junto con los preajustes" },
+          { "icon": "📐", "title": "Multi-escala / Trastes en abanico", "desc": "Activa el modo multi-escala para definir longitudes de escala independientes para agudos y graves, con un traste perpendicular configurable" }
+        ]
+      },
+      {
+        "title": "Piano",
+        "intro": "La página Piano muestra un teclado interactivo con las notas de la escala resaltadas.",
+        "features": [
+          { "icon": "🎹", "title": "Número de octavas", "desc": "Selecciona 1, 2, 3 o 4 octavas para mostrar — tu elección se guarda automáticamente" },
+          { "icon": "🖱️", "title": "Clic para tocar", "desc": "Haz clic en cualquier tecla resaltada para escuchar la nota a través de la API Web Audio" },
+          { "icon": "🎨", "title": "Intervalos codificados por color", "desc": "Las notas de la escala están coloreadas por grado (grados pares en verde, impares en naranja, tónica en alto contraste). Las notas fuera de la escala están atenuadas." },
+          { "icon": "⌨️", "title": "Accesible por teclado", "desc": "Navega con Tab hacia una tecla y presiona Intro o Espacio para tocarla" }
+        ]
+      },
+      {
+        "title": "Kalimba",
+        "intro": "La página Kalimba muestra una disposición tradicional de 17 láminas de piano de pulgar.",
+        "features": [
+          { "icon": "🎵", "title": "Disposición de 17 láminas", "desc": "Las láminas están dispuestas desde el centro hacia afuera en alternancia izquierda/derecha, como en una kalimba real" },
+          { "icon": "🖱️", "title": "Clic para tocar", "desc": "Haz clic en cualquier lámina para escucharla. Las notas de la escala están coloreadas; las notas fuera de la escala son visibles pero atenuadas" },
+          { "icon": "🎨", "title": "Colores de intervalos", "desc": "Mismo esquema de colores que otros instrumentos — color o monocromo según tu configuración de visualización global" },
+          { "icon": "🔢", "title": "Etiquetas de notas", "desc": "Cada lámina muestra el nombre de la nota, el bemol/sostenido o el grado de la escala según tu alternancia de visualización" }
+        ]
+      },
+      {
+        "title": "Armónica",
+        "intro": "La página Armónica muestra una disposición estándar de armónica diatónica de 10 agujeros.",
+        "features": [
+          { "icon": "🎷", "title": "Notas de soplido y aspiración", "desc": "Cada agujero muestra tanto la nota de soplado (↑) como la de aspiración (↓) una al lado de la otra" },
+          { "icon": "🎼", "title": "Selector de tonalidad de armónica", "desc": "Elige la tonalidad de tu armónica (Do, Sol, La, Re, Fa, Si♭, Mi♭) — todas las notas se transportan automáticamente" },
+          { "icon": "🖱️", "title": "Clic para tocar", "desc": "Haz clic en cualquier nota de soplido o aspiración para escucharla. Solo las notas de la escala están activas; las demás están atenuadas" },
+          { "icon": "🔢", "title": "Números de agujeros", "desc": "Los agujeros están numerados del 1 al 10 como referencia estándar de armónica" }
+        ]
+      },
+      {
+        "title": "Flauta y Flauta dulce",
+        "intro": "Las páginas Flauta y Flauta dulce muestran un diagrama de digitación para cada nota de la escala.",
+        "features": [
+          { "icon": "🎼", "title": "Diagramas de digitación", "desc": "Cada nota de la escala se dibuja como una digitación reproducible — los agujeros/llaves llenos están cubiertos, los vacíos están abiertos" },
+          { "icon": "🎚️", "title": "Tipo de flauta dulce", "desc": "Elige el tamaño de la flauta dulce — Sopranino, Soprano, Alto, Tenor, Bajo, Gran Bajo, Contrabajo, Subcontrabajo — agrupados por tonalidad (en Do / en Fa). Las digitaciones permanecen iguales; la altura sonora se transporta." },
+          { "icon": "🔢", "title": "Notas para mostrar", "desc": "Elige cuántas notas consecutivas de la escala mostrar (1, 3, 5, 7, 12 o 24)" },
+          { "icon": "🖱️", "title": "Clic para tocar", "desc": "Haz clic en cualquier diagrama para escuchar esa nota" }
+        ],
+        "note": "Las digitaciones de flauta dulce utilizan el sistema barroco (inglés), compartido por todos los tamaños de flauta dulce."
+      },
+      {
+        "title": "Afinaciones personalizadas",
+        "intro": "Crea, edita y gestiona afinaciones de guitarra directamente en la aplicación.",
+        "features": [
+          { "icon": "➕", "title": "Crear una afinación", "desc": "Selecciona '+ Afinación personalizada' en el menú desplegable de afinaciones para abrir el editor" },
+          { "icon": "🔢", "title": "Número de cuerdas", "desc": "Define de 4 a 18 cuerdas — cada una tiene su propio selector de nota" },
+          { "icon": "📋", "title": "Duplicar una afinación", "desc": "Usa el botón de duplicación para copiar una afinación existente como punto de partida para una variación" },
+          { "icon": "✏️", "title": "Editar o eliminar", "desc": "Las afinaciones personalizadas pueden renombrarse, modificarse o eliminarse en cualquier momento" },
+          { "icon": "💾", "title": "Almacenamiento persistente", "desc": "Todas las afinaciones personalizadas se guardan en el almacenamiento local y sobreviven a las actualizaciones de página" }
+        ]
+      },
+      {
+        "title": "Configuración, Exportar e Importar",
+        "intro": "Accede al panel de configuración a través del icono de engranaje en el encabezado para gestionar tu configuración.",
+        "features": [
+          { "icon": "📤", "title": "Exportar configuración", "desc": "Descarga todos tus ajustes (escalas personalizadas, afinaciones personalizadas, preferencias de visualización) como archivo JSON con nombre horodatado" },
+          { "icon": "📥", "title": "Importar configuración", "desc": "Carga un archivo de ajustes previamente exportado para restaurar tu configuración — en cualquier dispositivo" },
+          { "icon": "✅", "title": "Validación de importación", "desc": "El importador verifica la compatibilidad de versiones e informa qué ajustes se aplicaron y cuáles se omitieron" },
+          { "icon": "🔄", "title": "Restablecer valores predeterminados", "desc": "El botón de restablecimiento restaura todos los ajustes a los valores de fábrica después de una confirmación" },
+          { "icon": "💾", "title": "Guardado automático", "desc": "Cada cambio de configuración se guarda automáticamente en localStorage — no se necesita guardado manual" }
+        ],
+        "note": "Usa Exportar/Importar para hacer copias de seguridad de tus escalas y afinaciones personalizadas o compartirlas."
+      }
+    ]
+  },
+  "ui": {
+    "instrument": "Instrumento",
+    "scale": "Escala",
+    "root": "Tónica",
+    "tuning": "Afinación",
+    "baseTuning": "Afinación base",
+    "numberOfFrets": "Número de trastes",
+    "fretboardTexture": "Textura del diapasón",
+    "stringSpacing": "Espaciado de cuerdas",
+    "stringSpacingNormal": "Normal",
+    "stringSpacingEnlarged": "Ampliado",
+    "orientation": "Orientación",
+    "flipHorizontally": "Voltear horizontalmente",
+    "flipVertically": "Voltear verticalmente",
+    "multiscale": "Multi-escala/Trastes en abanico",
+    "trebleScaleLength": "Longitud de escala aguda",
+    "bassScaleLength": "Longitud de escala grave",
+    "perpendicularFret": "Traste perpendicular",
+    "showNoteNames": "Mostrar nombres de notas",
+    "showScaleDegrees": "Mostrar grados de escala",
+    "showSharpNotes": "Mostrar notas sostenidas",
+    "showFlatNotes": "Mostrar notas bemoles",
+    "highlightIntervals": "Resaltar intervalos",
+    "highlightRootNotes": "Resaltar notas tónicas",
+    "showHelp": "Mostrar diapositivas de ayuda",
+    "openSettings": "Abrir configuración",
+    "switchToLightMode": "Cambiar a modo claro",
+    "switchToDarkMode": "Cambiar a modo oscuro",
+    "customScale": "+ Escala personalizada",
+    "customTuning": "+ Afinación personalizada",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "update": "Actualizar",
+    "duplicate": "Duplicar",
+    "close": "Cerrar",
+    "loading": "Cargando...",
+    "somethingWentWrong": "Algo salió mal.",
+    "pleaseRefresh": "Por favor intenta refrescar la página.",
+    "rigSetup": "Configuración",
+    "language": "Idioma",
+    "custom": "(Personalizado)"
+  },
+  "error": {
+    "exportNoData": "No hay ajustes para exportar.",
+    "exportSerialize": "Error al serializar los datos.",
+    "exportBrowserBlock": "La descarga fue bloqueada por el navegador. Por favor verifica tus configuraciones de ventanas emergentes.",
+    "exportStorageFull": "No se puede exportar: el localStorage no es accesible.",
+    "importFileTooLarge": "El archivo es demasiado grande. El tamaño máximo es de 10 MB.",
+    "importInvalidJson": "El archivo seleccionado no es un JSON válido. Por favor verifica el archivo e intenta de nuevo.",
+    "importInvalidFormat": "Formato de ajustes no reconocido. Se esperaba un archivo de ajustes de ScalesViewer.",
+    "importReadError": "Error al leer el archivo. Por favor intenta de nuevo.",
+    "importValidationFailed": "El archivo contiene datos de ajustes inválidos.",
+    "importStorageFull": "El almacenamiento está lleno. Intenta borrar datos del navegador primero.",
+    "importVersionMismatch": "Advertencia: este archivo de ajustes proviene de una versión diferente de la aplicación.",
+    "importPartialFailure": "Algunos ajustes no pudieron ser importados. Ver los detalles para más información.",
+    "resetCancelled": "Restablecimiento cancelado por el usuario.",
+    "resetClearFailed": "Error al borrar algunos ajustes. Por favor borra los datos del navegador manualmente.",
+    "unknownError": "Ocurrió un error inesperado. Por favor intenta de nuevo.",
+    "localStorageUnavailable": "El almacenamiento del navegador no está disponible. Por favor verifica la configuración de tu navegador.",
+    "operationInProgress": "Otra operación ya está en curso. Por favor espera."
+  },
+  "success": {
+    "exportSuccess": "Ajustes exportados exitosamente a {filename}",
+    "importSuccess": "{count} ajustes importados exitosamente.",
+    "resetSuccess": "Ajustes restablecidos a los valores predeterminados. La página se recargará."
+  },
+  "customScaleEditor": {
+    "editScale": "Editar escala",
+    "createScale": "Crear escala personalizada",
+    "scaleName": "Nombre de la escala",
+    "group": "Grupo (Categoría)",
+    "groupPlaceholder": "ej. Personalizada, Jazz, Exótica…",
+    "notes": "Notas",
+    "addNote": "+ Agregar nota",
+    "previewInC": "Vista previa en Do — {name} ({count} notas)",
+    "scaleMustIncludeRoot": "La escala debe incluir la nota tónica (0 – Tónica)",
+    "duplicateInterval": "Cada intervalo solo puede aparecer una vez",
+    "interval0": "0 – Tónica",
+    "interval1": "1 – m2",
+    "interval2": "2 – M2",
+    "interval3": "3 – m3",
+    "interval4": "4 – M3",
+    "interval5": "5 – 4 justa",
+    "interval6": "6 – TT",
+    "interval7": "7 – 5 justa",
+    "interval8": "8 – m6",
+    "interval9": "9 – M6",
+    "interval10": "10 – m7",
+    "interval11": "11 – M7",
+    "remove": "Eliminar",
+    "scaleNameExists": "Ya existe una escala con este nombre",
+    "unnamed": "Sin nombre",
+    "noteN": "Nota {n}"
+  },
+  "customTuningEditor": {
+    "editTuning": "Editar afinación",
+    "createTuning": "Crear afinación personalizada",
+    "tuningName": "Nombre de la afinación",
+    "numberOfStrings": "Número de cuerdas",
+    "stringNotesHighToLow": "Notas de cuerdas (Agudo a Grave)",
+    "stringN": "Cuerda {n}",
+    "stringsCount": "{n} cuerdas",
+    "tuningNameExists": "Ya existe una afinación con este nombre",
+    "saveTuning": "Guardar afinación",
+    "updateTuning": "Actualizar afinación"
+  },
+  "confirm": {
+    "deleteCustomScale": "¿Estás seguro de que quieres eliminar esta escala personalizada?",
+    "deleteCustomTuning": "¿Estás seguro de que quieres eliminar esta afinación personalizada?"
+  },
+  "pattern": {
+    "patternSequencer": "Secuenciador de patrones",
+    "practicePatterns": "Practica patrones melódicos bloqueados en la escala.",
+    "enable": "Activar",
+    "disable": "Desactivar",
+    "pattern": "Patrón",
+    "noPatternSelected": "Ningún patrón seleccionado",
+    "tempoBpm": "Tempo (BPM)",
+    "loop": "Bucle",
+    "play": "Reproducir",
+    "stop": "Detener"
+  },
+  "multiscale": {
+    "nut0thFret": "Cejuela (0º traste)",
+    "7thFret": "7º traste",
+    "9thFret": "9º traste",
+    "12thFret": "12º traste"
+  },
+  "footer": {
+    "allRightsReserved": "Todos los derechos reservados."
+  },
+  "aria": {
+    "languageSelector": "Seleccionar idioma"
+  }
+}

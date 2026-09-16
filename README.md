@@ -1,22 +1,24 @@
 # GScale - Musical Scale Visualization Tool
 
-A modern desktop application built with Next.js that helps musicians visualize scales across multiple instruments.
-The application provides interactive visualizations for guitar, piano, flute, and kalimba.
+<img width="1988" height="1152" alt="Capture d’écran 2026-08-02 002223" src="https://github.com/user-attachments/assets/ffde986f-f772-499a-9074-47f5103e82f9" />
+
+A modern web application built with Next.js that helps students & musicians visualize scales across multiple instruments.
+The application provides interactive visualizations for guitar, piano, flute, kalimba and more.
 
 **🌐 Try it live:** https://scales-viewer.vercel.app/guitar
 
-The application is just a platform I'm using to experiment with different AI providers.  It isn't meant to become anything serious but useful it is as one of the best scales viewer available :-)
+The application is just a platform I'm using to experiment with different AI providers.  It isn't meant to become anything serious but useful it is as one of the best scale viewers available :-)
 
 Jean-Yves Pelletier
 
 ## Technical notes
 
-- The app is designed mainly as a learning React/NextJS platform which explain some inconsistency where I used different technics or over architectures parts for experimentation and documentation [...]
+- The app is designed mainly as a learning React/NextJS platform, which explains some inconsistencies where I used different techniques or over-architected parts for experimentation and documentation [...]
 - Redux is used to manage the state
-  - The root store handles persisting the state to the local storage on changes after initialization phase has completed
-  - The guitar page uses a local states and local persistency (not using store on purpose).
+  - The root store handles persisting the state to localstorage on changes after initialization phase has completed
+  - The guitar page uses local state and local persistency (not using store on purpose).
   - The piano page uses data context and local persistency to avoid props drilling (not using store on purpose).
-- It is still in development, so some area still need improvements.
+- It is still in development, so some areas still need improvements.
 
 ## Features
 
@@ -25,6 +27,7 @@ Jean-Yves Pelletier
   - Piano keyboard with adjustable octave count
   - Flute fingering chart
   - Kalimba (thumb piano) with traditional 17-key layout
+  - ...
 - Support for extensive scale types:
   - Common Scales (Major, Minor, Pentatonic, Blues)
   - Jazz Scales (Bebop, Diminished, Whole-tone, Altered)
@@ -45,7 +48,24 @@ Jean-Yves Pelletier
     - Kalimba: Traditional 17-key layout with center-outward note arrangement
 - Responsive design that works on all screen sizes
 - Native desktop application for Windows
-- **Instrument-aware audio**: short samples per instrument (guitar, piano, kalimba, harmonica), optional pluck synth, or classic sine — configurable under Settings → Sound (see `specs/instrument-audio/spec.md`)
+
+## Internationalization
+
+GScale supports multiple languages. The interface, scale names, help content, and settings are fully localized.
+
+**Supported languages:**
+- 🇬🇧 English (default)
+- 🇫🇷 French
+- 🇪🇸 Spanish
+
+The app automatically detects your browser language on first visit. You can also switch languages manually using the language selector in the header. Your preference is saved and synced to the URL so shared links preserve the chosen language.
+
+**Contributing translations:**
+Translation files are located in `src/lib/i18n/messages/`. To add or improve a translation:
+1. Copy `en.json` to a new locale file (e.g., `de.json` for German)
+2. Translate all the values while keeping the keys unchanged
+3. Add the new locale to `src/lib/i18n/types.ts` and `src/lib/i18n/config.ts`
+4. Open a pull request
 
 ## Tech Stack
 

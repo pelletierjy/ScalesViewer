@@ -1,8 +1,10 @@
+import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "./ClientLayout";
 import { Providers } from "./Providers";
 import type { Metadata } from "next";
+import { defaultLocale, isLocale } from "@/lib/i18n/types";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,17 +27,25 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  searchParams,
 }: Readonly<{
   children: React.ReactNode;
+  searchParams?: { lang?: string };
 }>) {
+  const locale = searchParams?.lang && isLocale(searchParams.lang)
+    ? searchParams.lang
+    : defaultLocale;
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
         <Providers>
-          <ClientLayout>{children}</ClientLayout>
+          <Suspense fallback={null}>
+            <ClientLayout locale={locale}>{children}</ClientLayout>
+          </Suspense>
         </Providers>
       </body>
     </html>

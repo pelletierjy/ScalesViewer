@@ -224,11 +224,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
                     return next;
                   })
                 }
-                className={`h-4 w-4 rounded border focus:ring-2 focus:ring-offset-1 ${
-                  isDarkMode
-                    ? "border-gray-500 bg-gray-700 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-800"
-                    : "border-gray-400 bg-white text-blue-600 focus:ring-blue-500 focus:ring-offset-white"
-                }`}
+                className="h-4 w-4 accent-[var(--console-accent)] border border-[var(--console-border-strong)]"
                 aria-label={`String ${stringIdx + 1} ${stringEnabled[stringIdx] ?? true ? "enabled" : "disabled"}`}
               />
             </label>
@@ -242,11 +238,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
               setStringEnabled(Array(scaleRoot.strings.length).fill(target));
               setFretPositionEnabled(Array(fretCount + 1).fill(target));
             }}
-            className={`text-[9px] leading-tight px-1 py-0.5 rounded transition-colors duration-200 w-full text-center ${
-              isDarkMode
-                ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                : "bg-slate-200 text-slate-700 hover:bg-slate-300"
-            }`}
+            className="rack-btn text-[9px] leading-tight px-1 py-0.5 w-full text-center"
             title={allEnabled ? "Disable all strings and frets" : "Enable all strings and frets"}
           >
             {allEnabled ? "Disable all" : "Enable all"}
@@ -258,11 +250,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
           width="100%"
           height={dimensions.height || 200}
           viewBox={`0 0 ${dimensions.width || 1000} ${dimensions.height || 200}`}
-          className={`border rounded-lg transition-colors duration-200 ${
-            isDarkMode
-              ? "border-gray-700 bg-gray-800"
-              : "border-slate-300 bg-white"
-          }`}
+          className="rack-stage"
           preserveAspectRatio="xMinYMid meet"
           style={{
             transform: `${flipX ? "scaleX(-1)" : ""} ${
@@ -413,11 +401,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
                     return next;
                   })
                 }
-                className={`h-3 w-3 rounded border focus:ring-2 focus:ring-offset-1 ${
-                  isDarkMode
-                    ? "border-gray-500 bg-gray-700 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-800"
-                    : "border-gray-400 bg-white text-blue-600 focus:ring-blue-500 focus:ring-offset-white"
-                }`}
+                className="h-3 w-3 accent-[var(--console-accent)] border border-[var(--console-border-strong)]"
                 aria-label={
                   i === 0
                     ? `Open string ${fretPositionEnabled[i] ?? true ? "enabled" : "disabled"}`

@@ -5,8 +5,6 @@
  */
 
 import React from "react";
-import { useSelector } from "react-redux";
-import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
 
 interface SettingsErrorProps {
   message: string | null;
@@ -22,23 +20,11 @@ export const SettingsError: React.FC<SettingsErrorProps> = ({
   onDismiss,
   className = "",
 }) => {
-  const isDarkMode = useSelector(selectIsDarkMode);
-
   if (!message) return null;
-
-  const containerClasses = `
-    p-4 rounded-md mb-4
-    ${
-      isDarkMode
-        ? "bg-red-900/30 border border-red-700 text-red-200"
-        : "bg-red-50 border border-red-200 text-red-800"
-    }
-    ${className}
-  `;
 
   return (
     <div
-      className={containerClasses}
+      className={`p-3 rounded-none border border-[var(--console-danger)] bg-[color-mix(in_srgb,var(--console-danger)_12%,transparent)] text-[var(--console-danger)] mb-4 ${className}`}
       role="alert"
       aria-live="assertive"
       aria-atomic="true"
@@ -65,11 +51,7 @@ export const SettingsError: React.FC<SettingsErrorProps> = ({
         {onDismiss && (
           <button
             onClick={onDismiss}
-            className={`flex-shrink-0 -mr-1 p-1 rounded-full transition-colors ${
-              isDarkMode
-                ? "hover:bg-red-800 text-red-300"
-                : "hover:bg-red-100 text-red-600"
-            }`}
+            className="flex-shrink-0 -mr-1 p-1 hover:opacity-70 transition-opacity"
             aria-label="Dismiss error"
           >
             <svg

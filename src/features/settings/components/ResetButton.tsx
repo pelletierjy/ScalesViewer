@@ -5,9 +5,8 @@
  */
 
 import React from "react";
-import { useSelector } from "react-redux";
-import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
 import { useSettingsManager } from "@/features/settings/hooks/useSettingsManager";
+import { Button } from "@/components/ui";
 
 interface ResetButtonProps {
   onSuccess?: () => void;
@@ -25,7 +24,6 @@ export const ResetButton: React.FC<ResetButtonProps> = ({
   onCancel,
   className = "",
 }) => {
-  const isDarkMode = useSelector(selectIsDarkMode);
   const { resetSettings, isResetting } = useSettingsManager();
 
   const handleReset = async (): Promise<void> => {
@@ -40,23 +38,12 @@ export const ResetButton: React.FC<ResetButtonProps> = ({
     }
   };
 
-  const buttonClasses = `
-    w-full px-4 py-3 rounded-md font-medium transition-all duration-200
-    focus:outline-none focus:ring-2 focus:ring-offset-2
-    ${
-      isDarkMode
-        ? "bg-red-700 hover:bg-red-800 text-white focus:ring-red-500"
-        : "bg-red-600 hover:bg-red-700 text-white focus:ring-red-400"
-    }
-    disabled:opacity-50 disabled:cursor-not-allowed
-    ${className}
-  `;
-
   return (
-    <button
+    <Button
+      tone="danger"
       onClick={handleReset}
       disabled={isResetting}
-      className={buttonClasses}
+      className={`w-full disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
       aria-label="Reset all settings to factory defaults. This will show a confirmation dialog."
       aria-busy={isResetting}
     >
@@ -105,6 +92,6 @@ export const ResetButton: React.FC<ResetButtonProps> = ({
           Reset to Defaults
         </span>
       )}
-    </button>
+    </Button>
   );
 };

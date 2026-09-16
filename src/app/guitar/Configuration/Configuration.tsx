@@ -1,17 +1,25 @@
 import { ROOTS } from "@/lib/utils/scaleConstants";
-import { useSelector } from "react-redux";
-import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
 import { Note } from "@/lib/utils/note";
 import { useDataContext } from "@/app/guitar/context";
 import { tuningGroups } from "@/app/guitar/tunings";
 import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
 import { MULTISCALE_PRESETS, PERPENDICULAR_FRET_OPTIONS } from "../multiscaleConstants";
+import { Field, Select, TextInput, Button, IconButton } from "@/components/ui";
+import { useTranslations } from "next-intl";
+
+const PERPENDICULAR_FRET_KEY_MAP: Record<string, string> = {
+  "Nut (0th fret)": "multiscale.nut0thFret",
+  "7th fret": "multiscale.7thFret",
+  "9th fret": "multiscale.9thFret",
+  "12th fret": "multiscale.12thFret",
+};
 
 interface ConfigurationProps {
   onDeleteCustomTuning?: (tuningName: string) => void;
 }
 
 export const Configuration: React.FC<ConfigurationProps> = ({ onDeleteCustomTuning }) => {
+  const t = useTranslations();
   const {
     // Display settings
     flipX,
@@ -48,25 +56,23 @@ export const Configuration: React.FC<ConfigurationProps> = ({ onDeleteCustomTuni
     openTuningEditor,
   } = useDataContext();
 
-  const isDarkMode = useSelector(selectIsDarkMode);
-
   const handleEditTuning = (tuning: TuningPresetWithMetadata): void => {
     openTuningEditor(tuning);
   };
-  
+
   const handleDuplicateTuning = (tuning: TuningPresetWithMetadata) => {
     const newTuning: TuningPresetWithMetadata = {
       ...tuning,
-      name: `${tuning.name} (Copy)`,
+      name: `${tuning.name} (${t("ui.custom")})`,
     };
     setCustomTunings((prevTunings) => [...prevTunings, newTuning]);
   };
-  
+
   const handleDeleteTuning = (tuningName: string) => {
     console.log("[DELETE] Attempting to delete tuning:", tuningName);
     console.log("[DELETE] Current custom tunings:", customTunings);
 
-    if (confirm("Are you sure you want to delete this custom tuning?")) {
+    if (confirm(t("confirm.deleteCustomTuning"))) {
       console.log("[DELETE] User confirmed deletion");
 
       // Filter out the deleted tuning
@@ -105,24 +111,20 @@ export const Configuration: React.FC<ConfigurationProps> = ({ onDeleteCustomTuni
   };
 
   return (
-    <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
-      <div className="flex flex-col gap-4 w-full">
-        <div className="flex flex-wrap justify-between items-start gap-4">
+    <div className="rack-panel">
+      <div className="rack-panel-header">
+        <h3 className="rack-label">{t("ui.rigSetup")}</h3>
+      </div>
+      <div className="p-2 sm:p-3 flex flex-col gap-3">
+        <div className="flex flex-wrap justify-between items-start gap-3">
           {/* Left side inputs */}
           <div className="flex flex-col gap-2 sm:gap-3 md:flex-row md:flex-wrap md:items-start">
             <div className="flex flex-col gap-2 min-w-[160px]">
-              <div className="flex flex-col gap-1">
-                <label
-                  htmlFor="scaleRoot"
-                  className={`text-sm font-semibold ${
-                    isDarkMode ? "text-gray-200" : "text-gray-900"
-                  }`}
-                >
-                  Tuning
-                </label>
-                <select
+              <Field label={t("ui.tuning")} htmlFor="scaleRoot">
+                <Select
                   id="scaleRoot"
                   value={scaleRoot.name}
+                  className="w-full"
                   onChange={(e) => {
                     if (e.target.value === "custom") {
                       openTuningEditor(null);
@@ -136,269 +138,149 @@ export const Configuration: React.FC<ConfigurationProps> = ({ onDeleteCustomTuni
                       }
                     }
                   }}
-                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-full ${
-                    isDarkMode
-                      ? "bg-gray-700 border-gray-600 text-gray-200"
-                      : "bg-white border-slate-400 text-slate-800"
-                  }`}
                 >
                   {Object.entries(tuningGroups(customTunings)).map(
                     ([category, tunings]) => (
-                      <optgroup key={category} label={category}>
-                        {tunings.map((t: TuningPresetWithMetadata) => (
-                          <option
-                            key={t.name}
-                            value={t.name}
-                            className={
-                              isDarkMode
-                                ? "text-gray-200 bg-gray-700"
-                                : "text-gray-900"
-                            }
-                          >
-                            {t.name}
-                            {customTunings.some((ct) => ct.name === t.name) &&
-                              " (Custom)"}
+                      <optgroup key={category} label={tunings[0]?.categoryKey ? t(tunings[0].categoryKey) : category}>
+                        {tunings.map((tuning: TuningPresetWithMetadata) => (
+                          <option key={tuning.name} value={tuning.name}>
+                            {tuning.nameKey ? t(tuning.nameKey) : tuning.name}
+                            {customTunings.some((ct) => ct.name === tuning.name) &&
+                              ` ${t("ui.custom")}`}
                           </option>
                         ))}
                       </optgroup>
                     )
                   )}
-                  <option value="custom">+ Custom Tuning</option>
-                </select>
-              </div>
+                  <option value="custom">{t("ui.customTuning")}</option>
+                </Select>
+              </Field>
               {customTunings.some((ct) => ct.name === scaleRoot.name) && (
                 <div className="flex gap-2">
-                  <button
-                    onClick={() =>
-                      handleEditTuning(scaleRoot as TuningPresetWithMetadata)
-                    }
-                    className={`px-2 py-1 text-xs rounded-md ${
-                      isDarkMode
-                        ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
-                        : "bg-slate-300 text-slate-800 hover:bg-slate-400"
-                    } border border-gray-300 dark:border-gray-600`}
+                  <Button
+                    size="sm"
+                    onClick={() => handleEditTuning(scaleRoot as TuningPresetWithMetadata)}
                   >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() =>
-                      handleDuplicateTuning(
-                        scaleRoot as TuningPresetWithMetadata
-                      )
-                    }
-                    className={`px-2 py-1 text-xs rounded-md ${
-                      isDarkMode
-                        ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
-                        : "bg-slate-300 text-slate-800 hover:bg-slate-400"
-                    } border border-gray-300 dark:border-gray-600`}
+                    {t("ui.edit")}
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => handleDuplicateTuning(scaleRoot as TuningPresetWithMetadata)}
                   >
-                    Duplicate
-                  </button>
-                  <button
+                    {t("ui.duplicate")}
+                  </Button>
+                  <Button
+                    size="sm"
+                    className="!text-[var(--console-danger)]"
                     onClick={() => handleDeleteTuning(scaleRoot.name)}
-                    className={`px-2 py-1 text-xs rounded-md text-red-600 hover:text-red-700 ${
-                      isDarkMode
-                        ? "bg-gray-700 hover:bg-gray-600"
-                        : "bg-slate-300 hover:bg-slate-400"
-                    } border border-gray-300 dark:border-gray-600`}
                   >
-                    Delete
-                  </button>
+                    {t("ui.delete")}
+                  </Button>
                 </div>
               )}
             </div>
 
             <div className="flex flex-col min-w-[70px]">
-              <div className="flex flex-col gap-1">
-                <label
-                  htmlFor="base-scaleRoot"
-                  className={`text-sm font-semibold ${
-                    isDarkMode ? "text-gray-200" : "text-gray-900"
-                  }`}
-                >
-                  Base Tuning
-                </label>
-                <select
+              <Field label={t("ui.baseTuning")} htmlFor="base-scaleRoot">
+                <Select
                   id="base-scaleRoot"
                   value={baseTuning}
+                  className="w-full"
                   onChange={(e) => setBaseTuning(e.target.value as Note)}
-                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-full ${
-                    isDarkMode
-                      ? "bg-gray-700 border-gray-600 text-gray-200"
-                      : "bg-slate-300 border-slate-500 text-slate-800"
-                  }`}
                 >
                   {ROOTS.map((note) => (
                     <option key={note} value={note}>
                       {note}
                     </option>
                   ))}
-                </select>
-              </div>
+                </Select>
+              </Field>
             </div>
 
             <div className="flex flex-col min-w-[90px]">
-              <div className="flex flex-col gap-1">
-                <label
-                  htmlFor="fret-count"
-                  className={`text-sm font-semibold ${
-                    isDarkMode ? "text-gray-200" : "text-gray-900"
-                  }`}
-                >
-                  Number of frets
-                </label>
-                <select
+              <Field label={t("ui.numberOfFrets")} htmlFor="fret-count">
+                <Select
                   id="fret-count"
                   value={fretCount}
+                  className="w-full"
                   onChange={(e) => setFretCount(Number(e.target.value))}
-                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-full ${
-                    isDarkMode
-                      ? "bg-gray-700 border-gray-600 text-gray-200"
-                      : "bg-slate-300 border-slate-500 text-slate-800"
-                  }`}
                 >
                   {[12, 20, 21, 22, 23, 24].map((num) => (
                     <option key={num} value={num}>
-                      {num} frets
+                      {num} {t("ui.numberOfFrets").toLowerCase()}
                     </option>
                   ))}
-                </select>
-              </div>
+                </Select>
+              </Field>
             </div>
 
             <div className="flex flex-col min-w-[110px]">
-              <div className="flex flex-col gap-1">
-                <label
-                  htmlFor="fretboard-texture"
-                  className={`text-sm font-semibold ${
-                    isDarkMode ? "text-gray-200" : "text-gray-900"
-                  }`}
+              <Field label={t("ui.fretboardTexture")} htmlFor="fretboard-texture">
+                <Select
+                  id="fretboard-texture"
+                  value={fretboardTexture}
+                  onChange={(e) => setFretboardTexture(e.target.value)}
                 >
-                  Fretboard Texture
-                </label>
-                <div className="flex flex-col gap-1">
-                  <select
-                    value={fretboardTexture}
-                    onChange={(e) => setFretboardTexture(e.target.value)}
-                    className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
-                      isDarkMode
-                        ? "bg-gray-700 border-gray-600 text-gray-200"
-                        : "bg-slate-300 border-slate-500 text-slate-800"
-                    }`}
-                  >
-                    <option value="rosewood">Rosewood</option>
-                    <option value="ebony">Pale moon ebony</option>
-                    <option value="maple">Maple</option>
-                    <option value="pau-ferro">Pau Ferro</option>
-                    <option value="richlite">Richlite</option>
-                  </select>
-                </div>
-              </div>
+                  <option value="rosewood">{t("texture.rosewood")}</option>
+                  <option value="ebony">{t("texture.ebony")}</option>
+                  <option value="maple">{t("texture.maple")}</option>
+                  <option value="pau-ferro">{t("texture.pauFerro")}</option>
+                  <option value="richlite">{t("texture.richlite")}</option>
+                </Select>
+              </Field>
             </div>
 
             <div className="flex flex-col min-w-[100px]">
-              <div className="flex flex-col gap-1">
-                <label
-                  htmlFor="string-spacing"
-                  className={`text-sm font-semibold ${
-                    isDarkMode ? "text-gray-200" : "text-gray-900"
-                  }`}
+              <Field label={t("ui.stringSpacing")} htmlFor="string-spacing">
+                <Select
+                  id="string-spacing"
+                  value={stringSpacing}
+                  onChange={(e) => setStringSpacing(e.target.value as 'normal' | 'enlarged')}
                 >
-                  String Spacing
-                </label>
-                <div className="flex flex-col gap-1">
-                  <select
-                    id="string-spacing"
-                    value={stringSpacing}
-                    onChange={(e) => setStringSpacing(e.target.value as 'normal' | 'enlarged')}
-                    className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
-                      isDarkMode
-                        ? "bg-gray-700 border-gray-600 text-gray-200"
-                        : "bg-slate-300 border-slate-500 text-slate-800"
-                    }`}
-                  >
-                    <option value="normal">Normal</option>
-                    <option value="enlarged">Enlarged</option>
-                  </select>
-                </div>
-              </div>
+                  <option value="normal">{t("ui.stringSpacingNormal")}</option>
+                  <option value="enlarged">{t("ui.stringSpacingEnlarged")}</option>
+                </Select>
+              </Field>
             </div>
           </div>
 
           {/* Right side orientation controls */}
           <div className="flex items-center self-start pt-0">
-            <div className="flex flex-col gap-1">
-              <label
-                className={`text-sm font-semibold ${
-                  isDarkMode ? "text-gray-200" : "text-gray-900"
-                }`}
-              >
-                Orientation
-              </label>
+            <Field label={t("ui.orientation")}>
               <div className="flex gap-2">
-                <button
-                  onClick={() => setFlipX(!flipX)}
-                  className={`p-2 rounded-lg transition-colors duration-200 ${
-                    isDarkMode
-                      ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
-                      : "bg-slate-400 text-slate-900 hover:bg-slate-500"
-                  } ${flipX ? "bg-blue-100 dark:bg-blue-900" : ""}`}
-                  title="Flip horizontally"
-                >
+                <IconButton active={flipX} onClick={() => setFlipX(!flipX)} title={t("ui.flipHorizontally")}>
                   ↔️
-                </button>
-                <button
-                  onClick={() => setFlipY(!flipY)}
-                  className={`p-2 rounded-lg transition-colors duration-200 ${
-                    isDarkMode
-                      ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
-                      : "bg-slate-400 text-slate-900 hover:bg-slate-500"
-                  } ${flipY ? "bg-blue-100 dark:bg-blue-900" : ""}`}
-                  title="Flip vertically"
-                >
+                </IconButton>
+                <IconButton active={flipY} onClick={() => setFlipY(!flipY)} title={t("ui.flipVertically")}>
                   ↕️
-                </button>
+                </IconButton>
               </div>
-            </div>
+            </Field>
           </div>
         </div>
-        
+
         {/* Multiscale Settings Row */}
-        <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex flex-wrap gap-4 pt-3 border-t border-[var(--console-border)]">
           <div className="flex items-center gap-2">
             <input
               type="checkbox"
               id="multiscale"
               checked={isMultiscale}
               onChange={(e) => setIsMultiscale(e.target.checked)}
-              className="rounded focus:ring-blue-500"
+              className="rounded-none accent-[var(--console-accent)]"
             />
-            <label
-              htmlFor="multiscale"
-              className={`text-sm font-semibold ${
-                isDarkMode ? "text-gray-200" : "text-gray-900"
-              }`}
-            >
-              Multiscale/Fanned Frets
+            <label htmlFor="multiscale" className="rack-label">
+              {t("ui.multiscale")}
             </label>
           </div>
-          
+
           {isMultiscale && (
             <>
-              
               {/* Custom scale length inputs when no preset matches */}
               {MULTISCALE_PRESETS.filter(preset => preset.strings === scaleRoot.strings.length).length === 0 && (
                 <div className="flex gap-2 sm:gap-4">
-                  <div className="flex flex-col gap-2">
-                    <label
-                      htmlFor="treble-length"
-                      className={`text-sm font-semibold ${
-                        isDarkMode ? "text-gray-200" : "text-gray-900"
-                      }`}
-                    >
-                      Treble Scale Length
-                    </label>
-                    <input
+                  <Field label={t("ui.trebleScaleLength")} htmlFor="treble-length">
+                    <TextInput
                       type="number"
                       id="treble-length"
                       value={scaleLength.treble}
@@ -409,23 +291,11 @@ export const Configuration: React.FC<ConfigurationProps> = ({ onDeleteCustomTuni
                       step="0.25"
                       min="20"
                       max="35"
-                      className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-16 ${
-                        isDarkMode
-                          ? "bg-gray-700 border-gray-600 text-gray-200"
-                          : "bg-slate-300 border-slate-500 text-slate-800"
-                      }`}
+                      className="w-16"
                     />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label
-                      htmlFor="bass-length"
-                      className={`text-sm font-semibold ${
-                        isDarkMode ? "text-gray-200" : "text-gray-900"
-                      }`}
-                    >
-                      Bass Scale Length
-                    </label>
-                    <input
+                  </Field>
+                  <Field label={t("ui.bassScaleLength")} htmlFor="bass-length">
+                    <TextInput
                       type="number"
                       id="bass-length"
                       value={scaleLength.bass}
@@ -436,42 +306,25 @@ export const Configuration: React.FC<ConfigurationProps> = ({ onDeleteCustomTuni
                       step="0.25"
                       min="20"
                       max="35"
-                      className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 w-16 ${
-                        isDarkMode
-                          ? "bg-gray-700 border-gray-600 text-gray-200"
-                          : "bg-slate-300 border-slate-500 text-slate-800"
-                      }`}
+                      className="w-16"
                     />
-                  </div>
+                  </Field>
                 </div>
               )}
-              
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="perpendicular"
-                  className={`text-sm font-semibold ${
-                    isDarkMode ? "text-gray-200" : "text-gray-900"
-                  }`}
-                >
-                  Perpendicular Fret
-                </label>
-                <select
+
+              <Field label={t("ui.perpendicularFret")} htmlFor="perpendicular">
+                <Select
                   id="perpendicular"
                   value={perpendicular}
                   onChange={(e) => setPerpendicular(Number(e.target.value))}
-                  className={`rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
-                    isDarkMode
-                      ? "bg-gray-700 border-gray-600 text-gray-200"
-                      : "bg-white border-slate-400 text-slate-800"
-                  }`}
                 >
                   {PERPENDICULAR_FRET_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
-                      {option.label}
+                      {t(PERPENDICULAR_FRET_KEY_MAP[option.label] || option.label)}
                     </option>
                   ))}
-                </select>
-              </div>
+                </Select>
+              </Field>
             </>
           )}
         </div>

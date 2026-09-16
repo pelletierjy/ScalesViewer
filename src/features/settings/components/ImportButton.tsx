@@ -5,10 +5,9 @@
  */
 
 import React, { useRef, ChangeEvent } from "react";
-import { useSelector } from "react-redux";
-import { selectIsDarkMode } from "@/features/globalConfig/globalConfigSlice";
 import { useSettingsManager } from "@/features/settings/hooks/useSettingsManager";
 import { ImportOptions } from "@/features/settings/types/settings.types";
+import { Button } from "@/components/ui";
 
 interface ImportButtonProps {
   onSuccess?: (applied: string[]) => void;
@@ -39,7 +38,6 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
   className = "",
 }) => {
   // onVersionMismatch is used in handleFileSelect
-  const isDarkMode = useSelector(selectIsDarkMode);
   const { importSettings, isImporting } = useSettingsManager();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -70,18 +68,6 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
     }
   };
 
-  const buttonClasses = `
-    w-full px-4 py-3 rounded-md font-medium transition-all duration-200
-    focus:outline-none focus:ring-2 focus:ring-offset-2
-    ${
-      isDarkMode
-        ? "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500"
-        : "bg-green-500 hover:bg-green-600 text-white focus:ring-green-400"
-    }
-    disabled:opacity-50 disabled:cursor-not-allowed
-    ${className}
-  `;
-
   return (
     <>
       <input
@@ -92,10 +78,11 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
         className="hidden"
         aria-label="Select JSON file to import"
       />
-      <button
+      <Button
+        tone="success"
         onClick={handleClick}
         disabled={isImporting}
-        className={buttonClasses}
+        className={`w-full disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
         aria-label="Import settings from a JSON file"
         aria-busy={isImporting}
       >
@@ -144,7 +131,7 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
             Import Settings
           </span>
         )}
-      </button>
+      </Button>
     </>
   );
 };

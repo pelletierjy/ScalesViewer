@@ -1,8 +1,8 @@
 import { TuningPreset } from "@/app/guitar/types/tuningPreset";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { WritableDraft } from "@reduxjs/toolkit";
 import { initializeApplication } from "../application/applicationSlice";
-import { Instrument } from "@/lib/utils/instrument";
+import { Instrument, defaultInstrument, isInstrument } from "@/lib/utils/instrument";
 import { Scale } from "@/lib/utils/scaleType";
 import { TUNING_PRESETS } from "@/app/guitar/tuningConstants";
 import { SoundEngine } from "@/lib/audio/instrumentSampleConfig";
@@ -12,6 +12,8 @@ import { SoundEngine } from "@/lib/audio/instrumentSampleConfig";
  *
  * @description Hold the global configuration settings.
  */
+import { Locale, defaultLocale } from "@/lib/i18n/types";
+
 export interface GlobalConfig {
   isDarkMode: boolean;
   instrument: Instrument;
@@ -23,6 +25,7 @@ export interface GlobalConfig {
   chordScaleMode: boolean;
   selectedChord: string | null;
   soundEngine: SoundEngine;
+  language: Locale;
 }
 
 const updateState = (
@@ -31,7 +34,10 @@ const updateState = (
 ) => {
   if (savedState) {
     state.isDarkMode = savedState?.isDarkMode ?? true; // Dark mode is default
-    state.instrument = savedState?.instrument ?? "piano";
+    state.instrument =
+      savedState?.instrument && isInstrument(savedState.instrument)
+        ? savedState.instrument
+        : defaultInstrument;
     state.scale = savedState?.scale ?? {
       root: "A",
       type: "major",
@@ -44,6 +50,7 @@ const updateState = (
     state.chordScaleMode = savedState?.chordScaleMode ?? false;
     state.selectedChord = savedState?.selectedChord ?? null;
     state.soundEngine = savedState?.soundEngine ?? "sample";
+    state.language = savedState?.language ?? defaultLocale;
   }
 };
 
@@ -65,7 +72,7 @@ const loadState = (): GlobalConfig | undefined => {
 
 export const initialState: GlobalConfig = {
   isDarkMode: true,
-  instrument: "piano",
+  instrument: defaultInstrument,
   scale: {
     root: "A",
     type: "major",
@@ -78,6 +85,7 @@ export const initialState: GlobalConfig = {
   chordScaleMode: false,
   selectedChord: null,
   soundEngine: "sample",
+  language: defaultLocale,
 };
 
 export const globalConfigSlice = createSlice({
@@ -103,11 +111,20 @@ export const globalConfigSlice = createSlice({
     toggleShowFlats: (state) => {
       state.showFlats = !state.showFlats;
     },
+    setShowFlats: (state, action: PayloadAction<boolean>) => {
+      state.showFlats = action.payload;
+    },
     toggleShowMonochrome: (state) => {
       state.highlightRoots = !state.highlightRoots;
     },
+    setHighlightRoots: (state, action: PayloadAction<boolean>) => {
+      state.highlightRoots = action.payload;
+    },
     toggleShowDegrees: (state) => {
       state.showDegrees = !state.showDegrees;
+    },
+    setShowDegrees: (state, action: PayloadAction<boolean>) => {
+      state.showDegrees = action.payload;
     },
     toggleChordScaleMode: (state) => {
       state.chordScaleMode = !state.chordScaleMode;
@@ -118,6 +135,9 @@ export const globalConfigSlice = createSlice({
     },
     setSoundEngine: (state, action) => {
       state.soundEngine = action.payload;
+    },
+    setLanguage: (state, action) => {
+      state.language = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -137,11 +157,15 @@ export const {
   setScale,
   setCurrentTuning,
   toggleShowFlats,
+  setShowFlats,
   toggleShowMonochrome,
+  setHighlightRoots,
   toggleShowDegrees,
+  setShowDegrees,
   toggleChordScaleMode,
   setSelectedChord,
   setSoundEngine,
+  setLanguage,
 } = globalConfigSlice.actions;
 
 export default globalConfigSlice.reducer;
@@ -169,3 +193,5 @@ export const selectSelectedChord = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).selectedChord;
 export const selectSoundEngine = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).soundEngine;
+export const selectLanguage = (state: { globalConfig: GlobalConfig }) =>
+  selectGlobalConfig(state).language;
