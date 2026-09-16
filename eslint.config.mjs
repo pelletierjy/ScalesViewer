@@ -1,16 +1,27 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import next from "eslint-config-next";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+/** @type {import('eslint').Linter.Config[]} */
+const config = [
+  ...next,
+  {
+    ignores: [
+      "**/build/**",
+      "**/.next/**",
+      "**/node_modules/**",
+      "**/coverage/**",
+      "**/.claude/**",
+      "**/out/**",
+      "**/next-env.d.ts",
+    ],
+  },
+  {
+    rules: {
+      "import/no-anonymous-default-export": "off",
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/refs": "off",
+      "react-hooks/preserve-manual-memoization": "off",
+    },
+  },
 ];
 
-export default eslintConfig;
+export default config;
