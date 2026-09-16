@@ -36,9 +36,9 @@ export const saveTuning = (tunning: TuningPresetWithMetadata[]) => {
 
 export const getTuning = (): TuningPresetWithMetadata => {
   let defaultTuning = TUNING_PRESETS[0];
-  const savedTuning = localStorage.getItem("current-scaleRoot");
-  if (savedTuning) {
-    try {
+  try {
+    const savedTuning = localStorage.getItem("current-scaleRoot");
+    if (savedTuning) {
       const parsedTuning = JSON.parse(savedTuning);
       const matchingTuning = [...TUNING_PRESETS].find(
         (t) => t.name === parsedTuning.name
@@ -46,9 +46,9 @@ export const getTuning = (): TuningPresetWithMetadata => {
       if (matchingTuning) {
         defaultTuning = matchingTuning;
       }
-    } catch (e) {
-      console.error("Failed to load saved scaleRoot:", e);
     }
+  } catch (e) {
+    console.error("Failed to load saved scaleRoot:", e);
   }
   return defaultTuning;
 };

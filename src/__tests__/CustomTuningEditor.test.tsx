@@ -17,7 +17,7 @@ describe("CustomTuningEditor", () => {
     );
 
     // Check if the component renders with the default tuning name
-    expect(screen.getByDisplayValue("Custom Tuning")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Create Custom Tuning")).toBeInTheDocument();
 
     // Check if the save and cancel buttons are rendered
     expect(screen.getByText("Save Tuning")).toBeInTheDocument();
