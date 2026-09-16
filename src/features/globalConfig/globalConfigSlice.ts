@@ -65,7 +65,12 @@ const loadState = (): GlobalConfig | undefined => {
     }
     return JSON.parse(serializedState)?.globalConfig;
   } catch {
-    console.error("Failed to load state from localStorage");
+    console.error("Failed to load state from localStorage; resetting storage");
+    try {
+      localStorage.clear();
+    } catch (clearError) {
+      console.error("Failed to clear localStorage:", clearError);
+    }
     return undefined;
   }
 };

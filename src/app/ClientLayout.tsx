@@ -73,20 +73,24 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
   // Browser language detection on first visit (no URL param, no saved preference)
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const savedState = localStorage.getItem("state");
-    if (savedState) {
-      try {
-        const parsed = JSON.parse(savedState);
-        if (parsed.globalConfig?.language) return; // User has a saved preference
-      } catch {
-        // ignore
+    try {
+      const savedState = localStorage.getItem("state");
+      if (savedState) {
+        try {
+          const parsed = JSON.parse(savedState);
+          if (parsed.globalConfig?.language) return; // User has a saved preference
+        } catch {
+          // ignore
+        }
       }
-    }
-    // No saved preference — detect from browser
-    const browserLang = navigator.language.split("-")[0].toLowerCase();
-    if (isLocale(browserLang) && browserLang !== effectiveLocale) {
-      dispatch(setLanguage(browserLang));
-      dispatch(saveState());
+      // No saved preference — detect from browser
+      const browserLang = navigator.language.split("-")[0].toLowerCase();
+      if (isLocale(browserLang) && browserLang !== effectiveLocale) {
+        dispatch(setLanguage(browserLang));
+        dispatch(saveState());
+      }
+    } catch (error) {
+      console.error("Failed to access localStorage during language detection:", error);
     }
   }, [dispatch, effectiveLocale]);
 
@@ -112,8 +116,12 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
 
       case "initializing":
         // Back up hardcoded scales to localStorage
-        localStorage.setItem("builtin-scale-types", JSON.stringify(SCALE_TYPES));
-        localStorage.setItem("builtin-scale-patterns", JSON.stringify(SCALE_PATTERNS));
+        try {
+          localStorage.setItem("builtin-scale-types", JSON.stringify(SCALE_TYPES));
+          localStorage.setItem("builtin-scale-patterns", JSON.stringify(SCALE_PATTERNS));
+        } catch (error) {
+          console.error("Failed to back up scales to localStorage:", error);
+        }
         // Complete initialization and save state
         dispatch(applicationInitialized());
         dispatch(saveState());
