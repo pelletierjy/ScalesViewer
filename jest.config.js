@@ -20,7 +20,8 @@ const customJestConfig = {
   ],
   testPathIgnorePatterns: [
     "<rootDir>/e2e/",
-    "<rootDir>/node_modules/"
+    "<rootDir>/node_modules/",
+    "<rootDir>/.claude/"
   ],
   collectCoverage: true,
   coverageReporters: [
