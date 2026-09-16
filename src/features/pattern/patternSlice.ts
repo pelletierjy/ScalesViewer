@@ -31,6 +31,9 @@ export const patternSlice = createSlice({
   reducers: {
     togglePatternMode: (state) => {
       state.isPatternModeEnabled = !state.isPatternModeEnabled;
+      if (state.isPatternModeEnabled && !state.selectedPatternId) {
+        state.selectedPatternId = PRESET_PATTERNS[0].id;
+      }
       if (!state.isPatternModeEnabled) {
         state.isPlaying = false;
         state.currentStepIndex = 0;

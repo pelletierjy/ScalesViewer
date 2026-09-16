@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/app/store";
+import { AppDispatch } from "@/app/store";
 import {
   togglePatternMode,
   selectPattern,
@@ -19,8 +19,8 @@ import {
   selectCurrentStepIndex,
 } from "@/features/pattern/patternSlice";
 import { PRESET_PATTERNS } from "@/lib/utils/patternUtils";
-import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { getPatternNotesWithOctave } from "@/lib/utils/patternUtils";
+import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { Scale } from "@/lib/utils/scaleType";
 import { Panel, Field, Select, TextInput, Button } from "@/components/ui";
 import { useTranslations } from "next-intl";
