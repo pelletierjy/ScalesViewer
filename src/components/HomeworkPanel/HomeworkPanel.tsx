@@ -9,22 +9,14 @@ import {
 } from "@/features/globalConfig/globalConfigSlice";
 import { Panel, Button } from "@/components/ui";
 
-function getHomeworkBaseUrl(): string {
-  const isLocal =
-    typeof window !== "undefined" &&
-    (window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1");
-  return isLocal
-    ? "http://localhost:5173/need-homework/"
-    : "https://pelletierjy.github.io/need-homework/";
-}
+const HOMEWORK_BASE = "/need-homework/";
 
 export default function HomeworkPanel() {
   const dispatch = useDispatch();
   const homeworkMode = useSelector(selectHomeworkMode);
   const isDarkMode = useSelector(selectIsDarkMode);
 
-  const iframeSrc = `${getHomeworkBaseUrl()}?subject=Music&theme=${isDarkMode ? "dark" : "light"}`;
+  const iframeSrc = `${HOMEWORK_BASE}?subject=Music&theme=${isDarkMode ? "dark" : "light"}`;
 
   if (!homeworkMode) {
     return (
