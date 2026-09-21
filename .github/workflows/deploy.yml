@@ -54,6 +54,9 @@ jobs:
       - name: Sync need-homework into public
         run: node scripts/sync-homework.mjs need-homework/dist
 
+      - name: Remove need-homework source to avoid TypeScript conflicts
+        run: rm -rf need-homework
+
       - name: Build ScalesViewer
         run: pnpm run build
 
