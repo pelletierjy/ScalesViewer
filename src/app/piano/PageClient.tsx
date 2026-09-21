@@ -19,6 +19,7 @@ import { Scale } from "@/lib/utils/scaleType";
 import { selectNote } from "@/features/selectedNote/selectedNoteSlice";
 import { RootState } from "@/app/store";
 import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import HomeworkPanel from "@/components/HomeworkPanel/HomeworkPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
 import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
 import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
@@ -341,6 +342,7 @@ export default function Piano() {
       </Stage>
 
       <ChordPanel scale={scale} />
+      <HomeworkPanel />
       <PatternPanel scale={scale} />
 
       {setOctaveCount && (

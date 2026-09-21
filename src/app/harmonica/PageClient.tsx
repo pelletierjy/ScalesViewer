@@ -19,6 +19,7 @@ import {
 } from "../../features/globalConfig/globalConfigSlice";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import HomeworkPanel from "@/components/HomeworkPanel/HomeworkPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
 import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
 import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
@@ -278,6 +279,7 @@ export default function Harmonica() {
       </Stage>
 
       <ChordPanel scale={scale} />
+      <HomeworkPanel />
       <PatternPanel scale={scale} />
 
       <div className="flex justify-end">
