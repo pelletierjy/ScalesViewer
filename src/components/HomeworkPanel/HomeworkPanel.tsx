@@ -1,6 +1,6 @@
 "use client";
 
-// Build trigger: force Vercel redeploy
+// Build trigger: force Vercel redeploy (take 2)
 
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +17,6 @@ export default function HomeworkPanel() {
   const dispatch = useDispatch();
   const homeworkMode = useSelector(selectHomeworkMode);
   const isDarkMode = useSelector(selectIsDarkMode);
-
   const iframeSrc = `${HOMEWORK_BASE}?subject=Music&theme=${isDarkMode ? "dark" : "light"}`;
 
   if (!homeworkMode) {
