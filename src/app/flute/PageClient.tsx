@@ -14,6 +14,7 @@ import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { getConsecutiveScaleNotes } from "@/lib/utils/fluteUtils";
 import { FluteDiagram } from "./FluteDiagram";
 import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import HomeworkPanel from "@/components/HomeworkPanel/HomeworkPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
 import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
 import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
@@ -112,6 +113,7 @@ export default function Flute() {
       </div>
 
       <ChordPanel scale={scale} />
+      <HomeworkPanel />
       <PatternPanel scale={scale} />
     </div>
   );

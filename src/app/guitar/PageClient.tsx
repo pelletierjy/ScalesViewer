@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { selectScale } from "@/features/globalConfig/globalConfigSlice";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import HomeworkPanel from "@/components/HomeworkPanel/HomeworkPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
 
 export default function Guitar() {
@@ -82,6 +83,7 @@ export default function Guitar() {
       </DataProvider>
 
       <ChordPanel scale={scale} />
+      <HomeworkPanel />
       <PatternPanel scale={scale} />
 
       {showTuningEditor && (

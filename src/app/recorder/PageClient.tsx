@@ -19,6 +19,7 @@ import {
 } from "./recorderFingerings";
 import { RecorderDiagram } from "./RecorderDiagram";
 import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import HomeworkPanel from "@/components/HomeworkPanel/HomeworkPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
 import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
 import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
@@ -157,6 +158,7 @@ export default function Recorder() {
       </div>
 
       <ChordPanel scale={scale} />
+      <HomeworkPanel />
       <PatternPanel scale={scale} />
     </div>
   );
