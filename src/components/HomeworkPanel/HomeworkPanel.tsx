@@ -17,7 +17,6 @@ export default function HomeworkPanel() {
   const dispatch = useDispatch();
   const homeworkMode = useSelector(selectHomeworkMode);
   const isDarkMode = useSelector(selectIsDarkMode);
-
   const iframeSrc = `${HOMEWORK_BASE}?subject=Music&theme=${isDarkMode ? "dark" : "light"}`;
 
   if (!homeworkMode) {
