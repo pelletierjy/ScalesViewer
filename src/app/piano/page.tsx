@@ -1,5 +1,5 @@
-import PageClient from "./PageClient";
+import { InstrumentWorkspace } from "@/components/InstrumentWorkspace/InstrumentWorkspace";
 
 export default function Page() {
-  return <PageClient />;
+  return <InstrumentWorkspace instrument="piano" key="piano" />;
 }

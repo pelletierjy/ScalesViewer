@@ -3,7 +3,7 @@
  */
 
 import { getConsecutiveScaleNotes, getFluteFingering } from "@/lib/utils/fluteUtils";
-import { FLUTE_KEY_DEFINITIONS } from "@/app/flute/fluteFingerings";
+import { FLUTE_KEY_DEFINITIONS } from "@/instruments/flute/fluteFingerings";
 import { Scale } from "@/lib/utils/scaleType";
 
 describe("getConsecutiveScaleNotes (T008)", () => {

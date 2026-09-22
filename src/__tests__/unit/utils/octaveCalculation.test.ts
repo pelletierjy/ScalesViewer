@@ -8,7 +8,7 @@ import {
   calculateNoteWithOctave,
   calculateNoteWithOctaveMemoized,
   clearCalculationCache
-} from '../../../app/guitar/utils/octaveCalculation';
+} from '@/instruments/guitar/utils/octaveCalculation';
 import { Note, NoteWithOctave } from '../../../lib/utils/note';
 import { COMMON_TUNINGS } from '../../utils/musicTestUtils';
 

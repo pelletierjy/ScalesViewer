@@ -226,3 +226,64 @@ export function useLocalStorageNumber(
 
   return [storedValue, setValue];
 }
+// Specialized hook for raw string values (stored verbatim, not JSON-encoded)
+export function useLocalStorageString(
+  key: string,
+  defaultValue: string,
+  isValid?: (value: string) => boolean,
+  debounceMs: number = 300
+): [string, (value: string | ((prev: string) => string)) => void] {
+  const [storedValue, setStoredValue] = useState<string>(defaultValue);
+  const [isHydrated, setIsHydrated] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    try {
+      const item = localStorage.getItem(key);
+      if (item !== null && (!isValid || isValid(item))) {
+        setStoredValue(item);
+      }
+    } catch (error) {
+      console.warn(`Failed to load ${key} from localStorage:`, error);
+    } finally {
+      setIsHydrated(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+
+  const debouncedSave = useCallback((value: string) => {
+    if (typeof window === 'undefined' || !isHydrated) return;
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      try {
+        localStorage.setItem(key, value);
+      } catch (error) {
+        console.warn(`Failed to save ${key} to localStorage:`, error);
+      }
+    }, debounceMs);
+  }, [key, debounceMs, isHydrated]);
+
+  const setValue = useCallback((value: string | ((prev: string) => string)) => {
+    setStoredValue(prev => {
+      const newValue = value instanceof Function ? value(prev) : value;
+      debouncedSave(newValue);
+      return newValue;
+    });
+  }, [debouncedSave]);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  return [storedValue, setValue];
+}

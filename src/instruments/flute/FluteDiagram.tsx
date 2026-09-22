@@ -3,24 +3,20 @@
 import React from "react";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
-import { getScaleDegree, SHARP_TO_FLAT } from "@/lib/utils/scaleUtils";
+import { DisplayMode, formatNoteLabel } from "@/lib/utils/scaleUtils";
 import { getFluteFingering } from "@/lib/utils/fluteUtils";
-import { getScaleNoteColor } from "@/app/guitar/GuitarNeck/getScaleNoteColor";
+import { getScaleNoteColor } from "@/lib/utils/noteColors";
 
 export interface FluteDiagramProps {
   note: NoteWithOctave;
   scale: Scale;
-  displayMode: "note" | "flat" | "degree";
+  displayMode: DisplayMode;
   isDarkMode: boolean;
   highlightRoots: boolean;
   onPlay: (note: NoteWithOctave) => void;
   /** Optional chord/pattern highlight override applied to the note label color. */
   getHighlightColor?: (noteName: Note, fallback: string) => string;
 }
-
-const sharpToFlat = (note: Note): Note => {
-  return SHARP_TO_FLAT[note] || note;
-};
 
 // Vertical layout of a single flute column (kept aligned with page.tsx spacing)
 const TUBE_X = -16;
@@ -93,15 +89,7 @@ export const FluteDiagram: React.FC<FluteDiagramProps> = ({
   const ringStroke = isDarkMode ? "#9ca3af" : "#475569";
   const embouchureFill = isDarkMode ? "#0b0f19" : "#334155";
 
-  const labelText = (() => {
-    if (displayMode === "degree") {
-      return getScaleDegree(noteName, scale);
-    }
-    if (displayMode === "flat") {
-      return sharpToFlat(noteName);
-    }
-    return noteName;
-  })();
+  const labelText = formatNoteLabel(noteName, scale, displayMode);
 
   const baseNoteColor = getScaleNoteColor(noteName, scale, isDarkMode, highlightRoots);
   const noteColor = getHighlightColor

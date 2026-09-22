@@ -8,7 +8,8 @@
  *
  * Default source: ../need-home-work/dist
  */
-import { cp, stat } from "node:fs/promises";
+import { cp, stat, readFile, writeFile } from "node:fs/promises";
+
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -27,3 +28,27 @@ try {
 
 await cp(src, dest, { recursive: true, force: true });
 console.log(`Synced need-homework dist to ${dest}`);
+
+// Create a stable entry-point script that HomeworkPanel.tsx expects,
+// but only if the widget build didn't already produce one.
+try {
+  const widgetPath = resolve(dest, "need-homework-widget.js");
+  try {
+    await stat(widgetPath);
+    console.log("Widget entry point already exists, skipping creation.");
+  } catch {
+    const indexHtmlPath = resolve(dest, "index.html");
+    const html = await readFile(indexHtmlPath, "utf-8");
+    const scriptMatch = html.match(/<script[^>]*type=["']module["'][^>]*src=["']([^"']+)["']/);
+    if (scriptMatch) {
+      const scriptSrc = scriptMatch[1]; // e.g. /need-homework/assets/index-XXXX.js
+      const relativePath = scriptSrc.replace(/^\/need-homework\//, "./");
+      await writeFile(widgetPath, `import "${relativePath}";\n`);
+      console.log(`Created stable entry point: ${widgetPath}`);
+    } else {
+      console.warn("Could not find module script in index.html; skipping entry-point creation.");
+    }
+  }
+} catch (err) {
+  console.warn("Failed to create stable entry point:", err.message);
+}

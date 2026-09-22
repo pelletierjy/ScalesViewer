@@ -12,7 +12,7 @@ import {
 import {
   RECORDER_HOLE_DEFINITIONS,
   getRecorderType,
-} from "@/app/recorder/recorderFingerings";
+} from "@/instruments/recorder/recorderFingerings";
 import { Scale } from "@/lib/utils/scaleType";
 
 const soprano = getRecorderType("soprano"); // in C, lowest C5

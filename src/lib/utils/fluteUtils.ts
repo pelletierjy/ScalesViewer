@@ -5,7 +5,7 @@ import {
   FLUTE_KEY_DEFINITIONS,
   FLUTE_FINGERING_MAP,
   FluteFingering,
-} from "@/app/flute/fluteFingerings";
+} from "@/instruments/flute/fluteFingerings";
 
 const FLAT_TO_SHARP: Partial<Record<Note, Note>> = {
   Bb: "A#",

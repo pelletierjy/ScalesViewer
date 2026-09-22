@@ -4,7 +4,7 @@
  * TypeScript interfaces for the settings management feature.
  */
 
-import { TuningPreset } from "@/app/guitar/types/tuningPreset";
+import { TuningPreset } from "@/instruments/guitar/types/tuningPreset";
 import { Instrument } from "@/lib/utils/instrument";
 import { Scale } from "@/lib/utils/scaleType";
 import { CustomScaleDefinition } from "@/lib/utils/customScaleTypes";

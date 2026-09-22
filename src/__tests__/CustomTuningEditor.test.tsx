@@ -1,5 +1,5 @@
 import { screen, fireEvent } from "@testing-library/react";
-import { CustomTuningEditor } from "../app/guitar/CustomTuningEditor/CustomTuningEditor";
+import { CustomTuningEditor } from "@/instruments/guitar/CustomTuningEditor/CustomTuningEditor";
 import { renderWithProviders } from "./test-utils";
 
 describe("CustomTuningEditor", () => {

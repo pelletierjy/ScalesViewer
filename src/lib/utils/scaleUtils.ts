@@ -181,3 +181,19 @@ export const transposeNote = (note: Note, interval: number): Note => {
   const newIndex = (noteIndex + interval + 12) % 12;
   return NOTES[newIndex];
 };
+
+export type DisplayMode = "note" | "flat" | "degree";
+
+/**
+ * The label drawn on a note marker, honouring the global "show degrees" /
+ * "show flats" toggles.
+ */
+export const formatNoteLabel = (
+  note: Note,
+  scale: Scale,
+  displayMode: DisplayMode
+): string => {
+  if (displayMode === "degree") return getScaleDegree(note, scale);
+  if (displayMode === "flat") return sharpToFlat(note);
+  return note;
+};

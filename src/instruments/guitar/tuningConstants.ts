@@ -1,4 +1,4 @@
-import { TuningPreset } from "../../app/guitar/types/tuningPreset";
+import { TuningPreset } from "./types/tuningPreset";
 
 export interface TuningPresetWithMetadata extends TuningPreset {
   description: string;

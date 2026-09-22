@@ -9,7 +9,7 @@ import {
   RecorderHoleState,
   RecorderHoleValue,
   RecorderType,
-} from "@/app/recorder/recorderFingerings";
+} from "@/instruments/recorder/recorderFingerings";
 
 // Chromatic index with C = 0, matching scientific pitch notation octaves.
 const CHROMATIC_INDEX: Record<Note, number> = {
