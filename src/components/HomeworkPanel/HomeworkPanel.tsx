@@ -21,7 +21,7 @@ export default function HomeworkPanel() {
 
   if (!homeworkMode) {
     return (
-      <Panel title="Learn about music theory (new feature under development / experimental)" className="flex flex-col gap-4">
+      <Panel title="Learn music theory" className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-4">
           <p className="text-sm text-[var(--console-text-dim)]">
             Practice music theory with an AI tutor.
@@ -36,7 +36,7 @@ export default function HomeworkPanel() {
 
   return (
     <Panel
-      title="AI Homework"
+      title="Learn music theory (experimental feature under development)"
       headerRight={
         <Button size="sm" onClick={() => dispatch(toggleHomeworkMode())}>
           Disable
