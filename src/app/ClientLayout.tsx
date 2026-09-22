@@ -16,6 +16,7 @@ import {
   selectIsDarkMode,
   selectInstrument,
   selectLanguage,
+  selectScale,
 } from "../features/globalConfig/globalConfigSlice";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import {
@@ -30,6 +31,9 @@ import { useUrlSyncedGlobalConfig } from "@/features/globalConfig/useUrlSyncedGl
 import { NextIntlClientProvider } from "next-intl";
 import { isLocale } from "@/lib/i18n/types";
 import { isInstrument } from "@/lib/utils/instrument";
+import ChordPanel from "@/components/ChordPanel/ChordPanel";
+import HomeworkPanel from "@/components/HomeworkPanel/HomeworkPanel";
+import PatternPanel from "@/components/PatternPanel/PatternPanel";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -45,6 +49,7 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
   const applicationState = useSelector(selectApplicationState);
   const instrument = useSelector(selectInstrument);
   const language = useSelector(selectLanguage);
+  const scale = useSelector(selectScale);
   const [isHydrated, setIsHydrated] = useState(false);
   const [messages, setMessages] = useState<Record<string, string> | null>(null);
 
@@ -209,6 +214,9 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
                 <div className="p-2 sm:p-3">{children}</div>
               </ErrorBoundary>
             </div>
+            <HomeworkPanel />
+            <ChordPanel scale={scale} />
+            <PatternPanel scale={scale} />
             <Details />
             <Footer isDarkMode={isDarkMode} />
           </div>
