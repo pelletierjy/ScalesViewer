@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useTranslations } from "next-intl";
 import {
   selectScale,
   selectShowFlats,
@@ -8,6 +9,7 @@ import {
 } from "../features/globalConfig/globalConfigSlice";
 
 export const Details: React.FC = () => {
+  const t = useTranslations();
   const showFlats = useSelector(selectShowFlats);
   const scale = useSelector(selectScale);
   const showDegrees = useSelector(selectShowDegrees);
@@ -20,7 +22,7 @@ export const Details: React.FC = () => {
         onClick={() => setIsDetailsExpanded(!isDetailsExpanded)}
         className="w-full px-3 py-1.5 flex items-center justify-between rack-label hover:text-[var(--console-accent)]"
       >
-        <span>Details</span>
+        <span>{t("details.title")}</span>
         <span
           className="transform transition-transform duration-200"
           style={{ transform: isDetailsExpanded ? "rotate(180deg)" : "rotate(0deg)" }}
@@ -34,14 +36,14 @@ export const Details: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 rack-mono">
             <div>
               <p>
-                Current Scale: {scale.root} {scale.type}
+                {t("details.currentScale")} {scale.root} {scale.type}
               </p>
-              <p>Scale Root: {scale.root}</p>
+              <p>{t("details.scaleRoot")} {scale.root}</p>
             </div>
             <div>
-              <p>Display Mode: {showDegrees ? "Scale Degrees" : "Note Names"}</p>
-              <p>Note Display: {showFlats ? "Flat Notes (♭)" : "Sharp Notes (♯)"}</p>
-              <p>Color Mode: {highlightRoots ? "Monochrome" : "Colored"}</p>
+              <p>{t("details.displayMode")} {showDegrees ? t("details.scaleDegrees") : t("details.noteNames")}</p>
+              <p>{t("details.noteDisplay")} {showFlats ? t("details.flatNotes") : t("details.sharpNotes")}</p>
+              <p>{t("details.colorMode")} {highlightRoots ? t("details.monochrome") : t("details.colored")}</p>
             </div>
           </div>
         </div>

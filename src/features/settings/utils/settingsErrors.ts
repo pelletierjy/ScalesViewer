@@ -1,48 +1,52 @@
 /**
  * Settings Error Handling Utilities
  *
- * Error message constants and formatting helpers for export/import/reset operations.
+ * These modules run outside React (plain functions, no hook access), so they
+ * can't call next-intl's `useTranslations()` themselves. Everything below is
+ * an i18n KEY under the `error/success` namespace, not display text — the
+ * React layer (useSettingsManager, and the panel/button components) is
+ * responsible for translating it with `t()` before rendering.
  */
 
 // ============================================================================
-// Error Messages
+// Error Messages (i18n keys, see src/lib/i18n/messages/*.json → "error")
 // ============================================================================
 
 export const ErrorMessages = {
   // Export errors
-  EXPORT_NO_DATA: "No settings found to export.",
-  EXPORT_SERIALIZE: "Failed to serialize settings data.",
-  EXPORT_BROWSER_BLOCK: "Download was blocked by the browser. Please check your popup settings.",
-  EXPORT_STORAGE_FULL: "Cannot export: localStorage is not accessible.",
+  EXPORT_NO_DATA: "error.exportNoData",
+  EXPORT_SERIALIZE: "error.exportSerialize",
+  EXPORT_BROWSER_BLOCK: "error.exportBrowserBlock",
+  EXPORT_STORAGE_FULL: "error.exportStorageFull",
 
   // Import errors
-  IMPORT_FILE_TOO_LARGE: "The file is too large. Maximum size is 10MB.",
-  IMPORT_INVALID_JSON: "The selected file is not valid JSON. Please check the file and try again.",
-  IMPORT_INVALID_FORMAT: "Unrecognized settings format. Expected ScalesViewer settings file.",
-  IMPORT_READ_ERROR: "Failed to read the file. Please try again.",
-  IMPORT_VALIDATION_FAILED: "The file contains invalid settings data.",
-  IMPORT_STORAGE_FULL: "Storage is full. Try clearing some browser data first.",
-  IMPORT_VERSION_MISMATCH: "Warning: This settings file was exported from a different app version.",
-  IMPORT_PARTIAL_FAILURE: "Some settings could not be imported. See details for more information.",
+  IMPORT_FILE_TOO_LARGE: "error.importFileTooLarge",
+  IMPORT_INVALID_JSON: "error.importInvalidJson",
+  IMPORT_INVALID_FORMAT: "error.importInvalidFormat",
+  IMPORT_READ_ERROR: "error.importReadError",
+  IMPORT_VALIDATION_FAILED: "error.importValidationFailed",
+  IMPORT_STORAGE_FULL: "error.importStorageFull",
+  IMPORT_VERSION_MISMATCH: "error.importVersionMismatch",
+  IMPORT_PARTIAL_FAILURE: "error.importPartialFailure",
 
   // Reset errors
-  RESET_CANCELLED: "Reset cancelled by user.",
-  RESET_CLEAR_FAILED: "Failed to clear some settings. Please clear browser data manually.",
+  RESET_CANCELLED: "error.resetCancelled",
+  RESET_CLEAR_FAILED: "error.resetClearFailed",
 
   // Generic errors
-  UNKNOWN_ERROR: "An unexpected error occurred. Please try again.",
-  LOCAL_STORAGE_UNAVAILABLE: "Browser storage is not available. Please check your browser settings.",
-  OPERATION_IN_PROGRESS: "Another operation is already in progress. Please wait.",
+  UNKNOWN_ERROR: "error.unknownError",
+  LOCAL_STORAGE_UNAVAILABLE: "error.localStorageUnavailable",
+  OPERATION_IN_PROGRESS: "error.operationInProgress",
 } as const;
 
 // ============================================================================
-// Success Messages
+// Success Messages (i18n keys, see src/lib/i18n/messages/*.json → "success")
 // ============================================================================
 
 export const SuccessMessages = {
-  EXPORT_SUCCESS: (filename: string) => `Settings exported successfully to ${filename}`,
-  IMPORT_SUCCESS: (count: number) => `Successfully imported ${count} settings.`,
-  RESET_SUCCESS: "Settings reset to defaults. The page will reload.",
+  EXPORT_SUCCESS: "success.exportSuccess",
+  IMPORT_SUCCESS: "success.importSuccess",
+  RESET_SUCCESS: "success.resetSuccess",
 } as const;
 
 // ============================================================================
@@ -84,37 +88,25 @@ export function isJsonError(error: unknown): boolean {
 // ============================================================================
 
 /**
- * Format an error into a user-friendly message
+ * Format an unknown error into an i18n key the caller can pass to `t()`.
  *
  * @param error - The error to format
- * @param context - Optional context about where the error occurred
- * @returns A user-friendly error message
+ * @returns An i18n key under the `error` namespace
  */
-export function formatError(error: unknown, context?: string): string {
-  let message: string;
-
+export function formatError(error: unknown): string {
   if (error instanceof Error) {
-    message = error.message;
-  } else if (typeof error === "string") {
-    message = error;
-  } else {
-    message = ErrorMessages.UNKNOWN_ERROR;
+    // Errors we throw ourselves (readFile/parseJson in settingsImport.ts)
+    // already carry an i18n key as their message — pass it straight through
+    // rather than re-guessing it from English substrings.
+    if (error.message.startsWith("error.")) {
+      return error.message;
+    }
+    if (isJsonError(error)) return ErrorMessages.IMPORT_INVALID_JSON;
+    if (isStorageError(error)) return ErrorMessages.IMPORT_STORAGE_FULL;
+    if (isFileError(error)) return ErrorMessages.IMPORT_READ_ERROR;
   }
 
-  // Map specific error patterns to user-friendly messages
-  if (isJsonError(error)) {
-    message = ErrorMessages.IMPORT_INVALID_JSON;
-  } else if (isStorageError(error)) {
-    message = ErrorMessages.IMPORT_STORAGE_FULL;
-  } else if (isFileError(error)) {
-    message = ErrorMessages.IMPORT_READ_ERROR;
-  }
-
-  if (context) {
-    return `${context}: ${message}`;
-  }
-
-  return message;
+  return ErrorMessages.UNKNOWN_ERROR;
 }
 
 /**
@@ -130,7 +122,7 @@ export function createExportError(filename: string, error: unknown): {
     success: false,
     filename,
     data: null as never,
-    error: formatError(error, "Export failed"),
+    error: formatError(error),
   };
 }
 
@@ -147,7 +139,7 @@ export function createImportError(error: unknown): {
     success: false,
     applied: [],
     skipped: [],
-    error: formatError(error, "Import failed"),
+    error: formatError(error),
   };
 }
 
@@ -162,6 +154,6 @@ export function createResetError(error: unknown): {
   return {
     success: false,
     cleared: [],
-    error: formatError(error, "Reset failed"),
+    error: formatError(error),
   };
 }

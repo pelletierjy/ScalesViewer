@@ -72,7 +72,7 @@ export const CustomTuningEditor: React.FC<CustomTuningEditorProps> = ({
     const validation = validateTuningName(sanitizedName);
 
     if (!validation.isValid) {
-      setNameError(validation.error);
+      setNameError(t(validation.error));
       return;
     }
 

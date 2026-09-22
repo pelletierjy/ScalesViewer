@@ -7,6 +7,7 @@ import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Field, Select } from "@/components/ui";
 import { InstrumentViewProps } from "@/components/InstrumentWorkspace/types";
 import { HARMONICA_KEYS, transposeHarmonicaNotes } from "./harmonicaNotes";
+import { useTranslations } from "next-intl";
 
 export interface HarmonicaSettings {
   selectedKey: Note;
@@ -22,9 +23,10 @@ export const HarmonicaControls: React.FC<{ settings: HarmonicaSettings }> = ({
   settings,
 }) => {
   const showFlats = useSelector(selectShowFlats);
+  const t = useTranslations();
 
   return (
-    <Field label="Harmonica Key" htmlFor="harmonicaKey">
+    <Field label={t("ui.harmonicaKey")} htmlFor="harmonicaKey">
       <Select
         id="harmonicaKey"
         value={settings.selectedKey}

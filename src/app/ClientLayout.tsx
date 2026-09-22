@@ -28,12 +28,42 @@ import { setAudioStatus } from "@/features/audio/audioSlice";
 import { initializeAudio } from "@/lib/utils/audioUtils";
 import { SCALE_TYPES, SCALE_PATTERNS } from "@/lib/utils/scaleConstants";
 import { useUrlSyncedGlobalConfig } from "@/features/globalConfig/useUrlSyncedGlobalConfig";
-import { NextIntlClientProvider } from "next-intl";
-import { isLocale } from "@/lib/i18n/types";
+import { NextIntlClientProvider, useTranslations } from "next-intl";
+import { isLocale, Locale } from "@/lib/i18n/types";
 import { isInstrument } from "@/lib/utils/instrument";
 import ChordPanel from "@/components/ChordPanel/ChordPanel";
 import HomeworkPanel from "@/components/HomeworkPanel/HomeworkPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
+
+// Shown before messages.json has loaded, so it cannot use next-intl. Locale is
+// already known at this point (from the URL, redux, or the server prop), so
+// this small inline table keeps it localized instead of hardcoding English.
+const BOOTSTRAP_LOADING_TEXT: Record<Locale, string> = {
+  en: "Loading...",
+  fr: "Chargement...",
+  es: "Cargando...",
+};
+
+// Rendered as children of NextIntlClientProvider so they can call useTranslations();
+// ClientLayout itself sits above that provider and can't call the hook directly.
+function ErrorFallback() {
+  const t = useTranslations();
+  return (
+    <div className="p-4 text-[var(--console-danger)]">
+      <p>{t("ui.somethingWentWrong")}</p>
+      <p>{t("ui.pleaseRefresh")}</p>
+    </div>
+  );
+}
+
+function LoadingSpinner() {
+  const t = useTranslations();
+  return (
+    <div className="min-h-screen flex items-center justify-center rack-mono text-sm text-[var(--console-text-dim)]">
+      {t("ui.loading")}
+    </div>
+  );
+}
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -190,7 +220,7 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
   if (!messages) {
     return (
       <div className="min-h-screen flex items-center justify-center rack-mono text-sm text-[var(--console-text-dim)]">
-        Loading...
+        {BOOTSTRAP_LOADING_TEXT[isLocale(effectiveLocale) ? effectiveLocale : "en"]}
       </div>
     );
   }
@@ -203,14 +233,7 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
             <Header />
 
             <div className="rack-panel">
-              <ErrorBoundary
-                fallback={
-                  <div className="p-4 text-[var(--console-danger)]">
-                    <p>Something went wrong.</p>
-                    <p>Please try refreshing the page.</p>
-                  </div>
-                }
-              >
+              <ErrorBoundary fallback={<ErrorFallback />}>
                 <div className="p-2 sm:p-3">{children}</div>
               </ErrorBoundary>
             </div>
@@ -221,9 +244,7 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
             <Footer isDarkMode={isDarkMode} />
           </div>
         ) : (
-          <div className="min-h-screen flex items-center justify-center rack-mono text-sm text-[var(--console-text-dim)]">
-            Loading...
-          </div>
+          <LoadingSpinner />
         )}
       </main>
     </NextIntlClientProvider>

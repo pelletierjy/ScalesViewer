@@ -5,7 +5,9 @@
  */
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import { useSettingsManager } from "@/features/settings/hooks/useSettingsManager";
+import { ErrorMessages } from "@/features/settings/utils/settingsErrors";
 import { Button } from "@/components/ui";
 
 interface ResetButtonProps {
@@ -24,6 +26,7 @@ export const ResetButton: React.FC<ResetButtonProps> = ({
   onCancel,
   className = "",
 }) => {
+  const t = useTranslations();
   const { resetSettings, isResetting } = useSettingsManager();
 
   const handleReset = async (): Promise<void> => {
@@ -31,10 +34,10 @@ export const ResetButton: React.FC<ResetButtonProps> = ({
 
     if (result.success) {
       onSuccess?.();
-    } else if (result.error === "Reset cancelled by user") {
+    } else if (result.error === ErrorMessages.RESET_CANCELLED) {
       onCancel?.();
     } else {
-      onError?.(result.error || "Reset failed");
+      onError?.(result.error || ErrorMessages.UNKNOWN_ERROR);
     }
   };
 
@@ -44,7 +47,7 @@ export const ResetButton: React.FC<ResetButtonProps> = ({
       onClick={handleReset}
       disabled={isResetting}
       className={`w-full disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
-      aria-label="Reset all settings to factory defaults. This will show a confirmation dialog."
+      aria-label={t("settings.resetAriaLabel")}
       aria-busy={isResetting}
     >
       {isResetting ? (
@@ -70,7 +73,7 @@ export const ResetButton: React.FC<ResetButtonProps> = ({
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             />
           </svg>
-          Resetting...
+          {t("settings.resetting")}
         </span>
       ) : (
         <span className="flex items-center justify-center gap-2">
@@ -89,7 +92,7 @@ export const ResetButton: React.FC<ResetButtonProps> = ({
               d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
             />
           </svg>
-          Reset to Defaults
+          {t("settings.reset")}
         </span>
       )}
     </Button>

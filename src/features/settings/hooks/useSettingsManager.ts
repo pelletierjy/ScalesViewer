@@ -6,6 +6,7 @@
  */
 
 import { useState, useCallback, useRef } from "react";
+import { useTranslations } from "next-intl";
 import {
   ExportOptions,
   ExportResult,
@@ -17,6 +18,7 @@ import {
 import { exportSettings as exportSettingsUtil } from "@/features/settings/utils/settingsExport";
 import { importSettings as importSettingsUtil } from "@/features/settings/utils/settingsImport";
 import { resetSettings as resetSettingsUtil } from "@/features/settings/utils/settingsReset";
+import { ErrorMessages, formatError } from "@/features/settings/utils/settingsErrors";
 
 /**
  * Hook for managing settings export, import, and reset operations
@@ -37,6 +39,7 @@ import { resetSettings as resetSettingsUtil } from "@/features/settings/utils/se
  * const result = await resetSettings(true); // with confirmation
  */
 export function useSettingsManager(): UseSettingsManagerReturn {
+  const t = useTranslations();
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
@@ -59,7 +62,7 @@ export function useSettingsManager(): UseSettingsManagerReturn {
           success: false,
           filename: "",
           data: { version: "", exportedAt: "" },
-          error: "Another operation is in progress",
+          error: ErrorMessages.OPERATION_IN_PROGRESS,
         };
       }
 
@@ -70,25 +73,24 @@ export function useSettingsManager(): UseSettingsManagerReturn {
       try {
         const result = await exportSettingsUtil(options);
         if (!result.success) {
-          setError(result.error || "Export failed");
+          setError(t(result.error || ErrorMessages.UNKNOWN_ERROR));
         }
         return result;
       } catch (err) {
-        const errorMessage =
-          err instanceof Error ? err.message : "Export failed";
-        setError(errorMessage);
+        const errorKey = formatError(err);
+        setError(t(errorKey));
         return {
           success: false,
           filename: "",
           data: { version: "", exportedAt: "" },
-          error: errorMessage,
+          error: errorKey,
         };
       } finally {
         setIsExporting(false);
         operationInProgress.current = false;
       }
     },
-    []
+    [t]
   );
 
   /**
@@ -101,7 +103,7 @@ export function useSettingsManager(): UseSettingsManagerReturn {
           success: false,
           applied: [],
           skipped: [],
-          error: "Another operation is in progress",
+          error: ErrorMessages.OPERATION_IN_PROGRESS,
         };
       }
 
@@ -112,25 +114,24 @@ export function useSettingsManager(): UseSettingsManagerReturn {
       try {
         const result = await importSettingsUtil(file, options);
         if (!result.success) {
-          setError(result.error || "Import failed");
+          setError(t(result.error || ErrorMessages.UNKNOWN_ERROR));
         }
         return result;
       } catch (err) {
-        const errorMessage =
-          err instanceof Error ? err.message : "Import failed";
-        setError(errorMessage);
+        const errorKey = formatError(err);
+        setError(t(errorKey));
         return {
           success: false,
           applied: [],
           skipped: [],
-          error: errorMessage,
+          error: errorKey,
         };
       } finally {
         setIsImporting(false);
         operationInProgress.current = false;
       }
     },
-    []
+    [t]
   );
 
   /**
@@ -142,22 +143,18 @@ export function useSettingsManager(): UseSettingsManagerReturn {
         return {
           success: false,
           cleared: [],
-          error: "Another operation is in progress",
+          error: ErrorMessages.OPERATION_IN_PROGRESS,
         };
       }
 
       // Show confirmation dialog if required
       if (requireConfirmation) {
-        const confirmed = window.confirm(
-          "This will reset ALL settings to their default values. This action cannot be undone.\n\n" +
-            "The page will reload after reset to apply the changes.\n\n" +
-            "Do you want to continue?"
-        );
+        const confirmed = window.confirm(t("settings.confirmReset"));
         if (!confirmed) {
           return {
             success: false,
             cleared: [],
-            error: "Reset cancelled by user",
+            error: ErrorMessages.RESET_CANCELLED,
           };
         }
       }
@@ -169,27 +166,26 @@ export function useSettingsManager(): UseSettingsManagerReturn {
       try {
         const result = await resetSettingsUtil();
         if (!result.success) {
-          setError(result.error || "Reset failed");
+          setError(t(result.error || ErrorMessages.UNKNOWN_ERROR));
         } else {
           // Reload page after successful reset to apply changes
           window.location.reload();
         }
         return result;
       } catch (err) {
-        const errorMessage =
-          err instanceof Error ? err.message : "Reset failed";
-        setError(errorMessage);
+        const errorKey = formatError(err);
+        setError(t(errorKey));
         return {
           success: false,
           cleared: [],
-          error: errorMessage,
+          error: errorKey,
         };
       } finally {
         setIsResetting(false);
         operationInProgress.current = false;
       }
     },
-    []
+    [t]
   );
 
   return {

@@ -7,6 +7,7 @@ import { DisplayMode, formatNoteLabel } from "@/lib/utils/scaleUtils";
 import { getRecorderFingering } from "@/lib/utils/recorderUtils";
 import { RecorderHoleRenderState, RecorderType } from "./recorderFingerings";
 import { getScaleNoteColor } from "@/lib/utils/noteColors";
+import { useTranslations } from "next-intl";
 
 export interface RecorderDiagramProps {
   note: NoteWithOctave;
@@ -48,6 +49,7 @@ export const RecorderDiagram: React.FC<RecorderDiagramProps> = ({
   onPlay,
   getHighlightColor,
 }) => {
+  const t = useTranslations();
   const [isFocused, setIsFocused] = React.useState(false);
   const gradientId = React.useId();
   const fingering = getRecorderFingering(note, recorder);
@@ -114,7 +116,7 @@ export const RecorderDiagram: React.FC<RecorderDiagramProps> = ({
       onBlur={() => setIsFocused(false)}
       role="button"
       tabIndex={0}
-      aria-label={`Play ${note} on recorder`}
+      aria-label={t("ui.playNoteOnRecorder", { note })}
       className="cursor-pointer focus:outline-none"
       style={{ outline: "none" }}
     >

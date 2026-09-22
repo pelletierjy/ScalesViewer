@@ -6,6 +6,7 @@ import { Scale } from "@/lib/utils/scaleType";
 import { DisplayMode, formatNoteLabel } from "@/lib/utils/scaleUtils";
 import { getFluteFingering } from "@/lib/utils/fluteUtils";
 import { getScaleNoteColor } from "@/lib/utils/noteColors";
+import { useTranslations } from "next-intl";
 
 export interface FluteDiagramProps {
   note: NoteWithOctave;
@@ -59,6 +60,7 @@ export const FluteDiagram: React.FC<FluteDiagramProps> = ({
   onPlay,
   getHighlightColor,
 }) => {
+  const t = useTranslations();
   const [isFocused, setIsFocused] = React.useState(false);
   const gradientId = React.useId();
   const fingering = getFluteFingering(note);
@@ -104,7 +106,7 @@ export const FluteDiagram: React.FC<FluteDiagramProps> = ({
       onBlur={() => setIsFocused(false)}
       role="button"
       tabIndex={0}
-      aria-label={`Play ${note} on flute`}
+      aria-label={t("ui.playNoteOnFlute", { note })}
       className="cursor-pointer focus:outline-none"
       style={{ outline: "none" }}
     >

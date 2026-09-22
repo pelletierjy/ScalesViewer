@@ -75,7 +75,7 @@ export const CustomScaleEditor: React.FC<CustomScaleEditorProps> = ({
     const validation = validateTuningName(sanitizedLabel);
 
     if (!validation.isValid) {
-      setNameError(validation.error);
+      setNameError(t(validation.error));
       return;
     }
 

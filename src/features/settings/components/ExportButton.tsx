@@ -5,8 +5,9 @@
  */
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import { useSettingsManager } from "@/features/settings/hooks/useSettingsManager";
-import { SuccessMessages } from "@/features/settings/utils/settingsErrors";
+import { ErrorMessages } from "@/features/settings/utils/settingsErrors";
 import { Button } from "@/components/ui";
 
 interface ExportButtonProps {
@@ -23,6 +24,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
   onError,
   className = "",
 }) => {
+  const t = useTranslations();
   const { exportSettings, isExporting } = useSettingsManager();
 
   const handleExport = async (): Promise<void> => {
@@ -31,7 +33,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
     if (result.success) {
       onSuccess?.(result.filename);
     } else {
-      onError?.(result.error || "Export failed");
+      onError?.(result.error || ErrorMessages.UNKNOWN_ERROR);
     }
   };
 
@@ -41,7 +43,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
       onClick={handleExport}
       disabled={isExporting}
       className={`w-full disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
-      aria-label="Export all application settings to a JSON file"
+      aria-label={t("settings.exportAriaLabel")}
       aria-busy={isExporting}
     >
       {isExporting ? (
@@ -67,7 +69,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             />
           </svg>
-          Exporting...
+          {t("settings.exporting")}
         </span>
       ) : (
         <span className="flex items-center justify-center gap-2">
@@ -86,7 +88,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
               d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
             />
           </svg>
-          Export Settings
+          {t("settings.export")}
         </span>
       )}
     </Button>
