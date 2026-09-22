@@ -1,6 +1,7 @@
 /**
  * The shared instrument workspace owns the page-level tooling that every
- * instrument used to duplicate.
+ * instrument used to duplicate. The chord/homework/pattern panels deliberately
+ * live in ClientLayout instead, so they survive an instrument change.
  */
 
 import React from "react";
@@ -14,22 +15,11 @@ jest.mock("@/lib/hooks/usePlayNote", () => ({
 }));
 
 describe("InstrumentWorkspace", () => {
-  it.each(INSTRUMENTS)("renders the shared panels exactly once for %s", (instrument) => {
-    const { container } = renderWithProviders(
-      <InstrumentWorkspace instrument={instrument} />
-    );
+  it.each(INSTRUMENTS)("renders %s without the shared panels", (instrument) => {
+    renderWithProviders(<InstrumentWorkspace instrument={instrument} />);
 
-    expect(screen.getAllByText("Chord-Scale Intersection")).toHaveLength(1);
-    expect(screen.getAllByText("Learn music theory")).toHaveLength(1);
-    // Chord, homework and pattern panels, in that order.
-    const titles = Array.from(container.querySelectorAll(".rack-label")).map(
-      (el) => el.textContent
-    );
-    expect(titles.slice(0, 2)).toEqual([
-      "Chord-Scale Intersection",
-      "Learn music theory",
-    ]);
-    expect(titles).toHaveLength(3);
+    expect(screen.queryByText("Chord-Scale Intersection")).not.toBeInTheDocument();
+    expect(screen.queryByText("Learn music theory")).not.toBeInTheDocument();
   });
 
   it.each([

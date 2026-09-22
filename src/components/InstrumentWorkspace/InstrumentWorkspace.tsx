@@ -11,9 +11,6 @@ import { useNoteColors } from "@/lib/hooks/useNoteColors";
 import { DisplayMode } from "@/lib/utils/scaleUtils";
 import { Instrument } from "@/lib/utils/instrument";
 import { Stage } from "@/components/ui";
-import ChordPanel from "@/components/ChordPanel/ChordPanel";
-import HomeworkPanel from "@/components/HomeworkPanel/HomeworkPanel";
-import PatternPanel from "@/components/PatternPanel/PatternPanel";
 import { INSTRUMENT_REGISTRY } from "./registry";
 import { InstrumentDefinition } from "./types";
 
@@ -23,8 +20,8 @@ interface InstrumentWorkspaceProps {
 
 /**
  * The single instrument page. Owns every page-level tool — the note colour
- * composition, the display mode, the tool row and the chord/homework/pattern
- * panels — so that each instrument only contributes its own view and controls.
+ * composition, the display mode and the tool row — so that each instrument only
+ * contributes its own view and controls. 
  */
 export function InstrumentWorkspace({ instrument }: InstrumentWorkspaceProps) {
   const scale = useSelector(selectScale);
@@ -68,10 +65,6 @@ export function InstrumentWorkspace({ instrument }: InstrumentWorkspaceProps) {
           <Controls settings={settings} />
         </div>
       )}
-
-      <HomeworkPanel />
-      <ChordPanel scale={scale} />
-      <PatternPanel scale={scale} />
     </div>
   );
 }
