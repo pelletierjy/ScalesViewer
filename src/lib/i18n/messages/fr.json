@@ -670,7 +670,12 @@
     "practiceWithTutor": "Pratiquer la théorie musicale avec un tuteur IA.",
     "enable": "Activer",
     "learnMusicTheoryExperimental": "Apprendre la théorie musicale (fonctionnalité expérimentale en cours de développement)",
-    "disable": "Désactiver"
+    "disable": "Désactiver",
+    "collapsePanel": "Réduire le panneau",
+    "expandPanel": "Développer le panneau",
+    "resizePanel": "Redimensionner le panneau",
+    "showTutor": "Afficher le tuteur musical IA",
+    "hideTutor": "Masquer le tuteur musical IA"
   },
   "details": {
     "title": "Détails",

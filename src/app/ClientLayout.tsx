@@ -229,19 +229,22 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
     <NextIntlClientProvider locale={effectiveLocale} messages={messages}>
       <main className="min-h-screen transition-colors duration-200" suppressHydrationWarning>
         {showContent ? (
-          <div className="max-w-[1600px] mx-auto p-2 sm:p-3 flex flex-col gap-2 sm:gap-3">
-            <Header />
+          <div className="max-w-[1600px] mx-auto p-2 sm:p-3 flex flex-col lg:flex-row gap-2 sm:gap-3 lg:min-h-[600px]">
+            <div className="flex-1 min-w-0 flex flex-col gap-2 sm:gap-3">
+              <Header />
 
-            <div className="rack-panel">
-              <ErrorBoundary fallback={<ErrorFallback />}>
-                <div className="p-2 sm:p-3">{children}</div>
-              </ErrorBoundary>
+              <div className="rack-panel">
+                <ErrorBoundary fallback={<ErrorFallback />}>
+                  <div className="p-2 sm:p-3">{children}</div>
+                </ErrorBoundary>
+              </div>
+              <ChordPanel scale={scale} />
+              <PatternPanel scale={scale} />
+              <Details />
+              <Footer isDarkMode={isDarkMode} />
             </div>
+
             <HomeworkPanel />
-            <ChordPanel scale={scale} />
-            <PatternPanel scale={scale} />
-            <Details />
-            <Footer isDarkMode={isDarkMode} />
           </div>
         ) : (
           <LoadingSpinner />

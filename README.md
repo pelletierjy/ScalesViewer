@@ -49,6 +49,12 @@ Jean-Yves Pelletier
 - Responsive design that works on all screen sizes
 - Native desktop application for Windows
 
+## AI Tutor (Experimental)
+
+An AI-powered music theory tutor is built into the app. Click the 🧠 icon in the header to open it — it appears as a resizable, collapsible panel on the right side of the page (stacked below the main content on mobile). Collapsing or hiding it doesn't reset the conversation; it stays loaded in the background until you reload the page.
+
+> ⚠️ **This is an early, experimental feature, not a finished product.** It runs on a free backend tier with limited capacity, so it isn't built or provisioned to support many concurrent users, and it may be slow, rate-limited, or occasionally unavailable. Treat it as a preview, not something to rely on.
+
 ## Internationalization
 
 GScale supports multiple languages. The interface, scale names, help content, and settings are fully localized.
