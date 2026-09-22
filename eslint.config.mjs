@@ -12,6 +12,7 @@ const config = [
       "**/.claude/**",
       "**/out/**",
       "**/next-env.d.ts",
+      "public/need-homework/**",
     ],
   },
   {
