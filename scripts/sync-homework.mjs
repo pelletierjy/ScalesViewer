@@ -1,54 +1,33 @@
 #!/usr/bin/env node
 /**
- * Copies the built need-homework app into ScalesViewer's public folder
- * so it can be served from the same origin (avoiding iframe blocking).
+ * Copies the built need-homework widget bundle into ScalesViewer's public
+ * folder so <need-homework-app> can be loaded from the same origin.
  *
  * Usage:
  *   node scripts/sync-homework.mjs [path-to-need-homework-dist]
  *
- * Default source: ../need-home-work/dist
+ * Default source: ../../need-home-work/dist (sibling repo)
  */
-import { cp, stat, readFile, writeFile } from "node:fs/promises";
-
+import { copyFile, mkdir, rm, stat } from "node:fs/promises";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const src = resolve(process.argv[2] || resolve(__dirname, "../../", "../need-home-work/dist"));
-const dest = resolve(__dirname, "../public/need-homework");
+const srcDir = resolve(process.argv[2] || resolve(__dirname, "../../need-home-work/dist"));
+const src = resolve(srcDir, "need-homework-widget.js");
+const destDir = resolve(__dirname, "../public/need-homework");
+const dest = resolve(destDir, "need-homework-widget.js");
 
 try {
   await stat(src);
 } catch {
-  console.error(`Source directory not found: ${src}`);
-  console.error("Build need-homework first (pnpm run build) or pass the dist path as an argument.");
+  console.error(`Widget bundle not found: ${src}`);
+  console.error("Build need-home-work's widget first (pnpm run build:widget) or pass its dist path as an argument.");
   process.exit(1);
 }
 
-await cp(src, dest, { recursive: true, force: true });
-console.log(`Synced need-homework dist to ${dest}`);
-
-// Create a stable entry-point script that HomeworkPanel.tsx expects,
-// but only if the widget build didn't already produce one.
-try {
-  const widgetPath = resolve(dest, "need-homework-widget.js");
-  try {
-    await stat(widgetPath);
-    console.log("Widget entry point already exists, skipping creation.");
-  } catch {
-    const indexHtmlPath = resolve(dest, "index.html");
-    const html = await readFile(indexHtmlPath, "utf-8");
-    const scriptMatch = html.match(/<script[^>]*type=["']module["'][^>]*src=["']([^"']+)["']/);
-    if (scriptMatch) {
-      const scriptSrc = scriptMatch[1]; // e.g. /need-homework/assets/index-XXXX.js
-      const relativePath = scriptSrc.replace(/^\/need-homework\//, "./");
-      await writeFile(widgetPath, `import "${relativePath}";\n`);
-      console.log(`Created stable entry point: ${widgetPath}`);
-    } else {
-      console.warn("Could not find module script in index.html; skipping entry-point creation.");
-    }
-  }
-} catch (err) {
-  console.warn("Failed to create stable entry point:", err.message);
-}
+await rm(destDir, { recursive: true, force: true });
+await mkdir(destDir, { recursive: true });
+await copyFile(src, dest);
+console.log(`Synced need-homework-widget.js to ${dest}`);
