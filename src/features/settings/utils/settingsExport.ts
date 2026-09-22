@@ -19,7 +19,7 @@ import {
   APP_VERSION,
   DEFAULT_EXPORT_FILENAME,
 } from "@/features/settings/utils/settingsDefaults";
-import { formatError } from "@/features/settings/utils/settingsErrors";
+import { ErrorMessages, formatError } from "@/features/settings/utils/settingsErrors";
 import { CustomScaleDefinition } from "@/lib/utils/customScaleTypes";
 
 /**
@@ -164,7 +164,7 @@ export async function exportSettings(
       success: false,
       filename: generateFilename(options.filename),
       data: { version: APP_VERSION, exportedAt: new Date().toISOString() },
-      error: "Browser storage is not available.",
+      error: ErrorMessages.LOCAL_STORAGE_UNAVAILABLE,
     };
   }
 

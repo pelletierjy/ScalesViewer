@@ -11,6 +11,7 @@ import {
   selectLanguage,
 } from "@/features/globalConfig/globalConfigSlice";
 import { Panel, Button } from "@/components/ui";
+import { useTranslations } from "next-intl";
 
 const WIDGET_SCRIPT_SRC = "/need-homework/need-homework-widget.js";
 const CUSTOM_ELEMENT_TAG = "need-homework-app";
@@ -25,6 +26,7 @@ function loadHomeworkWidgetScript() {
 }
 
 export default function HomeworkPanel() {
+  const t = useTranslations();
   const dispatch = useDispatch();
   const homeworkMode = useSelector(selectHomeworkMode);
   const isDarkMode = useSelector(selectIsDarkMode);
@@ -36,13 +38,13 @@ export default function HomeworkPanel() {
 
   if (!homeworkMode) {
     return (
-      <Panel title="Learn music theory" className="flex flex-col gap-4">
+      <Panel title={t("homework.learnMusicTheory")} className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-4">
           <p className="text-sm text-[var(--console-text-dim)]">
-            Practice music theory with an AI tutor.
+            {t("homework.practiceWithTutor")}
           </p>
           <Button tone="accent2" onClick={() => dispatch(toggleHomeworkMode())}>
-            Enable
+            {t("homework.enable")}
           </Button>
         </div>
       </Panel>
@@ -51,10 +53,10 @@ export default function HomeworkPanel() {
 
   return (
     <Panel
-      title="Learn music theory (experimental feature under development)"
+      title={t("homework.learnMusicTheoryExperimental")}
       headerRight={
         <Button size="sm" onClick={() => dispatch(toggleHomeworkMode())}>
-          Disable
+          {t("homework.disable")}
         </Button>
       }
     >

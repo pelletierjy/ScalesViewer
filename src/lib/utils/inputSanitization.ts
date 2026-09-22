@@ -12,23 +12,25 @@ export const sanitizeString = (input: string): string => {
 };
 
 /**
- * Validates tuning name input
+ * Validates a tuning or scale name. `error`, when present, is an i18n key
+ * (under the `validation` namespace) for the caller to translate with `t()`,
+ * not display text.
  */
 export const validateTuningName = (name: string): { isValid: boolean; error: string } => {
   const sanitized = sanitizeString(name);
-  
+
   if (!sanitized) {
-    return { isValid: false, error: 'Tuning name cannot be empty' };
+    return { isValid: false, error: 'validation.nameRequired' };
   }
-  
+
   if (sanitized.length > 50) {
-    return { isValid: false, error: 'Tuning name cannot exceed 50 characters' };
+    return { isValid: false, error: 'validation.nameTooLong' };
   }
-  
+
   if (!/^[a-zA-Z0-9\s\-_#♭♯]+$/.test(sanitized)) {
-    return { isValid: false, error: 'Tuning name contains invalid characters' };
+    return { isValid: false, error: 'validation.nameInvalidChars' };
   }
-  
+
   return { isValid: true, error: '' };
 };
 

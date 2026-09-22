@@ -5,8 +5,10 @@
  */
 
 import React, { useRef, ChangeEvent } from "react";
+import { useTranslations } from "next-intl";
 import { useSettingsManager } from "@/features/settings/hooks/useSettingsManager";
 import { ImportOptions } from "@/features/settings/types/settings.types";
+import { ErrorMessages } from "@/features/settings/utils/settingsErrors";
 import { Button } from "@/components/ui";
 
 interface ImportButtonProps {
@@ -38,6 +40,7 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
   className = "",
 }) => {
   // onVersionMismatch is used in handleFileSelect
+  const t = useTranslations();
   const { importSettings, isImporting } = useSettingsManager();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -64,7 +67,7 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
       }
       onSuccess?.(result.applied);
     } else {
-      onError?.(result.error || "Import failed");
+      onError?.(result.error || ErrorMessages.UNKNOWN_ERROR);
     }
   };
 
@@ -76,14 +79,14 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
         accept=".json,application/json"
         onChange={handleFileSelect}
         className="hidden"
-        aria-label="Select JSON file to import"
+        aria-label={t("settings.importFileAriaLabel")}
       />
       <Button
         tone="success"
         onClick={handleClick}
         disabled={isImporting}
         className={`w-full disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
-        aria-label="Import settings from a JSON file"
+        aria-label={t("settings.importAriaLabel")}
         aria-busy={isImporting}
       >
         {isImporting ? (
@@ -109,7 +112,7 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               />
             </svg>
-            Importing...
+            {t("settings.importing")}
           </span>
         ) : (
           <span className="flex items-center justify-center gap-2">
@@ -128,7 +131,7 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
                 d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
               />
             </svg>
-            Import Settings
+            {t("settings.import")}
           </span>
         )}
       </Button>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Note } from "@/lib/utils/note";
 import { getStringThickness } from "./getStringThickness";
+import { useTranslations } from "next-intl";
 
 interface StringsProps {
   openNote: Note;
@@ -19,6 +20,7 @@ export const Strings: React.FC<StringsProps> = ({
   stringSpacing,
   isDarkMode,
 }) => {
+  const t = useTranslations();
   return (
     <>
       {/* String line */}
@@ -42,7 +44,7 @@ export const Strings: React.FC<StringsProps> = ({
         fontSize={Math.min(12, stringSpacing / 4)}
         className="transition-colors duration-200"
       >
-        <title>{`String ${stringCount - stringIndex}: ${openNote}`}</title>
+        <title>{t("ui.stringToneLabel", { n: stringCount - stringIndex, note: openNote })}</title>
         {openNote}
       </text>
     </>

@@ -71,7 +71,7 @@ export const Header: React.FC = () => {
     const builtInEntries = SCALE_TYPES.map((s) => ({
       value: s.value,
       label: s.labelKey ? t(s.labelKey) : s.value,
-      group: s.groupKey ? t(s.groupKey) : "Other",
+      group: s.groupKey ? t(s.groupKey) : t("scaleGroup.other"),
     }));
     return [...builtInEntries, ...customEntries];
   }, [customScales, t]);

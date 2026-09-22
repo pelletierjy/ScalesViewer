@@ -4,6 +4,7 @@ import { Scale } from "@/lib/utils/scaleType";
 import { TuningPreset } from "../types/tuningPreset";
 import { getStringThickness } from "./getStringThickness";
 import { NotesDisplay } from "./NotesDisplay";
+import { useTranslations } from "next-intl";
 
 interface StringGroupProps {
   adjustedTuning: TuningPreset;
@@ -42,6 +43,7 @@ export const StringGroup: React.FC<StringGroupProps> = React.memo(({
   fretPositionEnabled = [],
   getChordNoteColor,
 }) => {
+  const t = useTranslations();
   return (
     <>
       {[...adjustedTuning.strings]
@@ -72,9 +74,12 @@ export const StringGroup: React.FC<StringGroupProps> = React.memo(({
               fontSize={Math.min(12, stringSpacing / 4)}
               className="transition-colors duration-200"
             >
-              <title>{`String ${
-                adjustedTuning.strings.length - stringIndex
-              }: ${openNote}`}</title>
+              <title>
+                {t("ui.stringToneLabel", {
+                  n: adjustedTuning.strings.length - stringIndex,
+                  note: openNote,
+                })}
+              </title>
               {openNote}
             </text>
 

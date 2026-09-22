@@ -110,7 +110,8 @@ export const RECORDER_FINGERING_BY_OFFSET: Record<number, RecorderHoleValue[]> =
  */
 export interface RecorderType {
   id: string;
-  name: string;
+  /** i18n key (under the `recorder` namespace) for the display name. */
+  nameKey: string;
   /** Key the instrument is built in: "C" (en Do) or "F" (en Fa). */
   key: "C" | "F";
   baseNote: Note;
@@ -118,14 +119,14 @@ export interface RecorderType {
 }
 
 export const RECORDER_TYPES: RecorderType[] = [
-  { id: "sopranino", name: "Sopranino", key: "F", baseNote: "F", baseOctave: 5 },
-  { id: "soprano", name: "Soprano (Descant)", key: "C", baseNote: "C", baseOctave: 5 },
-  { id: "alto", name: "Alto (Treble)", key: "F", baseNote: "F", baseOctave: 4 },
-  { id: "tenor", name: "Tenor", key: "C", baseNote: "C", baseOctave: 4 },
-  { id: "bass", name: "Bass", key: "F", baseNote: "F", baseOctave: 3 },
-  { id: "greatbass", name: "Great Bass", key: "C", baseNote: "C", baseOctave: 3 },
-  { id: "contrabass", name: "Contrabass", key: "F", baseNote: "F", baseOctave: 2 },
-  { id: "subcontrabass", name: "Sub-contrabass", key: "C", baseNote: "C", baseOctave: 2 },
+  { id: "sopranino", nameKey: "recorder.sopranino", key: "F", baseNote: "F", baseOctave: 5 },
+  { id: "soprano", nameKey: "recorder.soprano", key: "C", baseNote: "C", baseOctave: 5 },
+  { id: "alto", nameKey: "recorder.alto", key: "F", baseNote: "F", baseOctave: 4 },
+  { id: "tenor", nameKey: "recorder.tenor", key: "C", baseNote: "C", baseOctave: 4 },
+  { id: "bass", nameKey: "recorder.bass", key: "F", baseNote: "F", baseOctave: 3 },
+  { id: "greatbass", nameKey: "recorder.greatbass", key: "C", baseNote: "C", baseOctave: 3 },
+  { id: "contrabass", nameKey: "recorder.contrabass", key: "F", baseNote: "F", baseOctave: 2 },
+  { id: "subcontrabass", nameKey: "recorder.subcontrabass", key: "C", baseNote: "C", baseOctave: 2 },
 ];
 
 export const DEFAULT_RECORDER_TYPE_ID = "soprano";

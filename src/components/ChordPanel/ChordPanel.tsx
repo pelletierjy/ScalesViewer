@@ -13,16 +13,17 @@ import { getScaleNotes, getNoteAtInterval, SHARP_TO_FLAT } from "@/lib/utils/sca
 import { Scale } from "@/lib/utils/scaleType";
 import { ChordQuality } from "@/lib/utils/chordTypes";
 import { Panel, Field, Select, Button } from "@/components/ui";
-
-const QUALITY_OPTIONS: { value: ChordQuality | "all"; label: string }[] = [
-  { value: "all", label: "All Qualities" },
-  { value: "major", label: "Major" },
-  { value: "minor", label: "Minor" },
-  { value: "diminished", label: "Diminished" },
-  { value: "augmented", label: "Augmented" },
-];
+import { useTranslations } from "next-intl";
 
 export default function ChordPanel({ scale }: { scale: Scale }) {
+  const t = useTranslations();
+  const QUALITY_OPTIONS: { value: ChordQuality | "all"; label: string }[] = [
+    { value: "all", label: t("chord.allQualities") },
+    { value: "major", label: t("chord.major") },
+    { value: "minor", label: t("chord.minor") },
+    { value: "diminished", label: t("chord.diminished") },
+    { value: "augmented", label: t("chord.augmented") },
+  ];
   const dispatch = useDispatch<AppDispatch>();
   const chordScaleMode = useSelector((state: RootState) => state.globalConfig.chordScaleMode);
   const selectedChord = useSelector((state: RootState) => state.globalConfig.selectedChord);
@@ -35,13 +36,13 @@ export default function ChordPanel({ scale }: { scale: Scale }) {
 
   if (!chordScaleMode) {
     return (
-      <Panel title="Chord-Scale Intersection">
+      <Panel title={t("chord.chordScaleIntersection")}>
         <div className="flex items-center justify-between gap-4">
           <p className="text-sm text-[var(--console-text-dim)]">
-            See which chords belong to this scale.
+            {t("chord.seeWhichChords")}
           </p>
           <Button tone="accent2" onClick={() => dispatch(toggleChordScaleMode())}>
-            Enable
+            {t("chord.enable")}
           </Button>
         </div>
       </Panel>
@@ -50,10 +51,10 @@ export default function ChordPanel({ scale }: { scale: Scale }) {
 
   return (
     <Panel
-      title="Diatonic Chords"
+      title={t("chord.diatonicChords")}
       headerRight={
         <Button size="sm" onClick={() => dispatch(toggleChordScaleMode())}>
-          Disable
+          {t("chord.disable")}
         </Button>
       }
     >
@@ -62,7 +63,7 @@ export default function ChordPanel({ scale }: { scale: Scale }) {
       </p>
 
       <div className="mb-3">
-        <Field label="Filter by Quality" htmlFor="quality-filter">
+        <Field label={t("chord.filterByQuality")} htmlFor="quality-filter">
           <Select
             id="quality-filter"
             value={qualityFilter}
@@ -101,7 +102,7 @@ export default function ChordPanel({ scale }: { scale: Scale }) {
 
       {selectedChord && (
         <div className="mt-4 pt-3 border-t border-[var(--console-border)]">
-          <p className="rack-label mb-2">Chord Tones</p>
+          <p className="rack-label mb-2">{t("chord.chordTones")}</p>
           <div className="flex flex-wrap gap-2">
             {(() => {
               const triad = triads.find((t) => t.symbol === selectedChord);

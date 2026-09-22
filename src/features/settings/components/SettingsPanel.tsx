@@ -17,7 +17,6 @@ import { ExportButton } from "./ExportButton";
 import { ImportButton } from "./ImportButton";
 import { ResetButton } from "./ResetButton";
 import { SettingsError } from "./SettingsError";
-import { SuccessMessages } from "@/features/settings/utils/settingsErrors";
 import { Select } from "@/components/ui";
 import { useTranslations } from "next-intl";
 
@@ -78,14 +77,14 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
   const [successMessage, setSuccessMessage] = React.useState<string | null>(null);
 
   const handleExportSuccess = (filename: string) => {
-    setSuccessMessage(SuccessMessages.EXPORT_SUCCESS(filename));
+    setSuccessMessage(t("success.exportSuccess", { filename }));
     setTimeout(() => setSuccessMessage(null), 5000);
   };
 
   const [versionWarning, setVersionWarning] = React.useState<string | null>(null);
 
   const handleImportSuccess = (applied: string[]) => {
-    setSuccessMessage(SuccessMessages.IMPORT_SUCCESS(applied.length));
+    setSuccessMessage(t("success.importSuccess", { count: applied.length }));
     // Reload after import to apply changes
     setTimeout(() => {
       window.location.reload();

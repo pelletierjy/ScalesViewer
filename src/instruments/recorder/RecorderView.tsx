@@ -15,6 +15,7 @@ import {
   getRecorderType,
 } from "./recorderFingerings";
 import { RecorderDiagram } from "./RecorderDiagram";
+import { useTranslations } from "next-intl";
 
 export interface RecorderSettings {
   noteCount: number;
@@ -37,35 +38,38 @@ export const useRecorderSettings = (): RecorderSettings => {
 
 export const RecorderControls: React.FC<{ settings: RecorderSettings }> = ({
   settings,
-}) => (
-  <>
-    <Field label="Recorder" htmlFor="recorder-type">
-      <Select
-        id="recorder-type"
-        aria-label="Select recorder type"
-        value={settings.recorderTypeId}
-        onChange={(e) => settings.setRecorderTypeId(e.target.value)}
-      >
-        <optgroup label="In C (en Do)">
-          {RECORDER_TYPES.filter((t) => t.key === "C").map((t) => (
-            <option key={t.id} value={t.id}>
-              {t.name}
-            </option>
-          ))}
-        </optgroup>
-        <optgroup label="In F (en Fa)">
-          {RECORDER_TYPES.filter((t) => t.key === "F").map((t) => (
-            <option key={t.id} value={t.id}>
-              {t.name}
-            </option>
-          ))}
-        </optgroup>
-      </Select>
-    </Field>
+}) => {
+  const t = useTranslations();
+  return (
+    <>
+      <Field label={t("instrument.recorder")} htmlFor="recorder-type">
+        <Select
+          id="recorder-type"
+          aria-label={t("ui.selectRecorderType")}
+          value={settings.recorderTypeId}
+          onChange={(e) => settings.setRecorderTypeId(e.target.value)}
+        >
+          <optgroup label={t("ui.recorderKeyC")}>
+            {RECORDER_TYPES.filter((rt) => rt.key === "C").map((rt) => (
+              <option key={rt.id} value={rt.id}>
+                {t(rt.nameKey)}
+              </option>
+            ))}
+          </optgroup>
+          <optgroup label={t("ui.recorderKeyF")}>
+            {RECORDER_TYPES.filter((rt) => rt.key === "F").map((rt) => (
+              <option key={rt.id} value={rt.id}>
+                {t(rt.nameKey)}
+              </option>
+            ))}
+          </optgroup>
+        </Select>
+      </Field>
 
-    <NoteCountControl value={settings.noteCount} onChange={settings.setNoteCount} />
-  </>
-);
+      <NoteCountControl value={settings.noteCount} onChange={settings.setNoteCount} />
+    </>
+  );
+};
 
 export const RecorderView: React.FC<InstrumentViewProps<RecorderSettings>> = ({
   scale,

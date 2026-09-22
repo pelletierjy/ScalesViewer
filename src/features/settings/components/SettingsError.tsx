@@ -5,6 +5,7 @@
  */
 
 import React from "react";
+import { useTranslations } from "next-intl";
 
 interface SettingsErrorProps {
   message: string | null;
@@ -20,6 +21,7 @@ export const SettingsError: React.FC<SettingsErrorProps> = ({
   onDismiss,
   className = "",
 }) => {
+  const t = useTranslations();
   if (!message) return null;
 
   return (
@@ -52,7 +54,7 @@ export const SettingsError: React.FC<SettingsErrorProps> = ({
           <button
             onClick={onDismiss}
             className="flex-shrink-0 -mr-1 p-1 hover:opacity-70 transition-opacity"
-            aria-label="Dismiss error"
+            aria-label={t("settings.dismissError")}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

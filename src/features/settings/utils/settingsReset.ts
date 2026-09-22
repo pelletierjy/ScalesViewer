@@ -99,7 +99,7 @@ export async function resetSettings(): Promise<ResetResult> {
     return {
       success: false,
       cleared: [],
-      error: formatError(error, "Reset failed"),
+      error: formatError(error),
     };
   }
 }

@@ -16,8 +16,10 @@ import { FretNumbers } from "./FretNumbers";
 import { calculateNoteWithOctaveMemoized } from "../utils/octaveCalculation";
 import { FretboardBackground } from "./FretboardBackground";
 import { useNoteColors } from "@/lib/hooks/useNoteColors";
+import { useTranslations } from "next-intl";
 
 export const GuitarNeck: React.FC = React.memo(() => {
+  const t = useTranslations();
   const {
     fretCount,
     flipX,
@@ -189,7 +191,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
         <div
           className="relative flex flex-col"
           style={{ width: 28, height: dimensions.height }}
-          aria-label="String enable toggles"
+          aria-label={t("ui.stringEnableToggles")}
         >
           {stringOrder.map((stringIdx, i) => (
             <label
@@ -212,7 +214,10 @@ export const GuitarNeck: React.FC = React.memo(() => {
                   })
                 }
                 className="h-4 w-4 accent-[var(--console-accent)] border border-[var(--console-border-strong)]"
-                aria-label={`String ${stringIdx + 1} ${stringEnabled[stringIdx] ?? true ? "enabled" : "disabled"}`}
+                aria-label={t("ui.stringToggleLabel", {
+                  n: stringIdx + 1,
+                  state: t(stringEnabled[stringIdx] ?? true ? "ui.enabled" : "ui.disabled"),
+                })}
               />
             </label>
           ))}
@@ -226,9 +231,9 @@ export const GuitarNeck: React.FC = React.memo(() => {
               setFretPositionEnabled(Array(fretCount + 1).fill(target));
             }}
             className="rack-btn text-[9px] leading-tight px-1 py-0.5 w-full text-center"
-            title={allEnabled ? "Disable all strings and frets" : "Enable all strings and frets"}
+            title={t(allEnabled ? "ui.disableAllStringsAndFrets" : "ui.enableAllStringsAndFrets")}
           >
-            {allEnabled ? "Disable all" : "Enable all"}
+            {t(allEnabled ? "ui.disableAll" : "ui.enableAll")}
           </button>
         </div>
         </div>
@@ -364,7 +369,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
             height: 28,
             transform: flipX ? "scaleX(-1)" : undefined,
           }}
-          aria-label="Fret position enable toggles"
+          aria-label={t("ui.fretPositionEnableToggles")}
         >
           {Array.from({ length: fretCount + 1 }, (_, i) => (
             <label
@@ -387,11 +392,13 @@ export const GuitarNeck: React.FC = React.memo(() => {
                   })
                 }
                 className="h-3 w-3 accent-[var(--console-accent)] border border-[var(--console-border-strong)]"
-                aria-label={
-                  i === 0
-                    ? `Open string ${fretPositionEnabled[i] ?? true ? "enabled" : "disabled"}`
-                    : `Fret ${i} ${fretPositionEnabled[i] ?? true ? "enabled" : "disabled"}`
-                }
+                aria-label={t(
+                  i === 0 ? "ui.openStringToggleLabel" : "ui.fretToggleLabel",
+                  {
+                    n: i,
+                    state: t(fretPositionEnabled[i] ?? true ? "ui.enabled" : "ui.disabled"),
+                  }
+                )}
               />
             </label>
           ))}

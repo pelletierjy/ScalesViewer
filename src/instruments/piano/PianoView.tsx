@@ -8,6 +8,7 @@ import { RootState } from "@/app/store";
 import { useLocalStorageNumber } from "@/lib/hooks/useLocalStorage";
 import { Field, Select } from "@/components/ui";
 import { InstrumentViewProps } from "@/components/InstrumentWorkspace/types";
+import { useTranslations } from "next-intl";
 
 // Piano keys for one octave
 const OCTAVE_NOTES: { note: Note; isBlack: boolean }[] = [
@@ -45,22 +46,25 @@ export const usePianoSettings = (): PianoSettings => {
   return { octaveCount, setOctaveCount };
 };
 
-export const PianoControls: React.FC<{ settings: PianoSettings }> = ({ settings }) => (
-  <Field label="Display" htmlFor="octave-count">
+export const PianoControls: React.FC<{ settings: PianoSettings }> = ({ settings }) => {
+  const t = useTranslations();
+  return (
+  <Field label={t("ui.display")} htmlFor="octave-count">
     <Select
       id="octave-count"
-      aria-label="Select number of octaves to display"
+      aria-label={t("ui.selectOctaveCount")}
       value={settings.octaveCount}
       onChange={(e) => settings.setOctaveCount(Number(e.target.value))}
     >
       {OCTAVE_COUNT_OPTIONS.map((num) => (
         <option key={num} value={num}>
-          {num} octave{num > 1 ? "s" : ""}
+          {t("ui.octaveCount", { n: num })}
         </option>
       ))}
     </Select>
   </Field>
-);
+  );
+};
 
 export const PianoView: React.FC<InstrumentViewProps<PianoSettings>> = ({
   scale,
