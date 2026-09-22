@@ -2,22 +2,37 @@
 
 // Build trigger: force Vercel redeploy (take 3)
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleHomeworkMode,
   selectHomeworkMode,
   selectIsDarkMode,
+  selectLanguage,
 } from "@/features/globalConfig/globalConfigSlice";
 import { Panel, Button } from "@/components/ui";
 
-const HOMEWORK_BASE = "/need-homework/";
+const WIDGET_SCRIPT_SRC = "/need-homework/need-homework-widget.js";
+const CUSTOM_ELEMENT_TAG = "need-homework-app";
+
+function loadHomeworkWidgetScript() {
+  if (customElements.get(CUSTOM_ELEMENT_TAG)) return;
+  if (document.querySelector(`script[src="${WIDGET_SCRIPT_SRC}"]`)) return;
+  const script = document.createElement("script");
+  script.type = "module";
+  script.src = WIDGET_SCRIPT_SRC;
+  document.head.appendChild(script);
+}
 
 export default function HomeworkPanel() {
   const dispatch = useDispatch();
   const homeworkMode = useSelector(selectHomeworkMode);
   const isDarkMode = useSelector(selectIsDarkMode);
-  const iframeSrc = `${HOMEWORK_BASE}?subject=Music&theme=${isDarkMode ? "dark" : "light"}`;
+  const language = useSelector(selectLanguage);
+
+  useEffect(() => {
+    if (homeworkMode) loadHomeworkWidgetScript();
+  }, [homeworkMode]);
 
   if (!homeworkMode) {
     return (
@@ -44,11 +59,11 @@ export default function HomeworkPanel() {
       }
     >
       <div className="w-full" style={{ height: "600px" }}>
-        <iframe
-          src={iframeSrc}
-          style={{ width: "100%", height: "100%", border: "none" }}
-          title="AI Homework Chatbot"
-          allow="clipboard-write"
+        <need-homework-app
+          subject="Music"
+          theme={isDarkMode ? "dark" : "light"}
+          lang={language}
+          className="block h-full w-full"
         />
       </div>
     </Panel>

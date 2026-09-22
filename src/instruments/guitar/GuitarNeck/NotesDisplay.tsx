@@ -3,7 +3,7 @@ import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
 import { isNoteInScale, getScaleDegree, sharpToFlat } from "@/lib/utils/scaleUtils";
 import { usePlayNote } from "@/lib/hooks/usePlayNote";
-import { getNoteColor } from "./getNoteColor";
+import { getNoteColor } from "@/lib/utils/noteColors";
 import { TuningPreset } from "../types/tuningPreset";
 import { FrettedNotes } from './FrettedNotes';
 import { VirtualizedFrettedNotes } from './VirtualizedFrettedNotes';

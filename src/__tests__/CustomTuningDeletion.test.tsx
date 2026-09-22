@@ -1,7 +1,7 @@
 import { screen, fireEvent, waitFor } from "@testing-library/react";
-import { Configuration } from "../app/guitar/Configuration/Configuration";
+import { Configuration } from "@/instruments/guitar/Configuration/Configuration";
 import { renderWithProviders } from "./test-utils";
-import { DataProvider } from "../app/guitar/context";
+import { DataProvider } from "@/instruments/guitar/context";
 
 // Mock window.confirm
 const mockConfirm = jest.fn();

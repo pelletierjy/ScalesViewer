@@ -2,6 +2,10 @@ import { Note } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
 import { getScaleDegree } from "@/lib/utils/scaleUtils";
 
+/**
+ * Degree-based palette shared by every instrument. Even degrees follow an
+ * emerald gradient, odd degrees an orange one.
+ */
 export const getScaleNoteColor = (
   note: Note,
   scale: Scale,
@@ -52,4 +56,24 @@ export const getScaleNoteColor = (
     default:
       return isDarkMode ? "#9ca3af" : "#4b5563"; // gray-400/600 - better contrast in light mode
   }
+};
+
+/**
+ * The palette plus the monochrome ("highlight roots") treatment: root notes go
+ * green and every other scale note goes blue.
+ */
+export const getNoteColor = (
+  note: Note,
+  scale: Scale,
+  isDarkMode: boolean,
+  highlightRoots: boolean
+): string => {
+  if (highlightRoots) {
+    if (note === scale.root) {
+      return isDarkMode ? "#4ade80" : "#16a34a"; // Green-500/600 for root notes
+    }
+    return isDarkMode ? "#60a5fa" : "#2563eb"; // Blue-400/500 for scale notes
+  }
+
+  return getScaleNoteColor(note, scale, isDarkMode, highlightRoots);
 };

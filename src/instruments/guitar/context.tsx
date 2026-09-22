@@ -8,8 +8,8 @@ import {
   useMemo,
   useCallback,
 } from "react";
-import { useLocalStorage, useLocalStorageBoolean, useLocalStorageNumber } from "./hooks/useLocalStorage";
-import { getCustomTunings, getTuning } from "@/app/guitar/tunings";
+import { useLocalStorage, useLocalStorageBoolean, useLocalStorageNumber } from "@/lib/hooks/useLocalStorage";
+import { getCustomTunings, getTuning } from "@/instruments/guitar/tunings";
 import { TuningPreset } from "./types/tuningPreset";
 import { TuningPresetWithMetadata } from "./tuningConstants";
 import { MULTISCALE_PRESETS } from "./multiscaleConstants";

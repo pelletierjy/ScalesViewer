@@ -1,7 +1,7 @@
 import { ROOTS } from "@/lib/utils/scaleConstants";
 import { Note } from "@/lib/utils/note";
-import { useDataContext } from "@/app/guitar/context";
-import { tuningGroups } from "@/app/guitar/tunings";
+import { useDataContext } from "@/instruments/guitar/context";
+import { tuningGroups } from "@/instruments/guitar/tunings";
 import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
 import { MULTISCALE_PRESETS, PERPENDICULAR_FRET_OPTIONS } from "../multiscaleConstants";
 import { Field, Select, TextInput, Button, IconButton } from "@/components/ui";

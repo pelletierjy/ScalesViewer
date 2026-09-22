@@ -5,7 +5,7 @@
 ### Component Structure
 
 - Components are organized by feature in `src/features/`
-- Guitar-specific components in `src/features/guitar/`
+- Instrument-specific components in `src/instruments/<instrument>/`
 - Scale-related components in `src/features/scales/`
 - Shared utilities in `src/lib/utils/`
 

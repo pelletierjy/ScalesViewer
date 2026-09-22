@@ -23,14 +23,14 @@ import { ScaleType } from "@/lib/utils/scaleType";
 import React, { useRef, useMemo, useEffect } from "react";
 import { HelpModal } from "./HelpModal";
 import { SettingsPanel } from "@/features/settings/components/SettingsPanel";
-import { useLocalStorage } from "@/app/guitar/hooks/useLocalStorage";
+import { useLocalStorage } from "@/lib/hooks/useLocalStorage";
 import {
   getCustomScales,
   registerCustomScales,
   CustomScaleDefinition,
 } from "@/lib/utils/customScaleTypes";
 import { LOCAL_STORAGE_KEYS } from "@/features/settings/types/settings.types";
-import { CustomScaleEditor } from "@/app/guitar/CustomScaleEditor/CustomScaleEditor";
+import { CustomScaleEditor } from "@/instruments/guitar/CustomScaleEditor/CustomScaleEditor";
 import { Field, Button, IconButton, Select } from "@/components/ui";
 import { useTranslations } from "next-intl";
 import { LanguageSelector } from "./LanguageSelector";

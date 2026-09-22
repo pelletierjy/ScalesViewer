@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useRef, useState, useMemo, useCallback } 
 import { NoteWithOctave } from "@/lib/utils/note";
 import { useSelector } from "react-redux";
 import {
-  selectIsDarkMode,
-  selectIsMonochrome,
   selectScale,
   selectShowDegrees,
   selectShowFlats,
@@ -17,9 +15,7 @@ import { StringGroup } from "./StringGroup";
 import { FretNumbers } from "./FretNumbers";
 import { calculateNoteWithOctaveMemoized } from "../utils/octaveCalculation";
 import { FretboardBackground } from "./FretboardBackground";
-import { useChordHighlight } from "@/lib/hooks/useChordHighlight";
-import { usePatternHighlight } from "@/lib/hooks/usePatternHighlight";
-import { Note } from "@/lib/utils/note";
+import { useNoteColors } from "@/lib/hooks/useNoteColors";
 
 export const GuitarNeck: React.FC = React.memo(() => {
   const {
@@ -40,22 +36,13 @@ export const GuitarNeck: React.FC = React.memo(() => {
   } = useContext(DataContext) as DataContextType;
   const showFlats = useSelector(selectShowFlats);
   const scale = useSelector(selectScale);
-  const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
-  const highlightRoots = useSelector(selectIsMonochrome);
-  const { getChordNoteColor, chordScaleMode, selectedChord } = useChordHighlight(scale);
-  const { getPatternNoteColor, isPatternModeEnabled } = usePatternHighlight(scale);
-
-  const composedGetNoteColor = (note: Note, fallback: string): string => {
-    if (isPatternModeEnabled) {
-      const patternColor = getPatternNoteColor(note, fallback);
-      if (patternColor !== fallback) return patternColor;
-    }
-    if (chordScaleMode && selectedChord) {
-      return getChordNoteColor(note, fallback);
-    }
-    return fallback;
-  };
+  const {
+    isDarkMode,
+    highlightRoots,
+    hasHighlights,
+    getHighlightColor: composedGetNoteColor,
+  } = useNoteColors(scale);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 1000, height: 200 });
@@ -354,9 +341,7 @@ export const GuitarNeck: React.FC = React.memo(() => {
             stringEnabled={stringEnabled}
             fretPositionEnabled={fretPositionEnabled}
             getChordNoteColor={
-              (chordScaleMode && selectedChord) || isPatternModeEnabled
-                ? composedGetNoteColor
-                : undefined
+              hasHighlights ? composedGetNoteColor : undefined
             }
           />
 

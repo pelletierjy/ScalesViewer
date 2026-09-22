@@ -5,7 +5,7 @@
  * and as fallbacks for missing values during import.
  */
 
-import { TUNING_PRESETS } from "@/app/guitar/tuningConstants";
+import { TUNING_PRESETS } from "@/instruments/guitar/tuningConstants";
 import {
   GlobalConfig,
   GuitarSettings,

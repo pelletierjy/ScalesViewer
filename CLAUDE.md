@@ -59,10 +59,15 @@ The application uses a hybrid approach to state management for learning purposes
 
 ### Key Architectural Patterns
 
-1. **Instrument Pages** (`src/app/[instrument]/page.tsx`):
-   - Each instrument has its own page under Next.js app router
-   - Instruments: guitar, piano, kalimba, harmonica
-   - Each implements different state management approaches intentionally
+1. **Instrument Workspace** (`src/components/InstrumentWorkspace/`):
+   - `src/app/<instrument>/page.tsx` is a three-line route shell; every route
+     renders the same `InstrumentWorkspace` with an `instrument` prop
+   - The workspace owns all page-level tooling: note colours (`useNoteColors`),
+     display mode, the shared tool row, and the Chord/Homework/Pattern panels
+   - `registry.ts` maps each instrument to the only two things it owns: its
+     `View` (its SVG surface) and its `Controls` (its own selects)
+   - Instrument code lives in `src/instruments/<instrument>/`
+   - Instruments: guitar, piano, kalimba, harmonica, flute, recorder
 
 2. **Feature Organization** (`src/features/`):
    - Components organized by feature/instrument
@@ -104,7 +109,7 @@ The application uses a hybrid approach to state management for learning purposes
    - Scale degrees calculated relative to root note
 
 2. **Guitar Neck Component Architecture**:
-   - **GuitarNeck** (`src/app/guitar/GuitarNeck/GuitarNeck.tsx`): Main container component
+   - **GuitarNeck** (`src/instruments/guitar/GuitarNeck/GuitarNeck.tsx`): Main container component
      - Manages SVG viewport and responsive sizing
      - Calculates string spacing based on string count
      - Handles base tuning transposition via `getAdjustedTuning`
@@ -127,7 +132,8 @@ The application uses a hybrid approach to state management for learning purposes
 3. **Note Rendering System**:
    - Each note is an SVG group with a circle and text
    - Only scale notes are displayed (non-scale notes hidden)
-   - Note colors determined by `getNoteColor` based on scale degree
+   - Note colors determined by `useNoteColors` / `src/lib/utils/noteColors.ts`,
+     which composes the shared degree palette with the pattern and chord overlays
    - Zero fret (open string) notes displayed separately
    - Text can show note names, flats, or scale degrees
    - Full octave information calculated for audio playback

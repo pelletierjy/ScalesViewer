@@ -1,10 +1,10 @@
-import { TuningPreset } from "@/app/guitar/types/tuningPreset";
+import { TuningPreset } from "@/instruments/guitar/types/tuningPreset";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { WritableDraft } from "@reduxjs/toolkit";
 import { initializeApplication } from "../application/applicationSlice";
 import { Instrument, defaultInstrument, isInstrument } from "@/lib/utils/instrument";
 import { Scale } from "@/lib/utils/scaleType";
-import { TUNING_PRESETS } from "@/app/guitar/tuningConstants";
+import { TUNING_PRESETS } from "@/instruments/guitar/tuningConstants";
 import { SoundEngine } from "@/lib/audio/instrumentSampleConfig";
 
 /**

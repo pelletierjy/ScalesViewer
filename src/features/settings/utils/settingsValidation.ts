@@ -10,7 +10,7 @@ import {
   TuningPresetWithMetadata,
   ValidationResult,
 } from "@/features/settings/types/settings.types";
-import { TUNING_PRESETS } from "@/app/guitar/tuningConstants";
+import { TUNING_PRESETS } from "@/instruments/guitar/tuningConstants";
 import { Instrument } from "@/lib/utils/instrument";
 import { Scale } from "@/lib/utils/scaleType";
 import { CustomScaleDefinition } from "@/lib/utils/customScaleTypes";

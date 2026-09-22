@@ -4,7 +4,7 @@
 
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import { FluteDiagram } from "@/app/flute/FluteDiagram";
+import { FluteDiagram } from "@/instruments/flute/FluteDiagram";
 import { Scale } from "@/lib/utils/scaleType";
 
 const mockScale: Scale = { root: "C", type: "major", mode: "ionian" };
