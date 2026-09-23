@@ -1,8 +1,6 @@
 "use client";
 
-// Build trigger: force Vercel redeploy (take 3)
-
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleHomeworkMode,
@@ -10,11 +8,17 @@ import {
   selectIsDarkMode,
   selectLanguage,
 } from "@/features/globalConfig/globalConfigSlice";
-import { Panel, Button } from "@/components/ui";
+import { Button } from "@/components/ui";
 import { useTranslations } from "next-intl";
+import { useLocalStorageBoolean } from "@/lib/hooks/useLocalStorage";
+import { useResizableWidth } from "@/lib/hooks/useResizableWidth";
 
 const WIDGET_SCRIPT_SRC = "/need-homework/need-homework-widget.js";
 const CUSTOM_ELEMENT_TAG = "need-homework-app";
+
+const DEFAULT_WIDTH = 380;
+const MIN_WIDTH = 280;
+const MAX_WIDTH = 640;
 
 function loadHomeworkWidgetScript() {
   if (customElements.get(CUSTOM_ELEMENT_TAG)) return;
@@ -25,6 +29,15 @@ function loadHomeworkWidgetScript() {
   document.head.appendChild(script);
 }
 
+/**
+ * A right-docked, resizable sidebar (desktop) / collapsible panel (mobile) for
+ * the AI tutor. Disabling it (the header's brain icon, or the Disable button
+ * below) only hides it with CSS (`display: none`) — same mechanism collapsing
+ * already used — instead of unmounting it, so its conversation session
+ * survives being turned off and back on, not just collapsed. It only actually
+ * mounts once, the first time it's ever enabled: `hasLoadedOnce` latches true
+ * and never resets, so nothing is rendered (or fetched) before that.
+ */
 export default function HomeworkPanel() {
   const t = useTranslations();
   const dispatch = useDispatch();
@@ -32,42 +45,92 @@ export default function HomeworkPanel() {
   const isDarkMode = useSelector(selectIsDarkMode);
   const language = useSelector(selectLanguage);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isCollapsed, setIsCollapsed] = useLocalStorageBoolean(
+    "homework-sidebar-collapsed",
+    false
+  );
+  const { width, isResizing, startResizing } = useResizableWidth({
+    containerRef,
+    storageKey: "homework-sidebar-width",
+    defaultWidth: DEFAULT_WIDTH,
+    minWidth: MIN_WIDTH,
+    maxWidth: MAX_WIDTH,
+  });
+
+  // Latches true the first time homeworkMode is true, and never resets — so
+  // the widget mounts once and then just gets hidden/shown, never torn down.
+  const hasLoadedOnceRef = useRef(homeworkMode);
+  if (homeworkMode) hasLoadedOnceRef.current = true;
+
   useEffect(() => {
     if (homeworkMode) loadHomeworkWidgetScript();
   }, [homeworkMode]);
 
-  if (!homeworkMode) {
-    return (
-      <Panel title={t("homework.learnMusicTheory")} className="flex flex-col gap-4">
-        <div className="flex items-center justify-between gap-4">
-          <p className="text-sm text-[var(--console-text-dim)]">
-            {t("homework.practiceWithTutor")}
-          </p>
-          <Button tone="accent2" onClick={() => dispatch(toggleHomeworkMode())}>
-            {t("homework.enable")}
-          </Button>
-        </div>
-      </Panel>
-    );
-  }
+  // Hooks above must run every render; nothing to show until it's been
+  // enabled at least once. Re-enabling happens via the brain icon in the Header.
+  if (!hasLoadedOnceRef.current) return null;
+
+  const toggleLabel = isCollapsed ? t("homework.expandPanel") : t("homework.collapsePanel");
 
   return (
-    <Panel
-      title={t("homework.learnMusicTheoryExperimental")}
-      headerRight={
-        <Button size="sm" onClick={() => dispatch(toggleHomeworkMode())}>
-          {t("homework.disable")}
-        </Button>
-      }
-    >
-      <div className="w-full" style={{ height: "600px" }}>
-        <need-homework-app
-          subject="Music"
-          theme={isDarkMode ? "dark" : "light"}
-          lang={language}
-          className="block h-full w-full"
+    <div ref={containerRef} className={`w-full lg:w-auto ${homeworkMode ? "flex" : "hidden"}`}>
+      {/* Drag handle: desktop only, and only while expanded (a collapsed strip has nothing to resize) */}
+      {!isCollapsed && (
+        <div
+          onPointerDown={startResizing}
+          role="separator"
+          aria-orientation="vertical"
+          aria-label={t("homework.resizePanel")}
+          data-resizing={isResizing || undefined}
+          className="hidden lg:block w-1.5 shrink-0 -mr-1.5 z-10 cursor-col-resize touch-none rounded-full transition-colors hover:bg-[var(--console-accent)] data-[resizing]:bg-[var(--console-accent)]"
         />
+      )}
+
+      <div
+        className={`rack-panel flex flex-col w-full shrink-0 ${
+          isCollapsed ? "lg:w-11" : "lg:w-[var(--homework-width)]"
+        } ${isResizing ? "" : "transition-[width] duration-150"}`}
+        style={isCollapsed ? undefined : ({ "--homework-width": `${width}px` } as React.CSSProperties)}
+      >
+        <div className="rack-panel-header shrink-0">
+          <button
+            onClick={() => setIsCollapsed((prev) => !prev)}
+            className="flex items-center gap-2 rack-label hover:text-[var(--console-accent)] min-w-0"
+            aria-expanded={!isCollapsed}
+            aria-label={toggleLabel}
+            title={toggleLabel}
+          >
+            <span
+              className="inline-block shrink-0 transition-transform duration-200"
+              style={{ transform: isCollapsed ? "rotate(180deg)" : "rotate(0deg)" }}
+              aria-hidden="true"
+            >
+              ▸
+            </span>
+            <span className={`truncate ${isCollapsed ? "lg:hidden" : ""}`}>
+              {t("homework.learnMusicTheoryExperimental")}
+            </span>
+          </button>
+          {!isCollapsed && (
+            <Button size="sm" onClick={() => dispatch(toggleHomeworkMode())}>
+              {t("homework.disable")}
+            </Button>
+          )}
+        </div>
+
+        <div className={`flex-1 min-h-0 flex flex-col ${isCollapsed ? "hidden" : ""}`}>
+          <div className="flex-1 min-h-[500px] lg:min-h-0 p-2 sm:p-3">
+            <need-homework-app
+              subject="Music"
+              context="ScalesViewer"
+              theme={isDarkMode ? "dark" : "light"}
+              lang={language}
+              className="block h-full w-full"
+            />
+          </div>
+        </div>
       </div>
-    </Panel>
+    </div>
   );
 }

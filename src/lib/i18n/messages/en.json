@@ -670,7 +670,12 @@
     "practiceWithTutor": "Practice music theory with an AI tutor.",
     "enable": "Enable",
     "learnMusicTheoryExperimental": "Learn music theory (experimental feature under development)",
-    "disable": "Disable"
+    "disable": "Disable",
+    "collapsePanel": "Collapse panel",
+    "expandPanel": "Expand panel",
+    "resizePanel": "Resize panel",
+    "showTutor": "Show AI music tutor",
+    "hideTutor": "Hide AI music tutor"
   },
   "details": {
     "title": "Details",

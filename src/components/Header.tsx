@@ -7,6 +7,7 @@ import {
   toggleShowMonochrome,
   toggleShowFlats,
   toggleShowDegrees,
+  toggleHomeworkMode,
 } from "@/features/globalConfig/globalConfigSlice";
 import { setInstrument } from "../features/globalConfig/globalConfigSlice";
 import {
@@ -16,6 +17,7 @@ import {
   selectShowFlats,
   selectIsMonochrome,
   selectShowDegrees,
+  selectHomeworkMode,
 } from "../features/globalConfig/globalConfigSlice";
 import { Instrument } from "@/lib/utils/instrument";
 import { Note } from "@/lib/utils/note";
@@ -44,6 +46,7 @@ export const Header: React.FC = () => {
   const isDarkMode = useSelector(selectIsDarkMode);
   const showDegrees = useSelector(selectShowDegrees);
   const highlightRoots = useSelector(selectIsMonochrome);
+  const homeworkMode = useSelector(selectHomeworkMode);
   const [showHelp, setShowHelp] = React.useState(false);
   const [showSettings, setShowSettings] = React.useState(false);
   const [showScaleEditor, setShowScaleEditor] = React.useState(false);
@@ -145,6 +148,14 @@ export const Header: React.FC = () => {
               title={highlightRoots ? t("ui.highlightIntervals") : t("ui.highlightRootNotes")}
             >
               {highlightRoots ? "🎨" : "⚫"}
+            </IconButton>
+            <IconButton
+              active={homeworkMode}
+              onClick={() => dispatch(toggleHomeworkMode())}
+              title={homeworkMode ? t("homework.hideTutor") : t("homework.showTutor")}
+              aria-label={homeworkMode ? t("homework.hideTutor") : t("homework.showTutor")}
+            >
+              🧠
             </IconButton>
             <IconButton onClick={() => setShowHelp(true)} title={t("ui.showHelp")}>
               ❓
