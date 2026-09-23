@@ -7,7 +7,10 @@ The application provides interactive visualizations for guitar, piano, flute, ka
 
 **🌐 Try it live:** https://scales-viewer.vercel.app/guitar
 
-The application is just a platform I'm using to experiment with different AI providers.  It isn't meant to become anything serious but useful it is as one of the best scale viewers available :-)
+The application is just a platform I'm using to play with different technologies.  It isn't meant to become anything serious but it is useful as one of the best scale viewers available :-)
+I'm integrating an AI tutor, still in an early phase, but give it a try if you'd like!
+
+<img width="1964" height="1329" alt="image" src="https://github.com/user-attachments/assets/0f6e5de8-864f-4706-986c-908528d8fbfb" />
 
 Jean-Yves Pelletier
 
