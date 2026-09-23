@@ -13,7 +13,12 @@ import { useTranslations } from "next-intl";
 import { useLocalStorageBoolean } from "@/lib/hooks/useLocalStorage";
 import { useResizableWidth } from "@/lib/hooks/useResizableWidth";
 
-const WIDGET_SCRIPT_SRC = "/need-homework/need-homework-widget.js";
+// Overridable for local dev against a `need-home-work` checkout: set
+// NEXT_PUBLIC_HOMEWORK_WIDGET_URL=http://localhost:5173/need-homework/need-homework-widget.js
+// in .env.local (after running `pnpm run build:widget && vite preview --port 5173` there).
+const WIDGET_SCRIPT_SRC =
+  process.env.NEXT_PUBLIC_HOMEWORK_WIDGET_URL ||
+  "https://pelletierjy.github.io/need-homework/need-homework-widget.js";
 const CUSTOM_ELEMENT_TAG = "need-homework-app";
 
 const DEFAULT_WIDTH = 380;

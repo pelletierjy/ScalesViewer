@@ -54,10 +54,6 @@ next-env.d.ts
 /release
 electron/dist/
 
-# Embedded apps - only the built widget bundle is vendored, not the full app
-/public/need-homework/*
-!/public/need-homework/need-homework-widget.js
-
 # Android
 /android
 /android/.gradle
