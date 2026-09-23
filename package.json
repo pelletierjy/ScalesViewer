@@ -31,8 +31,6 @@
     "generate:sounds": "node scripts/generate-sound-samples.mjs",
     "playwright:install": "playwright install",
     "playwright:install-deps": "playwright install-deps",
-    "sync:homework": "node scripts/sync-homework.mjs",
-    "build:homework": "node scripts/sync-homework.mjs && next build",
     "build-mobile": "next build",
     "cap-init": "cap init",
     "cap-add-android": "cap add android",
