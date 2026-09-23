@@ -23,10 +23,12 @@ import { getPatternNotesWithOctave } from "@/lib/utils/patternUtils";
 import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { Scale } from "@/lib/utils/scaleType";
 import { Panel, Field, Select, TextInput, Button } from "@/components/ui";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { getLocalizedNoteName } from "@/lib/utils/note";
 
 export default function PatternPanel({ scale }: { scale: Scale }) {
   const t = useTranslations();
+  const locale = useLocale();
   const dispatch = useDispatch<AppDispatch>();
   const isPatternModeEnabled = useSelector(selectIsPatternModeEnabled);
   const selectedPatternId = useSelector(selectSelectedPatternId);
@@ -103,7 +105,7 @@ export default function PatternPanel({ scale }: { scale: Scale }) {
       }
     >
       <p className="text-sm text-[var(--console-text-dim)] mb-3">
-        {scale.root} {scale.type} — {currentPattern?.name ?? t("pattern.noPatternSelected", { defaultMessage: "No pattern selected" })}
+        {getLocalizedNoteName(scale.root, locale, false)} {scale.type} — {currentPattern?.name ?? t("pattern.noPatternSelected", { defaultMessage: "No pattern selected" })}
       </p>
 
       <div className="flex flex-wrap items-end gap-4 mb-4">

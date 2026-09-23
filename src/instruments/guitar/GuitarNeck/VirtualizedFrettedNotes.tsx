@@ -67,8 +67,8 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
   );
 
   const fontSize = useMemo(() =>
-    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.41,
-    [stringSpacing]
+    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.41 * (locale === "en" ? 1 : 1.1),
+    [stringSpacing, locale]
   );
 
   // Optimize rendering by only calculating visible frets

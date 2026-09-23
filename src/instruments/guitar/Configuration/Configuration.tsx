@@ -1,11 +1,11 @@
 import { ROOTS } from "@/lib/utils/scaleConstants";
-import { Note } from "@/lib/utils/note";
+import { Note, getLocalizedNoteName } from "@/lib/utils/note";
 import { useDataContext } from "@/instruments/guitar/context";
 import { tuningGroups } from "@/instruments/guitar/tunings";
 import { TuningPresetWithMetadata, TUNING_PRESETS } from "../tuningConstants";
 import { MULTISCALE_PRESETS, PERPENDICULAR_FRET_OPTIONS } from "../multiscaleConstants";
 import { Field, Select, TextInput, Button, IconButton } from "@/components/ui";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 const PERPENDICULAR_FRET_KEY_MAP: Record<string, string> = {
   "Nut (0th fret)": "multiscale.nut0thFret",
@@ -20,6 +20,7 @@ interface ConfigurationProps {
 
 export const Configuration: React.FC<ConfigurationProps> = ({ onDeleteCustomTuning }) => {
   const t = useTranslations();
+  const locale = useLocale();
   const {
     // Display settings
     flipX,
@@ -190,7 +191,7 @@ export const Configuration: React.FC<ConfigurationProps> = ({ onDeleteCustomTuni
                 >
                   {ROOTS.map((note) => (
                     <option key={note} value={note}>
-                      {note}
+                      {getLocalizedNoteName(note, locale, false)}
                     </option>
                   ))}
                 </Select>

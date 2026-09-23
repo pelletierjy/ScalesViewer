@@ -66,8 +66,8 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
   );
 
   const fontSize = useMemo(() =>
-    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.41,
-    [stringSpacing]
+    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.41 * (locale === "en" ? 1 : 1.1),
+    [stringSpacing, locale]
   );
 
   // Handle note click - toggle selection if same note, otherwise select new note

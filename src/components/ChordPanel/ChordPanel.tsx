@@ -13,10 +13,12 @@ import { getScaleNotes, getNoteAtInterval, SHARP_TO_FLAT } from "@/lib/utils/sca
 import { Scale } from "@/lib/utils/scaleType";
 import { ChordQuality } from "@/lib/utils/chordTypes";
 import { Panel, Field, Select, Button } from "@/components/ui";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { getLocalizedNoteName } from "@/lib/utils/note";
 
 export default function ChordPanel({ scale }: { scale: Scale }) {
   const t = useTranslations();
+  const locale = useLocale();
   const QUALITY_OPTIONS: { value: ChordQuality | "all"; label: string }[] = [
     { value: "all", label: t("chord.allQualities") },
     { value: "major", label: t("chord.major") },
@@ -59,7 +61,7 @@ export default function ChordPanel({ scale }: { scale: Scale }) {
       }
     >
       <p className="text-sm text-[var(--console-text-dim)] mb-3">
-        {scale.root} {scale.type} {scale.mode ? `(${scale.mode})` : ""}
+        {getLocalizedNoteName(scale.root, locale, showFlats)} {scale.type} {scale.mode ? `(${scale.mode})` : ""}
       </p>
 
       <div className="mb-3">
@@ -130,7 +132,11 @@ export default function ChordPanel({ scale }: { scale: Scale }) {
                     key={tone}
                     className={`inline-flex items-center gap-1 px-2 py-1 rack-mono text-xs font-bold border ${toneStyle}`}
                   >
-                    {showFlats ? (SHARP_TO_FLAT[tone] ?? tone) : tone}
+                    {getLocalizedNoteName(
+                      showFlats ? (SHARP_TO_FLAT[tone] ?? tone) : tone,
+                      locale,
+                      showFlats
+                    )}
                   </span>
                 );
               });
