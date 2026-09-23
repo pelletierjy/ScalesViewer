@@ -123,6 +123,7 @@ export default function HomeworkPanel() {
           <div className="flex-1 min-h-[500px] lg:min-h-0 p-2 sm:p-3">
             <need-homework-app
               subject="Music"
+              context="ScalesViewer"
               theme={isDarkMode ? "dark" : "light"}
               lang={language}
               className="block h-full w-full"

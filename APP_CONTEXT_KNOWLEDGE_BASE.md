@@ -9,29 +9,25 @@ and what's on screen, independent of subject/grade. One **main** article
 six **sub-articles** it references by title.
 
 Each article below maps directly onto the existing `KnowledgeEntry` fields and
-the admin entry editor:
+the admin entry editor. Use the **Entry Type: App Context** toggle in the
+editor (not the Subject/Grade Level fields — those are for regular
+subject/grade tutoring content and are unused here):
 
-| Section here     | Field           | How to set it |
+| Section here      | Field              | How to set it |
 |---|---|---|
-| Subject           | `subject`       | Type `App Context` (new free-text value — the subject field is a `<datalist>`, not a locked dropdown, so no code change is needed to use it) |
-| Grade Level        | `gradeLevel`    | Check **All Grades** (→ `null`) |
-| Title              | `title`         | Copy verbatim, including the `ScalesViewer: ` prefix on sub-articles |
-| Content            | `contentBody`   | Copy verbatim |
+| Entry Type         | `entryType`        | Select **App Context** in the editor's Entry Type dropdown |
+| Context Key        | `contextKey`       | `ScalesViewer` — same value on the main article **and** every sub-article |
+| Main Article       | `isMainArticle`    | Check for article 1 only; leave unchecked for the 6 sub-articles |
+| Title              | `title`            | Copy verbatim, including the `ScalesViewer: ` prefix on sub-articles |
+| Content            | `contentBody`      | Copy verbatim |
 | Pedagogical Notes  | `pedagogicalNotes` | Copy verbatim |
 
-**Two things this file does *not* set up, because they don't exist in the code yet:**
-1. Retrieval by title/context-key, independent of subject+grade. Today
-   `retrieveRelevantEntries()` (`src/services/rag.ts`) only queries by
-   `subject` + `gradeLevel`; there's no "look up by name, ignore grade" path.
-   Loading the main article on a passed `context` param, and treating
-   `gradeLevel: null` + `subject: "App Context"` as its own retrieval lane
-   separate from normal tutoring content, is a feature to add, not something
-   these documents alone activate.
-2. `pedagogicalNotes` reaching the model. `formatKnowledgeContext()` currently
-   serializes only `Title: ${title}\n${contentBody}` — `pedagogicalNotes` is
-   stored and shown in the admin UI but not yet injected into the prompt. The
-   notes below are still worth entering now (correct schema, ready the day
-   that's wired up), just don't expect them to affect answers today.
+This is wired up end-to-end: ScalesViewer's `<need-homework-app>` embed passes
+`context="ScalesViewer"` (`src/components/HomeworkPanel/HomeworkPanel.tsx`),
+need-home-work loads the entry with `contextKey: "ScalesViewer"` and
+`isMainArticle: true` on every turn, semantically searches the other entries
+sharing that `contextKey` for relevant sub-articles, and now also injects
+`pedagogicalNotes` into the model's prompt alongside the content body.
 
 Content is written dense/terse on purpose (short declarative sentences, no
 filler) since it's meant to sit in an LLM's context window, not be read as
@@ -41,8 +37,9 @@ prose by a person.
 
 ## 1. Main article
 
-**Subject:** App Context
-**Grade Level:** (All Grades / none)
+**Entry Type:** App Context
+**Context Key:** ScalesViewer
+**Main Article:** Yes
 **Title:** ScalesViewer
 
 **Content:**
@@ -61,8 +58,9 @@ Infer the active instrument from what the student mentions: frets/tuning/strings
 
 ## 2. Sub-article: Guitar
 
-**Subject:** App Context
-**Grade Level:** (All Grades / none)
+**Entry Type:** App Context
+**Context Key:** ScalesViewer
+**Main Article:** No
 **Title:** ScalesViewer: Guitar
 
 **Content:**
@@ -75,8 +73,9 @@ When explaining intervals on guitar, reference actual string/fret positions in t
 
 ## 3. Sub-article: Piano
 
-**Subject:** App Context
-**Grade Level:** (All Grades / none)
+**Entry Type:** App Context
+**Context Key:** ScalesViewer
+**Main Article:** No
 **Title:** ScalesViewer: Piano
 
 **Content:**
@@ -89,8 +88,9 @@ Piano is the simplest instrument view here — a good default for explaining sca
 
 ## 4. Sub-article: Wind Instruments (Flute & Recorder)
 
-**Subject:** App Context
-**Grade Level:** (All Grades / none)
+**Entry Type:** App Context
+**Context Key:** ScalesViewer
+**Main Article:** No
 **Title:** ScalesViewer: Wind Instruments (Flute & Recorder)
 
 **Content:**
@@ -103,8 +103,9 @@ If a student's described notes don't match the fingering they mention, check whi
 
 ## 5. Sub-article: Kalimba & Harmonica
 
-**Subject:** App Context
-**Grade Level:** (All Grades / none)
+**Entry Type:** App Context
+**Context Key:** ScalesViewer
+**Main Article:** No
 **Title:** ScalesViewer: Kalimba & Harmonica
 
 **Content:**
@@ -117,8 +118,9 @@ On harmonica, note availability depends on breath direction (blow vs. draw) at t
 
 ## 6. Sub-article: Scales & Custom Scales
 
-**Subject:** App Context
-**Grade Level:** (All Grades / none)
+**Entry Type:** App Context
+**Context Key:** ScalesViewer
+**Main Article:** No
 **Title:** ScalesViewer: Scales & Custom Scales
 
 **Content:**
@@ -131,8 +133,9 @@ When a student is building a Custom Scale, the editor already blocks saving if t
 
 ## 7. Sub-article: Controls Reference
 
-**Subject:** App Context
-**Grade Level:** (All Grades / none)
+**Entry Type:** App Context
+**Context Key:** ScalesViewer
+**Main Article:** No
 **Title:** ScalesViewer: Controls Reference
 
 **Content:**

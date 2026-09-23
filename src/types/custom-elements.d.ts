@@ -13,6 +13,7 @@ declare module "react" {
           lang?: "en" | "fr" | "es";
           subject?: string;
           "grade-level"?: number | string;
+          context?: string;
         },
         HTMLElement
       >;
