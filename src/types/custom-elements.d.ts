@@ -14,6 +14,10 @@ declare module "react" {
           subject?: string;
           "grade-level"?: number | string;
           context?: string;
+          "gemini-api-key"?: string;
+          "groq-api-key"?: string;
+          "openrouter-api-key"?: string;
+          "firebase-config"?: string;
         },
         HTMLElement
       >;

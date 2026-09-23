@@ -20,6 +20,13 @@ const DEFAULT_WIDTH = 380;
 const MIN_WIDTH = 280;
 const MAX_WIDTH = 640;
 
+// Runtime API keys passed to the widget so they are NOT baked into the widget bundle.
+// Configure these in .env.local (development) or via CI/Vercel env vars (production).
+const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+const GROQ_API_KEY = process.env.NEXT_PUBLIC_GROQ_API_KEY;
+const OPENROUTER_API_KEY = process.env.NEXT_PUBLIC_OPENROUTER_API_KEY;
+const FIREBASE_CONFIG = process.env.NEXT_PUBLIC_FIREBASE_CONFIG;
+
 function loadHomeworkWidgetScript() {
   if (customElements.get(CUSTOM_ELEMENT_TAG)) return;
   if (document.querySelector(`script[src="${WIDGET_SCRIPT_SRC}"]`)) return;
@@ -131,6 +138,10 @@ export default function HomeworkPanel() {
               context="ScalesViewer"
               theme={isDarkMode ? "dark" : "light"}
               lang={language}
+              gemini-api-key={GEMINI_API_KEY}
+              groq-api-key={GROQ_API_KEY}
+              openrouter-api-key={OPENROUTER_API_KEY}
+              firebase-config={FIREBASE_CONFIG}
               className="block h-full w-full"
             />
           </div>
