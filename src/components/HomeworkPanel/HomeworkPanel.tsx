@@ -74,7 +74,12 @@ export default function HomeworkPanel() {
   const toggleLabel = isCollapsed ? t("homework.expandPanel") : t("homework.collapsePanel");
 
   return (
-    <div ref={containerRef} className={`w-full lg:w-auto ${homeworkMode ? "flex" : "hidden"}`}>
+    <div
+      ref={containerRef}
+      className={`w-full lg:w-auto lg:sticky lg:top-3 lg:max-h-[calc(100vh-1.5rem)] ${
+        homeworkMode ? "flex" : "hidden"
+      }`}
+    >
       {/* Drag handle: desktop only, and only while expanded (a collapsed strip has nothing to resize) */}
       {!isCollapsed && (
         <div
@@ -88,7 +93,7 @@ export default function HomeworkPanel() {
       )}
 
       <div
-        className={`rack-panel flex flex-col w-full shrink-0 ${
+        className={`rack-panel flex flex-col w-full shrink-0 lg:min-h-0 overflow-hidden ${
           isCollapsed ? "lg:w-11" : "lg:w-[var(--homework-width)]"
         } ${isResizing ? "" : "transition-[width] duration-150"}`}
         style={isCollapsed ? undefined : ({ "--homework-width": `${width}px` } as React.CSSProperties)}
@@ -120,7 +125,7 @@ export default function HomeworkPanel() {
         </div>
 
         <div className={`flex-1 min-h-0 flex flex-col ${isCollapsed ? "hidden" : ""}`}>
-          <div className="flex-1 min-h-[500px] lg:min-h-0 p-2 sm:p-3">
+          <div className="flex-1 min-h-[500px] lg:min-h-0 overflow-y-auto p-2 sm:p-3">
             <need-homework-app
               subject="Music"
               context="ScalesViewer"
