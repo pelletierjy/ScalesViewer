@@ -3,6 +3,7 @@ import React from "react";
 import { isNoteInScale, formatNoteLabel, sharpToFlat } from "@/lib/utils/scaleUtils";
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { InstrumentViewProps } from "@/components/InstrumentWorkspace/types";
+import { useLocale } from "next-intl";
 
 // Standard 17-key kalimba layout (from center outward)
 const KALIMBA_NOTES: Note[] = [
@@ -34,6 +35,8 @@ export const KalimbaView: React.FC<InstrumentViewProps> = ({
   getNoteColor,
   onPlay,
 }) => {
+  const locale = useLocale();
+
   // Kalimba spans octaves 4-6; the middle tine (index 8) is usually G5.
   const handleNoteClick = (note: Note, index: number): void => {
     const octave = 5 + Math.floor((index - 8) / 7);
@@ -112,10 +115,10 @@ export const KalimbaView: React.FC<InstrumentViewProps> = ({
                 className="select-none font-bold transition-colors duration-200"
               >
                 {inScale
-                  ? formatNoteLabel(note, scale, displayMode)
+                  ? formatNoteLabel(note, scale, displayMode, locale)
                   : displayMode === "flat"
-                  ? sharpToFlat(note)
-                  : note}
+                  ? formatNoteLabel(note, scale, "flat", locale)
+                  : formatNoteLabel(note, scale, "note", locale)}
               </text>
             </g>
           </g>

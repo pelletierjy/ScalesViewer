@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
-import { isNoteInScale, getScaleDegree, sharpToFlat } from "@/lib/utils/scaleUtils";
+import { isNoteInScale, formatNoteLabel } from "@/lib/utils/scaleUtils";
+import { useLocale } from "next-intl";
 import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { getNoteColor } from "@/lib/utils/noteColors";
 import { TuningPreset } from "../types/tuningPreset";
@@ -53,6 +54,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
   fretPositionEnabled = [],
   getChordNoteColor,
 }) => {
+  const locale = useLocale();
   const playNoteSound = usePlayNote();
   const selectedNote = useSelector((state: RootState) => state.selectedNote.selectedNote);
   const dispatch = useDispatch();
@@ -153,11 +155,7 @@ export const NotesDisplay: React.FC<NotesDisplayProps> = React.memo(({
               }`,
             }}
           >
-            {showDegrees
-              ? getScaleDegree(openNote, scale)
-              : showFlats
-              ? sharpToFlat(openNote)
-              : openNote}
+            {formatNoteLabel(openNote, scale, showDegrees ? "degree" : showFlats ? "flat" : "note", locale)}
           </text>
         </g>
       )}

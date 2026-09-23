@@ -1,5 +1,5 @@
 
-import { Note } from "./note";
+import { Note, getLocalizedNoteName } from "./note";
 import { SCALE_PATTERNS } from "./scaleConstants";
 import { ScaleMode, Scale } from "./scaleType";
 import { getCustomPatterns } from "./customScaleTypes";
@@ -191,9 +191,10 @@ export type DisplayMode = "note" | "flat" | "degree";
 export const formatNoteLabel = (
   note: Note,
   scale: Scale,
-  displayMode: DisplayMode
+  displayMode: DisplayMode,
+  locale = "en"
 ): string => {
   if (displayMode === "degree") return getScaleDegree(note, scale);
-  if (displayMode === "flat") return sharpToFlat(note);
-  return note;
+  if (displayMode === "flat") return getLocalizedNoteName(sharpToFlat(note), locale, true);
+  return getLocalizedNoteName(note, locale, false);
 };
