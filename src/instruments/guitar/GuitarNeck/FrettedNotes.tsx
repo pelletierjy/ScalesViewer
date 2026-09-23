@@ -69,7 +69,7 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
 
   // Memoize font size calculation
   const fontSize = useMemo(() =>
-    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.41 * (locale === "en" ? 1 : 1.1),
+    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.41 * (locale === "en" ? 1 : 0.8),
     [stringSpacing, locale]
   );
 
