@@ -133,6 +133,7 @@ export default function HomeworkPanel() {
           <div className="flex-1 min-h-[500px] lg:min-h-0 overflow-y-auto p-2 sm:p-3">
             <need-homework-app
               subject="Music"
+              grade-level="20"
               context="ScalesViewer"
               theme={isDarkMode ? "dark" : "light"}
               lang={language}
