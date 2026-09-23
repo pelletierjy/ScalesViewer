@@ -7,7 +7,7 @@ import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Field, Select } from "@/components/ui";
 import { InstrumentViewProps } from "@/components/InstrumentWorkspace/types";
 import { HARMONICA_KEYS, transposeHarmonicaNotes } from "./harmonicaNotes";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export interface HarmonicaSettings {
   selectedKey: Note;
@@ -24,6 +24,7 @@ export const HarmonicaControls: React.FC<{ settings: HarmonicaSettings }> = ({
 }) => {
   const showFlats = useSelector(selectShowFlats);
   const t = useTranslations();
+  const locale = useLocale();
 
   return (
     <Field label={t("ui.harmonicaKey")} htmlFor="harmonicaKey">
@@ -34,7 +35,9 @@ export const HarmonicaControls: React.FC<{ settings: HarmonicaSettings }> = ({
       >
         {HARMONICA_KEYS.map((key) => (
           <option key={key} value={key}>
-            {showFlats ? sharpToFlat(key) : key}
+            {showFlats
+              ? formatNoteLabel(key, { root: key, type: "major" }, "flat", locale)
+              : formatNoteLabel(key, { root: key, type: "major" }, "note", locale)}
           </option>
         ))}
       </Select>
@@ -50,6 +53,7 @@ export const HarmonicaView: React.FC<InstrumentViewProps<HarmonicaSettings>> = (
   getNoteColor,
   onPlay,
 }) => {
+  const locale = useLocale();
   const harmonicaNotes = useMemo(
     () => transposeHarmonicaNotes(settings.selectedKey),
     [settings.selectedKey]
@@ -103,7 +107,7 @@ export const HarmonicaView: React.FC<InstrumentViewProps<HarmonicaSettings>> = (
               fontSize="16"
               className="select-none font-bold transition-colors duration-200"
             >
-              {formatNoteLabel(note, scale, displayMode)}
+              {formatNoteLabel(note, scale, displayMode, locale)}
             </text>
             <text
               x={x + 26}

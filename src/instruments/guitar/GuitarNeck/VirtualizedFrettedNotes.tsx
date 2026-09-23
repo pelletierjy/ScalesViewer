@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
-import { calculateFretNote, isNoteInScale, getScaleDegree, sharpToFlat } from "@/lib/utils/scaleUtils";
+import { calculateFretNote, isNoteInScale, formatNoteLabel } from "@/lib/utils/scaleUtils";
+import { useLocale } from "next-intl";
 import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { getNoteColor } from "@/lib/utils/noteColors";
 import { getFretPositions } from './getFretPositions';
@@ -50,6 +51,7 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
   fretPositionEnabled = [],
   getChordNoteColor,
 }) => {
+  const locale = useLocale();
   const playNoteSound = usePlayNote();
 
   // Memoize fret positions calculation
@@ -65,8 +67,8 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
   );
 
   const fontSize = useMemo(() =>
-    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.41,
-    [stringSpacing]
+    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.41 * (locale === "en" ? 1 : 0.8),
+    [stringSpacing, locale]
   );
 
   // Optimize rendering by only calculating visible frets
@@ -147,11 +149,7 @@ export const VirtualizedFrettedNotes: React.FC<VirtualizedFrettedNotesProps> = R
               }`,
             }}
           >
-            {showDegrees
-              ? getScaleDegree(note, scale)
-              : showFlats
-              ? sharpToFlat(note)
-              : note}
+            {formatNoteLabel(note, scale, showDegrees ? "degree" : showFlats ? "flat" : "note", locale)}
           </text>
         </g>
       );})}

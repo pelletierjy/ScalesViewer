@@ -1,20 +1,24 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import {
   selectScale,
   selectShowFlats,
   selectIsMonochrome,
   selectShowDegrees,
 } from "../features/globalConfig/globalConfigSlice";
+import { getLocalizedNoteName } from "@/lib/utils/note";
 
 export const Details: React.FC = () => {
   const t = useTranslations();
+  const locale = useLocale();
   const showFlats = useSelector(selectShowFlats);
   const scale = useSelector(selectScale);
   const showDegrees = useSelector(selectShowDegrees);
   const highlightRoots = useSelector(selectIsMonochrome);
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
+
+  const localizedRoot = getLocalizedNoteName(scale.root, locale, showFlats);
 
   return (
     <div className="rack-panel">
@@ -36,9 +40,9 @@ export const Details: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 rack-mono">
             <div>
               <p>
-                {t("details.currentScale")} {scale.root} {scale.type}
+                {t("details.currentScale")} {localizedRoot} {scale.type}
               </p>
-              <p>{t("details.scaleRoot")} {scale.root}</p>
+              <p>{t("details.scaleRoot")} {localizedRoot}</p>
             </div>
             <div>
               <p>{t("details.displayMode")} {showDegrees ? t("details.scaleDegrees") : t("details.noteNames")}</p>

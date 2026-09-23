@@ -20,7 +20,7 @@ import {
   selectHomeworkMode,
 } from "../features/globalConfig/globalConfigSlice";
 import { Instrument } from "@/lib/utils/instrument";
-import { Note } from "@/lib/utils/note";
+import { Note, getLocalizedNoteName } from "@/lib/utils/note";
 import { ScaleType } from "@/lib/utils/scaleType";
 import React, { useRef, useMemo, useEffect } from "react";
 import { HelpModal } from "./HelpModal";
@@ -34,11 +34,12 @@ import {
 import { LOCAL_STORAGE_KEYS } from "@/features/settings/types/settings.types";
 import { CustomScaleEditor } from "@/instruments/guitar/CustomScaleEditor/CustomScaleEditor";
 import { Field, Button, IconButton, Select } from "@/components/ui";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { LanguageSelector } from "./LanguageSelector";
 
 export const Header: React.FC = () => {
   const t = useTranslations();
+  const locale = useLocale();
   const dispatch = useDispatch();
   const showFlats = useSelector(selectShowFlats);
   const scale = useSelector(selectScale);
@@ -272,7 +273,7 @@ export const Header: React.FC = () => {
             >
               {ROOTS.map((note) => (
                 <option key={note} value={note}>
-                  {note}
+                  {getLocalizedNoteName(note, locale, showFlats)}
                 </option>
               ))}
             </Select>

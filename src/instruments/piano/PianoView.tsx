@@ -8,7 +8,7 @@ import { RootState } from "@/app/store";
 import { useLocalStorageNumber } from "@/lib/hooks/useLocalStorage";
 import { Field, Select } from "@/components/ui";
 import { InstrumentViewProps } from "@/components/InstrumentWorkspace/types";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 // Piano keys for one octave
 const OCTAVE_NOTES: { note: Note; isBlack: boolean }[] = [
@@ -78,6 +78,7 @@ export const PianoView: React.FC<InstrumentViewProps<PianoSettings>> = ({
   const selectedNote = useSelector(
     (state: RootState) => state.selectedNote.selectedNote
   );
+  const locale = useLocale();
 
   const keys = Array.from({ length: settings.octaveCount }).flatMap(
     () => OCTAVE_NOTES
@@ -128,7 +129,7 @@ export const PianoView: React.FC<InstrumentViewProps<PianoSettings>> = ({
         fontSize={fontSize}
         className="select-none font-bold transition-colors duration-200"
       >
-        {formatNoteLabel(note, scale, displayMode)}
+        {formatNoteLabel(note, scale, displayMode, locale)}
       </text>
     </g>
   );

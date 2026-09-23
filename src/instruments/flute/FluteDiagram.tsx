@@ -6,7 +6,7 @@ import { Scale } from "@/lib/utils/scaleType";
 import { DisplayMode, formatNoteLabel } from "@/lib/utils/scaleUtils";
 import { getFluteFingering } from "@/lib/utils/fluteUtils";
 import { getScaleNoteColor } from "@/lib/utils/noteColors";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export interface FluteDiagramProps {
   note: NoteWithOctave;
@@ -61,6 +61,7 @@ export const FluteDiagram: React.FC<FluteDiagramProps> = ({
   getHighlightColor,
 }) => {
   const t = useTranslations();
+  const locale = useLocale();
   const [isFocused, setIsFocused] = React.useState(false);
   const gradientId = React.useId();
   const fingering = getFluteFingering(note);
@@ -91,7 +92,7 @@ export const FluteDiagram: React.FC<FluteDiagramProps> = ({
   const ringStroke = isDarkMode ? "#9ca3af" : "#475569";
   const embouchureFill = isDarkMode ? "#0b0f19" : "#334155";
 
-  const labelText = formatNoteLabel(noteName, scale, displayMode);
+  const labelText = formatNoteLabel(noteName, scale, displayMode, locale);
 
   const baseNoteColor = getScaleNoteColor(noteName, scale, isDarkMode, highlightRoots);
   const noteColor = getHighlightColor

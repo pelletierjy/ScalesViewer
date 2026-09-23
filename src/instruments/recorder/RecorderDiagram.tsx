@@ -7,7 +7,7 @@ import { DisplayMode, formatNoteLabel } from "@/lib/utils/scaleUtils";
 import { getRecorderFingering } from "@/lib/utils/recorderUtils";
 import { RecorderHoleRenderState, RecorderType } from "./recorderFingerings";
 import { getScaleNoteColor } from "@/lib/utils/noteColors";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export interface RecorderDiagramProps {
   note: NoteWithOctave;
@@ -50,6 +50,7 @@ export const RecorderDiagram: React.FC<RecorderDiagramProps> = ({
   getHighlightColor,
 }) => {
   const t = useTranslations();
+  const locale = useLocale();
   const [isFocused, setIsFocused] = React.useState(false);
   const gradientId = React.useId();
   const fingering = getRecorderFingering(note, recorder);
@@ -79,7 +80,7 @@ export const RecorderDiagram: React.FC<RecorderDiagramProps> = ({
   const openFill = isDarkMode ? "#241a10" : "#fbf3e6";
   const holeStroke = isDarkMode ? "#d8bd97" : "#5b4327";
 
-  const labelText = formatNoteLabel(noteName, scale, displayMode);
+  const labelText = formatNoteLabel(noteName, scale, displayMode, locale);
 
   const baseNoteColor = getScaleNoteColor(noteName, scale, isDarkMode, highlightRoots);
   const noteColor = getHighlightColor

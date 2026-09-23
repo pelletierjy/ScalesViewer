@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { Note, NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
-import { calculateFretNote, isNoteInScale, getScaleDegree, sharpToFlat } from "@/lib/utils/scaleUtils";
+import { calculateFretNote, isNoteInScale, getScaleDegree, formatNoteLabel } from "@/lib/utils/scaleUtils";
+import { useLocale } from "next-intl";
 import { usePlayNote } from "@/lib/hooks/usePlayNote";
 import { getNoteColor } from "@/lib/utils/noteColors";
 import { useDispatch } from 'react-redux';
@@ -49,6 +50,7 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
   fretPositionEnabled = [],
   getChordNoteColor,
 }) => {
+  const locale = useLocale();
   const dispatch = useDispatch();
   const playNoteSound = usePlayNote();
   const selectedNote = useSelector((state: RootState) => state.selectedNote.selectedNote);
@@ -67,8 +69,8 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
 
   // Memoize font size calculation
   const fontSize = useMemo(() =>
-    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.41,
-    [stringSpacing]
+    Math.min(stringSpacing / 3, stringSpacing / 3) * 1.41 * (locale === "en" ? 1 : 0.8),
+    [stringSpacing, locale]
   );
 
   // Handle note click - toggle selection if same note, otherwise select new note
@@ -159,11 +161,7 @@ export const FrettedNotes: React.FC<FrettedNotesProps> = React.memo(({
                   }`,
                 }}
               >
-                {showDegrees
-                  ? getScaleDegree(note, scale)
-                  : showFlats
-                  ? sharpToFlat(note)
-                  : note}
+                {formatNoteLabel(note, scale, showDegrees ? "degree" : showFlats ? "flat" : "note", locale)}
               </text>
             </g>
           )
