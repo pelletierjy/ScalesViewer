@@ -3,8 +3,6 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  toggleHomeworkMode,
-  selectHomeworkMode,
   selectIsDarkMode,
   selectLanguage,
 } from "@/features/globalConfig/globalConfigSlice";
@@ -37,17 +35,11 @@ function loadHomeworkWidgetScript() {
 
 /**
  * A right-docked, resizable sidebar (desktop) / collapsible panel (mobile) for
- * the AI tutor. Disabling it (the header's brain icon, or the Disable button
- * below) only hides it with CSS (`display: none`) — same mechanism collapsing
- * already used — instead of unmounting it, so its conversation session
- * survives being turned off and back on, not just collapsed. It only actually
- * mounts once, the first time it's ever enabled: `hasLoadedOnce` latches true
- * and never resets, so nothing is rendered (or fetched) before that.
+ * the AI tutor. The panel is always present and only collapses or expands;
+ * it never disappears completely.
  */
 export default function HomeworkPanel() {
   const t = useTranslations();
-  const dispatch = useDispatch();
-  const homeworkMode = useSelector(selectHomeworkMode);
   const isDarkMode = useSelector(selectIsDarkMode);
   const language = useSelector(selectLanguage);
 
@@ -69,27 +61,16 @@ export default function HomeworkPanel() {
   // state.
   useHostCommandListener(containerRef);
 
-  // Latches true the first time homeworkMode is true, and never resets — so
-  // the widget mounts once and then just gets hidden/shown, never torn down.
-  const hasLoadedOnceRef = useRef(homeworkMode);
-  if (homeworkMode) hasLoadedOnceRef.current = true;
-
   useEffect(() => {
-    if (homeworkMode) loadHomeworkWidgetScript();
-  }, [homeworkMode]);
-
-  // Hooks above must run every render; nothing to show until it's been
-  // enabled at least once. Re-enabling happens via the brain icon in the Header.
-  if (!hasLoadedOnceRef.current) return null;
+    loadHomeworkWidgetScript();
+  }, []);
 
   const toggleLabel = isCollapsed ? t("homework.expandPanel") : t("homework.collapsePanel");
 
   return (
     <div
       ref={containerRef}
-      className={`w-full lg:w-auto lg:sticky lg:top-3 lg:max-h-[calc(100vh-1.5rem)] ${
-        homeworkMode ? "flex" : "hidden"
-      }`}
+      className="w-full lg:w-auto lg:sticky lg:top-3 lg:max-h-[calc(100vh-1.5rem)] flex"
     >
       {/* Drag handle: desktop only, and only while expanded (a collapsed strip has nothing to resize) */}
       {!isCollapsed && (
@@ -117,6 +98,7 @@ export default function HomeworkPanel() {
             aria-label={toggleLabel}
             title={toggleLabel}
           >
+            <span className="inline-block shrink-0" aria-hidden="true">🧠</span>
             <span
               className="inline-block shrink-0 transition-transform duration-200"
               style={{ transform: isCollapsed ? "rotate(180deg)" : "rotate(0deg)" }}
@@ -128,11 +110,6 @@ export default function HomeworkPanel() {
               {t("homework.learnMusicTheoryExperimental")}
             </span>
           </button>
-          {!isCollapsed && (
-            <Button size="sm" onClick={() => dispatch(toggleHomeworkMode())}>
-              {t("homework.disable")}
-            </Button>
-          )}
         </div>
 
         <div className={`flex-1 min-h-0 flex flex-col ${isCollapsed ? "hidden" : ""}`}>

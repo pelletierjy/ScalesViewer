@@ -24,7 +24,6 @@ export interface GlobalConfig {
   showDegrees: boolean;
   chordScaleMode: boolean;
   selectedChord: string | null;
-  homeworkMode: boolean;
   soundEngine: SoundEngine;
   language: Locale;
 }
@@ -50,7 +49,6 @@ const updateState = (
     state.showDegrees = savedState?.showDegrees ?? false;
     state.chordScaleMode = savedState?.chordScaleMode ?? false;
     state.selectedChord = savedState?.selectedChord ?? null;
-    state.homeworkMode = savedState?.homeworkMode ?? false;
     state.soundEngine = savedState?.soundEngine ?? "sample";
     state.language = savedState?.language ?? defaultLocale;
   }
@@ -91,7 +89,6 @@ export const initialState: GlobalConfig = {
   showDegrees: false,
   chordScaleMode: false,
   selectedChord: null,
-  homeworkMode: true,
   soundEngine: "sample",
   language: defaultLocale,
 };
@@ -141,9 +138,6 @@ export const globalConfigSlice = createSlice({
     setSelectedChord: (state, action) => {
       state.selectedChord = action.payload;
     },
-    toggleHomeworkMode: (state) => {
-      state.homeworkMode = !state.homeworkMode;
-    },
     setSoundEngine: (state, action) => {
       state.soundEngine = action.payload;
     },
@@ -175,7 +169,6 @@ export const {
   setShowDegrees,
   toggleChordScaleMode,
   setSelectedChord,
-  toggleHomeworkMode,
   setSoundEngine,
   setLanguage,
 } = globalConfigSlice.actions;
@@ -207,5 +200,3 @@ export const selectSoundEngine = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).soundEngine;
 export const selectLanguage = (state: { globalConfig: GlobalConfig }) =>
   selectGlobalConfig(state).language;
-export const selectHomeworkMode = (state: { globalConfig: GlobalConfig }) =>
-  selectGlobalConfig(state).homeworkMode;
