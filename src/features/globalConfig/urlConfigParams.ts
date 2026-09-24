@@ -11,7 +11,6 @@ import { Scale, ScaleMode, ScaleType } from "@/lib/utils/scaleType";
 import { ROOTS, SCALE_TYPES } from "@/lib/utils/scaleConstants";
 import { getCustomScales } from "@/lib/utils/customScaleTypes";
 import { Locale, isLocale } from "@/lib/i18n/types";
-import { Instrument, defaultInstrument, isInstrument } from "@/lib/utils/instrument";
 
 export const URL_PARAM_KEYS = {
   root: "root",
@@ -21,7 +20,6 @@ export const URL_PARAM_KEYS = {
   showFlats: "flats",
   showDegrees: "numbers",
   lang: "lang",
-  instrument: "instrument",
 } as const;
 
 // The app's root-note picker (src/components/Header.tsx) only ever offers
@@ -63,7 +61,6 @@ export interface GlobalConfigUrlSlice {
   showFlats: boolean;
   showDegrees: boolean;
   language: Locale;
-  instrument: Instrument;
 }
 
 export interface GlobalConfigUrlPatch {
@@ -74,7 +71,6 @@ export interface GlobalConfigUrlPatch {
   showFlats?: boolean;
   showDegrees?: boolean;
   language?: Locale;
-  instrument?: Instrument;
 }
 
 /**
@@ -94,9 +90,6 @@ export function encodeGlobalConfigToParams(
   params.set(URL_PARAM_KEYS.showDegrees, config.showDegrees ? "1" : "0");
   if (config.language && config.language !== "en") {
     params.set(URL_PARAM_KEYS.lang, config.language);
-  }
-  if (config.instrument && config.instrument !== defaultInstrument) {
-    params.set(URL_PARAM_KEYS.instrument, config.instrument);
   }
   return params;
 }
@@ -144,11 +137,6 @@ export function decodeParamsToGlobalConfigPatch(
   const language = params.get(URL_PARAM_KEYS.lang);
   if (language !== null && isValidLocale(language)) {
     patch.language = language;
-  }
-
-  const instrument = params.get(URL_PARAM_KEYS.instrument);
-  if (instrument !== null && isInstrument(instrument)) {
-    patch.instrument = instrument;
   }
 
   return patch;

@@ -9,13 +9,11 @@ import {
   selectShowFlats,
   selectShowDegrees,
   selectLanguage,
-  selectInstrument,
   setScale,
   setHighlightRoots,
   setShowFlats,
   setShowDegrees,
   setLanguage,
-  setInstrument,
 } from "./globalConfigSlice";
 import {
   decodeParamsToGlobalConfigPatch,
@@ -46,7 +44,6 @@ export function useUrlSyncedGlobalConfig(): void {
   const showFlats = useSelector(selectShowFlats);
   const showDegrees = useSelector(selectShowDegrees);
   const language = useSelector(selectLanguage);
-  const instrument = useSelector(selectInstrument);
 
   // Read fresh, current store values from the URL -> store effect without
   // making them reactive dependencies of that effect (see below).
@@ -56,16 +53,8 @@ export function useUrlSyncedGlobalConfig(): void {
     showFlats,
     showDegrees,
     language,
-    instrument,
   });
-  currentConfigRef.current = {
-    scale,
-    highlightRoots,
-    showFlats,
-    showDegrees,
-    language,
-    instrument,
-  };
+  currentConfigRef.current = { scale, highlightRoots, showFlats, showDegrees, language };
 
   // The store -> URL effect intentionally skips its very first invocation:
   // on mount, the URL -> store effect below may dispatch changes that have
@@ -119,12 +108,9 @@ export function useUrlSyncedGlobalConfig(): void {
     if (patch.language !== undefined && patch.language !== current.language) {
       dispatch(setLanguage(patch.language));
     }
-    if (patch.instrument !== undefined && patch.instrument !== current.instrument) {
-      dispatch(setInstrument(patch.instrument));
-    }
   }, [searchParams, dispatch]);
 
-  // store -> URL: reacts only to the six settings changing.
+  // store -> URL: reacts only to the five settings changing.
   useEffect(() => {
     if (isFirstWriteRef.current) {
       isFirstWriteRef.current = false;
@@ -137,21 +123,10 @@ export function useUrlSyncedGlobalConfig(): void {
       showFlats,
       showDegrees,
       language,
-      instrument,
     }).toString();
 
     if (nextQuery !== searchParams.toString()) {
       router.replace(`${pathname}?${nextQuery}`, { scroll: false });
     }
-  }, [
-    scale,
-    highlightRoots,
-    showFlats,
-    showDegrees,
-    language,
-    instrument,
-    pathname,
-    router,
-    searchParams,
-  ]);
+  }, [scale, highlightRoots, showFlats, showDegrees, language, pathname, router, searchParams]);
 }
