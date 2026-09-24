@@ -18,7 +18,6 @@ describe("encodeGlobalConfigToParams", () => {
       showFlats: false,
       showDegrees: true,
       language: "en",
-      instrument: "flute",
     });
 
     expect(params.get(URL_PARAM_KEYS.root)).toBe("D");
@@ -37,7 +36,6 @@ describe("encodeGlobalConfigToParams", () => {
       showFlats: false,
       showDegrees: false,
       language: "en",
-      instrument: "flute",
     });
 
     expect(params.get(URL_PARAM_KEYS.mode)).toBe("dorian");
@@ -57,7 +55,6 @@ describe("decodeParamsToGlobalConfigPatch", () => {
       showFlats: true,
       showDegrees: false,
       language: "en",
-      instrument: "flute",
     });
 
     const patch = decodeParamsToGlobalConfigPatch(encoded);
