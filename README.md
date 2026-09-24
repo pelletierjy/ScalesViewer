@@ -54,7 +54,9 @@ Jean-Yves Pelletier
 
 ## AI Tutor (Experimental)
 
-An AI-powered music theory tutor is built into the app. Click the 🧠 icon in the header to open it — it appears as a resizable, collapsible panel on the right side of the page (stacked below the main content on mobile). Collapsing or hiding it doesn't reset the conversation; it stays loaded in the background until you reload the page.
+An AI-powered music theory tutor is built into the app, powered by [ConversiaCore](https://github.com/pelletierjy/need-home-work) — an embeddable AI tutor service (`<conversia-app>` web component) that provides personalized tutoring grounded in a shared knowledge base (RAG). The AI can also directly control the app's scale display, instrument, chord view, and sound engine via host command tools.
+
+Click the 🧠 icon in the header to open it — it appears as a resizable, collapsible panel on the right side of the page (stacked below the main content on mobile). Collapsing or hiding it doesn't reset the conversation; it stays loaded in the background until you reload the page.
 
 > ⚠️ **This is an early, experimental feature, not a finished product.** It runs on a free backend tier with limited capacity, so it isn't built or provisioned to support many concurrent users, and it may be slow, rate-limited, or occasionally unavailable. Treat it as a preview, not something to rely on.
 

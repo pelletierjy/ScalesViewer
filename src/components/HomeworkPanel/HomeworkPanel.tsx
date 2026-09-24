@@ -13,11 +13,11 @@ import { useLocalStorageBoolean } from "@/lib/hooks/useLocalStorage";
 import { useResizableWidth } from "@/lib/hooks/useResizableWidth";
 
 // Overridable for local dev against a `need-home-work` checkout: set
-// NEXT_PUBLIC_HOMEWORK_WIDGET_URL=http://localhost:5173/need-homework/need-homework-widget.js
+// NEXT_PUBLIC_HOMEWORK_WIDGET_URL=http://localhost:5173/ConversiaCore/conversia-core-widget.js
 // in .env.local (after running `pnpm run build:widget && vite preview --port 5173` there).
 const WIDGET_SCRIPT_SRC =
   process.env.NEXT_PUBLIC_HOMEWORK_WIDGET_URL ||
-  "https://pelletierjy.github.io/need-homework/need-homework-widget.js";
+  "https://pelletierjy.github.io/ConversiaCore/conversia-core-widget.js";
 const CUSTOM_ELEMENT_TAG = "conversia-app";
 
 const DEFAULT_WIDTH = 380;

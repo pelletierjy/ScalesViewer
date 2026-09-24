@@ -2,15 +2,9 @@ import { isInstrument } from "@/lib/utils/instrument";
 import { SoundEngine } from "@/lib/audio/instrumentSampleConfig";
 import { isValidNote, isValidScaleMode, isValidScaleType } from "./urlConfigParams";
 
-/**
- * Wire contract for commands the embedded AI tutor (`need-home-work`'s
- * `<conversia-app>` widget) dispatches to control this app's state
- * directly. Canonical source of truth: need-home-work's
- * `src/models/host-commands.ts` — keep this in sync with it by hand.
- */
 export const HOST_COMMAND_PROTOCOL_VERSION = 1;
 
-export const HOST_COMMAND_EVENT_NAME = "need-homework:command";
+export const HOST_COMMAND_EVENT_NAME = "conversia-app:command";
 
 export type HostCommand =
   | {

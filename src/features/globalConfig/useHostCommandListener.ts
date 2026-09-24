@@ -21,7 +21,7 @@ import {
 } from "./hostCommandContract";
 
 /**
- * Listens for `need-homework:command` CustomEvents dispatched by the
+ * Listens for `conversia-app:command` CustomEvents dispatched by the
  * embedded AI tutor widget (composed, so they bubble out of its shadow
  * tree) on `target`, and applies them via the existing globalConfig Redux
  * actions. No origin check is needed (same document, same realm — this
@@ -41,7 +41,7 @@ export function useHostCommandListener(target: RefObject<HTMLElement | null>): v
       const detail = (event as CustomEvent<HostCommandEventDetail>).detail;
       if (!detail || detail.version !== HOST_COMMAND_PROTOCOL_VERSION) {
         console.warn(
-          "Ignoring need-homework:command with unrecognized version:",
+          "Ignoring conversia-app:command with unrecognized version:",
           detail?.version
         );
         return;
