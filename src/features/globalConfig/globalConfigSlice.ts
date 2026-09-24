@@ -91,7 +91,7 @@ export const initialState: GlobalConfig = {
   showDegrees: false,
   chordScaleMode: false,
   selectedChord: null,
-  homeworkMode: false,
+  homeworkMode: true,
   soundEngine: "sample",
   language: defaultLocale,
 };
