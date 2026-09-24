@@ -61,11 +61,6 @@ export default function HomeworkPanel() {
   // state.
   useHostCommandListener(containerRef);
 
-  // Latches true the first time homeworkMode is true, and never resets — so
-  // the widget mounts once and then just gets hidden/shown, never torn down.
-  const hasLoadedOnceRef = useRef(homeworkMode);
-  if (homeworkMode) hasLoadedOnceRef.current = true;
-
   useEffect(() => {
     loadHomeworkWidgetScript();
   }, []);
