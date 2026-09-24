@@ -6,8 +6,8 @@ import type { DetailedHTMLProps, HTMLAttributes } from "react";
 declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
-      /** The AI homework chatbot, from need-home-work's `src/webcomponent.ts`. */
-      "need-homework-app": DetailedHTMLProps<
+      /** The AI homework chatbot, from conversia-app's `src/webcomponent.ts`. */
+      "conversia-app": DetailedHTMLProps<
         HTMLAttributes<HTMLElement> & {
           theme?: "light" | "dark";
           lang?: "en" | "fr" | "es";
