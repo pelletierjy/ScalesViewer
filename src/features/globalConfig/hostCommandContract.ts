@@ -4,7 +4,7 @@ import { isValidNote, isValidScaleMode, isValidScaleType } from "./urlConfigPara
 
 /**
  * Wire contract for commands the embedded AI tutor (`need-home-work`'s
- * `<need-homework-app>` widget) dispatches to control this app's state
+ * `<conversia-app>` widget) dispatches to control this app's state
  * directly. Canonical source of truth: need-home-work's
  * `src/models/host-commands.ts` — keep this in sync with it by hand.
  */

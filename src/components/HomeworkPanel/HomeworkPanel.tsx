@@ -18,7 +18,7 @@ import { useResizableWidth } from "@/lib/hooks/useResizableWidth";
 const WIDGET_SCRIPT_SRC =
   process.env.NEXT_PUBLIC_HOMEWORK_WIDGET_URL ||
   "https://pelletierjy.github.io/need-homework/need-homework-widget.js";
-const CUSTOM_ELEMENT_TAG = "need-homework-app";
+const CUSTOM_ELEMENT_TAG = "conversia-app";
 
 const DEFAULT_WIDTH = 380;
 const MIN_WIDTH = 280;
@@ -114,7 +114,7 @@ export default function HomeworkPanel() {
 
         <div className={`flex-1 min-h-0 flex flex-col ${isCollapsed ? "hidden" : ""}`}>
           <div className="flex-1 min-h-[500px] lg:min-h-0 overflow-y-auto p-2 sm:p-3">
-            <need-homework-app
+            <conversia-app
               subject="Music"
               grade-level="20"
               context="ScalesViewer"

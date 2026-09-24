@@ -22,7 +22,7 @@ subject/grade tutoring content and are unused here):
 | Content            | `contentBody`      | Copy verbatim |
 | Pedagogical Notes  | `pedagogicalNotes` | Copy verbatim |
 
-This is wired up end-to-end: ScalesViewer's `<need-homework-app>` embed passes
+This is wired up end-to-end: ScalesViewer's `<conversia-app>` embed passes
 `context="ScalesViewer"` (`src/components/HomeworkPanel/HomeworkPanel.tsx`),
 need-home-work loads the entry with `contextKey: "ScalesViewer"` and
 `isMainArticle: true` on every turn, semantically searches the other entries
