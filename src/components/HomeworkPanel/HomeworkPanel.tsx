@@ -6,6 +6,8 @@ import {
   selectIsDarkMode,
   selectLanguage,
 } from "@/features/globalConfig/globalConfigSlice";
+import { useHostCommandListener } from "@/features/globalConfig/useHostCommandListener";
+import { Button } from "@/components/ui";
 import { useTranslations } from "next-intl";
 import { useLocalStorageBoolean } from "@/lib/hooks/useLocalStorage";
 import { useResizableWidth } from "@/lib/hooks/useResizableWidth";
@@ -53,6 +55,16 @@ export default function HomeworkPanel() {
     minWidth: MIN_WIDTH,
     maxWidth: MAX_WIDTH,
   });
+
+  // Composed CustomEvents from the widget's shadow tree bubble out through
+  // this container, so listening here catches them regardless of collapse
+  // state.
+  useHostCommandListener(containerRef);
+
+  // Latches true the first time homeworkMode is true, and never resets — so
+  // the widget mounts once and then just gets hidden/shown, never torn down.
+  const hasLoadedOnceRef = useRef(homeworkMode);
+  if (homeworkMode) hasLoadedOnceRef.current = true;
 
   useEffect(() => {
     loadHomeworkWidgetScript();

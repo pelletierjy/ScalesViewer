@@ -141,6 +141,8 @@ When a student is building a Custom Scale, the editor already blocks saving if t
 **Content:**
 Every input in ScalesViewer, what it does, and what values it takes. Global controls live in the header and affect every instrument at once; instrument-specific controls only appear on that instrument's page.
 
+The Instrument selector, Root, Scale Type, the two note-label toggles, Color mode, the Chord-Scale Intersection toggle, and Sound Engine can now be applied directly by the tutor (not just suggested verbally) — everything else below still needs to be described so the student changes it themselves.
+
 GLOBAL CONTROLS (header, always visible):
 - Instrument selector — switches the whole page. Values: Guitar, Piano, Kalimba, Harmonica, Flute, Recorder. Nothing else on the page persists conceptually across this switch except the scale (root+type) and the four display toggles below — everything instrument-specific (tuning, octave count, fret count, etc.) is remembered per instrument, not shared.
 - Root selector — sets the scale's root note. Values: the 12 chromatic notes, always listed with sharp spellings (C, C#, D, ...) regardless of the Sharp/Flat toggle below — that toggle only affects note labels drawn on the instrument itself, not this dropdown's own option text. Changing root transposes the whole scale without changing its type/shape.
@@ -151,7 +153,9 @@ GLOBAL CONTROLS (header, always visible):
 - Color mode toggle (button shows 🎨 or ⚫): switches between two note-coloring schemes:
   - Interval-degree coloring (the richer default): every scale degree gets its own color (an emerald gradient for even-numbered degrees, orange for odd), so degrees are visually distinguishable at a glance.
   - Root-highlight / monochrome: the root note gets one distinct color, every *other* scale note collapses to a single flat gray/blue — degree identity is no longer color-coded, only "is this the root or not" is.
+- Chord-Scale Intersection toggle — shows/hides the panel listing the current scale's diatonic triads (see the shared-panels overview above). No separate "selected chord" value is tutor-settable; only whether the panel is shown.
 - Dark/Light theme, Language (English/French/Spanish) — cosmetic/accessibility only, no theory implications.
+- Sound Engine (Settings panel) — Sample, Synth, or Sine playback for note audio. Purely a listening-quality choice, no theory implications; tutor-settable but not something to suggest as an answer to a theory question.
 
 GUITAR-ONLY CONTROLS (Configuration panel below the fretboard):
 - Tuning — chooses the string tuning *preset* (the pattern of intervals between open strings): Standard, Drop, Open, DADGAD, Nashville, and others, each available in 6/7/8-string variants. Also offers "+ Custom Tuning" (open the Custom Tuning Editor: name a tuning, pick 4–18 strings, set each open string individually), and Edit/Duplicate/Delete for any custom tuning currently selected.
@@ -175,7 +179,7 @@ HARMONICA-ONLY CONTROL:
 KALIMBA: no configurable inputs — fixed 17-tine layout.
 
 **Pedagogical Notes:**
-Match the suggestion to what's actually being discussed, and prefer the smallest change that answers the question:
+Match the change to what's actually being discussed, and prefer the smallest change that answers the question. For the controls marked tutor-settable above, apply the change directly and narrate it in the same reply rather than just describing it; for everything else, tell the student which control to change themselves:
 - Discussing a *different scale/key* → suggest the Root and/or Scale Type selectors, not an instrument-specific control.
 - Discussing *reading notes as scale degrees* (e.g. "what's the 3rd of this scale") → suggest the Names/Degrees toggle rather than asking the student to count manually.
 - Discussing *enharmonic spelling* (why a note is called C# here and Db there) → suggest the Sharps/Flats toggle; note it has no visible effect while Scale Degrees mode is on, so switch back to Names first if needed.
