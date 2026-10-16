@@ -1,5 +1,19 @@
 import type { DetailedHTMLProps, HTMLAttributes } from "react";
 
+// The ConversiaCore widget's client credential, injected at runtime by the host app
+// before its first AI request (ConversiaCore feature 002-secure-embed-telemetry, FR-020).
+// See HomeworkPanel's injectClientCredential() and ConversiaCore's
+// specs/002-secure-embed-telemetry/contracts/embedder-injection.md.
+declare global {
+  interface Window {
+    conversiaClient?: {
+      version: number;
+      remoteId: string;
+      key: string;
+    };
+  }
+}
+
 // React 19's `react-jsx` runtime resolves IntrinsicElements from `React.JSX`
 // (via react/jsx-runtime), not the classic global `JSX` namespace, so the
 // augmentation has to target the "react" module.
