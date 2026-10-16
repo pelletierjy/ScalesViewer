@@ -20,6 +20,39 @@ const WIDGET_SCRIPT_SRC =
   "https://pelletierjy.github.io/ConversiaCore/conversia-core-widget.js";
 const CUSTOM_ELEMENT_TAG = "conversia-app";
 
+// Client credential for the ConversiaCore AI-proxy gate (ConversiaCore feature
+// 002-secure-embed-telemetry). The operator issues both values once per host app:
+//   node tools/conversia-admin/index.js client add --remote-id scalesviewer
+// then sets them at build time in .env.local / CI:
+//   NEXT_PUBLIC_CONVERSIA_REMOTE_ID=scalesviewer
+//   NEXT_PUBLIC_CONVERSIA_CLIENT_KEY=cvk_scalesviewer_…
+// While unset, the widget still loads but AI requests surface its friendly
+// "not configured" message — fill these BEFORE deploying a ConversiaCore worker
+// that enforces the credential gate (see ConversiaCore release-notes.md).
+const CONVERSIA_REMOTE_ID = process.env.NEXT_PUBLIC_CONVERSIA_REMOTE_ID || "";
+const CONVERSIA_CLIENT_KEY = process.env.NEXT_PUBLIC_CONVERSIA_CLIENT_KEY || "";
+
+/**
+ * Delivers the credential via runtime injection (window.conversiaClient), never via
+ * URL or widget bundle — the contract in ConversiaCore's
+ * `contracts/embedder-injection.md` (FR-020). Must run before the widget makes its
+ * first AI request; the widget reads the global lazily, so injecting just before the
+ * script loads is always early enough.
+ */
+function injectClientCredential() {
+  if (!CONVERSIA_REMOTE_ID || !CONVERSIA_CLIENT_KEY) return;
+  // Local structural type so this compiles standalone; the canonical global declaration
+  // lives in src/types/custom-elements.d.ts (Window.conversiaClient).
+  const w = window as unknown as {
+    conversiaClient?: { version: number; remoteId: string; key: string };
+  };
+  w.conversiaClient = {
+    version: 1,
+    remoteId: CONVERSIA_REMOTE_ID,
+    key: CONVERSIA_CLIENT_KEY,
+  };
+}
+
 const DEFAULT_WIDTH = 380;
 const MIN_WIDTH = 280;
 const MAX_WIDTH = 640;
@@ -62,6 +95,7 @@ export default function HomeworkPanel() {
   useHostCommandListener(containerRef);
 
   useEffect(() => {
+    injectClientCredential();
     loadHomeworkWidgetScript();
   }, []);
 
