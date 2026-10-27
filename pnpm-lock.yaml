@@ -176,7 +176,7 @@ importers:
         specifier: ^2.12.4
         version: 2.12.4
       '@tauri-apps/cli':
-        specifier: ^2.0.0
+        specifier: ^2.12.4
         version: 2.12.4
       '@vercel/analytics':
         specifier: ^2.0.1
