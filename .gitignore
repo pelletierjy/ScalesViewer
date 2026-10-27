@@ -40,7 +40,7 @@ next-env.d.ts
 !.vscode/settings.json
 !.vscode/extensions.json
 
-# Claude worktrees
+# Claude
 .claude/
 
 # Tauri build
