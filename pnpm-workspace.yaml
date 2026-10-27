@@ -3,5 +3,9 @@ allowBuilds:
   '@swc/core': true
   electron: true
   electron-winstaller: true
+  optipng-bin: set this to true or false
+  pngquant-bin: set this to true or false
   sharp: true
+  tauri: true
   unrs-resolver: true
+  zopflipng-bin: set this to true or false
