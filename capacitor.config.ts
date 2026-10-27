@@ -1,17 +1,11 @@
 import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "com.gscale.app",
-  appName: "Scales Viewer",
-  webDir: "out",
+  appId: "com.jeanyves.scalesviewer",
+  appName: "ScalesViewer",
+  webDir: "build",
   server: {
     androidScheme: "https",
-  },
-  android: {
-    buildOptions: {
-      keystorePath: "release-key.keystore",
-      keystoreAlias: "key0",
-    },
   },
 };
 

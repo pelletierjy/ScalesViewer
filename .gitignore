@@ -55,7 +55,6 @@ next-env.d.ts
 electron/dist/
 
 # Android
-/android
 /android/.gradle
 /android/app/build
 /android/build
