@@ -5,8 +5,8 @@
   "identifier": "com.jeanyves.scalesviewer",
   "build": {
     "frontendDist": "../build",
-    "devUrl": "http://localhost:3000",
-    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:3001",
+    "beforeDevCommand": "pnpm exec next dev --turbopack -p 3001",
     "beforeBuildCommand": "pnpm build"
   },
   "app": {
