@@ -48,7 +48,7 @@ export function getLocalizedNoteName(
   const base = note.charAt(0);
   const accidental = note.length > 1 ? note.charAt(1) : "";
 
-  if (locale === "en") {
+  if (locale === "en" || locale === "zh-CN") {
     if (!accidental) return base;
     return showFlats ? applyFlatSpelling(note) : note;
   }

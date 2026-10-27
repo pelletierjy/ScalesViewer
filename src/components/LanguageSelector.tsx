@@ -15,6 +15,7 @@ const LANGUAGE_OPTIONS: Record<Locale, string> = {
   en: "English",
   fr: "Français",
   es: "Español",
+  "zh-CN": "简体中文",
 };
 
 export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
