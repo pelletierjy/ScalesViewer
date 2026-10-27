@@ -1,0 +1,709 @@
+{
+  "app": {
+    "title": "尺度查看器",
+    "tagline": "音乐尺度可视化工具"
+  },
+  "instrument": {
+    "guitar": "吉他",
+    "piano": "钢琴",
+    "kalimba": "卡林巴",
+    "harmonica": "口琴",
+    "flute": " flutes",
+    "recorder": "竖笛"
+  },
+  "scale": {
+    "major": "大调 (伊奥尼亚)",
+    "minor": "小调 (自然小调)",
+    "pentatonic": "大五声音阶",
+    "minor-pentatonic": "小五声音阶",
+    "blues": "蓝调",
+    "bebop": "比普",
+    "bebop-dominant": "主导比普",
+    "bebop-major": "比普大调",
+    "bebop-minor": "比普小调",
+    "diminished": "降音",
+    "whole-tone": " whole音阶",
+    "altered": " altered",
+    "dorian": "dorian",
+    "phrygian": "弗里吉亚",
+    "lydian": "利迪亚",
+    "mixolydian": "米克里安",
+    "aeolian": "奥利安",
+    "locrian": "洛克利亚",
+    "lydian-dominant": "利迪亚主导",
+    "super-locrian": "超洛克利亚",
+    "melodic-minor": "旋律小调",
+    "harmonic-minor": "和声小调",
+    "hungarian-minor": "匈牙利小调",
+    "ukrainian-dorian": "乌克兰利亚",
+    "persian": "波斯",
+    "byzantine": "拜占庭",
+    "japanese": "日本",
+    "hirajoshi": "Hirajoshi",
+    "in-sen": "In-Sen",
+    "iwato": "伊沃托",
+    "chromatic": "色音阶",
+    "diminished-whole-half": "whole-half 降音",
+    "diminished-half-whole": "half-whole 降音",
+    "egyptian": "埃及",
+    "chinese": "中国",
+    "japanese-pentatonic": "日本五声音阶"
+  },
+  "scaleGroup": {
+    "common": "常见",
+    "jazz": "爵士",
+    "modes": "调式",
+    "modalVariants": "调式变体",
+    "exotic": "异域",
+    "symmetric": "对称",
+    "pentatonicVariants": "五声音阶变体",
+    "other": "其他",
+    "custom": "自定义"
+  },
+  "tuning": {
+    "standard6": "标准 (6)",
+    "perfect4Interval6": "完全四度间隔 (6)",
+    "dropD6": "Drop D (6)",
+    "openD6": "Open D (6)",
+    "openG6": "Open G (6)",
+    "dadgad6": "DADGAD (6)",
+    "standard7": "标准 (7)",
+    "perfect4Interval7": "完全四度间隔 (7)",
+    "dropA7": "Drop A (7)",
+    "russian7": "俄罗斯 (7)",
+    "standard8": "标准 (8)",
+    "perfect4Interval8": "完全四度间隔 (8)",
+    "dropE8": "Drop E (8)",
+    "progressive8": "进步 (8)",
+    "perfect4Interval9": "完全四度间隔 (9)",
+    "perfect4Interval10": "完全四度间隔 (10)",
+    "halfStepDown6": "半音下降 (6)",
+    "fullStepDown6": "整音下降 (6)",
+    "openE6": "Open E (6)",
+    "openA6": "Open A (6)",
+    "openC6": "Open C (6)",
+    "nashville6": "纳什维尔 (6)",
+    "base4": "低音 (4)",
+    "base5": "低音 (5)",
+    "mandolin": "曼陀林"
+  },
+  "tuningCategory": {
+    "standard": "标准",
+    "drop": "Drop",
+    "open": "Open",
+    "special": "特殊",
+    "bass": "贝斯",
+    "mandolin": "曼陀林",
+    "custom": "自定义"
+  },
+  "texture": {
+    "rosewood": "玫瑰木",
+    "ebony": "苍月黑檀",
+    "maple": "枫木",
+    "pauFerro": "巴乌铁",
+    "richlite": "Richlite"
+  },
+  "soundEngine": {
+    "sample": "乐器采样",
+    "synth": "拨弦合成器",
+    "sine": "经典正弦",
+    "sampleDescription": "每种乐器的短录音，调音至每个音符",
+    "synthDescription": "合成拨弦，适用于吉他和卡林巴；采样适用于钢琴和口琴",
+    "sineDescription": "简单的正弦音 (原始行为)"
+  },
+  "settings": {
+    "title": "设置",
+    "close": "关闭设置面板",
+    "sound": "声音",
+    "playbackEngine": "播放引擎",
+    "export": "导出设置",
+    "import": "导入设置",
+    "reset": "重置为默认值",
+    "resetDescription": "将所有设置重置为原始默认值。此操作无法撤销。",
+    "versionWarning": "警告：此设置文件导入自版本 {importVersion} (当前: {currentVersion})。某些设置可能不兼容。",
+    "exporting": "正在导出…",
+    "importing": "正在导入…",
+    "resetting": "正在重置…",
+    "exportAriaLabel": "导出所有应用设置到 JSON 文件",
+    "importAriaLabel": "从 JSON 文件导入设置",
+    "importFileAriaLabel": "选择要导入的 JSON 文件",
+    "resetAriaLabel": "将所有设置重置为出厂默认值。这将显示确认对话框。",
+    "dismissError": "Dismiss error",
+    "confirmReset": "这将重置所有设置到其默认值。此操作无法撤销。\n\n页面将重新加载以应用更改。\n\n您想继续吗？"
+  },
+  "help": {
+    "previous": "上一页",
+    "next": "下一页",
+    "close": "关闭帮助",
+    "slideCounter": "{current} / {total}",
+    "slides": [
+      {
+        "title": "开始探索",
+        "intro": "GScale 适用于所有技能水平。以下是充分利用它的方法。",
+        "steps": [
+          {
+            "title": "选择乐器",
+            "desc": "使用下拉菜单导航至吉他、钢琴、卡林巴、口琴、长笛或竖笛"
+          },
+          {
+            "title": "选择调式和根音",
+            "desc": "从 60+ 内置调式中选择或创建自己的，然后选择根音"
+          },
+          {
+            "title": "点击音符以听它们",
+            "desc": "标记的每个音符在每个乐器上都是可点击的 — 使用它进行听觉训练"
+          },
+          {
+            "title": "调整您的视图",
+            "desc": "切换度数/名称、升/降、彩色/单色和深色/浅色以适应您的偏好"
+          },
+          {
+            "title": "进一步自定义",
+            "desc": "对于吉他：调整调音、品数、纹理、方向，并启用/禁用特定的弦或品"
+          },
+          {
+            "title": "保存和分享",
+            "desc": "导出您自定义的调式和调音以进行备份或与他人共享"
+          }
+        ]
+      },
+      {
+        "title": "欢迎来到 GScale",
+        "subtitle": "音乐尺度可视化工具",
+        "intro": "一个可视化和学习音乐调式的交互式应用。点击任意音符以听取它，自定义您的视图，并探索 60+ 调式。",
+        "tags": [
+          "吉他",
+          "钢琴",
+          "卡林巴",
+          "口琴",
+          "长笛",
+          "竖笛",
+          "60+ 调式",
+          "音频播放",
+          "自定义调式"
+        ]
+      },
+      {
+        "title": "导航界面",
+        "intro": "头栏包含所有全局控件，可从任何乐器页面访问。",
+        "features": [
+          {
+            "icon": "🎸",
+            "title": "乐器选择器",
+            "desc": "使用下拉菜单在吉他、钢琴、卡林巴、口琴、长笛和竖笛之间切换"
+          },
+          {
+            "icon": "🎵",
+            "title": "调式和根音选择器",
+            "desc": "从 60+ 调式类型和任意根音（从 C 到 B，升号和降号）进行选择"
+          },
+          {
+            "icon": "🔢",
+            "title": "度数 /  note 名称",
+            "desc": "切换度数数字（1–7）和 note 名称（C、D、E…）"
+          },
+          {
+            "icon": "♭",
+            "title": "降号 / 升号",
+            "desc": "切换 note 显示：降号 (♭) 或 升号 (♯)"
+          },
+          {
+            "icon": "🎨",
+            "title": "彩色 / 单色",
+            "desc": "彩色模式突出显示每个间距；单色模式仅显示根音"
+          },
+          {
+            "icon": "🌓",
+            "title": "深色 / 浅色主题",
+            "desc": "在深色和浅色模式之间切换 — 偏好会自动保存"
+          }
+        ]
+      },
+      {
+        "title": "调式库 & 自定义调式",
+        "intro": "GScale 随附 60+ 预设调式。您也可以创建自己的。",
+        "features": [
+          {
+            "icon": "📚",
+            "title": "60+ 内置调式",
+            "desc": "涵盖大调、小调、五声音阶、蓝调、爵士比普、模式（Dorian、Phrygian、Lydian…）以及异域调式（匈牙利小调、拜占庭、波斯…}"
+          },
+          {
+            "icon": "✏️",
+            "title": "自定义调式编辑器",
+            "desc": "打开调式下拉菜单并选择 '+ 创建自定义调式' 以从间距中构建调式"
+          },
+          {
+            "icon": "🎹",
+            "title": "间距选择器",
+            "desc": "选择任意 12 个半音的组合来定义您的调式 — 实时 C 预览随您选择而更新"
+          },
+          {
+            "icon": "📝",
+            "title": "命名和分类",
+            "desc": "给您的调式命名和分类，以便它们在下拉菜单中与相似调式分组"
+          },
+          {
+            "icon": "🔁",
+            "title": "编辑或删除",
+            "desc": "自定义调式随时可以从调式编辑器进行编辑或删除"
+          }
+        ]
+      },
+      {
+        "title": "吉他 — 品脱设置",
+        "intro": "吉他页面提供最多的配置选项。所有设置都会自动保存。",
+        "features": [
+          {
+            "icon": "🎸",
+            "title": "调音预设",
+            "desc": "从数十种预设调音中选择（标准、Drop D、Open G、DADGAD 以及许多其他），按类别组织"
+          },
+          {
+            "icon": "🎚️",
+            "title": "基本调音变位",
+            "desc": "使用基本调音选择器将整个调音向上或向下半音移位"
+          },
+          {
+            "icon": "📏",
+            "title": "品数",
+            "desc": "显示 12、20、21、22、23 或 24 品以匹配您的乐器"
+          },
+          {
+            "icon": "🪵",
+            "title": "品脱纹理",
+            "desc": "选择视觉纹理：玫瑰木、苍月黑檀、枫木、巴乌铁或 Richlite"
+          },
+          {
+            "icon": "↔️",
+            "title": "水平翻转",
+            "desc": "左右镜像品脱 — 对左-handed 吉他手有用"
+          },
+          {
+            "icon": "↕️",
+            "title": "垂直翻转",
+            "desc": "上下镜像品脱以匹配您首选的弦顺序"
+          },
+          {
+            "icon": "📐",
+            "title": "弦间距",
+            "desc": "在正常和加大间距之间切换以获得更好的可读性"
+          }
+        ]
+      },
+      {
+        "title": "吉他 — 字符串和品控制",
+        "intro": "通过启用或禁用单个字符串和品位置来聚焦于颈部的任意部分。",
+        "features": [
+          {
+            "icon": "☑️",
+            "title": "弦复选框",
+            "desc": "每根弦左侧都有一个复选框 — 取消勾选以从可视化中隐藏该弦"
+          },
+          {
+            "icon": "☑️",
+            "title": "品复选框",
+            "desc": "每个品列底部都有一个复选框 — 取消勾选以隐藏该品位置"
+          },
+          {
+            "icon": "⊟",
+            "title": "全部启用/禁用",
+            "desc": "轴交汇处的按钮可同时启用/禁用所有弦和所有品 — 非常适合先隔离特定区域，然后重新启用所有内容"
+          },
+          {
+            "icon": "🎸",
+            "title": "自定义调音",
+            "desc": "创建自己的调音：设定 4-18 根弦的数量，为每根弦命名，并将其保存到预设中"
+          },
+          {
+            "icon": "📐",
+            "title": "多尺度 / 宽担品品脱",
+            "desc": "启用多尺度模式以设置独立的 Treble 和 Bass 规模长度，并配置垂直于品的品"
+          }
+        ]
+      },
+      {
+        "title": "钢琴",
+        "intro": "钢琴页面显示带有高亮显示调式音符的交互式键盘。",
+        "features": [
+          {
+            "icon": "🎹",
+            "title": "音键数量",
+            "desc": "选择 1、2、3 或 4 个音键以显示 — 你的选择会自动保存"
+          },
+          {
+            "icon": "🖱️",
+            "title": "点击播放",
+            "desc": "点击任何高亮的键键以通过 Web Audio API 播放音符"
+          },
+          {
+            "icon": "🎨",
+            "title": "间距彩色编码",
+            "desc": "通过度数着色的音符（度数为绿色，度数为橙色，根音为高对比度）。非调式音符变灰。"
+          },
+          {
+            "icon": "⌨️",
+            "title": "键盘可访问",
+            "desc": "Tab 到一个键并按 Enter 或 Space 以播放它"
+          }
+        ]
+      },
+      {
+        "title": "卡林巴",
+        "intro": "卡林巴页面显示传统的 17 键拇琴布局。",
+        "features": [
+          {
+            "icon": "🎵",
+            "title": "17 键布局",
+            "desc": "音锠中心向外交替排列左/右顺序，匹配真实的卡林巴"
+          },
+          {
+            "icon": "🖱️",
+            "title": "点击播放",
+            "desc": "点击任意音锠以听取它。调式音符会被着色；非调式音符可见但变灰。"
+          },
+          {
+            "icon": "🎨",
+            "title": "间距颜色",
+            "desc": "与其他乐器相同的颜色方案 — 基于您的全局显示设置为彩色或单色"
+          },
+          {
+            "icon": "🔢",
+            "title": "音符标签",
+            "desc": "每个音锠显示音符名称、降/升号或度数，取决于您的显示切换开关"
+          }
+        ]
+      },
+      {
+        "title": "口琴",
+        "intro": "口琴页面展示标准的 10孔 diatonic 口琴布局。",
+        "features": [
+          {
+            "icon": "🎷",
+            "title": "吹吸音符",
+            "desc": "每个孔并排显示吹音 (↑) 和吸音 (↓)"
+          },
+          {
+            "icon": "🎼",
+            "title": "口琴调性选择器",
+            "desc": "选择您的口琴调性 (C、G、A、D、F、B♭、E♭) — 所有音符会自动转置"
+          },
+          {
+            "icon": "🖱️",
+            "title": "点击播放",
+            "desc": "点击任何吹吸音符以听取它。仅调式音符处于激活状态；其他音符变灰。"
+          },
+          {
+            "icon": "🔢",
+            "title": "孔号",
+            "desc": "孔按 1-10 标准口琴参考编号"
+          }
+        ]
+      },
+      {
+        "title": "长笛 & 竖笛",
+        "intro": "长笛和竖笛页面展示每个调式音符的指法图。",
+        "features": [
+          {
+            "icon": "🎼",
+            "title": "指法图",
+            "desc": "每个调式音符都绘制为可播放的指法 — 填充的孔/键被覆盖，空的孔/键是打开的"
+          },
+          {
+            "icon": "🎚️",
+            "title": "竖笛类型",
+            "desc": "选择竖笛尺寸 — Sopranino、Soprano、Alto、Tenor、Bass、Great Bass、Contrabass、Sub-contrabass — 根据调性分组（在 C / 在 F）。指法保持不变；发出的音高会转置。"
+          },
+          {
+            "icon": "🔢",
+            "title": "显示的音符",
+            "desc": "选择要并排排列的连续调式音符数量 (1, 3, 5, 7, 12, 或 24)"
+          },
+          {
+            "icon": "🖱️",
+            "title": "点击播放",
+            "desc": "点击任何图示以听取该音符"
+          }
+        ],
+        "note": "竖笛指法使用巴洛克（英语）系统，适用于所有竖笛尺寸。"
+      },
+      {
+        "title": "自定义调音",
+        "intro": "直接在应用中创建、编辑和管理吉他调音。",
+        "features": [
+          {
+            "icon": "➕",
+            "title": "创建调音",
+            "desc": "在调音下拉菜单中选择 '+ 自定义调音' 以打开调音编辑器"
+          },
+          {
+            "icon": "🔢",
+            "title": "弦数",
+            "desc": "设定 4-18 根弦 — 每根弦都有自己的音符选择器"
+          },
+          {
+            "icon": "📋",
+            "title": "复制调音",
+            "desc": "使用复制按钮复制一个现有调音作为变体的起点"
+          },
+          {
+            "icon": "✏️",
+            "title": "编辑或删除",
+            "desc": "自定义调音可以随时重命名、修改或删除"
+          },
+          {
+            "icon": "💾",
+            "title": "持久存储",
+            "desc": "所有自定义调音都保存到 localStorage 中，刷新页面后仍然保留"
+          }
+        ]
+      },
+      {
+        "title": "设置、导出 & 导入",
+        "intro": "通过头部的齿轮图标访问设置面板以管理您的配置。",
+        "features": [
+          {
+            "icon": "📤",
+            "title": "导出设置",
+            "desc": "下载所有自定义调式、自定义调音和显示偏好设置作为带时间戳的文件名的 JSON 文件"
+          },
+          {
+            "icon": "📥",
+            "title": "导入设置",
+            "desc": "加载之前导出的设置文件以恢复您的配置 — 在任意设备上"
+          },
+          {
+            "icon": "✅",
+            "title": "导入验证",
+            "desc": "导入检查版本兼容性并报告哪些设置已应用以及哪些被跳过"
+          },
+          {
+            "icon": "🔄",
+            "title": "重置为默认值",
+            "desc": "重置按钮在确认后将所有设置恢复出厂默认值"
+          },
+          {
+            "icon": "💾",
+            "title": "自动保存",
+            "desc": "每个设置变更都会自动保存到 localStorage — 无需手动保存"
+          }
+        ],
+        "note": "使用 Export/Import 备份您的自定义调式和调音或与他人共享。"
+      }
+    ]
+  },
+  "ui": {
+    "instrument": "乐器",
+    "scale": "调式",
+    "root": "根音",
+    "tuning": "调音",
+    "baseTuning": "基本调音",
+    "numberOfFrets": "品数",
+    "fretboardTexture": "品脱纹理",
+    "stringSpacing": "弦间距",
+    "stringSpacingNormal": "正常",
+    "stringSpacingEnlarged": "加大",
+    "orientation": "方向",
+    "flipHorizontally": "水平翻转",
+    "flipVertically": "垂直翻转",
+    "multiscale": "多尺度/宽担品品脱",
+    "trebleScaleLength": "音锋尺度长度",
+    "bassScaleLength": "音锋尺度长度",
+    "perpendicularFret": "垂直于品的品",
+    "showNoteNames": "显示音符名称",
+    "showScaleDegrees": "显示度数",
+    "showSharpNotes": "显示升号音符",
+    "showFlatNotes": "显示降号音符",
+    "highlightIntervals": "突出显示间距",
+    "highlightRootNotes": "突出显示根音",
+    "showHelp": "显示帮助 slideshow",
+    "openSettings": "打开设置",
+    "switchToLightMode": "切换到浅色模式",
+    "switchToDarkMode": "切换到深色模式",
+    "customScale": "+ 自定义调式",
+    "customTuning": "+ 自定义调音",
+    "edit": "编辑",
+    "delete": "删除",
+    "cancel": "取消",
+    "save": "保存",
+    "update": "更新",
+    "duplicate": "复制",
+    "close": "关闭",
+    "loading": "加载中…",
+    "somethingWentWrong": "出错了。",
+    "pleaseRefresh": "请尝试刷新页面。",
+    "rigSetup": "设备配置",
+    "language": "语言",
+    "custom": "(自定义)",
+    "recorderKeyC": "在 C 中",
+    "recorderKeyF": "在 F 中",
+    "display": "显示",
+    "harmonicaKey": "口琴调性",
+    "selectOctaveCount": "选择要显示的音键数量",
+    "selectNoteCount": "选择要显示的音符数量",
+    "selectRecorderType": "选择竖笛类型",
+    "enabled": "启用",
+    "disabled": "禁用",
+    "stringToggleLabel": "弦 {n} {state}",
+    "fretToggleLabel": "品 {n} {state}",
+    "openStringToggleLabel": "空弦 {state}",
+    "stringEnableToggles": "弦启用切换",
+    "fretPositionEnableToggles": "品位置启用切换",
+    "enableAllStringsAndFrets": "启用所有弦和品",
+    "disableAllStringsAndFrets": "禁用所有弦和品",
+    "enableAll": "全部启用",
+    "disableAll": "全部禁用",
+    "octaveCount": "{n, plural, one {# 音键} other {# 音键}}",
+    "noteCount": "{n, plural, one {# 音符} other {# 音符}}",
+    "playNoteOnFlute": "在长笛上播放 {note}",
+    "playNoteOnRecorder": "在竖笛上播放 {note}",
+    "stringToneLabel": "弦 {n}：{note}"
+  },
+  "error": {
+    "exportNoData": "没有设置可导出。",
+    "exportSerialize": "序列化设置数据失败。",
+    "exportBrowserBlock": "下载被浏览器阻止。请检查您的弹出窗口设置。",
+    "exportStorageFull": "无法导出：无法访问 localStorage。",
+    "importFileTooLarge": "文件太大。最大大小为 10MB。",
+    "importInvalidJson": "选定的文件不有效的 JSON。请检查文件并重试。",
+    "importInvalidFormat": "未识别的设置格式。期望 ScalesViewer 设置文件。",
+    "importReadError": "读取文件失败。请再次尝试。",
+    "importValidationFailed": "文件包含无效的设置数据。",
+    "importStorageFull": "存储已满。先清除一些浏览器数据。",
+    "importVersionMismatch": "警告：此设置文件从不同的应用版本导出。",
+    "importPartialFailure": "某些设置无法导出。详情请见详细信息。",
+    "resetCancelled": "用户取消了重置。",
+    "resetClearFailed": "清除某些设置失败。请手动清除浏览器数据。",
+    "unknownError": "发生意外错误。请再次尝试。",
+    "localStorageUnavailable": "浏览器存储不可用。请检查浏览器设置。",
+    "operationInProgress": "另一个操作正在进行中。请稍后。"
+  },
+  "success": {
+    "exportSuccess": "设置成功导出到 {filename}",
+    "importSuccess": "{count} 设置成功导入。",
+    "resetSuccess": "设置已重置为默认值。页面将重新加载。"
+  },
+  "customScaleEditor": {
+    "editScale": "编辑调式",
+    "createScale": "创建自定义调式",
+    "scaleName": "调式名称",
+    "group": "组 (类别)",
+    "groupPlaceholder": "例如 Custom, Jazz, Exotic…",
+    "notes": "音符",
+    "addNote": "+ 添加音符",
+    "previewInC": "C 调预览 — {name} ({count} 音符)",
+    "scaleMustIncludeRoot": "调式必须包含根音 (0 – 根音)",
+    "duplicateInterval": "每个间隔只能出现一次",
+    "interval0": "0 – 根音",
+    "interval1": "1 – m2",
+    "interval2": "2 – M2",
+    "interval3": "3 – m3",
+    "interval4": "4 – M3",
+    "interval5": "5 – P4",
+    "interval6": "6 – TT",
+    "interval7": "7 – P5",
+    "interval8": "8 – m6",
+    "interval9": "9 – M6",
+    "interval10": "10 – m7",
+    "interval11": "11 – M7",
+    "remove": "移除",
+    "scaleNameExists": "已存在同名调式",
+    "unnamed": "未命名",
+    "noteN": "音符 {n}"
+  },
+  "customTuningEditor": {
+    "editTuning": "编辑调音",
+    "createTuning": "创建自定义调音",
+    "tuningName": "调音名称",
+    "numberOfStrings": "弦数",
+    "stringNotesHighToLow": "高到低的弦音",
+    "stringN": "弦 {n}",
+    "stringsCount": "{n} 弦",
+    "tuningNameExists": "已存在同名调音",
+    "saveTuning": "保存调音",
+    "updateTuning": "更新调音"
+  },
+  "confirm": {
+    "deleteCustomScale": "您确定要删除这个自定义调式吗？",
+    "deleteCustomTuning": "您确定要删除这个自定义调音吗？"
+  },
+  "pattern": {
+    "patternSequencer": "模式序列器",
+    "practicePatterns": "练习锁定在调式上的旋律模式。",
+    "enable": "启用",
+    "disable": "禁用",
+    "pattern": "模式",
+    "noPatternSelected": "未选择模式",
+    "tempoBpm": "Tempo (BPM)",
+    "loop": "循环",
+    "play": "播放",
+    "stop": "停止"
+  },
+  "multiscale": {
+    "nut0thFret": "琴头 (0品)",
+    "7thFret": "7品",
+    "9thFret": "9品",
+    "12thFret": "12品"
+  },
+  "footer": {
+    "allRightsReserved": "版权所有。"
+  },
+  "aria": {
+    "languageSelector": "选择语言"
+  },
+  "chord": {
+    "chordScaleIntersection": "和弦-调式交集",
+    "seeWhichChords": "查看属于这个调式的和弦。",
+    "enable": "启用",
+    "diatonicChords": "调和和弦",
+    "disable": "禁用",
+    "filterByQuality": "按质量筛选",
+    "allQualities": "所有质量",
+    "major": "大调",
+    "minor": "小调",
+    "diminished": "降和弦",
+    "augmented": "增和弦",
+    "chordTones": "和弦音"
+  },
+  "homework": {
+    "learnMusicTheory": "学习音乐理论",
+    "practiceWithTutor": "练习音乐理论与 AI 导师。",
+    "enable": "启用",
+    "learnMusicTheoryExperimental": "学习音乐理论 (实验性功能正在开发中)",
+    "disable": "禁用",
+    "collapsePanel": "折叠面板",
+    "expandPanel": "展开面板",
+    "resizePanel": "调整面板大小",
+    "showTutor": "显示 AI 音乐导师",
+    "hideTutor": "隐藏 AI 音乐导师"
+  },
+  "details": {
+    "title": "详细信息",
+    "currentScale": "当前调式：",
+    "scaleRoot": "调式根音：",
+    "displayMode": "显示模式：",
+    "scaleDegrees": "度数",
+    "noteNames": "音符名称",
+    "noteDisplay": "音符显示：",
+    "flatNotes": "降号音符 (♭)",
+    "sharpNotes": "升号音符 (♯)",
+    "colorMode": "色彩模式：",
+    "monochrome": "单色",
+    "colored": "彩色"
+  },
+  "validation": {
+    "nameRequired": "此字段不能为空",
+    "nameTooLong": "名称不能超过 50 个字符",
+    "nameInvalidChars": "名称包含无效字符"
+  },
+  "recorder": {
+    "sopranino": "Sopranino",
+    "soprano": "Soprano (升号)",
+    "alto": "Alto (升号)",
+    "tenor": "Tenor",
+    "bass": "Bass",
+    "greatbass": "Great Bass",
+    "contrabass": "Contrabass",
+    "subcontrabass": "Sub-contrabass"
+  }
+}
