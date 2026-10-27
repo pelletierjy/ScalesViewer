@@ -8,7 +8,7 @@
     "piano": "钢琴",
     "kalimba": "卡林巴",
     "harmonica": "口琴",
-    "flute": " flutes",
+    "flute": "长笛",
     "recorder": "竖笛"
   },
   "scale": {
@@ -22,8 +22,8 @@
     "bebop-major": "比普大调",
     "bebop-minor": "比普小调",
     "diminished": "降音",
-    "whole-tone": " whole音阶",
-    "altered": " altered",
+    "whole-tone": "全音阶",
+    "altered": "变异",
     "dorian": "dorian",
     "phrygian": "弗里吉亚",
     "lydian": "利迪亚",
