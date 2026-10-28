@@ -1,4 +1,4 @@
-package com.gscale.app;
+package com.jeanyves.scalesviewer;
 
 import com.getcapacitor.BridgeActivity;
 
