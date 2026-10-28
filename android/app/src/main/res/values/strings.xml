@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Scales Viewer</string>
+    <string name="title_activity_main">Scales Viewer</string>
+    <string name="package_name">com.gscale.app</string>
+    <string name="custom_url_scheme">com.gscale.app</string>
+</resources>
