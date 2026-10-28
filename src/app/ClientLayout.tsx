@@ -42,6 +42,7 @@ const BOOTSTRAP_LOADING_TEXT: Record<Locale, string> = {
   en: "Loading...",
   fr: "Chargement...",
   es: "Cargando...",
+  "zh-CN": "加载中...",
 };
 
 // Rendered as children of NextIntlClientProvider so they can call useTranslations();

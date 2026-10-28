@@ -24,7 +24,7 @@ declare module "react" {
       "conversia-app": DetailedHTMLProps<
         HTMLAttributes<HTMLElement> & {
           theme?: "light" | "dark";
-          lang?: "en" | "fr" | "es";
+          lang?: "en" | "fr" | "es" | "zh-CN";
           subject?: string;
           "grade-level"?: number | string;
           context?: string;

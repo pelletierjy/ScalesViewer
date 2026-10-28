@@ -65,9 +65,10 @@ Click the 🧠 icon in the header to open it — it appears as a resizable, coll
 GScale supports multiple languages. The interface, scale names, help content, and settings are fully localized.
 
 **Supported languages:**
-- 🇬🇧 English (default)
-- 🇫🇷 French
-- 🇪🇸 Spanish
+|- 🇬🇧 English (default)
+|- 🇫🇷 French
+|- 🇪🇸 Spanish
+|- 🇨🇳 Simplified Chinese
 
 The app automatically detects your browser language on first visit. You can also switch languages manually using the language selector in the header. Your preference is saved and synced to the URL so shared links preserve the chosen language.
 
