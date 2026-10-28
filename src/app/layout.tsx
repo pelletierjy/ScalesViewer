@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import ClientLayout from "./ClientLayout";
 import { Providers } from "./Providers";
+import IonicShell from "./IonicShell";
 import type { Metadata } from "next";
 import { defaultLocale, isLocale } from "@/lib/i18n/types";
 
@@ -43,12 +44,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        <Providers>
-          <Suspense fallback={null}>
-            <ClientLayout locale={locale}>{children}</ClientLayout>
-          </Suspense>
-        </Providers>
-        <Analytics />
+        <IonicShell>
+          <Providers>
+            <Suspense fallback={null}>
+              <ClientLayout locale={locale}>{children}</ClientLayout>
+            </Suspense>
+          </Providers>
+          <Analytics />
+        </IonicShell>
       </body>
     </html>
   );

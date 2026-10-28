@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "com.gscale.app"
+    namespace = "com.jeanyves.scalesviewer"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.gscale.app"
+        applicationId "com.jeanyves.scalesviewer"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
