@@ -1,4 +1,15 @@
 const nextJest = require("next/jest");
+const path = require("path");
+
+const escapeForRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+// testPathIgnorePatterns are regexes, so a bare `<rootDir>/e2e/` breaks on
+// Windows: the substituted backslashes become regex escapes (`\.claude\work`
+// -> `\w`), which silently stopped matching and pulled e2e specs into `jest`.
+// Anchor each ignore to this config's own root instead.
+const rootDir = __dirname;
+const ignore = (relativePath) =>
+  `${escapeForRegex(rootDir)}[\\\\/]${escapeForRegex(relativePath)}[\\\\/]`;
 
 const createJestConfig = nextJest({
   // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
@@ -18,11 +29,7 @@ const customJestConfig = {
     "**/__tests__/**/*.test.[jt]s?(x)",
     "**/?(*.)+(spec|test).[jt]s?(x)",
   ],
-  testPathIgnorePatterns: [
-    "<rootDir>/e2e/",
-    "<rootDir>/node_modules/",
-    "<rootDir>/.claude/"
-  ],
+  testPathIgnorePatterns: [ignore("e2e"), ignore("node_modules"), ignore(".claude")],
   collectCoverage: true,
   coverageReporters: [
     "lcov",

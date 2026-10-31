@@ -3,7 +3,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { Details } from "@/components/Details";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {
@@ -29,11 +29,17 @@ import { initializeAudio } from "@/lib/utils/audioUtils";
 import { SCALE_TYPES, SCALE_PATTERNS } from "@/lib/utils/scaleConstants";
 import { useUrlSyncedGlobalConfig } from "@/features/globalConfig/useUrlSyncedGlobalConfig";
 import { NextIntlClientProvider, useTranslations } from "next-intl";
-import { isLocale, Locale } from "@/lib/i18n/types";
-import { isInstrument } from "@/lib/utils/instrument";
+import { isLocale, Locale, defaultLocale } from "@/lib/i18n/types";
+import { getRouteInstrument, Instrument } from "@/lib/utils/instrument";
 import ChordPanel from "@/components/ChordPanel/ChordPanel";
 import HomeworkPanel from "@/components/HomeworkPanel/HomeworkPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
+
+// How long we give Next's client-side router to complete an instrument
+// navigation before falling back to a full document navigation. router.push()
+// can simply never settle (static hosts, the Capacitor and Tauri shells) —
+// without this the app stayed parked on "/" with no instrument rendered.
+const INSTRUMENT_NAV_FALLBACK_MS = 2000;
 
 // Shown before messages.json has loaded, so it cannot use next-intl. Locale is
 // already known at this point (from the URL, redux, or the server prop), so
@@ -84,6 +90,65 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
   const [isHydrated, setIsHydrated] = useState(false);
   const [messages, setMessages] = useState<Record<string, string> | null>(null);
 
+  // The single place that moves the app onto an instrument route. Router
+  // navigation first (keeps the SPA fast), with a guaranteed hard-navigation
+  // fallback so the app can never be left sitting on a route that renders no
+  // instrument.
+  const pendingNavRef = useRef<
+    { target: string; timer: ReturnType<typeof setTimeout> } | null
+  >(null);
+
+  const cancelPendingNav = useCallback(() => {
+    if (pendingNavRef.current) {
+      clearTimeout(pendingNavRef.current.timer);
+      pendingNavRef.current = null;
+    }
+  }, []);
+
+  const navigateToInstrument = useCallback(
+    (next: Instrument) => {
+      if (typeof window === "undefined") return;
+
+      const target = `/${next}/`;
+      if (getRouteInstrument(window.location.pathname) === next) {
+        // Already there ("/guitar" and "/guitar/" both count).
+        cancelPendingNav();
+        return;
+      }
+      // Same navigation already in flight — leave its fallback armed.
+      if (pendingNavRef.current?.target === target) return;
+
+      cancelPendingNav();
+      // Preserve shared display params (?root=...&scale=...) across the jump.
+      const search = window.location.search;
+      const hardNavigate = () => window.location.replace(target + search);
+
+      const timer = setTimeout(hardNavigate, INSTRUMENT_NAV_FALLBACK_MS);
+      pendingNavRef.current = { target, timer };
+
+      Promise.resolve(router.push(target)).then(
+        () => {
+          if (pendingNavRef.current?.target !== target) return;
+          if (getRouteInstrument(window.location.pathname) === next) {
+            cancelPendingNav();
+          } else {
+            // The router reported success but the URL never moved (a competing
+            // navigation reverted it) — still leave for the instrument route.
+            hardNavigate();
+          }
+        },
+        (error: unknown) => {
+          console.error(`Client navigation to ${target} failed`, error);
+          hardNavigate();
+        }
+      );
+    },
+    [router, cancelPendingNav]
+  );
+
+  // Never leave a dangling hard-navigation timer behind.
+  useEffect(() => cancelPendingNav, [cancelPendingNav]);
+
   // Derive the effective locale from the URL param, Redux state, or the server prop.
   // This is necessary because the app uses static export (output: "export"), so
   // layout.tsx always renders with locale="en" at build time. We must read the
@@ -92,13 +157,31 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
   const effectiveLocale =
     urlLang && isLocale(urlLang) ? urlLang : language;
 
-  // Load messages for the current locale
+  // Load messages for the current locale. A failed dynamic import (stale
+  // build, flaky native shell) must not leave the app on the bootstrap
+  // spinner forever, so fall back to the default locale and finally to an
+  // empty bundle rather than never resolving.
   useEffect(() => {
+    let cancelled = false;
     async function loadMessages() {
-      const msgs = (await import(`@/lib/i18n/messages/${effectiveLocale}.json`)).default;
-      setMessages(msgs);
+      try {
+        const msgs = (await import(`@/lib/i18n/messages/${effectiveLocale}.json`)).default;
+        if (!cancelled) setMessages(msgs);
+      } catch (error) {
+        console.error(`Failed to load messages for "${effectiveLocale}"`, error);
+        try {
+          const fallback = (await import(`@/lib/i18n/messages/${defaultLocale}.json`)).default;
+          if (!cancelled) setMessages(fallback);
+        } catch (fallbackError) {
+          console.error("Failed to load fallback messages", fallbackError);
+          if (!cancelled) setMessages({});
+        }
+      }
     }
     loadMessages();
+    return () => {
+      cancelled = true;
+    };
   }, [effectiveLocale]);
 
   // Handle hydration
@@ -133,15 +216,15 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
   useEffect(() => {
     if (applicationState === "started") {
       dispatch(initializeApplication());
-      if (pathname !== "/") {
-        //Init state from route.
-        const pathParts = pathname.split("/")[1];
-        if (isInstrument(pathParts)) {
-          dispatch(setInstrument(pathParts));
-        }
+      // The route is the source of truth for the instrument when it names one;
+      // "/" (and any path that isn't an instrument) keeps the saved/default one
+      // and is redirected below once initialization completes.
+      const routeInstrument = getRouteInstrument(pathname);
+      if (routeInstrument) {
+        dispatch(setInstrument(routeInstrument));
       }
     }
-  }, [applicationState, dispatch, router, pathname]);
+  }, [applicationState, dispatch, pathname]);
 
   useEffect(() => {
     // Handle application state transitions
@@ -163,14 +246,19 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
         dispatch(saveState());
         return;
 
-      case "initialized":
-        // Handle routing after initialization
-        if (pathname === "/" || !pathname.includes(instrument)) {
-          router.push(`/${instrument}/`);
+      case "initialized": {
+        // Keep the URL and the visible instrument in lockstep: whenever the
+        // route does not name the selected instrument — no route at all ("/"),
+        // a stale/unknown path, or the user picking another instrument in the
+        // header — navigate there (with the hard fallback described above).
+        const routeInstrument = getRouteInstrument(pathname);
+        if (routeInstrument !== instrument) {
+          navigateToInstrument(instrument);
         }
         return;
+      }
     }
-  }, [applicationState, dispatch, instrument, router, pathname]);
+  }, [applicationState, dispatch, instrument, navigateToInstrument, pathname]);
 
   useEffect(() => {
     if (!isHydrated) return;
