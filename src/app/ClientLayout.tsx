@@ -35,10 +35,12 @@ import ChordPanel from "@/components/ChordPanel/ChordPanel";
 import HomeworkPanel from "@/components/HomeworkPanel/HomeworkPanel";
 import PatternPanel from "@/components/PatternPanel/PatternPanel";
 
-// How long we give Next's client-side router to complete an instrument
-// navigation before falling back to a full document navigation. router.push()
-// can simply never settle (static hosts, the Capacitor and Tauri shells) —
-// without this the app stayed parked on "/" with no instrument rendered.
+// How long we give Next's client-side router to reach an instrument route
+// before falling back to a full document navigation. router.push() returns
+// void and can fail without any observable signal (static hosts, the
+// Capacitor and Tauri shells) — without this watchdog the app stayed parked
+// on "/" with no instrument rendered. The timer re-checks the URL when it
+// fires, so a slow-but-successful navigation never triggers a reload.
 const INSTRUMENT_NAV_FALLBACK_MS = 2000;
 
 // Shown before messages.json has loaded, so it cannot use next-intl. Locale is
@@ -121,27 +123,30 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
       cancelPendingNav();
       // Preserve shared display params (?root=...&scale=...) across the jump.
       const search = window.location.search;
-      const hardNavigate = () => window.location.replace(target + search);
 
-      const timer = setTimeout(hardNavigate, INSTRUMENT_NAV_FALLBACK_MS);
+      // router.push() returns void — there is no completion signal to await
+      // (resolving a Promise.resolve(...) wrapper would only observe the next
+      // microtask, i.e. always "the URL hasn't moved yet"). So instead of
+      // trusting a callback we verify the outcome: when this timer fires we
+      // compare the URL we ended up on with the one we wanted, and only pay
+      // for a full document navigation if the router really didn't get us
+      // there (stalled push, failed RSC payload, a competing navigation).
+      const timer = setTimeout(() => {
+        if (pendingNavRef.current?.target !== target) return;
+        pendingNavRef.current = null;
+        if (getRouteInstrument(window.location.pathname) !== next) {
+          window.location.replace(target + search);
+        }
+      }, INSTRUMENT_NAV_FALLBACK_MS);
       pendingNavRef.current = { target, timer };
 
-      Promise.resolve(router.push(target)).then(
-        () => {
-          if (pendingNavRef.current?.target !== target) return;
-          if (getRouteInstrument(window.location.pathname) === next) {
-            cancelPendingNav();
-          } else {
-            // The router reported success but the URL never moved (a competing
-            // navigation reverted it) — still leave for the instrument route.
-            hardNavigate();
-          }
-        },
-        (error: unknown) => {
-          console.error(`Client navigation to ${target} failed`, error);
-          hardNavigate();
-        }
-      );
+      try {
+        router.push(target);
+      } catch (error) {
+        console.error(`Client navigation to ${target} failed`, error);
+        cancelPendingNav();
+        window.location.replace(target + search);
+      }
     },
     [router, cancelPendingNav]
   );
@@ -252,13 +257,17 @@ export default function ClientLayout({ children, locale }: ClientLayoutProps) {
         // a stale/unknown path, or the user picking another instrument in the
         // header — navigate there (with the hard fallback described above).
         const routeInstrument = getRouteInstrument(pathname);
-        if (routeInstrument !== instrument) {
-          navigateToInstrument(instrument);
+        if (routeInstrument === instrument) {
+          // Arrived (or never needed to leave): disarm the fallback timer so a
+          // successful client-side navigation can never trigger a reload.
+          cancelPendingNav();
+          return;
         }
+        navigateToInstrument(instrument);
         return;
       }
     }
-  }, [applicationState, dispatch, instrument, navigateToInstrument, pathname]);
+  }, [applicationState, cancelPendingNav, dispatch, instrument, navigateToInstrument, pathname]);
 
   useEffect(() => {
     if (!isHydrated) return;
