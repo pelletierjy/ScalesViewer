@@ -74,6 +74,20 @@ describe("useUrlSyncedGlobalConfig", () => {
     expect(options).toEqual({ scroll: false });
   });
 
+  it("leaves the URL alone while the route names no instrument (bootstrap redirect owns it)", () => {
+    const store = createTestStore();
+    const { replace, push } = renderHookWithStore(store, new URLSearchParams(), "/");
+
+    act(() => {
+      store.dispatch(setScale({ root: "G", type: "minor" }));
+    });
+
+    // Racing the redirect with a router.replace of "/?..." left the app
+    // parked on "/" with no instrument, so no writes are allowed here.
+    expect(replace).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
+  });
+
   it("US2: URL-provided values take precedence over pre-existing (e.g. localStorage-restored) store values", () => {
     const store = createTestStore();
     // Simulate a prior localStorage restore that already set a different scale.
