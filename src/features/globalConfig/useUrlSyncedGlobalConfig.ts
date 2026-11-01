@@ -20,6 +20,7 @@ import {
   encodeGlobalConfigToParams,
   GlobalConfigUrlSlice,
 } from "./urlConfigParams";
+import { getRouteInstrument } from "@/lib/utils/instrument";
 
 /**
  * Keeps the shareable Scale Display Configuration (scale, root, color mode,
@@ -111,11 +112,19 @@ export function useUrlSyncedGlobalConfig(): void {
   }, [searchParams, dispatch]);
 
   // store -> URL: reacts only to the five settings changing.
+  //
+  // While the URL isn't an instrument route yet the bootstrap redirect in
+  // ClientLayout owns navigation (it sends "/" to the selected instrument's
+  // route). Writing the query string from here at the same time raced that
+  // redirect — two concurrent Next router navigations clobbered each other and
+  // left the app parked on "/" with no instrument rendered.
+  const routeInstrument = getRouteInstrument(pathname);
   useEffect(() => {
     if (isFirstWriteRef.current) {
       isFirstWriteRef.current = false;
       return;
     }
+    if (routeInstrument === null) return;
 
     const nextQuery = encodeGlobalConfigToParams({
       scale,
@@ -128,5 +137,5 @@ export function useUrlSyncedGlobalConfig(): void {
     if (nextQuery !== searchParams.toString()) {
       router.replace(`${pathname}?${nextQuery}`, { scroll: false });
     }
-  }, [scale, highlightRoots, showFlats, showDegrees, language, pathname, router, searchParams]);
+  }, [scale, highlightRoots, showFlats, showDegrees, language, pathname, routeInstrument, router, searchParams]);
 }

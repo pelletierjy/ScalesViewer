@@ -37,6 +37,12 @@
   /* Shape / rhythm */
   --console-radius: 3px;
   --console-shadow: 0 1px 2px rgba(15, 18, 24, 0.08);
+
+  /* Ionic shell (IonicShell.tsx) reads these on <body>; bind them to our
+     tokens so Ionic's own body rule can't paint the page white. See the
+     "Ionic shell overrides" section at the end of this file. */
+  --ion-background-color: var(--console-bg);
+  --ion-text-color: var(--foreground);
 }
 
 .dark {
@@ -63,6 +69,9 @@
   --console-success: #3ddc97;
 
   --console-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+
+  --ion-background-color: var(--console-bg);
+  --ion-text-color: var(--foreground);
 }
 
 body {
@@ -209,4 +218,49 @@ body {
   border-color: var(--console-accent);
   background: color-mix(in srgb, var(--console-accent) 16%, var(--console-surface-raised));
   color: var(--console-accent-strong);
+}
+
+/* ==========================================================================
+   Ionic shell overrides — src/app/IonicShell.tsx imports
+   @ionic/react/css/{core,normalize,structure,typography}.css, which are
+   bundled AFTER this file and therefore win the cascade:
+
+     body { background: var(--ion-background-color); color: var(--ion-text-color) }
+     body { position: fixed; width/height: 100%; overflow: hidden; ... }
+
+   Neither --ion-* variable ships with those stylesheets, so `background`
+   resolved to transparent (a white canvas behind our dark panels) and the
+   fixed, viewport-sized body made the document unscrollable — content below
+   the fold was unreachable. The variables are bound to our tokens in :root
+   and .dark above; `html body` is used here purely for the extra specificity,
+   so this holds regardless of stylesheet order.
+   ========================================================================== */
+html body {
+  position: static;
+  width: auto;
+  max-width: none;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  transform: none;
+  overscroll-behavior-y: auto;
+}
+
+/* <ion-app> is Ionic's app shell: absolutely positioned to the viewport, so
+   it never contributes to document height. That is fine for Ionic's own
+   pages (they scroll inside <ion-content>), but our content is plain document
+   HTML — with ion-app out of flow, <body> collapsed to 0px, documentElement's
+   scrollHeight equalled the viewport and nothing below the fold was reachable. */
+/* <ion-app> also carries Ionic's .ion-page class, which pins it to the
+   viewport and applies size containment:
+     .ion-page { position:absolute; inset:0; display:flex; contain:layout size style }
+   A class beats bare element selectors, so this override matches the class
+   too (and resets `contain`, which would otherwise force height:auto to 0). */
+html body ion-app.ion-page {
+  position: static;
+  inset: auto;
+  display: block;
+  height: auto;
+  contain: none;
+  z-index: auto;
 }
