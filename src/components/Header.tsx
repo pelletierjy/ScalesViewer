@@ -200,6 +200,7 @@ export const Header: React.FC = () => {
               <option value="harmonica">{t("instrument.harmonica")}</option>
               <option value="flute">{t("instrument.flute")}</option>
               <option value="recorder">{t("instrument.recorder")}</option>
+              <option value="trumpet">{t("instrument.trumpet")}</option>
             </Select>
           </Field>
 

@@ -9,7 +9,8 @@
     "kalimba": "卡林巴",
     "harmonica": "口琴",
     "flute": "长笛",
-    "recorder": "竖笛"
+    "recorder": "竖笛",
+    "trumpet": "小号"
   },
   "scale": {
     "major": "大调 (伊奥尼亚)",
@@ -143,7 +144,7 @@
         "steps": [
           {
             "title": "选择乐器",
-            "desc": "使用下拉菜单导航至吉他、钢琴、卡林巴、口琴、长笛或竖笛"
+            "desc": "使用下拉菜单导航至吉他、钢琴、卡林巴、口琴、长笛、竖笛或小号"
           },
           {
             "title": "选择调式和根音",
@@ -190,7 +191,7 @@
           {
             "icon": "🎸",
             "title": "乐器选择器",
-            "desc": "使用下拉菜单在吉他、钢琴、卡林巴、口琴、长笛和竖笛之间切换"
+            "desc": "使用下拉菜单在吉他、钢琴、卡林巴、口琴、长笛、竖笛和小号之间切换"
           },
           {
             "icon": "🎵",
@@ -428,6 +429,33 @@
         "note": "竖笛指法使用巴洛克（英语）系统，适用于所有竖笛尺寸。"
       },
       {
+        "title": "小号",
+        "intro": "小号页面为音阶中的每个音符显示三活塞指法图。",
+        "features": [
+          {
+            "icon": "🎺",
+            "title": "活塞指法",
+            "desc": "每个音阶音符都画成活塞组合——实心活塞为按下，空心为抬起，下方标注组合（0 表示全部抬起）"
+          },
+          {
+            "icon": "🎼",
+            "title": "小号类型",
+            "desc": "在降B调小号（实际音高比记谱低一个全音）与 C 调小号之间切换——图表随移调变化，音符标签始终保持实际音高"
+          },
+          {
+            "icon": "🔢",
+            "title": "显示音符数",
+            "desc": "选择要连续显示多少个音阶音符（1、3、5、7、12 或 16）"
+          },
+          {
+            "icon": "🖱️",
+            "title": "点击播放",
+            "desc": "点击任意图表即可听到该音符"
+          }
+        ],
+        "note": "仅显示主要指法。超出标准音域的音符（降B调小号的实际音域为 E3 到 C6）会显示为未按下任何活塞。"
+      },
+      {
         "title": "自定义调音",
         "intro": "直接在应用中创建、编辑和管理吉他调音。",
         "features": [
@@ -542,6 +570,7 @@
     "selectOctaveCount": "选择要显示的音键数量",
     "selectNoteCount": "选择要显示的音符数量",
     "selectRecorderType": "选择竖笛类型",
+    "selectTrumpetType": "选择小号类型",
     "enabled": "启用",
     "disabled": "禁用",
     "stringToggleLabel": "弦 {n} {state}",
@@ -557,6 +586,7 @@
     "noteCount": "{n, plural, one {# 音符} other {# 音符}}",
     "playNoteOnFlute": "在长笛上播放 {note}",
     "playNoteOnRecorder": "在竖笛上播放 {note}",
+    "playNoteOnTrumpet": "在小号上播放 {note}",
     "stringToneLabel": "弦 {n}：{note}"
   },
   "error": {
@@ -705,5 +735,9 @@
     "greatbass": "Great Bass",
     "contrabass": "Contrabass",
     "subcontrabass": "Sub-contrabass"
+  },
+  "trumpet": {
+    "inBb": "降B调小号",
+    "inC": "C调小号"
   }
 }

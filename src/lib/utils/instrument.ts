@@ -4,7 +4,8 @@ export type Instrument =
   | "kalimba"
   | "harmonica"
   | "flute"
-  | "recorder";
+  | "recorder"
+  | "trumpet";
 
 export const INSTRUMENTS: Instrument[] = [
   "guitar",
@@ -13,6 +14,7 @@ export const INSTRUMENTS: Instrument[] = [
   "harmonica",
   "flute",
   "recorder",
+  "trumpet",
 ];
 
 export const defaultInstrument: Instrument = "flute";

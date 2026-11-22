@@ -25,6 +25,7 @@ const VALID_INSTRUMENTS: Instrument[] = [
   "harmonica",
   "flute",
   "recorder",
+  "trumpet",
 ];
 
 /**

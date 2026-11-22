@@ -9,7 +9,8 @@
     "kalimba": "Kalimba",
     "harmonica": "Harmonica",
     "flute": "Flûte",
-    "recorder": "Flûte à bec"
+    "recorder": "Flûte à bec",
+    "trumpet": "Trompette"
   },
   "scale": {
     "major": "Majeure (Ionien)",
@@ -143,7 +144,7 @@
         "steps": [
           {
             "title": "Choisissez un instrument",
-            "desc": "Utilisez le menu déroulant pour naviguer vers Guitare, Piano, Kalimba, Harmonica, Flûte ou Flûte à bec"
+            "desc": "Utilisez le menu déroulant pour naviguer vers Guitare, Piano, Kalimba, Harmonica, Flûte, Flûte à bec ou Trompette"
           },
           {
             "title": "Choisissez une gamme et une fondamentale",
@@ -190,7 +191,7 @@
           {
             "icon": "🎸",
             "title": "Sélecteur d'instrument",
-            "desc": "Basculez entre Guitare, Piano, Kalimba, Harmonica, Flûte et Flûte à bec à l'aide du menu déroulant"
+            "desc": "Basculez entre Guitare, Piano, Kalimba, Harmonica, Flûte, Flûte à bec et Trompette à l'aide du menu déroulant"
           },
           {
             "icon": "🎵",
@@ -428,6 +429,33 @@
         "note": "Les doigtés de flûte à bec utilisent le système baroque (anglais), commun à toutes les tailles de flûte à bec."
       },
       {
+        "title": "Trompette",
+        "intro": "La page Trompette affiche un diagramme de doigter à trois pistons pour chaque note de la gamme.",
+        "features": [
+          {
+            "icon": "🎺",
+            "title": "Combinaisons de pistons",
+            "desc": "Chaque note de la gamme est dessinée comme une combinaison de pistons — les pistons pleins sont enfoncés, les creux sont levés, et la combinaison (0 = ouverte) est affichée en dessous"
+          },
+          {
+            "icon": "🎼",
+            "title": "Type de trompette",
+            "desc": "Bascule entre la trompette en Si♭ (qui sonne un ton en dessous de l'écriture) et la trompette en Do — le tableau suit la transposition pendant que les notes restent en hauteur de concert"
+          },
+          {
+            "icon": "🔢",
+            "title": "Notes à afficher",
+            "desc": "Choisissez le nombre de notes de gamme consécutives à afficher (1, 3, 5, 7, 12 ou 16)"
+          },
+          {
+            "icon": "🖱️",
+            "title": "Cliquer pour jouer",
+            "desc": "Cliquez sur un diagramme pour entendre la note"
+          }
+        ],
+        "note": "Seuls les doigtés principaux sont affichés. Les notes hors de l'étendue standard (mi 3 à do 6 en hauteur de concert sur une trompette en Si♭) sont montrées sans piston enfoncé."
+      },
+      {
         "title": "Accordages personnalisés",
         "intro": "Créez, modifiez et gérez les accordages de guitare directement dans l'application.",
         "features": [
@@ -542,6 +570,7 @@
     "selectOctaveCount": "Sélectionner le nombre d'octaves à afficher",
     "selectNoteCount": "Sélectionner le nombre de notes à afficher",
     "selectRecorderType": "Sélectionner le type de flûte à bec",
+    "selectTrumpetType": "Sélectionner le type de trompette",
     "enabled": "activé",
     "disabled": "désactivé",
     "stringToggleLabel": "Corde {n} {state}",
@@ -557,6 +586,7 @@
     "noteCount": "{n, plural, one {# note} other {# notes}}",
     "playNoteOnFlute": "Jouer {note} à la flûte",
     "playNoteOnRecorder": "Jouer {note} à la flûte à bec",
+    "playNoteOnTrumpet": "Jouer {note} à la trompette",
     "stringToneLabel": "Corde {n} : {note}"
   },
   "error": {
@@ -705,5 +735,9 @@
     "greatbass": "Grande Basse",
     "contrabass": "Contrebasse",
     "subcontrabass": "Sous-contrebasse"
+  },
+  "trumpet": {
+    "inBb": "Trompette en Si♭",
+    "inC": "Trompette en Do"
   }
 }

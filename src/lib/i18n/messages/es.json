@@ -9,7 +9,8 @@
     "kalimba": "Kalimba",
     "harmonica": "Armónica",
     "flute": "Flauta",
-    "recorder": "Flauta dulce"
+    "recorder": "Flauta dulce",
+    "trumpet": "Trompeta"
   },
   "scale": {
     "major": "Mayor (Jónico)",
@@ -143,7 +144,7 @@
         "steps": [
           {
             "title": "Elige un instrumento",
-            "desc": "Usa el menú desplegable para navegar a Guitarra, Piano, Kalimba, Armónica, Flauta o Flauta dulce"
+            "desc": "Usa el menú desplegable para navegar a Guitarra, Piano, Kalimba, Armónica, Flauta, Flauta dulce o Trompeta"
           },
           {
             "title": "Elige una escala y una tónica",
@@ -190,7 +191,7 @@
           {
             "icon": "🎸",
             "title": "Selector de instrumento",
-            "desc": "Cambia entre Guitarra, Piano, Kalimba, Armónica, Flauta y Flauta dulce usando el menú desplegable"
+            "desc": "Cambia entre Guitarra, Piano, Kalimba, Armónica, Flauta, Flauta dulce y Trompeta usando el menú desplegable"
           },
           {
             "icon": "🎵",
@@ -428,6 +429,33 @@
         "note": "Las digitaciones de flauta dulce utilizan el sistema barroco (inglés), compartido por todos los tamaños de flauta dulce."
       },
       {
+        "title": "Trompeta",
+        "intro": "La página de Trompeta muestra un diagrama de digitación de tres pistones para cada nota de la escala.",
+        "features": [
+          {
+            "icon": "🎺",
+            "title": "Combinaciones de pistones",
+            "desc": "Cada nota de la escala se dibuja como una combinación de pistones — los pistones rellenos están pulsados, los huecos están arriba, y la combinación (0 = abierto) se muestra debajo"
+          },
+          {
+            "icon": "🎼",
+            "title": "Tipo de trompeta",
+            "desc": "Cambia entre la trompeta en Si♭ (suena un tono por debajo de lo escrito) y la trompeta en Do — la tabla sigue la transposición mientras las notas se mantienen en tono de concierto"
+          },
+          {
+            "icon": "🔢",
+            "title": "Notas a mostrar",
+            "desc": "Elige cuántas notas consecutivas de la escala mostrar (1, 3, 5, 7, 12 o 16)"
+          },
+          {
+            "icon": "🖱️",
+            "title": "Clic para tocar",
+            "desc": "Haz clic en un diagrama para escuchar esa nota"
+          }
+        ],
+        "note": "Solo se muestran las digitaciones principales. Las notas fuera del rango estándar (Mi3 a Do6 en tono de concierto en una trompeta en Si♭) se muestran sin pistones pulsados."
+      },
+      {
         "title": "Afinaciones personalizadas",
         "intro": "Crea, edita y gestiona afinaciones de guitarra directamente en la aplicación.",
         "features": [
@@ -542,6 +570,7 @@
     "selectOctaveCount": "Seleccionar el número de octavas a mostrar",
     "selectNoteCount": "Seleccionar el número de notas a mostrar",
     "selectRecorderType": "Seleccionar el tipo de flauta dulce",
+    "selectTrumpetType": "Seleccionar tipo de trompeta",
     "enabled": "activado",
     "disabled": "desactivado",
     "stringToggleLabel": "Cuerda {n} {state}",
@@ -557,6 +586,7 @@
     "noteCount": "{n, plural, one {# nota} other {# notas}}",
     "playNoteOnFlute": "Tocar {note} en la flauta",
     "playNoteOnRecorder": "Tocar {note} en la flauta dulce",
+    "playNoteOnTrumpet": "Tocar {note} en la trompeta",
     "stringToneLabel": "Cuerda {n}: {note}"
   },
   "error": {
@@ -705,5 +735,9 @@
     "greatbass": "Bajo Grande",
     "contrabass": "Contrabajo",
     "subcontrabass": "Subcontrabajo"
+  },
+  "trumpet": {
+    "inBb": "Trompeta en Si♭",
+    "inC": "Trompeta en Do"
   }
 }
