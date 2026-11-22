@@ -1,6 +1,7 @@
-import { Note, NoteWithOctave } from "@/lib/utils/note";
+import { NoteWithOctave } from "@/lib/utils/note";
 import { Scale } from "@/lib/utils/scaleType";
 import { getScaleNotes } from "@/lib/utils/scaleUtils";
+import { CHROMATIC_INDEX, getAbsolutePitch } from "@/lib/utils/pitch";
 import {
   RECORDER_FINGERING_BY_OFFSET,
   RECORDER_HOLE_DEFINITIONS,
@@ -11,37 +12,8 @@ import {
   RecorderType,
 } from "@/instruments/recorder/recorderFingerings";
 
-// Chromatic index with C = 0, matching scientific pitch notation octaves.
-const CHROMATIC_INDEX: Record<Note, number> = {
-  C: 0,
-  "C#": 1,
-  Db: 1,
-  D: 2,
-  "D#": 3,
-  Eb: 3,
-  E: 4,
-  F: 5,
-  "F#": 6,
-  Gb: 6,
-  G: 7,
-  "G#": 8,
-  Ab: 8,
-  A: 9,
-  "A#": 10,
-  Bb: 10,
-  B: 11,
-};
-
-/** Absolute semitone value for a note with octave (C0 = 0, C4 = 48, A4 = 57). */
-export const getAbsolutePitch = (note: NoteWithOctave): number | null => {
-  const match = note.match(/^([A-G][#b]?)(-?\d+)$/);
-  if (!match) return null;
-  const name = match[1] as Note;
-  const octave = parseInt(match[2], 10);
-  const pc = CHROMATIC_INDEX[name];
-  if (pc === undefined) return null;
-  return octave * 12 + pc;
-};
+// Pitch parsing is shared with the other wind instruments (see pitch.ts).
+export { getAbsolutePitch };
 
 /** Absolute semitone value for a recorder's lowest (all-holes-closed) note. */
 export const getRecorderBasePitch = (recorder: RecorderType): number =>

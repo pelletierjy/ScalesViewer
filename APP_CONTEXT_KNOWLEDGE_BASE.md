@@ -43,7 +43,7 @@ prose by a person.
 **Title:** ScalesViewer
 
 **Content:**
-ScalesViewer is a web app for visualizing musical scales across 6 instruments: guitar, piano, kalimba, harmonica, flute, recorder — one page per instrument, switchable from the header. A shared toolbar controls: root note, scale type (36+ built-in types across 8 groups — Common, Jazz, Modes, Modal Variants, Exotic, Symmetric, Pentatonic Variants, plus user-defined Custom), note-label mode (plain note name / flat spelling / scale degree — applies to every instrument at once), monochrome-vs-colored note highlighting, dark/light theme, and interface language (English, French, Spanish).
+ScalesViewer is a web app for visualizing musical scales across 7 instruments: guitar, piano, kalimba, harmonica, flute, recorder, trumpet — one page per instrument, switchable from the header. A shared toolbar controls: root note, scale type (36+ built-in types across 8 groups — Common, Jazz, Modes, Modal Variants, Exotic, Symmetric, Pentatonic Variants, plus user-defined Custom), note-label mode (plain note name / flat spelling / scale degree — applies to every instrument at once), monochrome-vs-colored note highlighting, dark/light theme, and interface language (English, French, Spanish).
 
 Below the instrument view, three panels are shared across all instruments: Chord-Scale Intersection (lists the diatonic triads in the current scale; clicking one highlights its tones on the instrument), Pattern Sequencer (a step-sequencer that plays note patterns drawn from the current scale, with adjustable tempo and an optional loop), and a collapsible Details strip (current scale, display mode, note-label mode, color mode).
 
@@ -52,7 +52,7 @@ This AI tutor is itself embedded in ScalesViewer, opened via a brain-icon toggle
 Related articles (load only the ones relevant to the current conversation): "ScalesViewer: Guitar", "ScalesViewer: Piano", "ScalesViewer: Wind Instruments (Flute & Recorder)", "ScalesViewer: Kalimba & Harmonica", "ScalesViewer: Scales & Custom Scales", "ScalesViewer: Controls Reference". Load "Controls Reference" whenever the right move is to tell the student which input to change, not just explain a concept.
 
 **Pedagogical Notes:**
-Infer the active instrument from what the student mentions: frets/tuning/strings → guitar; keys/octaves → piano; tines → kalimba; holes/blow/draw → harmonica; a fingering chart with no key or tuning talk → flute or recorder (ask which if it matters, or check for a mentioned recorder size). Refer to on-screen controls by their actual names above (e.g. "the Scale Type dropdown"), not generic descriptions — the student is looking at this UI while talking to you. Pull in a related article only once the conversation actually needs that instrument's specifics; don't front-load all of them.
+Infer the active instrument from what the student mentions: frets/tuning/strings → guitar; keys/octaves → piano; tines → kalimba; holes/blow/draw → harmonica; a fingering chart with no key or tuning talk → flute or recorder (ask which if it matters, or check for a mentioned recorder size); valves, pistons or a B♭/C trumpet mention → trumpet. Refer to on-screen controls by their actual names above (e.g. "the Scale Type dropdown"), not generic descriptions — the student is looking at this UI while talking to you. Pull in a related article only once the conversation actually needs that instrument's specifics; don't front-load all of them.
 
 ---
 
@@ -97,7 +97,7 @@ Piano is the simplest instrument view here — a good default for explaining sca
 Both instruments show a horizontal strip of fingering-chart diagrams, one per scale note; the number of notes shown is adjustable (1, 3, 5, 7, 12, or 16). Flute uses a standard Boehm fingering. Recorder additionally lets the student choose the instrument's size/key — Sopranino, Soprano, Alto, Tenor, Bass, Great Bass, Contrabass, or Sub-contrabass — each built "in C" or "in F", which changes what pitch a given fingering produces.
 
 **Pedagogical Notes:**
-If a student's described notes don't match the fingering they mention, check which recorder size is selected before assuming a fingering mistake — the same fingering sounds a different pitch on a different-sized instrument.
+If a student's described notes don't match the fingering they mention, check which recorder size is selected before assuming a fingering mistake — the same fingering sounds a different pitch on a different-sized instrument. On the trumpet page, check the selected trumpet type the same way: a B♭ trumpet fingered a note that reads a whole step higher than it sounds.
 
 ---
 
@@ -169,9 +169,10 @@ GUITAR-ONLY CONTROLS (Configuration panel below the fretboard):
 PIANO-ONLY CONTROL:
 - Octave Count — how many octaves are drawn. Values: 1, 2, 3, or 4. Purely a display-range control; doesn't change the scale.
 
-FLUTE / RECORDER CONTROL:
+FLUTE / RECORDER / TRUMPET CONTROL:
 - Note Count — how many scale-note fingering diagrams are shown in the strip. Values: 1, 3, 5, 7, 12, or 16. Purely a display-range control.
 - Recorder Type (recorder only) — instrument size/key: Sopranino, Soprano, Alto, Tenor, Bass, Great Bass, Contrabass, Sub-contrabass, each "in C" or "in F". Changes which pitch each fingering produces; does not change the scale being viewed.
+- Trumpet Type (trumpet only) — B♭ trumpet (reads a whole step higher than it sounds) or C trumpet. The valve chart follows the transposition; note labels, colours and audio stay in concert pitch.
 
 HARMONICA-ONLY CONTROL:
 - Harmonica Key — transposes the whole 10-hole layout. Values: C, G, A, D, F, Bb, Eb.

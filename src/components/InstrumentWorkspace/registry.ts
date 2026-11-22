@@ -21,6 +21,11 @@ import {
   RecorderControls,
   useRecorderSettings,
 } from "@/instruments/recorder/RecorderView";
+import {
+  TrumpetView,
+  TrumpetControls,
+  useTrumpetSettings,
+} from "@/instruments/trumpet/TrumpetView";
 import { InstrumentDefinition } from "./types";
 
 /**
@@ -57,5 +62,10 @@ export const INSTRUMENT_REGISTRY: Record<Instrument, InstrumentDefinition<any>> 
     useSettings: useRecorderSettings,
     Controls: RecorderControls,
     View: RecorderView,
+  },
+  trumpet: {
+    useSettings: useTrumpetSettings,
+    Controls: TrumpetControls,
+    View: TrumpetView,
   },
 };

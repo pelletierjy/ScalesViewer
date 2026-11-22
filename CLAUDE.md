@@ -67,7 +67,7 @@ The application uses a hybrid approach to state management for learning purposes
    - `registry.ts` maps each instrument to the only two things it owns: its
      `View` (its SVG surface) and its `Controls` (its own selects)
    - Instrument code lives in `src/instruments/<instrument>/`
-   - Instruments: guitar, piano, kalimba, harmonica, flute, recorder
+   - Instruments: guitar, piano, kalimba, harmonica, flute, recorder, trumpet
 
 2. **Feature Organization** (`src/features/`):
    - Components organized by feature/instrument

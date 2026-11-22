@@ -26,6 +26,7 @@ describe("InstrumentWorkspace", () => {
     ["piano", "Select number of octaves to display"],
     ["flute", "Select number of notes to display"],
     ["recorder", "Select recorder type"],
+    ["trumpet", "Select trumpet type"],
     ["harmonica", "Harmonica Key"],
   ] as const)("renders the %s control in the shared tool row", (instrument, label) => {
     renderWithProviders(<InstrumentWorkspace instrument={instrument} />);
